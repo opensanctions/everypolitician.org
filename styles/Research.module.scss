@@ -1,0 +1,95 @@
+@import './variables.scss';
+
+.researchBar {
+    background-color: $theme-blue-bg-light;
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 3;
+
+    h2 {
+        margin-top: 0;
+        color: $theme-blue-logo;
+    }
+
+    input[type=search] {
+        border: 0;
+    }
+}
+
+.researchContent {
+    margin-top: 2em !important;
+}
+
+.advancedForm {
+    margin-top: $spacer * 3;
+    margin-bottom: -2 * $spacer;
+}
+
+.advancedResults {
+    margin-top: $spacer;
+}
+
+.advancedResultCard {
+    margin-bottom: $spacer;
+    // break-inside: avoid;
+}
+
+.advancedCardTitle {
+    font-weight: bold;
+}
+
+.advancedCardSourcing {
+    margin-top: -0.5 * $spacer;
+    color: $text-muted;
+    font-size: 0.8em;
+}
+
+.advancedResultScore {
+    float: right;
+}
+
+.advancedScoreDescription {
+    color: $text-muted;
+    font-size: 0.8em;
+}
+
+.advancedCardTable {
+    margin-top: $spacer;
+    min-width: 100%;
+    break-inside: avoid;
+}
+
+.advancedCardTableHeader {
+    width: 25% !important;
+    padding-left: 0 !important;
+}
+
+.advancedCardTableFirst {
+    padding-left: 0 !important;
+}
+
+.advancedNoResult {
+    margin-top: $spacer;
+    break-inside: avoid;
+}
+
+.advancedNotice {
+    margin-top: $spacer;
+    color: $text-muted;
+    font-size: 0.9em;
+    //text-align: right;
+}
+
+.apiCodeSample {
+    padding: $spacer;
+    margin: 0;
+    border-radius: $spacer;
+    background-color: $gray-100;
+}
+
+.subregionCell {
+    padding-left: 1em !important;
+}
+
+.territoryCell {
+    padding-left: 2em !important;
+}

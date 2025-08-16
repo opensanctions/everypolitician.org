@@ -1,0 +1,97 @@
+@import './variables.scss';
+
+.card {
+    margin-bottom: 1em;
+}
+
+.cardProp {
+    vertical-align: top;
+    padding-left: 1em !important;
+    width: 20%;
+    min-width: 10%;
+    max-width: 20%;
+    color: $gray-600;
+}
+
+.cardTable {
+    margin-bottom: 0;
+}
+
+.factsheet {
+    th {
+        padding-left: 0 !important;
+    }
+
+    margin-bottom: $spacer * 2;
+}
+
+.statementNote {
+    margin-top: $spacer * 2;
+
+    blockquote {
+        font-size: 1.1em;
+    }
+
+    figcaption {
+        color: $text-muted;
+    }
+}
+
+.topicsArea {
+    margin-bottom: $spacer * 2;
+}
+
+.topicsList {
+    color: $text-light;
+    font-size: 1.2em;
+    margin-bottom: $spacer * 0.5;
+}
+
+.topicsNarrative {
+    // color: $text-light;
+
+    a {
+        // color: $text-light;
+        text-decoration: underline;
+    }
+}
+
+.entityPageSection {
+    margin-bottom: $spacer * 2;
+}
+
+.tableHeader {
+    white-space: nowrap;
+}
+
+.expandButton {
+    cursor: pointer;
+}
+
+.expandCell {
+    padding: 0px !important;
+    padding-bottom: 6px !important;
+    border: 0px !important;
+}
+
+.rawFloat {
+    float: right
+}
+
+.rawColumn {
+    width: 1%;
+    text-align: right;
+}
+
+.rawLink {
+    font-size: 0.8em;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.spinnerText {
+    text-align: center;
+}

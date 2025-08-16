@@ -1,0 +1,23 @@
+@import './variables.scss';
+
+.offer {
+    :global(.card-title) {
+        text-align: center;
+        font-weight: 700;
+        font-size: 1.2em;
+        margin-top: $spacer;
+    }
+
+    :global(.badge) {
+        margin-top: $spacer;
+        // margin-bottom: $spacer;
+
+        :global(.num) {
+            font-size: 1.4em;
+        }
+    }
+
+    :global(.card-footer) {
+        text-align: center;
+    }
+}

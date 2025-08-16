@@ -1,0 +1,33 @@
+@use "sass:map";
+@import './variables.scss';
+
+.consentBox {
+    padding-top: 1.5 * $spacer;
+    padding-bottom: 1.5 * $spacer;
+    position: fixed;
+    display: block;
+    bottom: 0;
+    background-color: $gray-200;
+    width: 100%;
+    z-index: 40000000;
+    box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.2);
+
+    @media (max-width: map.get($grid-breakpoints, md)) {
+        padding-top: 0.7 * $spacer;
+        padding-bottom: 0.7 * $spacer;
+        font-size: 0.8rem;
+        box-shadow: 0px -2px 5px 0px rgba(0, 0, 0, 0.2);
+    }
+
+    :global(p) {
+        margin-bottom: 0;
+    }
+}
+
+.consentButtons {
+    text-align: right;
+
+    :global(.btn-light) {
+        font-weight: normal;
+    }
+}

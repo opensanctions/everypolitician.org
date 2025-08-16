@@ -1,0 +1,108 @@
+@import './variables.scss';
+
+.datasetPage {
+    section {
+        margin-top: 1em;
+        // border: 1px solid #ddd;
+    }
+}
+
+.csvLink {
+    float: right;
+}
+
+.searchBox {
+    margin-bottom: 1em;
+}
+
+.card {
+    margin-bottom: 1em;
+    break-inside: avoid;
+}
+
+.cardTitle {
+    @include heading-font;
+    margin-top: 0;
+    font-size: 1.2em;
+}
+
+.publisherDescription {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    color: $text-muted !important;
+
+    p {
+        margin-bottom: 0;
+    }
+}
+
+.publisherLogo {
+    float: left;
+    max-width: 100px;
+    margin-right: 1em;
+}
+
+.tableHeader {
+    width: 15%;
+    white-space: nowrap;
+    padding-left: 0 !important;
+}
+
+.downloadTable {
+    td {
+        vertical-align: middle;
+    }
+}
+
+.apiTable {
+
+    td,
+    th {
+        padding-left: 0;
+        padding-right: 0;
+        vertical-align: middle;
+    }
+}
+
+.noWrap {
+    white-space: nowrap;
+}
+
+.item {
+    margin-bottom: 0.5em;
+    break-inside: avoid;
+}
+
+.itemHeader {
+    font-weight: bold;
+    font-size: 1.1em;
+    // color: inherit !important;
+    display: block;
+    text-decoration: none;
+}
+
+.itemDetails,
+.itemSummary {
+    @include clearfix;
+
+    margin: 0;
+}
+
+.itemDetails {
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.itemSummary {
+    color: $text-muted;
+    padding-top: 0.2em;
+    padding-bottom: 0.2em;
+}
+
+.itemTargets {
+    float: right;
+}
+
+.sourcesFilter {
+    margin-bottom: 1em;
+}

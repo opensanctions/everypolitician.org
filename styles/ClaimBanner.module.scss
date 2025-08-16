@@ -1,0 +1,31 @@
+@import './variables.scss';
+
+// Big blue banner at the top. Also known as a hero section.
+.claimBanner {
+  background-color: $theme-blue-dark;
+  color: white;
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+
+.claimLink {
+  color: white;
+
+  &:hover {
+      color: shift-color(white, $link-shade-percentage);
+  }
+}
+
+.claim {
+  @include heading-font;
+  color: white;
+  font-size: 2em;
+  line-height: 1.5;
+  margin-bottom: 1em;
+}
+
+.subClaim {
+  margin-bottom: 1em;
+  font-size: 1.2em;
+  color: $gray-100;
+}

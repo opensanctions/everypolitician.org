@@ -1,0 +1,61 @@
+@import './variables.scss';
+@import "~bootstrap/scss/_navbar";
+@import "~bootstrap/scss/mixins/_breakpoints";
+
+.navBar {
+    @media print {
+        // margin-top: 3em;
+        margin-bottom: 1em;
+    }
+}
+
+.navSearchBox {
+    @include media-breakpoint-up(md) {
+        width: 20em !important;
+    }
+}
+
+.navToggle {
+    @media print {
+        display: none;
+    }
+}
+
+.nav {
+    @include media-breakpoint-down(lg) {
+        margin-top: 1em;
+    }
+}
+
+.navItem {
+    @extend .nav-link;
+    font-family: $font-family-heading;
+    margin-left: $spacer * 1 !important;
+    // font-size: 1.1em;
+    font-weight: 600;
+    color: $theme-blue-logo;
+    letter-spacing: 0.01rem;
+
+    @include media-breakpoint-down(lg) {
+        padding-left: 1em;
+    }
+
+    &:hover {
+        color: $theme-blue-logo;
+        background-color: $theme-blue-bg-light;
+    }
+
+    &:focus {
+        color: $theme-blue-logo;
+    }
+}
+
+.active {
+    color: white;
+    background-color: $theme-blue-logo;
+
+    &:hover,
+    &:focus {
+        color: white;
+    }
+}

@@ -1,0 +1,67 @@
+@import './variables.scss';
+@import "~bootstrap/scss/badge";
+
+
+.search {
+    input[type=search] {
+        border: 0;
+    }
+}
+
+.stats {
+    margin-top: 1em;
+
+    a {
+        color: white;
+        text-decoration: underline;
+    }
+
+    :global(.badge) {
+        color: white;
+        background-color: shift-color($primary, $link-shade-percentage) !important;
+    }
+}
+
+.sectionTitle {
+    margin-bottom: 1.5 * $spacer;
+    margin-top: 2.5 * $spacer !important;
+}
+
+.commercialBanner {
+    background-color: $blue-200;
+    margin-top: 3em;
+    padding-top: 2em;
+    padding-bottom: 3em;
+
+    :global(h2) {
+        color: $blue-fg;
+        margin-bottom: 1em;
+    }
+
+    :global(p) {
+        color: $blue-fg;
+        margin-bottom: 1em;
+    }
+}
+
+.commercialLogo {
+    max-width: 100%;
+    height: auto;
+    padding: $spacer;
+    padding-top: 2 * $spacer;
+    padding-bottom: 0;
+}
+
+.updatesActionList {
+    padding-bottom: 2 * $spacer;
+}
+
+.updatesActionLink {
+    color: $blue-700;
+    font-weight: bold;
+}
+
+.updatesActionIcon {
+    margin-right: $spacer * 0.5;
+    margin-top: -0.1em;
+}

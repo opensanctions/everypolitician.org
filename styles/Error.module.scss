@@ -1,0 +1,11 @@
+@import "variables.scss";
+
+// errors
+.errorTitle {
+    text-align: center;
+}
+
+.errorSummary {
+    text-align: center;
+    color: $text-muted;
+}

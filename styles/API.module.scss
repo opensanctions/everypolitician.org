@@ -1,0 +1,25 @@
+@import './variables.scss';
+
+
+.pricingTable {
+    background-color: transparent;
+    padding-bottom: 0;
+
+    :global(th) {
+        background-color: transparent !important;
+        border-bottom: 1px transparent;
+    }
+
+    :global(td) {
+        background-color: transparent !important;
+        border-bottom: 1px transparent;
+    }
+}
+
+.featureList {
+    padding-left: $spacer;
+
+    li {
+        padding-bottom: $spacer * 0.5;
+    }
+}

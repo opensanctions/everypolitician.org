@@ -1,0 +1,226 @@
+Sitemap: https://www.everypolitician.org/sitemap.xml
+
+User-agent: SemrushBot
+User-agent: SiteAuditBot
+User-agent: SemrushBot-BA
+User-agent: SemrushBot-SI
+User-agent: SemrushBot-SWA
+User-agent: SemrushBot-CT
+User-agent: SemrushBot-BM
+User-agent: SplitSignalBot
+User-agent: baiduspider
+User-agent: Bytespider
+User-agent: ImagesiftBot
+User-agent: serpstatbot
+User-agent: BLEXBot
+User-agent: ChatGLM-Spider
+User-agent: yacybot
+User-agent: DataForSeoBot
+User-agent: AhrefsBot
+User-agent: AddSearchBot
+User-agent: .ai 
+User-agent: Agentic
+User-agent: AI Article Writer
+User-agent: AI Content Detector
+User-agent: AI Dungeon
+User-agent: AI Search Engine
+User-agent: AI SEO Crawler
+User-agent: AI Writer
+User-agent: AI21 Labs
+User-agent: AI2Bot
+User-agent: AIBot
+User-agent: AIMatrix
+User-agent: AISearchBot
+User-agent: AI Training
+User-agent: AITraining
+User-agent: Alexa
+User-agent: Alpha AI
+User-agent: AlphaAI
+User-agent: Amazon Bedrock
+User-agent: Amazon-Kendra
+User-agent: Amazon Lex
+User-agent: Amazon Comprehend
+User-agent: Amazon Sagemaker
+User-agent: Amazon Silk
+User-agent: Amazon Textract
+User-agent: AmazonBot
+User-agent: Amelia
+User-agent: AndersPinkBot
+User-agent: AnyPicker
+User-agent: Anyword
+User-agent: Applebot
+User-agent: Aria Browse
+User-agent: Articoolo
+User-agent: Automated Writer
+User-agent: AwarioRssBot
+User-agent: AwarioSmartBot
+User-agent: BardBot
+User-agent: BingAI
+User-agent: Bingbot-chat
+User-agent: Brave Leo
+User-agent: ByteDance
+User-agent: Bytespider
+User-agent: CatBoost
+User-agent: ChatGLM
+User-agent: Chinchilla
+User-agent: ClearScope
+User-agent: Cohere
+User-agent: Content Harmony
+User-agent: Content King
+User-agent: Content Optimizer
+User-agent: Content Samurai
+User-agent: ContentAtScale
+User-agent: ContentBot
+User-agent: Contentedge
+User-agent: Conversion AI
+User-agent: CopyAI
+User-agent: Copymatic
+User-agent: Copyscape
+User-agent: Cotoyogi
+User-agent: CrawlQ AI
+User-agent: Crawlspace
+User-agent: Crew AI
+User-agent: CrewAI
+User-agent: DALL-E
+User-agent: DataForSeoBot
+User-agent: DataProvider
+User-agent: DeepAI
+User-agent: DeepMind
+User-agent: DeepSeek
+User-agent: Diffbot
+User-agent: Doubao AI
+User-agent: DuckAssistBot
+User-agent: Firecrawl
+User-agent: Flyriver
+User-agent: Frase AI
+User-agent: FriendlyCrawler
+User-agent: Gemma
+User-agent: GenAI
+User-agent: Goose
+User-agent: Grendizer
+User-agent: Grok
+User-agent: GT Bot
+User-agent: GTBot
+User-agent: Hemingway Editor
+User-agent: Hugging Face
+User-agent: Hypotenuse AI
+User-agent: iaskspider
+User-agent: ICC-Crawler
+User-agent: ImagesiftBot
+User-agent: img2dataset
+User-agent: INK Editor
+User-agent: INKforall
+User-agent: IntelliSeek
+User-agent: Inferkit
+User-agent: ISSCyberRiskCrawler
+User-agent: JasperAI
+User-agent: Kafkai
+User-agent: Kangaroo
+User-agent: Keyword Density AI
+User-agent: KomoBot
+User-agent: LLaMA
+User-agent: magpie-crawler
+User-agent: MarketMuse
+User-agent: Meltwater
+User-agent: Meta AI
+User-agent: Meta-AI
+User-agent: Meta-External
+User-agent: MetaAI
+User-agent: MetaTagBot
+User-agent: Narrative
+User-agent: NeevaBot
+User-agent: Neural Text
+User-agent: NeuralSEO
+User-agent: OAI-SearchBot
+User-agent: Omgili
+User-agent: OpenBot
+User-agent: OpenText AI
+User-agent: Outwrite
+User-agent: Page Analyzer AI
+User-agent: PanguBot
+User-agent: Paperlibot
+User-agent: Paraphraser.io
+User-agent: PerplexityBot
+User-agent: PetalBot
+User-agent: Phindbot
+User-agent: PiplBot
+User-agent: ProWritingAid
+User-agent: QuillBot
+User-agent: RobotSpider
+User-agent: Rytr
+User-agent: SaplingAI
+User-agent: Scalenut
+User-agent: Scraper
+User-agent: Scrapy
+User-agent: ScriptBook
+User-agent: SEO Content Machine
+User-agent: SEO Robot
+User-agent: Sentibot
+User-agent: Sidetrade
+User-agent: Simplified AI
+User-agent: Skydancer
+User-agent: SlickWrite
+User-agent: Spin Rewriter
+User-agent: Spinbot
+User-agent: Stability
+User-agent: StableDiffusionBot
+User-agent: Sudowrite
+User-agent: Surfer AI
+User-agent: Text Blaze
+User-agent: TextCortex
+User-agent: The Knowledge AI
+User-agent: Timpibot
+User-agent: Vidnami AI
+User-agent: Webzio
+User-agent: Whisper
+User-agent: WordAI
+User-agent: Wordtune
+User-agent: WormsGTP
+User-agent: WPBot
+User-agent: Writecream
+User-agent: WriterZen
+User-agent: Writescope
+User-agent: Writesonic
+User-agent: xAI
+User-agent: xBot
+User-agent: YouBot
+User-agent: Zero GTP
+User-agent: Zerochat
+User-agent: Zimm
+User-agent: yandex
+User-agent: YandexBot
+User-agent: dotbot
+User-agent: mithril-crawler
+User-agent: AliyunSecBot
+Disallow: /
+
+User-agent: facebookexternalhit
+User-agent: facebookcatalog
+User-agent: meta-externalagent
+User-agent: FacebookBot
+User-agent: FacebookExternalHit
+User-agent: BingBot
+User-agent: Open AI
+User-agent: OpenAI
+User-agent: GPT
+User-agent: Grammarly
+User-agent: Anthropic
+User-agent: Claude
+User-agent: Common Crawl
+User-agent: CommonCrawl
+User-agent: Copilot
+User-agent: DeepL
+User-agent: Mistral
+User-agent: Google Bard AI
+User-agent: Google-CloudVertexBot
+User-agent: Google-Extended
+User-agent: GoogleOther
+User-agent: Gemini
+Crawl-delay: 2
+Disallow: /impressum/
+
+User-agent: *
+Disallow: /impressum/
+Disallow: /account/
+Disallow: /admin/
+Disallow: /entities/Q1045488/

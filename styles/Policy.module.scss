@@ -1,0 +1,20 @@
+@import './variables.scss';
+
+.licenseBox {
+    :global(.alert) {
+        margin-top: 1em;
+        background-color: $blue-600;
+
+        @media print {
+            background-color: $gray-200;
+        }
+
+        p {
+            color: $white;
+
+            @media print {
+                color: $gray-800;
+            }
+        }
+    }
+}
