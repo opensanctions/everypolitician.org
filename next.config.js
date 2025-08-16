@@ -3,20 +3,9 @@ const path = require('path');
 const cachedHeader = [
   {
     key: 'cache-control',
-    value: 'public, max-age=3600, stale-while-revalidate=1800',
+    value: 'public, max-age=3600, stale-while-revalidate=60',
   },
 ];
-
-const secureHeaders = [
-  {
-    key: 'x-frame-options',
-    value: 'DENY',
-  },
-  {
-    key: 'cache-control',
-    value: 'private, max-age=0, no-cache',
-  },
-]
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

@@ -27,9 +27,7 @@ RUN useradd -u 10000 -s /bin/false app
 
 ENV NODE_ENV=production
 ARG NEXT_PUBLIC_API_URL=https://api.opensanctions.org
-ARG NEXT_PUBLIC_COOKIE_NAME=os_site_token
-ARG NEXT_PUBLIC_CHARGEBEE_SITE=opensanctions
-ARG NEXT_PUBLIC_CHARGEBEE_PUBLISHABLE_KEY
+ARG NEXT_PUBLIC_COOKIE_NAME=ep_site_token
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN mkdir /app

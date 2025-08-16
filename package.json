@@ -1,13 +1,14 @@
 {
-  "name": "opensanctions.org",
+  "name": "everypolitician.org",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "fetch-model": "node scripts/fetch-model.js",
-    "dev": "npm run fetch-model && next dev",
+    "dev": "npm run fetch-model && next dev -p 4000",
     "build": "npm run fetch-model && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@directus/sdk": "~20.0.0",
