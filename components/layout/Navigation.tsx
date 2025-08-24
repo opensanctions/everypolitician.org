@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import Link from 'next/link';
 import { NavbarBrand, NavbarToggle, NavbarCollapse, Navbar, Nav, Container } from '../wrapped';
 
-import styles from '../../styles/Navigation.module.scss';
+import styles from '@/styles/Navigation.module.scss';
 
 type NavLinkProps = {
   active: boolean

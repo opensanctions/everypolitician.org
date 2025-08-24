@@ -13,7 +13,7 @@ import { DetailPopup } from './utils/DetailPopup';
 import { Alert, Table } from "./wrapped";
 
 import { getEntityRiskTopics } from '@/lib/topics';
-import styles from '../styles/Entity.module.scss';
+import styles from '@/styles/Entity.module.scss';
 
 
 export interface EntityRawLinkProps {

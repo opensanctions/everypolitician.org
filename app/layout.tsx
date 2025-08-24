@@ -3,7 +3,7 @@ import { Viewport } from 'next';
 
 import { THEME_COLOR } from '@/lib/constants';
 
-import '../styles/globals.scss';
+import '@/styles/globals.scss';
 
 
 export const metadata = {

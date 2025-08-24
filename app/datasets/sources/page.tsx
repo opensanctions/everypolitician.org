@@ -1,9 +1,9 @@
-import Dataset from '../../../components/Dataset';
-import LayoutFrame from '../../../components/layout/LayoutFrame';
-import { Button, Col, Container, Row } from '../../../components/wrapped';
-import { getDatasetsByNames, getDatasetsByScope } from '../../../lib/data';
-import { getGenerateMetadata } from '../../../lib/meta';
-import { isCollection } from '../../../lib/types';
+import Dataset from '@/components/Dataset';
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import { Button, Col, Container, Row } from '@/components/wrapped';
+import { getDatasetsByNames, getDatasetsByScope } from '@/lib/data';
+import { getGenerateMetadata } from '@/lib/meta';
+import { isCollection } from '@/lib/types';
 
 import { SourcesFilter } from '@/components/SourcesFilter';
 import { Summary } from '@/components/util';
@@ -12,7 +12,7 @@ import { EXTRA_COLLECTIONS, FEATURED_COLLECTIONS, MAIN_DATASET } from '@/lib/con
 import { arrayFirst } from '@/lib/util';
 import classNames from 'classnames';
 import { FileEarmarkSpreadsheetFill } from 'react-bootstrap-icons';
-import styles from '../../../styles/Dataset.module.scss';
+import styles from '@/styles/Dataset.module.scss';
 
 const TITLE = `Data sources`
 const SCOPES = [...FEATURED_COLLECTIONS, ...EXTRA_COLLECTIONS]

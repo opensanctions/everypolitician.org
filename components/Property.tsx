@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ComponentType } from 'react';
 
-import { Entity, Property, PropertyType, Value, Values } from "../lib/ftm";
+import { Entity, Property, PropertyType, Value, Values } from "@/lib/ftm";
 import { EntityDisplayProps, EntityLink } from "./Entity";
 import { FormattedDate, SpacedList, URLLink } from "./util";
 import { ExpandList } from './utils/ExpandList';

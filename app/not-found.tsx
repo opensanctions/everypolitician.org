@@ -1,9 +1,9 @@
 import Link from 'next/link';
 
-import LayoutFrame from '../components/layout/LayoutFrame'
-import { Container } from '../components/wrapped';
+import LayoutFrame from '@/components/layout/LayoutFrame'
+import { Container } from '@/components/wrapped';
 
-import styles from '../styles/Error.module.scss'
+import styles from '@/styles/Error.module.scss'
 
 export default function NotFound() {
   return (

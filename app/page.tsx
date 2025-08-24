@@ -2,18 +2,18 @@ import Link from 'next/link';
 
 import { CollectionOverview } from '@/components/Collection';
 import { getDatasetCount } from '@/lib/datasets';
-import LayoutFrame from '../components/layout/LayoutFrame';
-import { FormattedDate, JSONLink, Numeric, NumericBadge } from '../components/util';
-import StructuredData from '../components/utils/StructuredData';
-import { Badge, Button, ButtonGroup, Col, Container, Form, FormControl, InputGroup, Row } from '../components/wrapped';
-import { BASE_URL, CLAIM, INDEX_URL, MAIN_DATASET, SPACER, SUBCLAIM } from '../lib/constants';
-import { getDatasetByName } from '../lib/data';
-import { getGenerateMetadata } from '../lib/meta';
-import { getSchemaWebSite } from "../lib/schema";
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import { FormattedDate, JSONLink, Numeric, NumericBadge } from '@/components/util';
+import StructuredData from '@/components/utils/StructuredData';
+import { Badge, Button, ButtonGroup, Col, Container, Form, FormControl, InputGroup, Row } from '@/components/wrapped';
+import { BASE_URL, CLAIM, INDEX_URL, MAIN_DATASET, SPACER, SUBCLAIM } from '@/lib/constants';
+import { getDatasetByName } from '@/lib/data';
+import { getGenerateMetadata } from '@/lib/meta';
+import { getSchemaWebSite } from "@/lib/schema";
 
-import claimStyles from '../styles/ClaimBanner.module.scss';
-import styles from '../styles/Home.module.scss';
-import utilStyles from '../styles/util.module.scss';
+import claimStyles from '@/styles/ClaimBanner.module.scss';
+import styles from '@/styles/Home.module.scss';
+import utilStyles from '@/styles/util.module.scss';
 import { Search } from 'react-bootstrap-icons';
 
 

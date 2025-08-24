@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 import { Row, Col, FormCheck, FormSelect, FormGroup, FormText } from './wrapped';
 
-import styles from '../styles/Dataset.module.scss';
+import styles from '@/styles/Dataset.module.scss';
 
 export type SourceFilterScope = {
   name: string;

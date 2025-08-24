@@ -1,15 +1,15 @@
 import Link from 'next/link';
 
 import { IDatasetStatistics } from '@/lib/datasets';
-import { ICollection, IDataset, isCollection, isExternal, isSource } from '../lib/types';
-import { cronText, markdownToHtml, wordList } from '../lib/util';
+import { ICollection, IDataset, isCollection, isExternal, isSource } from '@/lib/types';
+import { cronText, markdownToHtml, wordList } from '@/lib/util';
 import DatasetCountryListing from './DatasetCountryListing';
 import { FrequencyBadge } from './Metadata';
 import Territory from './Territory';
 import { FormattedDate, HelpLink, Markdown, Numeric, Plural, SpacedList, Spacer, UnofficialBadge, URLLink } from './util';
 import { Badge, Table } from "./wrapped";
 
-import styles from '../styles/Dataset.module.scss';
+import styles from '@/styles/Dataset.module.scss';
 
 
 type DatasetScreenProps = {

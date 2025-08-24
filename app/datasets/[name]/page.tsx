@@ -3,21 +3,21 @@ import { notFound } from 'next/navigation';
 import { Download, Search, Github } from 'react-bootstrap-icons';
 
 import { getDatasetStatistics } from '@/lib/datasets';
-import Dataset from '../../../components/Dataset';
-import DatasetMetadataTable from '../../../components/DatasetMetadataTable';
-import LayoutFrame from '../../../components/layout/LayoutFrame';
-import { LicenseInfo } from '../../../components/Policy';
-import { FileSize, FormattedDate, JSONLink, Markdown, NumericBadge, SpacedList, Spacer, Sticky, Summary } from '../../../components/util';
-import StructuredData from '../../../components/utils/StructuredData';
-import { Alert, AlertHeading, Badge, Button, Col, Container, Form, FormControl, InputGroup, Nav, NavLink, Row, Table } from '../../../components/wrapped';
-import { API_URL, BASE_URL } from '../../../lib/constants';
-import { canSearchDataset, getDatasetByName, getDatasetCollections, getDatasetFileUrl, getDatasetsByScope, getRecentEntities } from '../../../lib/data';
-import { getGenerateMetadata } from '../../../lib/meta';
-import { getSchemaDataset } from '../../../lib/schema';
-import { IDataset, isCollection, isExternal, isSource } from '../../../lib/types';
-import { markdownToHtml } from '../../../lib/util';
+import Dataset from '@/components/Dataset';
+import DatasetMetadataTable from '@/components/DatasetMetadataTable';
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import { LicenseInfo } from '@/components/Policy';
+import { FileSize, FormattedDate, JSONLink, Markdown, NumericBadge, SpacedList, Spacer, Sticky, Summary } from '@/components/util';
+import StructuredData from '@/components/utils/StructuredData';
+import { Alert, AlertHeading, Badge, Button, Col, Container, Form, FormControl, InputGroup, Nav, NavLink, Row, Table } from '@/components/wrapped';
+import { API_URL, BASE_URL } from '@/lib/constants';
+import { canSearchDataset, getDatasetByName, getDatasetCollections, getDatasetFileUrl, getDatasetsByScope, getRecentEntities } from '@/lib/data';
+import { getGenerateMetadata } from '@/lib/meta';
+import { getSchemaDataset } from '@/lib/schema';
+import { IDataset, isCollection, isExternal, isSource } from '@/lib/types';
+import { markdownToHtml } from '@/lib/util';
 
-import styles from '../../../styles/Dataset.module.scss';
+import styles from '@/styles/Dataset.module.scss';
 
 interface DatasetPageProps {
   params: Promise<{ name: string }>

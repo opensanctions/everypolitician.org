@@ -2,8 +2,8 @@ import { getSitemapPages } from '@/lib/pages';
 import { getTerritories } from '@/lib/territory';
 import { warmUpCache } from '@/lib/warm';
 import { MetadataRoute } from 'next';
-import { BASE_URL } from '../lib/constants';
-import { getDatasets } from '../lib/data';
+import { BASE_URL } from '@/lib/constants';
+import { getDatasets } from '@/lib/data';
 
 export const dynamic = 'force-static';
 

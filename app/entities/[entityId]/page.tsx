@@ -2,21 +2,21 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
-import Dataset from '../../../components/Dataset';
-import { EntityFactsheet, EntitySchemaTable, EntityTopics } from '../../../components/Entity';
-import LayoutFrame from '../../../components/layout/LayoutFrame';
-import { LicenseInfo } from '../../../components/Policy';
-import Research from '../../../components/Research';
-import { HelpLink, SectionSpinner, SpacedList, Sticky } from '../../../components/util';
-import StructuredData from '../../../components/utils/StructuredData';
-import { Col, Container, Nav, NavLink, Row } from '../../../components/wrapped';
-import { getAdjacent, getDatasets, getEntity, getEntityDatasets } from '../../../lib/data';
-import { Entity } from '../../../lib/ftm';
-import { getSchemaEntityPage } from '../../../lib/schema';
-import { isExternal, isSource } from '../../../lib/types';
+import Dataset from '@/components/Dataset';
+import { EntityFactsheet, EntitySchemaTable, EntityTopics } from '@/components/Entity';
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import { LicenseInfo } from '@/components/Policy';
+import Research from '@/components/Research';
+import { HelpLink, SectionSpinner, SpacedList, Sticky } from '@/components/util';
+import StructuredData from '@/components/utils/StructuredData';
+import { Col, Container, Nav, NavLink, Row } from '@/components/wrapped';
+import { getAdjacent, getDatasets, getEntity, getEntityDatasets } from '@/lib/data';
+import { Entity } from '@/lib/ftm';
+import { getSchemaEntityPage } from '@/lib/schema';
+import { isExternal, isSource } from '@/lib/types';
 import { EntityPageProps, generateEntityMetadata } from '../common';
 
-import styles from '../../../styles/Entity.module.scss';
+import styles from '@/styles/Entity.module.scss';
 import { compareDisplayProps } from '@/lib/ftm/ordering';
 
 // export const revalidate = REVALIDATE_BASE;

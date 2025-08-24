@@ -5,13 +5,13 @@ import queryString from 'query-string';
 import React, { ReactNode } from 'react';
 import { FileEarmarkCodeFill, Link45deg, QuestionCircleFill, RssFill } from 'react-bootstrap-icons';
 
-import { SPACER } from '../lib/constants';
-import { IPaginatedResponse } from '../lib/types';
+import { SPACER } from '@/lib/constants';
+import { IPaginatedResponse } from '@/lib/types';
 import { ServerSearchParams } from './utils/PageProps';
 import { Badge, Button, NavLink, OverlayTrigger, Pagination, PaginationItem, PaginationNext, PaginationPrev, Spinner, Tooltip } from "./wrapped";
 
 import { Placement } from 'react-bootstrap/esm/types';
-import styles from '../styles/util.module.scss';
+import styles from '@/styles/util.module.scss';
 
 
 type RoutedNavLinkProps = {

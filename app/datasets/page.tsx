@@ -3,10 +3,10 @@ import { Server } from 'react-bootstrap-icons';
 
 import { CollectionOverview } from '@/components/Collection';
 import { JSONLink } from '@/components/util';
-import LayoutFrame from '../../components/layout/LayoutFrame';
-import { Button, Col, Container, Row } from '../../components/wrapped';
-import { INDEX_URL } from '../../lib/constants';
-import { getGenerateMetadata } from '../../lib/meta';
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import { Button, Col, Container, Row } from '@/components/wrapped';
+import { INDEX_URL } from '@/lib/constants';
+import { getGenerateMetadata } from '@/lib/meta';
 
 
 export const revalidate = 3600;

@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { FolderFill, NodePlusFill, Server } from 'react-bootstrap-icons';
 
-import { IDataset, IDatasetPublisher, isCollection, isExternal } from '../lib/types';
+import { IDataset, IDatasetPublisher, isCollection, isExternal } from '@/lib/types';
 import { FrequencyBadge } from './Metadata';
 import Territory from './Territory';
 import { Explain, FormattedDate, Numeric, NumericBadge, Spacer, UnofficialBadge } from './util';
 import { Badge, Card, CardBody, CardSubtitle, CardText, Table } from "./wrapped";
 
-import styles from '../styles/Dataset.module.scss';
+import styles from '@/styles/Dataset.module.scss';
 
 
 type DatasetProps = {

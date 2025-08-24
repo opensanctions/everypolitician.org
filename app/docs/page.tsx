@@ -1,5 +1,5 @@
-import Content from '../../components/Content'
-import LayoutFrame from '../../components/layout/LayoutFrame'
+import Content from '@/components/Content'
+import LayoutFrame from '@/components/layout/LayoutFrame'
 import { getPageMetadata, getPageByPath } from '@/lib/pages';
 import { notFound } from 'next/navigation';
 

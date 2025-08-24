@@ -6,7 +6,7 @@ import { AboutMenu, DocumentationMenu, MenuProps } from './Menu';
 import { JSONLink, Markdown, Summary } from './util';
 import { Button, Col, Container, Row } from './wrapped';
 
-import styles from '../styles/Content.module.scss';
+import styles from '@/styles/Content.module.scss';
 
 
 type ContentProps = {

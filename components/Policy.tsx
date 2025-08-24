@@ -1,9 +1,9 @@
-import { Entity } from '../lib/ftm';
+import { Entity } from '@/lib/ftm';
 import Research from './Research';
 import LayoutFrame from './layout/LayoutFrame';
 import { Alert, AlertHeading, Button, ButtonGroup, Container } from './wrapped';
 
-import styles from '../styles/Policy.module.scss';
+import styles from '@/styles/Policy.module.scss';
 
 export function LicenseInfo() {
   // 'use cache';

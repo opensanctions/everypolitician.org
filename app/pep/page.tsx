@@ -8,15 +8,15 @@ import Dataset from '@/components/Dataset';
 import { HelpLink, Numeric, Sticky } from '@/components/util';
 import { getPageByPath, getPageMetadata, IPage } from '@/lib/pages';
 import { getTerritoryInfo, ITerritoryInfo } from '@/lib/territory';
-import LayoutFrame from '../../components/layout/LayoutFrame';
-import { LicenseInfo } from '../../components/Policy';
-import { Alert, Col, Container, Nav, NavItem, NavLink, Row, Table } from '../../components/wrapped';
-import { fetchApiCached, getDatasetByName, getDatasetsByScope } from '../../lib/data';
-import { IDataset, IDictionary, ISearchAPIResponse, ISearchFacet, isSource } from '../../lib/types';
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import { LicenseInfo } from '@/components/Policy';
+import { Alert, Col, Container, Nav, NavItem, NavLink, Row, Table } from '@/components/wrapped';
+import { fetchApiCached, getDatasetByName, getDatasetsByScope } from '@/lib/data';
+import { IDataset, IDictionary, ISearchAPIResponse, ISearchFacet, isSource } from '@/lib/types';
 
-import claimStyles from '../../styles/ClaimBanner.module.scss';
-import styles from '../../styles/PEPs.module.scss';
-import utilStyles from '../../styles/util.module.scss';
+import claimStyles from '@/styles/ClaimBanner.module.scss';
+import styles from '@/styles/PEPs.module.scss';
+import utilStyles from '@/styles/util.module.scss';
 
 export const dynamic = 'force-static';
 

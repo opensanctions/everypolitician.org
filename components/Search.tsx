@@ -1,18 +1,18 @@
 import queryString from "query-string";
-import { Model } from '../lib/ftm/model';
+import { Model } from '@/lib/ftm/model';
 
 import { getEntityRiskTopics } from '@/lib/topics';
-import { MAIN_DATASET, SEARCH_SCHEMA } from "../lib/constants";
-import { IEntityDatum, Values } from '../lib/ftm';
-import { ICatalogEntry } from "../lib/types";
-import { arrayFirst, ensureArray } from '../lib/util';
+import { MAIN_DATASET, SEARCH_SCHEMA } from "@/lib/constants";
+import { IEntityDatum, Values } from '@/lib/ftm';
+import { ICatalogEntry } from "@/lib/types";
+import { arrayFirst, ensureArray } from '@/lib/util';
 import { EntityLink } from './Entity';
 import { TypeValue, TypeValues } from './Property';
 import { Spacer } from "./util";
 import { ServerSearchParams } from './utils/PageProps';
 import { Badge } from './wrapped';
 
-import styles from '../styles/Search.module.scss';
+import styles from '@/styles/Search.module.scss';
 
 type SearchFilterTagsProps = {
   model: Model

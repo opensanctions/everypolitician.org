@@ -1,9 +1,9 @@
 import classNames from 'classnames';
-import { ensureArray } from '../lib/util';
+import { ensureArray } from '@/lib/util';
 import { Container, FormControl, InputGroup, Button } from './wrapped';
 import { ServerSearchParams } from './utils/PageProps';
 
-import styles from '../styles/Research.module.scss';
+import styles from '@/styles/Research.module.scss';
 
 
 type ResearchProps = {

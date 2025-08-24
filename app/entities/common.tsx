@@ -1,6 +1,6 @@
 import { BASE_URL } from "@/lib/constants";
-import { getEntity, isIndexRelevant } from "../../lib/data";
-import { getGenerateMetadata } from "../../lib/meta";
+import { getEntity, isIndexRelevant } from "@/lib/data";
+import { getGenerateMetadata } from "@/lib/meta";
 
 export interface EntityPageProps {
   params: Promise<{ entityId: string }>

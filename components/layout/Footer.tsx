@@ -3,8 +3,8 @@ import Link from 'next/link';
 import React from 'react';
 import { ChatRightHeartFill, EnvelopeOpenHeartFill, Github, HeartFill, LifePreserver, Linkedin, RocketTakeoffFill } from 'react-bootstrap-icons';
 
-import { CLAIM, LICENSE_URL, SPACER } from '../../lib/constants';
-import styles from '../../styles/Footer.module.scss';
+import { CLAIM, LICENSE_URL, SPACER } from '@/lib/constants';
+import styles from '@/styles/Footer.module.scss';
 import { Spacer } from '../util';
 import { Col, Container, Row } from '../wrapped';
 

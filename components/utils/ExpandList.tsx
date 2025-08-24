@@ -1,9 +1,9 @@
 'use client';
 
 import { ReactNode, useState } from "react";
-import { SPACER } from "../../lib/constants";
+import { SPACER } from "@/lib/constants";
 
-import styles from '../../styles/util.module.scss';
+import styles from '@/styles/util.module.scss';
 
 type ExpandListProps = {
   short: ReactNode

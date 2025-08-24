@@ -4,12 +4,12 @@ import queryString from 'query-string';
 
 import { useState } from 'react';
 import { Card, CardHeader, ListGroup, ListGroupItem } from './wrapped';
-import { ISearchFacet } from "../lib/types";
+import { ISearchFacet } from "@/lib/types";
 import { NumericBadge } from "./util";
 import { ServerSearchParams } from './utils/PageProps';
 import { ensureArray } from '@/lib/util';
 
-import styles from '../styles/Search.module.scss';
+import styles from '@/styles/Search.module.scss';
 import { MAX_FILTERS_PER_FACET } from '@/lib/constants';
 
 type SearchFacetProps = {
