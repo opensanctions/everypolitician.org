@@ -1,3 +1,5 @@
 node_modules
 data/*
 .next/*
+# *.tsbuildinfo
+.pytest_cache

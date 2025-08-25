@@ -72,25 +72,6 @@ export async function fetchApiUncached<T>(path: string, query: any = undefined, 
   return await fetchApi(path, query, accessToken, options);
 }
 
-export async function postApi(url: string, body: string): Promise<any> {
-  const headers = {
-    'Authorization': `ApiKey ${API_TOKEN}`,
-    'Content-Type': 'application/json',
-  }
-  const options = {
-    headers: headers,
-    body: body,
-    method: 'POST',
-    keepalive: true,
-  };
-  const resp = await fetch(url, options)
-  if (!resp.ok) {
-    throw Error(`Backend error: ${resp.statusText}`);
-  }
-  return await resp.json();
-}
-
-
 export function getDatasetFileUrl(name: string, file_name: string): string {
   return `https://data.opensanctions.org/datasets/latest/${name}/${file_name}`;
 }

@@ -18,7 +18,6 @@ export const REVALIDATE_BASE = 3600;
 export const THEME_COLOR = '#2563eb';
 export const SOCIAL_IMAGE_URL = "https://assets.opensanctions.org/images/ura/social.png";
 export const RSS_MIME = "application/rss+xml";
-export const TRIAL_QUOTA = 2000;
 export const MAX_FILTERS_PER_FACET = 3;
 export const MAX_FILTERS = 5;
 
