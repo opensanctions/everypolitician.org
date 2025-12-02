@@ -15,16 +15,6 @@ export default function Footer() {
       <div className={classNames("d-print-none", styles.footer)} role="contentinfo">
         <Container>
           <Row>
-            <Col md={2}>
-              <Link href={OSA_URL}>
-                <img
-                  src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
-                  alt="Part of OpenSanctions"
-                  className={styles.logo}
-                  width="100%"
-                />
-              </Link>
-            </Col>
             <Col md={10}>
               <Row>
                 <Col md={3}>
@@ -115,6 +105,16 @@ export default function Footer() {
                   <Link href={`${OSA_URL}/impressum/`} prefetch={false}>Impressum</Link>
                 </p>
               </Row>
+            </Col>
+            <Col md={2}>
+              <Link href={OSA_URL}>
+                <img
+                  src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
+                  alt="Part of OpenSanctions"
+                  className={styles.logo}
+                  width="100%"
+                />
+              </Link>
             </Col>
           </Row>
         </Container>

@@ -16,7 +16,7 @@ export default async function Page() {
     notFound()
   }
   return (
-    <LayoutFrame activeSection={page.section}>
+    <LayoutFrame activeSection={"docs"}>
       <Content.Page content={page} />
     </LayoutFrame>
   )

@@ -1,0 +1,35 @@
+version: 2
+updates:
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: weekly
+  - package-ecosystem: npm
+    directory: "/"
+    schedule:
+      # Applies only to non-security version updates.
+      # Dependabot security updates are always triggered by a security advisory, rather
+      # than running according to the schedule you have set in the dependabot.yml
+      # for version updates.
+      # See https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/customizing-dependabot-security-prs
+      interval: "weekly"
+    groups:
+      # Batch all patch/minor dev dependencies together
+      dev-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+      # Batch all patch/minor runtime dependencies together
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+    open-pull-requests-limit: 99
+    versioning-strategy: increase-if-necessary

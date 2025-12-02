@@ -12,7 +12,6 @@ export interface IPageMetadata {
   title: string
   image?: string
   summary: string | null
-  section: string
   menu_path: string
   no_index: boolean
   date_created: string
@@ -61,7 +60,6 @@ async function getDocsFiles(): Promise<IDocsFile[]> {
               title: frontmatter.title || 'Untitled',
               image: frontmatter.image,
               summary: frontmatter.summary || null,
-              section: frontmatter.section || 'docs',
               menu_path: finalPath,
               no_index: frontmatter.no_index || false,
               date_created: frontmatter.date_created || stats.birthtime.toISOString(),

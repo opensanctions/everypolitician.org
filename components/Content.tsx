@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { IPage } from '@/lib/pages';
 
 
-import { AboutMenu, DocumentationMenu, MenuProps } from './Menu';
+import { DocsMenu, MenuProps } from './Menu';
 import { JSONLink, Markdown, Summary } from './util';
 import { Button, Col, Container, Row } from './wrapped';
 
@@ -65,9 +65,8 @@ function ContentFooter() {
 }
 
 function ContentContext({ content, children }: ContentFrameProps) {
-  const MenuComponent = content.section === "about" ? AboutMenu : DocumentationMenu;
   return (
-    <ContentMenu title={content.title} summary={content.summary} path={content.menu_path} Menu={MenuComponent}>
+    <ContentMenu title={content.title} summary={content.summary} path={content.menu_path} Menu={DocsMenu}>
       <div className={styles.page}>
         {children}
         <ContentFooter />

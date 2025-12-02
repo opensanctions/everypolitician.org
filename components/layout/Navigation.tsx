@@ -48,7 +48,6 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
           >
             <NavLink href="/datasets/" active={activeSection === 'datasets'}>Datasets</NavLink>
             <NavLink href="/docs/" active={activeSection === 'docs'}>Documentation</NavLink>
-            <NavLink href="/docs/about/" active={activeSection === 'about'}>About</NavLink>
           </Nav>
         </NavbarCollapse>
       </Container>
