@@ -1,5 +1,5 @@
-import { Property } from "./property";
 import { Entity, Values } from "./entity";
+import { Property } from "./property";
 
 interface WeightsType {
   [name: string]: number

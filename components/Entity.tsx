@@ -2,18 +2,21 @@ import Link from 'next/link';
 import queryString from 'query-string';
 import React from 'react';
 
-import { isIndexRelevant } from '@/lib/data';
+import { isBlocked, isIndexRelevant } from '@/lib/data';
 import { Entity, Property, Schema } from '@/lib/ftm';
 import { compareDisplayProps, pickFeaturedValues } from '@/lib/ftm/ordering';
-import { IDataset, IPropResults, isCollection } from '@/lib/types';
+import { getEntityRiskTopics } from '@/lib/topics';
+import { IDataset, IPropResults } from '@/lib/types';
+
+import { HelpLink } from './clientUtil';
 import Dataset from './Dataset';
 import { PropertyValues } from './Property';
-import { FormattedDate, HelpLink, SpacedList, UnofficialBadge } from './util';
+import { FormattedDate, SpacedList } from './util';
 import { DetailPopup } from './utils/DetailPopup';
 import { Alert, Table } from "./wrapped";
 
-import { getEntityRiskTopics } from '@/lib/topics';
 import styles from '@/styles/Entity.module.scss';
+
 
 
 export interface EntityRawLinkProps {
@@ -34,6 +37,9 @@ export interface EntityDisplayProps {
 }
 
 export function EntityLink({ entity, children }: React.PropsWithChildren<EntityDisplayProps>) {
+  if (isBlocked(entity)) {
+    return <a href={`/entities/${entity.id}/`} rel='nofollow'>[blocked entity]</a>
+  }
   const rel = isIndexRelevant(entity) ? '' : 'nofollow';
   const content = children || entity.caption;
 
@@ -226,11 +232,16 @@ export function EntitySchemaTable({ entityId, propResults, datasets, prop, showM
     return null;
   }
   let featuredNames = schema.featured;
-  ['startDate', 'endDate'].forEach((p) => {
-    if (schema.isA('Interval') && featuredNames.indexOf(p) === -1) {
-      featuredNames.push(p);
-    }
-  })
+  if (schema.isA('Documentation')) {
+    featuredNames = featuredNames.filter((n) => n !== 'role');
+    featuredNames.push('date');
+  } else if (schema.isA('Interval')) {
+    ['startDate', 'endDate'].forEach((p) => {
+      if (schema.isA('Interval') && featuredNames.indexOf(p) === -1) {
+        featuredNames.push(p);
+      }
+    })
+  }
   if (schema.isA('Address')) {
     featuredNames = ['full', 'country'];
   }
@@ -278,7 +289,6 @@ export function EntitySchemaTable({ entityId, propResults, datasets, prop, showM
     </>
   );
 }
-
 
 interface EntityTopicsProps {
   entity: Entity

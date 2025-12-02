@@ -1,7 +1,32 @@
-// .stickyHeader {
-//   position: sticky;
-//   top: 0px
-// }
+@import "./variables.scss";
+
+// Big blue banner at the top. Also known as a hero section.
+.claimBanner {
+  background-color: $theme-blue-dark;
+  background-image: url('https://assets.opensanctions.org/images/nura/banner-big.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  padding-top: 5em;
+  padding-bottom: 3em;
+}
+
+.claim {
+  @include heading-font;
+  color: white;
+  font-size: 2em;
+  line-height: 1.5;
+  margin-bottom: 1em;
+  font-weight: $heading-weight;
+}
+
+.subClaim {
+  margin-bottom: 1em;
+  font-size: 1.2em;
+  color: $gray-100;
+}
+
 
 .subregionCell {
   padding-left: 1em !important;

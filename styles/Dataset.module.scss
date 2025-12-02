@@ -23,7 +23,19 @@
 .cardTitle {
     @include heading-font;
     margin-top: 0;
-    font-size: 1.2em;
+    font-size: $list-heading-font-size;
+    
+    a {
+        color: $link-color;
+    }
+
+    a:hover {
+        color: $link-hover-color;
+    }
+}
+
+.cardSubtitle {
+    @include sub-title;
 }
 
 .publisherDescription {
@@ -55,7 +67,6 @@
 }
 
 .apiTable {
-
     td,
     th {
         padding-left: 0;
@@ -74,8 +85,8 @@
 }
 
 .itemHeader {
-    font-weight: bold;
-    font-size: 1.1em;
+    font-weight: $heading-weight;
+    font-size: $list-heading-font-size;
     // color: inherit !important;
     display: block;
     text-decoration: none;

@@ -118,6 +118,14 @@ export function getPageMetadata(page: IPage | null): Metadata {
   })
 }
 
+export async function getPathMetadata(path: string): Promise<Metadata> {
+  const page = await getPageByPath(path);
+  if (page === null) {
+    return {}
+  }
+  return getPageMetadata(page);
+}
+
 export async function getSitemapPages(limit: number = 5000): Promise<Array<IPageMetadata>> {
   const docsFiles = await getDocsFiles();
   const pages = docsFiles

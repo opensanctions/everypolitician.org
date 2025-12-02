@@ -1,8 +1,9 @@
 import React from 'react';
 
-import Navigation from './Navigation';
-import AnalyticsManager from '../Analytics';
+import AnalyticsManager from '@/components/Analytics';
+
 import Footer from './Footer';
+import Navigation from './Navigation';
 
 import styles from '@/styles/Layout.module.scss';
 

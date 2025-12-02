@@ -1,4 +1,7 @@
+import { unstable_cache } from 'next/cache';
+
 import { fetchCms, ItemsResponse } from './cms';
+import { REVALIDATE_BASE } from './constants';
 
 export interface ITerritoryInfo {
   label_short: string
@@ -37,16 +40,19 @@ function adaptItem(item: any): ITerritoryInfo {
 }
 
 
-export const getTerritories = async function () {
-  // 'use cache';
-  const query = {
-    'fields': ['*', 'see.*'],
-    'limit': 1000,
-  }
-  const respData = await fetchCms<ItemsResponse>('/items/territories', query);
-  const results = respData.data;
-  return results.map(adaptItem);
-};
+export const getTerritories: () => Promise<Array<ITerritoryInfo>> = unstable_cache(
+  async function () {
+    // 'use cache';
+    const query = {
+      'fields': ['*', 'see.*'],
+      'limit': 1000,
+    }
+    const respData = await fetchCms<ItemsResponse>('/items/territories', query);
+    const results = respData.data;
+    return results.map(adaptItem);
+  },
+  ['territories'], { revalidate: REVALIDATE_BASE, tags: ['data', 'cms', 'memory'] }
+);
 
 
 export async function getTerritoryInfo(code: string): Promise<ITerritoryInfo | null> {

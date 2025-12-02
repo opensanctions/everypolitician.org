@@ -3,10 +3,11 @@ import Link from 'next/link';
 import React from 'react';
 import { ChatRightHeartFill, EnvelopeOpenHeartFill, Github, HeartFill, LifePreserver, Linkedin, RocketTakeoffFill } from 'react-bootstrap-icons';
 
-import { CLAIM, LICENSE_URL, SPACER } from '@/lib/constants';
+import { Spacer } from '@/components/util';
+import { Col, Container, Row } from '@/components/wrapped';
+import { CLAIM, LICENSE_URL, OSA_URL, SPACER } from '@/lib/constants';
+
 import styles from '@/styles/Footer.module.scss';
-import { Spacer } from '../util';
-import { Col, Container, Row } from '../wrapped';
 
 export default function Footer() {
   return (
@@ -14,14 +15,16 @@ export default function Footer() {
       <div className={classNames("d-print-none", styles.footer)} role="contentinfo">
         <Container>
           <Row>
-            {/* <Col md={3}>
-              <img
-                src="https://assets.opensanctions.org/images/ura/logo_footer.svg"
-                alt="OpenSanctions"
-                className={styles.logo}
-                width="100%"
-              />
-            </Col> */}
+            <Col md={2}>
+              <Link href={OSA_URL}>
+                <img
+                  src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
+                  alt="Part of OpenSanctions"
+                  className={styles.logo}
+                  width="100%"
+                />
+              </Link>
+            </Col>
             <Col md={10}>
               <Row>
                 <Col md={3}>
@@ -34,7 +37,7 @@ export default function Footer() {
                       <Link href="/docs/">Documentation</Link>
                     </li>
                     <li>
-                      <Link href="/licensing/">Commercial use</Link>
+                      <Link href={`${OSA_URL}/licensing/`}>Commercial use</Link>
                     </li>
                   </ul>
                 </Col>
@@ -56,9 +59,9 @@ export default function Footer() {
                   <strong>Keep updated</strong>
                   <ul>
                     <li>
-                      <Link href="/newsletter/" aria-hidden="true"><EnvelopeOpenHeartFill /></Link>
+                      <Link href={`${OSA_URL}/newsletter/`} aria-hidden="true"><EnvelopeOpenHeartFill /></Link>
                       {' '}
-                      <Link href="/newsletter/" aria-label='Subscribe to our newsletter'>Newsletter</Link>
+                      <Link href={`${OSA_URL}/newsletter/`} aria-label='Subscribe to our newsletter'>Newsletter</Link>
                     </li>
                     <li>
                       <Link href="https://www.linkedin.com/company/opensanctions/" aria-hidden="true"><Linkedin /></Link>
@@ -76,14 +79,14 @@ export default function Footer() {
                   <strong>Get in touch</strong>
                   <ul>
                     <li>
-                      <Link href="/support/" prefetch={false} aria-hidden="true"><LifePreserver /></Link>
+                      <Link href={`${OSA_URL}/support/`} prefetch={false} aria-hidden="true"><LifePreserver /></Link>
                       {' '}
-                      <Link href="/support/" prefetch={false}>Get support</Link>
+                      <Link href={`${OSA_URL}/support/`} prefetch={false}>Get support</Link>
                     </li>
                     <li>
-                      <Link href="/sales/" aria-hidden="true"><RocketTakeoffFill /></Link>
+                      <Link href={`${OSA_URL}/sales/`} aria-hidden="true"><RocketTakeoffFill /></Link>
                       {' '}
-                      <Link href="/sales/">Talk to sales</Link>
+                      <Link href={`${OSA_URL}/sales/`}>Talk to sales</Link>
                     </li>
                     <li>
                       <Link href="https://discuss.opensanctions.org" prefetch={false} aria-hidden="true"><ChatRightHeartFill /></Link>
@@ -101,31 +104,17 @@ export default function Footer() {
                 <p className={styles.copyright}>
                   Made with <HeartFill className={styles.love} /> across Europe
                   {SPACER}
-                  <Link href="/account/" prefetch={false}>API console</Link>
-                  {SPACER}
                   <Link href="https://status.opensanctions.org">System status</Link>
                   {SPACER}
-                  <Link href="/changelog/">Changelog</Link>
+                  <Link href={`${OSA_URL}/changelog/`}>Changelog</Link>
                   {SPACER}
-                  <Link href="/impressum/" prefetch={false}>Impressum</Link>
+                  <Link href={`${OSA_URL}/docs/privacy/`} prefetch={false}>Privacy</Link>
                   {SPACER}
-                  <Link href="https://trust.opensanctions.org">Trust Center</Link>
+                  <Link href={`${OSA_URL}/docs/security/`} prefetch={false}>Security</Link>
                   {SPACER}
-                  <Link href="/docs/privacy/" prefetch={false}>Privacy</Link>
-                  {SPACER}
-                  <Link href="/docs/security/" prefetch={false}>Security</Link>
+                  <Link href={`${OSA_URL}/impressum/`} prefetch={false}>Impressum</Link>
                 </p>
               </Row>
-            </Col>
-            <Col md={2}>
-              <Link href="http://trust.opensanctions.org/">
-                <img
-                  src="https://assets.opensanctions.org/images/iso27001-alt.png"
-                  alt="We are ISO27001 certified!"
-                  className={styles.logo}
-                  width="100%"
-                />
-              </Link>
             </Col>
           </Row>
         </Container>

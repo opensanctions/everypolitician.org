@@ -31,16 +31,27 @@
 
 .articleListTitle {
     @include heading-font;
-    font-size: 1.2em;
+    font-size: $list-heading-font-size;
+    margin-bottom: 0 !important;
+    padding-bottom: 0;
 
     a {
-        color: $blue-fg;
+        color: $link-color;
     }
+
+    a:hover {
+        color: $link-hover-color;
+    }
+}
+
+.articleListSubtitle {
+    @include sub-title;
 }
 
 .articleListImage {
     flex-direction: column;
-    margin-right: 1em;
+    margin-right: $spacer;
+    margin-top: $spacer * 0.2;
 
     @include media-breakpoint-down(md) {
         width: 100%;
@@ -48,16 +59,6 @@
         margin-top: 1em;
         margin-bottom: 0.5em;
     }
-}
-
-.articleListContent {
-    // width: 80%;
-}
-
-.articleTags {
-    // color: $text-muted;
-    // font-size: 0.8em;
-    // margin-left: 0.5em;
 }
 
 .articleListSummary {

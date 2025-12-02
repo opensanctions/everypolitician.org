@@ -1,14 +1,14 @@
 import 'server-only';
-
+import intersection from 'lodash/intersection';
 import { unstable_cache } from 'next/cache';
 import queryString from 'query-string';
 
-import { API_TOKEN, API_URL, MAIN_DATASET, REVALIDATE_BASE } from "./constants";
+import { API_TOKEN, API_URL, BLOCKED_ENTITIES, MAIN_DATASET, REVALIDATE_BASE } from "./constants";
 import { parseDataset } from "./datasets";
 import { Entity, IEntityDatum, Model, Property } from "./ftm";
 import { getModel } from './model';
 import { getTerritoriesByCode } from './territory';
-import { ICatalog, ICatalogEntry, ICollection, IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, IRecentEntity, ISearchAPIResponse, isCollection, isDataset } from "./types";
+import { ICatalog, ICatalogEntry, ICollection, IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, IVersionsIndex, isCollection, isDataset } from "./types";
 
 
 const ADJACENT_PAGE_SIZE_SMALL = 10;
@@ -72,12 +72,13 @@ export async function fetchApiUncached<T>(path: string, query: any = undefined, 
   return await fetchApi(path, query, accessToken, options);
 }
 
-export function getDatasetFileUrl(name: string, file_name: string): string {
+
+export function getDatasetLatestPublishedFileUrl(name: string, file_name: string): string {
   return `https://data.opensanctions.org/datasets/latest/${name}/${file_name}`;
 }
 
 export async function getDatasetByName(name: string): Promise<IDataset | undefined> {
-  const datasetUrl = getDatasetFileUrl(name, 'index.json');
+  const datasetUrl = getDatasetLatestPublishedFileUrl(name, 'index.json');
   const data = await fetchStatic<IDataset>(datasetUrl);
   if (data === null) {
     return undefined;
@@ -102,7 +103,7 @@ export const getDatasetsByScope: (scope: string) => Promise<Array<IDataset>> = u
     const territories = await getTerritoriesByCode();
     const datasetDatas = new Array<IDataset>();
     for (let datasetName of collection.datasets) {
-      const datasetData = await fetchStatic<IDataset>(getDatasetFileUrl(datasetName, 'index.json'));
+      const datasetData = await fetchStatic<IDataset>(getDatasetLatestPublishedFileUrl(datasetName, 'index.json'));
       if (datasetData !== null) {
         datasetDatas.push(datasetData);
       }
@@ -117,7 +118,7 @@ export const getDatasetsByScope: (scope: string) => Promise<Array<IDataset>> = u
 
 export const getCatalogEntriesByScope: (scope: string) => Promise<Array<ICatalogEntry>> = unstable_cache(
   async (scope: string) => {
-    const catalogUrl = getDatasetFileUrl(scope, 'catalog.json');
+    const catalogUrl = getDatasetLatestPublishedFileUrl(scope, 'catalog.json');
     const catalog = await fetchStatic<ICatalog>(catalogUrl);
     if (catalog === null) {
       throw Error("Catalog not found: " + scope);
@@ -135,8 +136,19 @@ export async function getDatasets(): Promise<Array<IDataset>> {
   return await getDatasetsByScope(MAIN_DATASET);
 }
 
+export async function isInCollection(collection: string, source: string): Promise<boolean> {
+  if (collection === source) {
+    return false;
+  }
+  const coll = await getDatasetByName(collection);
+  if (coll === undefined || !isCollection(coll)) {
+    return false;
+  }
+  return coll.datasets.includes(source);
+}
+
 export async function getDatasetsByNames(names: string[]): Promise<Array<IDataset>> {
-  const datasets = await Promise.all(names.map(getDatasetByName));
+  const datasets = await Promise.all(names.map((name) => getDatasetByName(name)));
   // return datasets.filter((dataset) => dataset != undefined) as IDataset[];
   //datasetsNamed = names.map((name) => datasets.find((d) => d?.name === name))
   return sortDatasetsByTitle(datasets);
@@ -159,37 +171,12 @@ export async function canSearchDataset(dataset: IDataset): Promise<boolean> {
   return intersection.length == range.length;
 }
 
-export async function getRecentEntities(dataset: IDataset): Promise<Array<IRecentEntity>> {
-  const model = await getModel();
-  const params = {
-    'limit': 15,
-    'sort': 'first_seen:desc',
-    'target': true,
-  }
-  try {
-    const response = await fetchApiCached<ISearchAPIResponse>(`/search/${dataset.name}`, params);
-    return response.results.map((result) => {
-      const entity = model.getEntity(result)
-      const country = model.getType('country');
-      return {
-        id: entity.id,
-        caption: entity.caption,
-        schema: entity.schema.label,
-        countries: entity.getTypeValues(country).map((c) => country.getLabel(c as string)),
-        first_seen: entity.first_seen,
-      } as IRecentEntity;
-    });
-  } catch {
-    return [];
-  }
-}
-
 export async function getEntityData(entityId: any): Promise<IEntityDatum | null> {
   if (entityId === undefined || entityId === null) {
     return null;
   }
   try {
-    const raw = await fetchApiUncached<IEntityDatum>(`/entities/${entityId}`, { nested: false });
+    const raw = await fetchApiCached<IEntityDatum>(`/entities/${entityId}`, { nested: false });
     if (raw === undefined || raw === null || raw.id === undefined) {
       return null
     }
@@ -269,7 +256,18 @@ export async function getEntityDatasets(entity: Entity) {
     .filter((d) => d !== undefined) as IDataset[];
 }
 
+export function isBlocked(entity: Entity): boolean {
+  if (BLOCKED_ENTITIES.indexOf(entity.id) !== -1) {
+    return true;
+  }
+  const joined = intersection(entity.referents, BLOCKED_ENTITIES);
+  return joined.length > 0;
+}
+
 export function isIndexRelevant(entity: Entity): boolean {
+  if (isBlocked(entity)) {
+    return false;
+  }
   const topics = entity.getProperty('topics');
   // all sanctioned entities
   if (topics.indexOf("sanction") !== -1 || topics.indexOf("sanction.linked") !== -1) {

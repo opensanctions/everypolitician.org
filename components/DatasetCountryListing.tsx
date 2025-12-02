@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 
-import { Table } from "./wrapped";
-import { HelpLink, Numeric, Plural, Spacer } from './util';
 import { IAggregatedCountry } from '@/lib/datasets';
+
+import { HelpLink } from './clientUtil';
+import { Numeric, Plural, Spacer } from './util';
+import { Table } from "./wrapped";
 
 
 type DatasetCountryListingProps = {

@@ -1,6 +1,7 @@
 import { headers, type UnsafeUnwrappedHeaders } from 'next/headers';
-import { IDictionary } from './types';
 import pino from 'pino';
+
+import { IDictionary } from './types';
 
 export const logger = pino();
 

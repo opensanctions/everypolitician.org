@@ -1,9 +1,9 @@
 @import "./variables.scss";
 
 .summary {
-    font-size: 1.2em;
+    font-size: $default-font-size * 1.2;
     // margin-top: 1em;
-    font-weight: 400;
+    font-weight: $text-weight;
     margin-bottom: 1em;
     color: $text-muted;
     // max-width: $max-text-width;

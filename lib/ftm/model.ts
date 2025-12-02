@@ -1,6 +1,6 @@
-import { Schema, ISchemaDatum } from './schema'
 import { Entity, IEntityDatum } from './entity'
 import { Property } from './property'
+import { Schema, ISchemaDatum } from './schema'
 import { PropertyType, IPropertyTypeDatum } from './type'
 
 

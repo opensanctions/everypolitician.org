@@ -1,9 +1,9 @@
-import { getSitemapPages } from '@/lib/pages';
-import { getTerritories } from '@/lib/territory';
-import { warmUpCache } from '@/lib/warm';
 import { MetadataRoute } from 'next';
+
 import { BASE_URL } from '@/lib/constants';
 import { getDatasets } from '@/lib/data';
+import { getSitemapPages } from '@/lib/pages';
+import { getTerritories } from '@/lib/territory';
 
 export const dynamic = 'force-static';
 
@@ -19,7 +19,7 @@ function dateTruncate(date: string | null | undefined) {
 
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  await warmUpCache();
+  // await warmUpCache();
 
   const baseMap = PAGES.map(url => ({
     url: `${BASE_URL}/${url}`,

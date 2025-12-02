@@ -1,4 +1,4 @@
-import { getAssetUrl } from "@/lib/cms";
+import { getAssetUrl } from '@/lib/assets';
 
 export default function Flag(props: { flag?: string | null, regionLabel: string }) {
   const id = props.flag || '10c75c82-b086-4b42-b930-dce7533e1f01';

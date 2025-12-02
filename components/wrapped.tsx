@@ -51,5 +51,10 @@ export {
   Alert, Badge, Button,
   ButtonGroup, Card,
   CardGroup, Col,
-  Container, Form, InputGroup, ListGroup, Nav, Navbar, OverlayTrigger, Pagination, Row, Spinner, Table, ToggleButton, Tooltip
+  Container, Form, InputGroup, ListGroup, Nav, Navbar, Pagination, Row, Spinner, Table, ToggleButton,
+  // as far as we can tell, OverlayTrigger and Tooltip should be used in a client component
+  // otherwise we get `Cannot read properties of undefined (reading 'ref')` errors for
+  // pages exceeding a certain number of these or length of tooltip text.
+  // https://github.com/opensanctions/operations/issues/1568
+  OverlayTrigger, Tooltip
 };

@@ -1,17 +1,17 @@
 
-import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
-
-import Research from '@/components/Research';
-import { Row, Col, Container } from '@/components/wrapped';
-import { getAdjacentByProp, getDatasets, getEntity } from '@/lib/data';
-import LayoutFrame from '@/components/layout/LayoutFrame';
-import { EntitySchemaTable } from '@/components/Entity';
-import { ServerSearchParams } from '@/components/utils/PageProps';
+import { notFound, redirect } from 'next/navigation';
 import { ArrowLeft } from 'react-bootstrap-icons';
-import { ResponsePagination } from '@/components/util';
-import { getGenerateMetadata } from '@/lib/meta';
+
 import { generateEntityMetadata } from '@/app/entities/common';
+import { EntitySchemaTable } from '@/components/Entity';
+import LayoutFrame from '@/components/layout/LayoutFrame';
+import Research from '@/components/Research';
+import { ResponsePagination } from '@/components/util';
+import { ServerSearchParams } from '@/components/utils/PageProps';
+import { Row, Col, Container } from '@/components/wrapped';
+import { getAdjacentByProp, getDatasets, getEntity, isBlocked, isIndexRelevant } from '@/lib/data';
+import { getGenerateMetadata } from '@/lib/meta';
 
 interface PropertyAdjacentPageProps {
   params: Promise<{ entityId: string, propName: string }>
@@ -47,7 +47,7 @@ export default async function PropertyAdjacentPage(props: PropertyAdjacentPagePr
   if (entity === null) {
     notFound();
   }
-  if (entity.id !== params.entityId) {
+  if (entity.id !== params.entityId || isBlocked(entity)) {
     redirect(`/entities/${entity.id}/`);
   }
   const prop = entity.schema.getProperty(params.propName);

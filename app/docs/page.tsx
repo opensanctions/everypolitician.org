@@ -1,12 +1,13 @@
-import Content from '@/components/Content'
-import LayoutFrame from '@/components/layout/LayoutFrame'
-import { getPageMetadata, getPageByPath } from '@/lib/pages';
 import { notFound } from 'next/navigation';
 
 
+import Content from '@/components/Content'
+import LayoutFrame from '@/components/layout/LayoutFrame'
+import { getPageByPath, getPathMetadata } from '@/lib/pages';
+
+
 export async function generateMetadata() {
-  const page = await getPageByPath('/docs/');
-  return getPageMetadata(page);
+  return await getPathMetadata('/docs/');
 }
 
 export default async function Page() {

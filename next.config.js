@@ -3,9 +3,20 @@ const path = require('path');
 const cachedHeader = [
   {
     key: 'cache-control',
-    value: 'public, max-age=3600, stale-while-revalidate=60',
+    value: 'public, max-age=3600, stale-while-revalidate=1800',
   },
 ];
+
+const secureHeaders = [
+  {
+    key: 'x-frame-options',
+    value: 'DENY',
+  },
+  {
+    key: 'cache-control',
+    value: 'private, max-age=0, no-cache',
+  },
+]
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -17,6 +28,14 @@ const nextConfig = {
     // dynamicIO: true,
     cpus: 1,
   },
+  cacheHandler:
+    process.env.NODE_ENV === "production"
+      ? require.resolve("./cache-handler.mjs")
+      : undefined,
+  cacheMaxMemorySize:
+    process.env.NODE_ENV === "production"
+      ? 0
+      : 250 * 1024 * 1024,
   // cacheMaxMemorySize: 250 * 1024 * 1024,
   staticPageGenerationTimeout: 360,
   productionBrowserSourceMaps: true,
@@ -59,11 +78,19 @@ const nextConfig = {
         headers: cachedHeader,
       },
       {
+        source: "/faq/:path*",
+        headers: cachedHeader,
+      },
+      {
         source: "/entities/:path*",
         headers: cachedHeader,
       },
       {
         source: "/datasets/:path*",
+        headers: cachedHeader,
+      },
+      {
+        source: "/programs/:path*",
         headers: cachedHeader,
       },
       {

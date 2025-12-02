@@ -1,0 +1,10 @@
+# This is for testing redis cache in dev.
+#
+# Enable by setting REDIS_URL=redis://localhost:6379/0 e.g. via a .env.local file
+# and running docker-compose up.
+
+services:
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"

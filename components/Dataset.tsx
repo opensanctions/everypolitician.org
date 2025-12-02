@@ -1,13 +1,18 @@
+import classNames from 'classnames';
+import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
 import { FolderFill, NodePlusFill, Server } from 'react-bootstrap-icons';
 
-import { IDataset, IDatasetPublisher, isCollection, isExternal } from '@/lib/types';
+import { IDataset, IDatasetPublisher, isCollection, isExternal } from '../lib/types';
+
+import { Explain } from './clientUtil';
 import { FrequencyBadge } from './Metadata';
 import Territory from './Territory';
-import { Explain, FormattedDate, Numeric, NumericBadge, Spacer, UnofficialBadge } from './util';
+import { FormattedDate, Numeric, NumericBadge, Spacer, UnofficialBadge } from './util';
 import { Badge, Card, CardBody, CardSubtitle, CardText, Table } from "./wrapped";
 
 import styles from '@/styles/Dataset.module.scss';
+
 
 
 type DatasetProps = {
@@ -57,7 +62,7 @@ function DatasetCard({ dataset }: DatasetProps) {
         <h4 className={styles.cardTitle}>
           <DatasetLink dataset={dataset} />
         </h4>
-        <CardSubtitle className="mb-2 text-muted">
+        <CardSubtitle className={classNames("mb-2", styles.cardSubtitle)}>
           <Numeric value={dataset.thing_count} /> entities
           {!!dataset.publisher && (
             <>
@@ -147,7 +152,7 @@ function DatasetTableRow({ dataset, icon, publisher, country, frequency, dateAdd
     <>
       <tr>
         {icon && (
-          <td rowSpan={1}>
+          <td>
             <DatasetIcon dataset={dataset} />
           </td>
         )}
@@ -174,20 +179,20 @@ function DatasetTableRow({ dataset, icon, publisher, country, frequency, dateAdd
           </td>
         )}
         {frequency && (
-          <td rowSpan={1}>
+          <td>
             {!!dataset.coverage && (
               <FrequencyBadge coverage={dataset.coverage} hideNever />
             )}
           </td>
         )}
         {dateAdded && (
-          <td rowSpan={1}>
+          <td>
             {!!dataset.coverage && (
               <FormattedDate date={dataset.coverage.start} />
             )}
           </td>
         )}
-        <td className='numeric' rowSpan={1}>
+        <td>
           <Numeric value={dataset.thing_count} />
         </td>
       </tr>

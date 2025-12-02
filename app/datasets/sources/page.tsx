@@ -1,17 +1,18 @@
+import classNames from 'classnames';
+import { FileEarmarkSpreadsheetFill } from 'react-bootstrap-icons';
+
 import Dataset from '@/components/Dataset';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { Button, Col, Container, Row } from '@/components/wrapped';
-import { getDatasetsByNames, getDatasetsByScope } from '@/lib/data';
-import { getGenerateMetadata } from '@/lib/meta';
-import { isCollection } from '@/lib/types';
-
 import { SourcesFilter } from '@/components/SourcesFilter';
 import { Summary } from '@/components/util';
 import { PageProps } from '@/components/utils/PageProps';
+import { Button, Col, Container, Row } from '@/components/wrapped';
 import { EXTRA_COLLECTIONS, FEATURED_COLLECTIONS, MAIN_DATASET } from '@/lib/constants';
+import { getDatasetsByNames, getDatasetsByScope } from '@/lib/data';
+import { getGenerateMetadata } from '@/lib/meta';
+import { isCollection } from '@/lib/types';
 import { arrayFirst } from '@/lib/util';
-import classNames from 'classnames';
-import { FileEarmarkSpreadsheetFill } from 'react-bootstrap-icons';
+
 import styles from '@/styles/Dataset.module.scss';
 
 const TITLE = `Data sources`
@@ -76,7 +77,7 @@ export default async function Page(props: PageProps) {
               are currently included in the database." />
           </Col>
         </Row>
-        <SourcesFilter scopes={scopes} scopeName={scopeName} showLatest={false} />
+        <SourcesFilter scopes={scopes} scopeName={scopeName} showPrograms={false} showLatest={showLatest} />
         <Row>
           <Dataset.Table datasets={allSorted} frequency={!showLatest} publisher dateAdded={showLatest} />
         </Row>

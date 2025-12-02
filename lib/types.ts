@@ -1,6 +1,10 @@
 import { Entity, IEntityDatum, IModelDatum, Property } from "./ftm";
 import { ITerritoryInfo } from "./territory";
 
+export interface IVersionsIndex {
+  items: Array<string>
+}
+
 export interface IResource {
   url: string
   name: string
@@ -103,20 +107,39 @@ export interface ICatalogEntry {
   hidden?: boolean
 }
 
-export function isCollection(dataset?: IDataset): dataset is ICollection {
+export function isCollection(dataset?: IDataset | ICatalogEntry): dataset is ICollection {
   return dataset?.type === 'collection';
 }
 
-export function isSource(dataset?: IDataset): dataset is ISource {
+export function isSource(dataset?: IDataset | ICatalogEntry): dataset is ISource {
   return dataset?.type === 'source';
 }
 
-export function isExternal(dataset?: IDataset): dataset is IExternal {
+export function isExternal(dataset?: IDataset | ICatalogEntry): dataset is IExternal {
   return dataset?.type === 'external';
 }
 
-export function isDataset(dataset: IDataset | undefined): dataset is IDataset {
+export function isDataset(dataset: IDataset | ICatalogEntry | undefined): dataset is IDataset {
   return isCollection(dataset) || isSource(dataset) || isExternal(dataset);
+}
+
+export const LEVEL_ERROR = 'error'
+export const LEVEL_WARNING = 'warning'
+
+export interface IIssue {
+  id: number
+  level: string
+  message: string
+  module: string
+  timestamp: string
+  data: { [key: string]: string }
+  dataset: string
+  entity_id?: string | null
+  entity_schema?: string | null
+}
+
+export interface IIssueIndex {
+  issues: Array<IIssue>
 }
 
 export interface IModelSpec {
@@ -157,8 +180,13 @@ export interface ISearchAPIResponse extends IPaginatedResponse {
   facets: { [prop: string]: ISearchFacet }
 }
 
+export interface IFtResult {
+  detail: string
+  score: number
+}
+
 export interface IMatchedEntityDatum extends IEntityDatum {
-  features: { [key: string]: number }
+  explanations: { [key: string]: IFtResult }
   score: number
   match: boolean
 }

@@ -28,6 +28,6 @@
     text-align: right;
 
     :global(.btn-light) {
-        font-weight: normal;
+        font-weight: $text-weight;
     }
 }

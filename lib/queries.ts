@@ -1,4 +1,5 @@
 import { ServerSearchParams } from '@/components/utils/PageProps';
+
 import { MAIN_DATASET, SEARCH_SCHEMA } from './constants';
 import { fetchApiCached } from './data';
 import { ISearchAPIResponse } from './types';

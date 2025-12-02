@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/lib/constants";
-import { getEntity, isIndexRelevant } from "@/lib/data";
+import { getEntity, isBlocked, isIndexRelevant } from "@/lib/data";
 import { getGenerateMetadata } from "@/lib/meta";
 
 export interface EntityPageProps {
@@ -17,10 +17,11 @@ export async function generateEntityMetadata({ params, title }: EntityMetadataPr
       title: "Entity not found"
     });
   }
+  title = isBlocked(entity) ? 'Blocked entity' : title || entity.caption;
   const noIndex = !isIndexRelevant(entity);
   const canonicalUrl = `${BASE_URL}/entities/${entity.id}/`;
   return getGenerateMetadata({
-    title: entity.caption,
+    title: title,
     noIndex: noIndex,
     canonicalUrl: noIndex ? null : canonicalUrl
   })

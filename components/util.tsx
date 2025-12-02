@@ -1,17 +1,20 @@
 import classNames from 'classnames';
 import { filesize } from 'filesize';
-import Link from 'next/link';
 import queryString from 'query-string';
 import React, { ReactNode } from 'react';
-import { FileEarmarkCodeFill, Link45deg, QuestionCircleFill, RssFill } from 'react-bootstrap-icons';
+import { FileEarmarkCodeFill, Link45deg, RssFill } from 'react-bootstrap-icons';
 
-import { SPACER } from '@/lib/constants';
-import { IPaginatedResponse } from '@/lib/types';
+import { markdownToHtml } from '@/lib/util';
+
+import { SPACER } from '../lib/constants';
+import { IPaginatedResponse } from '../lib/types';
+
+
 import { ServerSearchParams } from './utils/PageProps';
-import { Badge, Button, NavLink, OverlayTrigger, Pagination, PaginationItem, PaginationNext, PaginationPrev, Spinner, Tooltip } from "./wrapped";
+import { Badge, Button, NavLink, Pagination, PaginationItem, PaginationNext, PaginationPrev, Spinner } from "./wrapped";
 
-import { Placement } from 'react-bootstrap/esm/types';
 import styles from '@/styles/util.module.scss';
+
 
 
 type RoutedNavLinkProps = {
@@ -103,15 +106,31 @@ type MarkdownProps = {
   className?: string
 }
 
-export function Markdown({ markdown, className }: MarkdownProps) {
+export async function Markdown({ markdown, className }: MarkdownProps) {
   if (markdown === undefined || markdown === null || markdown.trim().length == 0) {
     return null;
   }
-  //const html = markdownToHtml(markdown);
+  const html = await markdownToHtml(markdown);
   return <div
-    className={classNames("text-body", className)}
-    dangerouslySetInnerHTML={{ __html: markdown }}
+    className={className}
+    dangerouslySetInnerHTML={{ __html: html }}
   />
+}
+
+export async function BodyText({ body, className }: { body: string | null | undefined, className?: string}) {
+  const combinedClassName = classNames("text-body", className);
+  return <Markdown markdown={body} className={combinedClassName} />;
+}
+
+type SummaryProps = {
+  summary?: string | null
+}
+
+export async function Summary({ summary }: SummaryProps) {
+  if (summary === undefined || summary === null) {
+    return null;
+  }
+  return <Markdown markdown={summary} className={styles.summary} />;
 }
 
 type FormattedDateProps = {
@@ -137,18 +156,6 @@ export function FormattedDate({ date }: FormattedDateProps) {
   const short = date.slice(0, 10).replace('T', ' ');
   return <time dateTime={date} className={styles.formattedDate}>{short}</time>
 }
-
-type SummaryProps = {
-  summary?: string | null
-}
-
-export function Summary({ summary }: SummaryProps) {
-  if (summary === undefined || summary === null) {
-    return null;
-  }
-  return <p className={styles.summary}>{summary}</p>
-}
-
 
 export function UnofficialBadge({ short = false }: { short?: boolean }) {
   const label = short ? 'non-official' : 'non-official source';
@@ -200,31 +207,7 @@ export function URLLink({ url, label, icon = true }: URLLinkProps) {
   );
 }
 
-type HelpLinkProps = {
-  href: string
-  size?: number
-  children?: ReactNode
-  tooltipId?: string
-  placement?: Placement
-}
-
-export function HelpLink({ href, size = 10, children, tooltipId, placement = 'top' }: HelpLinkProps) {
-  const link = (
-    <a href={href} className={classNames("d-print-none", styles.helpLink)}>
-      <sup><QuestionCircleFill size={size} /></sup>
-    </a>
-  );
-  return (
-    !!tooltipId
-      ? <OverlayTrigger placement={placement} overlay={<Tooltip id={tooltipId} >{children}</Tooltip>} >
-        {link}
-      </OverlayTrigger>
-      : link
-  )
-}
-
-
-export function JSONLink({ href }: HelpLinkProps) {
+export function JSONLink({ href }: { href: string }) {
   return (
     <Button
       variant="outline-dark"
@@ -284,28 +267,6 @@ export function Spacer() {
     <span className={styles.spacer}>{SPACER}</span>
   )
 }
-
-type ExplainProps = {
-  tooltip: string
-  placement?: string
-}
-
-export function Explain({ children, tooltip, placement = 'right' }: React.PropsWithChildren<ExplainProps>) {
-  return (
-    <OverlayTrigger
-      placement="right"
-      delay={{ show: 10, hide: 50 }}
-      overlay={
-        <Tooltip id="explain-tooltip">
-          <div className={styles.explainContent}>{tooltip}</div>
-        </Tooltip>
-      }
-    >
-      <span className={styles.explainAnchor}>{children}</span>
-    </OverlayTrigger>
-  )
-}
-
 
 type ResponsePaginationProps = {
   response: IPaginatedResponse

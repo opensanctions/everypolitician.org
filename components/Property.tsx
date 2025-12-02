@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { ComponentType } from 'react';
 
-import { Entity, Property, PropertyType, Value, Values } from "@/lib/ftm";
+import { Entity, Property, PropertyType, Value, Values } from "../lib/ftm";
+
 import { EntityDisplayProps, EntityLink } from "./Entity";
 import { FormattedDate, SpacedList, URLLink } from "./util";
 import { ExpandList } from './utils/ExpandList';
@@ -19,10 +20,7 @@ type TypeValueProps = {
 export function TypeValue({ type, value, plain = false, entityComponent: Entity = EntityLink, prop }: TypeValueProps) {
   const strValue = value + '';
   if (type.name == 'country') {
-    return (
-      <Link href={`/countries/${strValue}`}>
-        {type.values.get(strValue) || strValue}
-      </Link>)
+    return <>{type.values.get(strValue) || strValue}</>
   }
   if (type.name == 'language') {
     return <>{type.values.get(strValue) || strValue}</>

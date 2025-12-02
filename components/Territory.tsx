@@ -1,6 +1,8 @@
-import { ITerritoryInfo } from "@/lib/territory";
-import { Badge } from "./wrapped";
 import Link from "next/link";
+
+import { ITerritoryInfo } from "@/lib/territory";
+
+import { Badge } from "./wrapped";
 
 type TerritoryProps = {
   territory?: ITerritoryInfo

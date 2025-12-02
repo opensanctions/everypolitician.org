@@ -1,9 +1,39 @@
 import { Viewport } from 'next';
+import localFont from 'next/font/local';
 // import SSRProvider from 'react-bootstrap/SSRProvider';
 
 import { THEME_COLOR } from '@/lib/constants';
 
 import '@/styles/globals.scss';
+
+const monaSans = localFont({
+  src: '../public/fonts/Mona-Sans.woff2',
+  display: 'swap',
+  variable: '--font-mona-sans',
+  weight: '200 900', // Mona Sans weight range
+  adjustFontFallback: false,
+  style: 'normal',
+  // declarations: [
+  //   {
+  //     prop: 'font-variation-settings',
+  //     value: '"wdth" 100, "ital" 0',
+  //   },
+  // ],
+});
+
+const monaSpace = localFont({
+  src: '../public/fonts/MonaspaceNeon.var.woff2',
+  display: 'swap',
+  variable: '--font-monaspace',
+  weight: '200 800', // Monaspace weight range
+  adjustFontFallback: false,
+  declarations: [
+    {
+      prop: 'font-variation-settings',
+      value: '"wdth" 75, "slnt" 0', // Default axes
+    },
+  ],
+});
 
 
 export const metadata = {
@@ -20,7 +50,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={`${monaSans.variable} ${monaSpace.variable}`}>
       <head>
         <link rel="search" type="application/opensearchdescription+xml" title="OpenSanctions Search" href="/opensearch.xml" />
       </head>

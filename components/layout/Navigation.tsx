@@ -1,7 +1,8 @@
-import React from 'react';
 import classNames from 'classnames';
 import Link from 'next/link';
-import { NavbarBrand, NavbarToggle, NavbarCollapse, Navbar, Nav, Container } from '../wrapped';
+import React from 'react';
+
+import { NavbarBrand, NavbarToggle, NavbarCollapse, Navbar, Nav, Container } from '@/components/wrapped';
 
 import styles from '@/styles/Navigation.module.scss';
 
@@ -29,7 +30,7 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
         <Link href="/" passHref>
           <NavbarBrand>
             <img
-              src="https://assets.opensanctions.org/images/ura/logo_text.svg"
+              src="https://assets.opensanctions.org/images/ep/logo-oneline-color.svg"
               width="190"
               height="30"
               className="align-top"
@@ -45,9 +46,7 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
             role="navigation"
             aria-label="Site menu"
           >
-            <NavLink href="/research/" active={activeSection === 'research'}>Research</NavLink>
             <NavLink href="/datasets/" active={activeSection === 'datasets'}>Datasets</NavLink>
-            <NavLink href="/showcase/" active={activeSection === 'showcase'}>Showcase</NavLink>
             <NavLink href="/docs/" active={activeSection === 'docs'}>Documentation</NavLink>
             <NavLink href="/docs/about/" active={activeSection === 'about'}>About</NavLink>
           </Nav>

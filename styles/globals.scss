@@ -1,24 +1,33 @@
 /* Bootstrap overrides */
 @import "./variables.scss";
-// $theme-colors: (
-//     "primary": $primary,
-//     "secondary": $highlight
-// );
 
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap';
+
 @import "~highlight.js/scss/stackoverflow-light";
 
+
+:root {
+  font-family: var(--font-mona-sans);
+  font-optical-sizing: auto;
+  font-variation-settings: "wdth" 100; /* Only set width, not weight */
+  font-feature-settings: "ss05" 1;
+}
 
 html {
     // scroll-behavior: auto !important;
     scroll-behavior: smooth;
-    font-size: $default-font-size;
-    font-optical-sizing: auto;
-    color: $default-text-color;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 
     @media print {
         print-color-adjust: exact;
     }
+}
+
+body {
+    font-weight: $text-weight;
+    font-size: $default-font-size;
+    color: $default-text-color;
 }
 
 @page {
@@ -103,8 +112,18 @@ th.narrow {
     margin-left: 1.5em;
 }
 
+.badge {
+    @include code-font;
+    font-weight: $heading-weight;
+}
+
 .badge.bg-light {
-    color: $text-muted;
+    // color: $text-muted;
+    color: $gray-800;
+}
+
+.badge.bg-warning {
+    color: $color-contrast-dark;
 }
 
 .menu-icon {
@@ -114,17 +133,17 @@ th.narrow {
 }
 
 .btn {
-    font-weight: 700;
+    font-weight: $heading-weight;
     text-decoration: none;
 
-    &.btn-secondary {
-        color: $green-800;
+    // &.btn-secondary {
+    //     color: $green-800;
 
-        &:hover {
-            background-color: $green-500;
-            border-color: $green-500;
-        }
-    }
+    //     &:hover {
+    //         background-color: $green-500;
+    //         border-color: $green-500;
+    //     }
+    // }
 }
 
 .card-group {
@@ -140,7 +159,7 @@ th.narrow {
         a {
             color: $white;
             text-decoration: underline;
-            font-weight: bold;
+            font-weight: $heading-weight;
         }
     }
 }
@@ -168,7 +187,7 @@ th.narrow {
     }
 
     .card-title {
-        font-weight: 700;
+        font-weight: $heading-weight;
         font-size: 1.4em;
         margin-top: $spacer;
         margin-bottom: $spacer * 2;
@@ -185,35 +204,14 @@ th.narrow {
     }
 }
 
-.neutral-card-follow {
-    background-color: $green-400;
-    border: $green-500;
-    color: $green-800;
-    margin-bottom: 2 * $spacer;
-    margin-top: -1 * $spacer;
-    padding-bottom: 1rem;
-
-    .card-title.h5 {
-        text-align: left !important;
-    }
-
-    a {
-        color: white;
-
-        &:hover {
-            color: $green-100;
-            text-decoration: underline;
-        }
-    }
-}
-
-
 .bsIcon {
     margin-top: -0.2em;
 }
 
 .text-body {
     max-width: $max-text-width;
+    font-size: $content-font-size;
+    font-weight: 450;
     line-height: 1.4;
 
     li {
@@ -317,7 +315,7 @@ ul.spaced li {
 
 .modal-header {
     font-size: 1.3em;
-    font-weight: bold;
+    font-weight: $heading-weight;
     margin-left: 0.6em;
 }
 

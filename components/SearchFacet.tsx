@@ -1,16 +1,22 @@
 'use client';
 import Link from 'next/link';
 import queryString from 'query-string';
-
 import { useState } from 'react';
-import { Card, CardHeader, ListGroup, ListGroupItem } from './wrapped';
-import { ISearchFacet } from "@/lib/types";
-import { NumericBadge } from "./util";
-import { ServerSearchParams } from './utils/PageProps';
+
+import { MAX_FILTERS_PER_FACET } from '@/lib/constants';
 import { ensureArray } from '@/lib/util';
 
+import { ISearchFacet } from "../lib/types";
+
+
+import { NumericBadge } from "./util";
+import { ServerSearchParams } from './utils/PageProps';
+import { Card, CardHeader, ListGroup, ListGroupItem } from './wrapped';
+
 import styles from '@/styles/Search.module.scss';
-import { MAX_FILTERS_PER_FACET } from '@/lib/constants';
+
+
+
 
 type SearchFacetProps = {
   field: string

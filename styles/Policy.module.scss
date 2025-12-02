@@ -3,7 +3,8 @@
 .licenseBox {
     :global(.alert) {
         margin-top: 1em;
-        background-color: $blue-600;
+        background-color: $primary;
+        font-size: 15px;
 
         @media print {
             background-color: $gray-200;

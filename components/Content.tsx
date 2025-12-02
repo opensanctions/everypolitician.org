@@ -2,11 +2,14 @@ import classNames from 'classnames';
 import Link from 'next/link';
 
 import { IPage } from '@/lib/pages';
+
+
 import { AboutMenu, DocumentationMenu, MenuProps } from './Menu';
 import { JSONLink, Markdown, Summary } from './util';
 import { Button, Col, Container, Row } from './wrapped';
 
 import styles from '@/styles/Content.module.scss';
+
 
 
 type ContentProps = {
@@ -34,22 +37,17 @@ function ContentMenu({ title, summary, path, children, jsonLink, Menu }: React.P
   return (
     <Container>
       <Row>
-        <Col>
+        <Col md={9} className='order-1 order-md-2'>
           <h1>
             {title}
             {jsonLink && (<JSONLink href={jsonLink} />)}
           </h1>
-        </Col>
-      </Row>
-
-      <Row>
-        <Col md={9}>
           {!!summary && (
             <Summary summary={summary} />
           )}
           {children}
         </Col>
-        <Col md={3}>
+        <Col md={3} className={classNames(styles.menuBar, "order-2 order-md-1")}>
           <Menu path={path} />
         </Col>
       </Row>
@@ -60,7 +58,7 @@ function ContentMenu({ title, summary, path, children, jsonLink, Menu }: React.P
 function ContentFooter() {
   return (
     <div className={classNames(styles.footer, "d-print-none")}>
-      <Button href="/support/" className={styles.footerAction}>Got more questions?</Button> Our support is here to help.
+      <Button href="/support/" className={styles.footerAction}>Got questions?</Button> Our support is here to help.
       You can also join the <Link href="https://discuss.opensanctions.org">discussion forum</Link> to meet the community.
     </div>
   )

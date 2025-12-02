@@ -4,7 +4,8 @@ import Link from 'next/link';
 import Script from 'next/script'
 import { useEffect, useState } from 'react';
 
-import { GA_TRACKING_ID } from '@/lib/constants';
+import { GA_TRACKING_ID } from '../lib/constants';
+
 import { Row, Col, Container, ButtonGroup, Button } from "./wrapped";
 
 import styles from '@/styles/Analytics.module.scss';

@@ -1,13 +1,14 @@
 import classnames from "classnames";
 import Link from "next/link";
-import type { JSX } from "react";
+import { notFound } from "next/navigation";
 
+import { HelpLink } from "@/components/clientUtil";
 import Dataset from "@/components/Dataset";
 import Flag from "@/components/Flag";
 import LayoutFrame from "@/components/layout/LayoutFrame";
 import { PEPSectionDefinition, PEPSubsection } from "@/components/PEPSection";
 import { SearchFacet } from "@/components/SearchFacet";
-import { HelpLink, Numeric, Plural, SpacedList, Sticky } from "@/components/util";
+import { Numeric, Plural, SpacedList, Sticky } from "@/components/util";
 import { Col, Container, Nav, NavItem, NavLink, Row } from "@/components/wrapped";
 import { BASE_URL, MAIN_DATASET } from "@/lib/constants";
 import { fetchApiCached, getDatasetByName, getDatasets } from "@/lib/data";
@@ -16,8 +17,11 @@ import { getGenerateMetadata } from "@/lib/meta";
 import { getCountryPEPData, IPositionSummary } from "@/lib/peps";
 import { getTerritoriesByCode, getTerritoryInfo } from "@/lib/territory";
 import { IDictionary, ISearchAPIResponse, ISearchFacet } from "@/lib/types";
+
+import type { JSX } from "react";
+
 import styles from '@/styles/Country.module.scss';
-import { notFound } from "next/navigation";
+
 
 // export const dynamic = 'force-static';
 const HARD_LIMIT = 2000;
@@ -371,7 +375,6 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
               <Nav className="flex-column d-print-none" variant="pills">
                 <NavLink href="#entities">Entities</NavLink>
                 <NavLink href="#sources">Data sources</NavLink>
-                <NavLink href="#programs">Programs</NavLink>
                 <NavItem>
                   <NavLink href="#peps">PEPs</NavLink>
 

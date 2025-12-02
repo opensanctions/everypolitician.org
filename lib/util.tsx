@@ -1,16 +1,21 @@
-import React, { ReactElement } from 'react'
-import castArray from 'lodash/castArray';
 import cronstrue from 'cronstrue';
-import { unified } from 'unified'
-import remarkGfm from 'remark-gfm'
-import remarkParse from 'remark-parse'
-import remarkRehype from 'remark-rehype'
-import remarkHeadingId from 'remark-heading-id'
+import castArray from 'lodash/castArray';
+import React, { ReactElement } from 'react'
+import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import rehypeStringify from 'rehype-stringify'
-import rehypeHighlight from 'rehype-highlight'
+import { remark } from 'remark';
+import remarkGfm from 'remark-gfm'
+import remarkHeadingId from 'remark-heading-id'
+import remarkParse from 'remark-parse'
+import remarkRehype from 'remark-rehype'
+import stripMarkdown from 'strip-markdown';
+import { unified } from 'unified'
 
-export async function markdownToHtml(markdown: string): Promise<string> {
+export async function markdownToHtml(markdown: string | undefined | null, fragment: string = ''): Promise<string> {
+  if (markdown === null || markdown === undefined) {
+    return '';
+  }
   const result = await unified()
     .use(remarkHeadingId, { defaults: true })
     .use(remarkParse)
@@ -20,6 +25,16 @@ export async function markdownToHtml(markdown: string): Promise<string> {
     .use(rehypeHighlight)
     .use(rehypeStringify)
     .process(markdown)
+  return result.value as string;
+}
+
+export async function markdownToText(markdown: string | undefined | null): Promise<string> {
+  if (markdown === null || markdown === undefined) {
+    return '';
+  }
+  const result = await remark()
+    .use(stripMarkdown)
+    .process(markdown);
   return result.value as string;
 }
 

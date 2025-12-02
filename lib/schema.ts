@@ -4,7 +4,7 @@
 
 import { BASE_URL, LICENSE_URL, CLAIM, EMAIL, SITE } from './constants';
 import { Entity } from './ftm';
-import { IDataset, IResource, isExternal, IDatasetPublisher } from './types';
+import { IDataset, IResource, isExternal, IDatasetPublisher, isSource } from './types';
 
 
 export function getSchemaOpenSanctionsOrganization() {

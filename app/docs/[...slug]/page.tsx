@@ -1,7 +1,9 @@
+import { notFound } from 'next/navigation';
+
+
 import Content from '@/components/Content'
 import LayoutFrame from '@/components/layout/LayoutFrame'
-import { getPageMetadata, getPageByPath } from '@/lib/pages';
-import { notFound } from 'next/navigation';
+import { getPageByPath, getPathMetadata } from '@/lib/pages';
 
 
 interface ContentPageProps {
@@ -15,8 +17,7 @@ function makePath(params: string[]): string {
 
 export async function generateMetadata(props: ContentPageProps) {
   const params = await props.params;
-  const page = await getPageByPath(makePath(params.slug));
-  return getPageMetadata(page);
+  return await getPathMetadata(params.slug ? makePath(params.slug) : '/docs/');
 }
 
 
@@ -32,13 +33,3 @@ export default async function Page(props: ContentPageProps) {
     </LayoutFrame>
   )
 }
-
-// export async function generateStaticParams() {
-//   const pages = await getSitemapPages()
-//   const slugs = pages
-//     .filter((p) => p.path.startsWith('/docs/'))
-//     .map((c) => ({ slug: c.path.split('/').slice(2).filter(s => s.length > 0) }))
-//     .filter((s) => s.slug.length > 0)
-//   // console.log("SLUGS", slugs)
-//   return slugs;
-// }

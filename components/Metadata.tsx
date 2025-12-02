@@ -1,5 +1,7 @@
-import { IDatasetCoverage } from "@/lib/types"
+import { IDatasetCoverage } from "../lib/types"
+
 import { Badge } from "./wrapped";
+
 
 
 type FrequencyBadgeProps = {

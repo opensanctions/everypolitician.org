@@ -1,15 +1,20 @@
 import Link from 'next/link';
 
 import { IDatasetStatistics } from '@/lib/datasets';
-import { ICollection, IDataset, isCollection, isExternal, isSource } from '@/lib/types';
-import { cronText, markdownToHtml, wordList } from '@/lib/util';
+
+import { ICollection, IDataset, isCollection, isExternal, isSource } from '../lib/types';
+import { cronText, wordList } from '../lib/util';
+
+
+import { HelpLink } from './clientUtil';
 import DatasetCountryListing from './DatasetCountryListing';
 import { FrequencyBadge } from './Metadata';
 import Territory from './Territory';
-import { FormattedDate, HelpLink, Markdown, Numeric, Plural, SpacedList, Spacer, UnofficialBadge, URLLink } from './util';
+import { FormattedDate, Markdown, Numeric, Plural, SpacedList, Spacer, UnofficialBadge, URLLink } from './util';
 import { Badge, Table } from "./wrapped";
 
 import styles from '@/styles/Dataset.module.scss';
+
 
 
 type DatasetScreenProps = {
@@ -20,7 +25,6 @@ type DatasetScreenProps = {
 }
 
 export default async function DatasetMetadataTable({ dataset, statistics, collections, canSearch }: DatasetScreenProps) {
-  const publisherDescription = await markdownToHtml(dataset.publisher?.description || '')
   return (
     <Table responsive="md">
       <tbody>
@@ -128,7 +132,7 @@ export default async function DatasetMetadataTable({ dataset, statistics, collec
               {!dataset.publisher.official && (
                 <>{' '} <UnofficialBadge /></>
               )}
-              <Markdown className={styles.publisherDescription} markdown={publisherDescription} />
+              <Markdown className={styles.publisherDescription} markdown={dataset.publisher.description} />
             </td>
           </tr>
         )}

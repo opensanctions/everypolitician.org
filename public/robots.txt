@@ -1,4 +1,11 @@
-Sitemap: https://www.everypolitician.org/sitemap.xml
+Sitemap: https://www.opensanctions.org/sitemap.xml
+
+User-agent: Googlebot
+User-agent: Bingbot
+Allow: /
+Disallow: /impressum/
+Disallow: /account/
+Disallow: /admin/
 
 User-agent: SemrushBot
 User-agent: SiteAuditBot
@@ -55,8 +62,6 @@ User-agent: Automated Writer
 User-agent: AwarioRssBot
 User-agent: AwarioSmartBot
 User-agent: BardBot
-User-agent: BingAI
-User-agent: Bingbot-chat
 User-agent: Brave Leo
 User-agent: ByteDance
 User-agent: Bytespider
@@ -122,10 +127,6 @@ User-agent: LLaMA
 User-agent: magpie-crawler
 User-agent: MarketMuse
 User-agent: Meltwater
-User-agent: Meta AI
-User-agent: Meta-AI
-User-agent: Meta-External
-User-agent: MetaAI
 User-agent: MetaTagBot
 User-agent: Narrative
 User-agent: NeevaBot
@@ -140,7 +141,6 @@ User-agent: Page Analyzer AI
 User-agent: PanguBot
 User-agent: Paperlibot
 User-agent: Paraphraser.io
-User-agent: PerplexityBot
 User-agent: PetalBot
 User-agent: Phindbot
 User-agent: PiplBot
@@ -199,7 +199,6 @@ User-agent: facebookcatalog
 User-agent: meta-externalagent
 User-agent: FacebookBot
 User-agent: FacebookExternalHit
-User-agent: BingBot
 User-agent: Open AI
 User-agent: OpenAI
 User-agent: GPT
@@ -208,19 +207,27 @@ User-agent: Anthropic
 User-agent: Claude
 User-agent: Common Crawl
 User-agent: CommonCrawl
+User-agent: Meta AI
+User-agent: Meta-AI
+User-agent: Meta-External
+User-agent: MetaAI
 User-agent: Copilot
 User-agent: DeepL
+User-agent: BingAI
+User-agent: Bingbot-chat
 User-agent: Mistral
 User-agent: Google Bard AI
 User-agent: Google-CloudVertexBot
 User-agent: Google-Extended
 User-agent: GoogleOther
 User-agent: Gemini
-Crawl-delay: 2
+User-agent: PerplexityBot
+Disallow: /advancedsearch/
 Disallow: /impressum/
+Disallow: /account/
+Disallow: /admin/
 
 User-agent: *
 Disallow: /impressum/
 Disallow: /account/
 Disallow: /admin/
-Disallow: /entities/Q1045488/

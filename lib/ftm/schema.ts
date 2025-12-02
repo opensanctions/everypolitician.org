@@ -1,5 +1,5 @@
-import { IPropertyDatum, Property } from './property'
 import { Model } from './model'
+import { IPropertyDatum, Property } from './property'
 
 interface IEdgeSpecification {
   source: string

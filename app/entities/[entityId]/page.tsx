@@ -2,24 +2,25 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
+import { HelpLink } from '@/components/clientUtil';
 import Dataset from '@/components/Dataset';
 import { EntityFactsheet, EntitySchemaTable, EntityTopics } from '@/components/Entity';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { LicenseInfo } from '@/components/Policy';
+import { BlockedEntity, LicenseInfo } from '@/components/Policy';
 import Research from '@/components/Research';
-import { HelpLink, SectionSpinner, SpacedList, Sticky } from '@/components/util';
+import { SectionSpinner, SpacedList, Sticky } from '@/components/util';
 import StructuredData from '@/components/utils/StructuredData';
 import { Col, Container, Nav, NavLink, Row } from '@/components/wrapped';
-import { getAdjacent, getDatasets, getEntity, getEntityDatasets } from '@/lib/data';
+import { getAdjacent, getDatasets, getEntity, getEntityDatasets, isBlocked } from '@/lib/data';
 import { Entity } from '@/lib/ftm';
+import { compareDisplayProps } from '@/lib/ftm/ordering';
 import { getSchemaEntityPage } from '@/lib/schema';
 import { isExternal, isSource } from '@/lib/types';
+
 import { EntityPageProps, generateEntityMetadata } from '../common';
 
 import styles from '@/styles/Entity.module.scss';
-import { compareDisplayProps } from '@/lib/ftm/ordering';
 
-// export const revalidate = REVALIDATE_BASE;
 export const maxDuration = 25; // seconds
 
 export async function generateMetadata(props: EntityPageProps) {
@@ -65,6 +66,9 @@ export default async function EntityPage(props: EntityPageProps) {
   if (entity.id !== params.entityId) {
     redirect(`/entities/${entity.id}/`);
   }
+  if (isBlocked(entity)) {
+    return <BlockedEntity entity={entity} />
+  }
   const datasets = await getEntityDatasets(entity);
   const structured = getSchemaEntityPage(entity, datasets);
   const entityProperties = getEntityProperties(entity);
@@ -77,18 +81,19 @@ export default async function EntityPage(props: EntityPageProps) {
       <Research.Context hidePrint>
         <Container>
           <Row>
-            <Col md={3}></Col>
             <Col md={9}>
               <h1>
                 {entity.caption}
               </h1>
-              <a id="factsheet"></a>
-              <EntityTopics entity={entity} />
             </Col>
+            <Col md={3}></Col>
           </Row>
           <Row>
-            <Col md={9} className="order-2">
+            <Col md={9} className="order-1">
+              <a id="factsheet"></a>
+              <EntityTopics entity={entity} />
               <EntityFactsheet entity={entity} />
+
               <h2><a id="links"></a>Relationships</h2>
               <Suspense fallback={<SectionSpinner />}>
                 <RelationshipsSection entityId={entity.id} />
@@ -122,13 +127,12 @@ export default async function EntityPage(props: EntityPageProps) {
                     Source data IDs<HelpLink href="/docs/identifiers/" />: <SpacedList values={entity.referents.map((r) => <code key={r}>{r}</code>)} />
                   </>
                 )}
-                <p>For experts: <a rel="nofollow" href={`/statements/?canonical_id=${entity.id}`}>raw data
-                  explorer</a></p>
+                <p>For experts: <a rel="nofollow" href={`/statements/${entity.id}/`}>raw data explorer</a></p>
               </div>
             </Col>
-            <Col md={3} className="order-1">
+            <Col md={3} className="order-2">
               <Sticky>
-                <Nav className="flex-column d-print-none">
+                <Nav className="flex-column d-print-none d-none d-md-flex">
                   <NavLink href="#factsheet">Factsheet</NavLink>
                   {entityProperties.length > 0 && <NavLink href="#links">Relationships</NavLink>}
                   <NavLink href="#sources">Data sources</NavLink>

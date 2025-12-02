@@ -1,6 +1,6 @@
-import { Schema } from './schema'
 import { Model } from './model'
 import { Property } from './property'
+import { Schema } from './schema'
 import { PropertyType } from './type'
 
 export type Value = string | Entity

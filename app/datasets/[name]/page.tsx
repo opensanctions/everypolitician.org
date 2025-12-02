@@ -2,20 +2,20 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Download, Search, Github } from 'react-bootstrap-icons';
 
-import { getDatasetStatistics } from '@/lib/datasets';
+
 import Dataset from '@/components/Dataset';
 import DatasetMetadataTable from '@/components/DatasetMetadataTable';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { LicenseInfo } from '@/components/Policy';
-import { FileSize, FormattedDate, JSONLink, Markdown, NumericBadge, SpacedList, Spacer, Sticky, Summary } from '@/components/util';
+import { BodyText, FileSize, FormattedDate, JSONLink, NumericBadge, SpacedList, Spacer, Sticky, Summary } from '@/components/util';
 import StructuredData from '@/components/utils/StructuredData';
 import { Alert, AlertHeading, Badge, Button, Col, Container, Form, FormControl, InputGroup, Nav, NavLink, Row, Table } from '@/components/wrapped';
-import { API_URL, BASE_URL } from '@/lib/constants';
-import { canSearchDataset, getDatasetByName, getDatasetCollections, getDatasetFileUrl, getDatasetsByScope, getRecentEntities } from '@/lib/data';
+import { API_URL, BASE_URL, KYB_DATASET } from '@/lib/constants';
+import { canSearchDataset, getDatasetByName, getDatasetCollections, getDatasetLatestPublishedFileUrl, getDatasetsByScope, isInCollection } from '@/lib/data';
+import { getDatasetStatistics } from '@/lib/datasets';
 import { getGenerateMetadata } from '@/lib/meta';
 import { getSchemaDataset } from '@/lib/schema';
 import { IDataset, isCollection, isExternal, isSource } from '@/lib/types';
-import { markdownToHtml } from '@/lib/util';
 
 import styles from '@/styles/Dataset.module.scss';
 
@@ -39,28 +39,22 @@ export async function generateMetadata(props: DatasetPageProps) {
   })
 }
 
-// export async function generateStaticParams() {
-//   const datasets = await getDatasets();
-//   const collections = datasets.filter((d) => isCollection(d) && !d.hidden);
-//   return collections.map((d) => ({ name: d.name }))
-// }
-
 export default async function Page(props: DatasetPageProps) {
   const params = await props.params;
+
   const dataset = await getDatasetByName(params.name);
   if (dataset === undefined) {
     notFound()
   }
-  const statistics = await getDatasetStatistics(dataset);
+  // Get the latest published version of the dataset, i.e. the latest successful run.
+  // We use this to display the resources of the last successful run.
+  const datasetLatestPublished = await getDatasetByName(params.name);
+  const statistics = await getDatasetStatistics(datasetLatestPublished ?? dataset);
   const allCollections = await getDatasetCollections(dataset);
   const collections = allCollections.filter((c) => !c.hidden);
   const canSearch = await canSearchDataset(dataset);
   const childDatasets = isCollection(dataset) ? await getDatasetsByScope(dataset.name) : [];
   const datasets = childDatasets.filter((ds) => !!ds && !ds.hidden && !isCollection(ds)) as IDataset[];
-
-  const recents = !isSource(dataset) ? [] :
-    await getRecentEntities(dataset);
-  const markdown = await markdownToHtml(dataset.description || '');
 
   const fullDataset = dataset.full_dataset ? await getDatasetByName(dataset.full_dataset) : undefined;
 
@@ -68,24 +62,18 @@ export default async function Page(props: DatasetPageProps) {
     <LayoutFrame activeSection="datasets">
       <StructuredData data={getSchemaDataset(dataset)} />
       <Container className={styles.datasetPage}>
-        <div className="d-flex justify-content-end gap-2">
-          <JSONLink href={getDatasetFileUrl(dataset.name, 'index.json')} />
-
-          {/* Button to view the dataset source on GitHub.
-              Link to the search page because a dataset doesn't know its own source directory. */}
-          <Button
-            variant="outline-dark"
-            size="sm"
-            href={`https://github.com/search?q=repo%3Aopensanctions%2Fopensanctions+path%3A**%2F${dataset.name}.yml&type=code`}
-          >
-            <Github className="bsIcon" />
-            {' '}GitHub
-          </Button>
-
-        </div>
-        <h1>
-          <Dataset.Icon dataset={dataset} size="30px" /> {dataset.title}
-        </h1>
+        <Row>
+          <Col md="9">
+            <h1>
+              <Dataset.Icon dataset={dataset} size="30px" /> {dataset.title}
+            </h1>
+          </Col>
+          <Col md="3" className="d-none d-md-flex align-items-center justify-content-end">
+            <div>
+              <JSONLink href={getDatasetLatestPublishedFileUrl(dataset.name, 'index.json')} />
+            </div>
+          </Col>
+        </Row>
         <Row>
           <Col md={9}>
             <Summary summary={dataset.summary} />
@@ -99,7 +87,7 @@ export default async function Page(props: DatasetPageProps) {
                 </div>
               </div>
             )}
-            <Markdown markdown={markdown} />
+            <BodyText body={dataset.description} />
             {isExternal(dataset) && (
               <Alert variant="secondary">
                 <AlertHeading>Enrichment-based dataset</AlertHeading>
@@ -153,7 +141,7 @@ export default async function Page(props: DatasetPageProps) {
               />
             </section>
 
-            {dataset.resources && dataset.resources.length > 0 && !isExternal(dataset) && (
+            {datasetLatestPublished && datasetLatestPublished.resources && datasetLatestPublished.resources.length > 0 && !isExternal(dataset) && (
               <section>
                 <h3>
                   <a id="download"></a>
@@ -174,7 +162,7 @@ export default async function Page(props: DatasetPageProps) {
                     </tr>
                   </thead>
                   <tbody>
-                    {dataset.resources.map((resource) =>
+                    {datasetLatestPublished.resources.map((resource) =>
                       <tr key={resource.name}>
                         <td className="numeric narrow">
                           <a className="btn btn-dark btn-sm" rel="nofollow" download href={resource.url}>
@@ -268,51 +256,24 @@ export default async function Page(props: DatasetPageProps) {
                 <Dataset.Table datasets={datasets} />
               </section>
             )}
-            {recents !== null && recents !== undefined && !!recents?.length && (
+
+            {!isCollection(dataset) && (
               <section>
-                <h3>
-                  <a id="recents"></a>
-                  Recent additions
-                </h3>
-                <p>
-                  The following targeted entities have been added to this data source most recently:
-                </p>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th>Added</th>
-                      <th>Name</th>
-                      <th>Type</th>
-                      <th>Countries</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {recents.map((r) =>
-                      <tr key={r.id}>
-                        <td>
-                          <FormattedDate date={r.first_seen} />
-                        </td>
-                        <td>
-                          <strong>
-                            <Link prefetch={false} href={`/entities/${r.id}`}>{r.caption}</Link>
-                          </strong>
-                        </td>
-                        <td>
-                          <Badge bg="light">{r.schema}</Badge>
-                        </td>
-                        <td>
-                          <SpacedList values={r.countries} />
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </Table>
-              </section>
+                {/* Button to view the dataset source on GitHub.
+                    Link to the search page because a dataset doesn't know its own source directory. */}
+                <Button
+                  variant="outline-dark"
+                size="sm"
+                href={`https://github.com/search?q=repo%3Aopensanctions%2Fopensanctions+path%3A**%2F${dataset.name}.yml&type=code`}
+              >
+                <Github className="bsIcon" />{' '}Code on GitHub
+              </Button>
+            </section>
             )}
           </Col>
           <Col sm={3}>
             <Sticky>
-              <Nav className="flex-column d-print-none">
+              <Nav className="flex-column d-print-none d-none d-md-flex">
                 {!isExternal(dataset) && (
                   <>
                     <NavLink href="#overview">Overview</NavLink>
@@ -322,9 +283,6 @@ export default async function Page(props: DatasetPageProps) {
                 )}
                 {!!datasets?.length && (
                   <NavLink href="#sources">Data sources</NavLink>
-                )}
-                {!!recents?.length && (
-                  <NavLink href="#recents">Recent additions</NavLink>
                 )}
               </Nav>
               <LicenseInfo />

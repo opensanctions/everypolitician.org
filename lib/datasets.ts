@@ -1,3 +1,4 @@
+import { OSA_URL } from "./constants";
 import { fetchStatic, getDatasets } from "./data";
 import { ITerritoryInfo } from "./territory";
 import { ICollection, IDataset, IExternal, isCollection, ISource } from "./types";
@@ -38,7 +39,7 @@ export function parseDataset(data: any, territories: Map<string, ITerritoryInfo>
   const thingCount = (data.thing_count || 0) + (data.things?.total || 0);
   const dataset = {
     ...keep,
-    link: `/datasets/${data.name}/`,
+    link: `${OSA_URL}/datasets/${data.name}/`,
     issue_count: data.issue_count || 0,
     issue_levels: data.issue_levels || {},
     thing_count: thingCount,

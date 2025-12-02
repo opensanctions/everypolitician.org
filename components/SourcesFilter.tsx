@@ -1,13 +1,15 @@
 'use client';
 
-import Link from "next/link";
 import classNames from 'classnames';
-import queryString from "query-string";
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
+import queryString from "query-string";
 
 import { Row, Col, FormCheck, FormSelect, FormGroup, FormText } from './wrapped';
 
 import styles from '@/styles/Dataset.module.scss';
+
+
 
 export type SourceFilterScope = {
   name: string;
@@ -17,15 +19,17 @@ export type SourceFilterScope = {
 type SourceFilterProps = {
   scopes: Array<SourceFilterScope>;
   scopeName: string;
+  showPrograms: boolean;
   showLatest: boolean;
 };
 
-export function SourcesFilter({ scopes, scopeName, showLatest }: SourceFilterProps) {
+export function SourcesFilter({ scopes, scopeName, showPrograms, showLatest }: SourceFilterProps) {
   const router = useRouter();
 
-  const pushQuery = (scope: string, showLatest: boolean) => {
+  const pushQuery = (scope: string, showPrograms: boolean, showLatest: boolean) => {
     const query = queryString.stringify({
       scope,
+      programs: showPrograms + '',
       latest: showLatest + '',
     })
     router.push(`?${query}`);
@@ -38,7 +42,7 @@ export function SourcesFilter({ scopes, scopeName, showLatest }: SourceFilterPro
           <FormSelect
             aria-label="Filter data sources by collection"
             value={scopeName}
-            onChange={(e) => pushQuery(e.target.value, showLatest)}
+            onChange={(e) => pushQuery(e.target.value, showPrograms, showLatest)}
           >
             {scopes.map((s) => (
               <option key={s.name} value={s.name}>
@@ -54,8 +58,14 @@ export function SourcesFilter({ scopes, scopeName, showLatest }: SourceFilterPro
       <Col md="3">
         <FormCheck
           type="switch"
+          checked={showPrograms}
+          onChange={(e) => pushQuery(scopeName, e.target.checked, showLatest)}
+          label="Expand programs per source"
+        />
+        <FormCheck
+          type="switch"
           checked={showLatest}
-          onChange={(e) => pushQuery(scopeName, e.target.checked)}
+          onChange={(e) => pushQuery(scopeName, showPrograms, e.target.checked)}
           label="Show recent additions first"
         />
       </Col>

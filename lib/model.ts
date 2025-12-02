@@ -1,7 +1,8 @@
+import modelJson from '../data/model.json';
+
 import { Model } from "./ftm";
 import { IModelSpec } from "./types";
 
-import modelJson from '../data/model.json';
 
 
 const index = modelJson as any as IModelSpec;

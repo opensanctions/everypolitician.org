@@ -24,8 +24,8 @@
 }
 
 .resultTitle {
-    font-size: 1.1em;
-    font-weight: 600;
+    font-size: $list-heading-font-size;
+    font-weight: $heading-weight;
 
     a {
         color: $theme-blue-logo;
@@ -56,10 +56,13 @@
     }
 
     :global(.card-header) {
-        font-weight: bold;
-        color: $blue-600;
+        font-weight: $heading-weight;
+        // color: $inverse-color;
+        color: $blue-800;
         background-color: $blue-200;
-        border-radius: 0 !important;
+        // @include bg-gradient;
+        // background-color: $blue-200;
+        // border-radius: 0 !important;
         border-bottom: 0;
     }
 

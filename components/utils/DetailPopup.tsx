@@ -1,7 +1,7 @@
 'use client';
 
-import Modal from 'react-bootstrap/Modal';
 import { MouseEvent, ReactNode, useState } from "react";
+import Modal from 'react-bootstrap/Modal';
 import { ArrowUpRightCircleFill } from 'react-bootstrap-icons';
 
 type DetailPopupProps = {
