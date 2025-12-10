@@ -7,16 +7,14 @@ import Dataset from "@/components/Dataset";
 import Flag from "@/components/Flag";
 import LayoutFrame from "@/components/layout/LayoutFrame";
 import { PEPSectionDefinition, PEPSubsection } from "@/components/PEPSection";
-import { SearchFacet } from "@/components/SearchFacet";
-import { Numeric, Plural, SpacedList, Sticky } from "@/components/util";
+import { Plural, SpacedList, Sticky } from "@/components/util";
 import { Col, Container, Nav, NavItem, NavLink, Row } from "@/components/wrapped";
 import { BASE_URL, MAIN_DATASET } from "@/lib/constants";
-import { fetchApiCached, getDatasetByName, getDatasets } from "@/lib/data";
-import { getDatasetStatistics, IDatasetStatistics } from "@/lib/datasets";
+import { fetchApiCached, getDatasets } from "@/lib/data";
 import { getGenerateMetadata } from "@/lib/meta";
 import { getCountryPEPData, IPositionSummary } from "@/lib/peps";
 import { getTerritoriesByCode, getTerritoryInfo } from "@/lib/territory";
-import { IDataset, IDictionary, ISearchAPIResponse, ISearchFacet } from "@/lib/types";
+import { IDataset, ISearchAPIResponse } from "@/lib/types";
 
 import type { JSX } from "react";
 
@@ -223,35 +221,6 @@ function makePEPSections(countryCode: string, positions: IPositionSummary[]): [[
   return [navItems, sections];
 }
 
-type EntitiesSectionProps = {
-  countryCode: string
-  countryLabel: string
-  facets: IDictionary<ISearchFacet>
-  statistics: IDatasetStatistics
-}
-
-function EntitiesSection({ countryCode, countryLabel, facets, statistics }: EntitiesSectionProps) {
-  const countryThings = statistics.things.countries.filter((c) => c.code == countryCode)[0];
-  return (<>
-    <Row className="mt-4">
-      <h2 id="entities">Entities</h2>
-      <p>
-        Our <a href="https://opensanctions.org/datasets/default/">standard dataset</a> contains <Numeric value={countryThings?.count} /> entities
-        connected with {countryLabel}.
-        This may include sanctioned entities, politically-exposed persons (PEPs), and their close associates,
-        or entities involved in criminal activity.
-      </p>
-    </Row>
-    <Row>
-      <Col md={6} className="mt-4">
-        <SearchFacet field="topics" facet={facets.topics} searchParams={{ "countries": countryCode }} limit={8} />
-      </Col>
-      <Col md={6} className="mt-4">
-        <SearchFacet field="schema" facet={facets.schema} searchParams={{ "countries": countryCode }} limit={8} />
-      </Col>
-    </Row>
-  </>);
-}
 
 type DatasetsSectionProps = {
   countryCode: string
@@ -298,8 +267,7 @@ function PEPsSection({ countryCode, countryLabel, pepCount, sections }: PEPsSect
         connected with
         {' '}{countryLabel}.
       </p>
-    </Row>
-    <Row>
+
       {...sections}
 
       <h4 id="explainer" className="mt-4">What do these numbers mean?</h4>
@@ -345,10 +313,6 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
   };
   const searchResponse = await fetchApiCached<ISearchAPIResponse>(`/search/${MAIN_DATASET}`, searchParams);
 
-  // Data for EntitiesSection
-  const scope = await getDatasetByName(MAIN_DATASET);
-  const statistics = scope ? await getDatasetStatistics(scope) : null;
-
   // Data for DatasetsSection
   const allDatasets = await getDatasets();
   const countryDatasets = allDatasets
@@ -391,26 +355,16 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
       <Container>
         <Row>
           <Col md={9} >
-            {statistics && (
-              <EntitiesSection
-                countryCode={countryCode}
-                countryLabel={info.in_sentence}
-                facets={searchResponse.facets}
-                statistics={statistics}
-              />
-            )}
+            <PEPsSection countryCode={countryCode} countryLabel={info.in_sentence} pepCount={pepCount} sections={pepSections} />
             <DatasetsSection
               countryCode={countryCode}
               countryLabel={info.in_sentence}
               datasets={countryDatasets}
             />
-            <PEPsSection countryCode={countryCode} countryLabel={info.in_sentence} pepCount={pepCount} sections={pepSections} />
           </Col>
           <Col md={3} className={classnames(styles.nav, "d-none", "d-md-block")}>
             <Sticky>
               <Nav className="flex-column d-print-none" variant="pills">
-                <NavLink href="#entities">Entities</NavLink>
-                <NavLink href="#sources">Data sources</NavLink>
                 <NavItem>
                   <NavLink href="#peps">PEPs</NavLink>
 
@@ -421,6 +375,7 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
                   )}
 
                 </NavItem>
+                <NavLink href="#sources">Data sources</NavLink>
               </Nav>
             </Sticky>
           </Col>

@@ -27,12 +27,6 @@ const monaSpace = localFont({
   variable: '--font-monaspace',
   weight: '200 800', // Monaspace weight range
   adjustFontFallback: false,
-  declarations: [
-    {
-      prop: 'font-variation-settings',
-      value: '"wdth" 75, "slnt" 0', // Default axes
-    },
-  ],
 });
 
 
