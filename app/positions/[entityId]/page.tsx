@@ -9,7 +9,7 @@ import { FormattedDate, SpacedList, Sticky } from '@/components/util';
 import StructuredData from '@/components/utils/StructuredData';
 import { Col, Container, Nav, NavLink, Row, Table } from '@/components/wrapped';
 import { BASE_URL } from '@/lib/constants';
-import { getAdjacent, getDatasets, getEntity, getEntityDatasets, isBlocked, isIndexRelevant } from '@/lib/data';
+import { getAdjacent, getEntity, getEntityDatasets, isBlocked, isIndexRelevant } from '@/lib/data';
 import { Entity } from '@/lib/ftm';
 import { getGenerateMetadata } from '@/lib/meta';
 import { getSchemaEntityPage } from '@/lib/schema';
@@ -122,7 +122,6 @@ export default async function PositionPage({ params }: PositionPageProps) {
   }
 
   const datasets = await getEntityDatasets(position);
-  const allDatasets = await getDatasets();
   const propsResults = await getAdjacent(position.id);
 
   const structured = getSchemaEntityPage(position, datasets);

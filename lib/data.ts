@@ -2,12 +2,11 @@ import 'server-only';
 import intersection from 'lodash/intersection';
 import queryString from 'query-string';
 
-import { API_TOKEN, API_URL, BLOCKED_ENTITIES, MAIN_DATASET, REVALIDATE_BASE } from "./constants";
-import { parseDataset } from "./datasets";
+import { API_TOKEN, API_URL, BLOCKED_ENTITIES, MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from "./constants";
 import { Entity, IEntityDatum, Model, Property } from "./ftm";
 import { getModel } from './model';
 import { getTerritoriesByCode } from './territory';
-import { ICatalog, ICatalogEntry, ICollection, IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, isCollection, isDataset } from "./types";
+import { IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, isCollection } from "./types";
 
 
 export async function fetchStatic<T>(url: string, revalidate: number = REVALIDATE_BASE): Promise<T | null> {
@@ -62,96 +61,88 @@ export async function fetchApiCached<T>(path: string, query: any = undefined, ac
 
 
 
-export function getDatasetLatestPublishedFileUrl(name: string, file_name: string): string {
-  return `https://data.opensanctions.org/datasets/latest/${name}/${file_name}`;
+interface ICatalogDataset {
+  name: string
+  type: string
+  title: string
+  url?: string
+  summary: string
+  hidden: boolean
+  last_change?: string
+  last_export?: string
+  thing_count?: number
+  datasets?: string[]
+  resources?: Array<{ url: string; timestamp: string; mime_type: string; title: string }>
+  coverage?: { start?: string; frequency?: string }
+  publisher?: {
+    url?: string
+    name: string
+    acronym?: string
+    description?: string
+    official: boolean
+    country?: string
+    country_label?: string
+  }
+}
+
+interface ICatalog {
+  datasets: ICatalogDataset[]
+}
+
+function getCatalogUrl(scope: string): string {
+  return `https://data.opensanctions.org/datasets/latest/${scope}/catalog.json`;
+}
+
+async function parseCatalog(scope: string): Promise<IDataset[]> {
+  const catalogUrl = getCatalogUrl(scope);
+  const catalog = await fetchStatic<ICatalog>(catalogUrl);
+  if (catalog === null) {
+    throw Error("Catalog not found: " + scope);
+  }
+  const territories = await getTerritoriesByCode();
+
+  return catalog.datasets.map((d): IDataset => {
+    const dataset: IDataset = {
+      name: d.name,
+      type: d.type,
+      title: d.title,
+      link: `${OSA_URL}/datasets/${d.name}/`,
+      url: d.url,
+      summary: d.summary,
+      hidden: d.hidden ?? false,
+      last_change: d.last_change,
+      last_export: d.last_export,
+      thing_count: d.thing_count,
+      datasets: d.datasets,
+      resources: d.resources,
+      coverage: d.coverage,
+      publisher: d.publisher ? {
+        ...d.publisher,
+        territory: d.publisher.country ? territories.get(d.publisher.country) : undefined
+      } : undefined,
+    };
+    return dataset;
+  }).sort((a, b) => a.title.localeCompare(b.title));
+}
+
+export async function getDatasets(): Promise<IDataset[]> {
+  return parseCatalog(MAIN_DATASET);
+}
+
+export async function getDatasetsByScope(scope: string): Promise<IDataset[]> {
+  return parseCatalog(scope);
 }
 
 export async function getDatasetByName(name: string): Promise<IDataset | undefined> {
-  const datasetUrl = getDatasetLatestPublishedFileUrl(name, 'index.json');
-  const data = await fetchStatic<IDataset>(datasetUrl);
-  if (data === null) {
-    return undefined;
-  }
-  const territories = await getTerritoriesByCode();
-  return parseDataset(data, territories);
-}
-
-
-function sortDatasetsByTitle(datasets: Array<IDataset | undefined>): Array<IDataset> {
-  return datasets.filter(isDataset)
-    .sort((a, b) => a.title.localeCompare(b.title));
-}
-
-
-export async function getDatasetsByScope(scope: string): Promise<Array<IDataset>> {
-    const collection = await getDatasetByName(scope);
-    if (collection === undefined || !isCollection(collection)) {
-        throw Error("Dataset not found (or not a collection): " + scope);
-    }
-    const territories = await getTerritoriesByCode();
-    const datasetDatas = new Array<IDataset>();
-    for (let datasetName of collection.datasets) {
-        const datasetData = await fetchStatic<IDataset>(getDatasetLatestPublishedFileUrl(datasetName, 'index.json'));
-        if (datasetData !== null) {
-            datasetDatas.push(datasetData);
-        }
-    }
-    const datasets = datasetDatas.map((d) => parseDataset(d, territories));
-    datasets.push(collection);
-    return sortDatasetsByTitle(datasets);
-}
-
-
-export async function getCatalogEntriesByScope(scope: string): Promise<Array<ICatalogEntry>> {
-    const catalogUrl = getDatasetLatestPublishedFileUrl(scope, 'catalog.json');
-    const catalog = await fetchStatic<ICatalog>(catalogUrl);
-    if (catalog === null) {
-        throw Error("Catalog not found: " + scope);
-    }
-    const datasets: Array<ICatalogEntry> = catalog?.datasets
-        .map((d) => { return { name: d.name, title: d.title, type: d.type } as ICatalogEntry })
-        .sort((a, b) => a.title.localeCompare(b.title));
-    return datasets;
-}
-
-
-export async function getDatasets(): Promise<Array<IDataset>> {
-  return await getDatasetsByScope(MAIN_DATASET);
-}
-
-export async function isInCollection(collection: string, source: string): Promise<boolean> {
-  if (collection === source) {
-    return false;
-  }
-  const coll = await getDatasetByName(collection);
-  if (coll === undefined || !isCollection(coll)) {
-    return false;
-  }
-  return coll.datasets.includes(source);
-}
-
-export async function getDatasetsByNames(names: string[]): Promise<Array<IDataset>> {
-  const datasets = await Promise.all(names.map((name) => getDatasetByName(name)));
-  // return datasets.filter((dataset) => dataset != undefined) as IDataset[];
-  //datasetsNamed = names.map((name) => datasets.find((d) => d?.name === name))
-  return sortDatasetsByTitle(datasets);
-}
-
-export async function getDatasetCollections(dataset: IDataset): Promise<Array<ICollection>> {
   const datasets = await getDatasets();
-  return datasets
-    .filter(isCollection)
-    .filter((c) => c.datasets.indexOf(dataset.name) !== -1)
+  return datasets.find((d) => d.name === name);
 }
 
-export async function canSearchDataset(dataset: IDataset): Promise<boolean> {
-  const scope = await getDatasetByName(MAIN_DATASET);
-  if (scope === undefined || !isCollection(scope)) {
-    return false;
-  }
-  const range = isCollection(dataset) ? dataset.datasets : [dataset.name];
-  const intersection = range.filter(x => scope.datasets.includes(x));
-  return intersection.length == range.length;
+export async function getDatasetsByNames(names: string[]): Promise<IDataset[]> {
+  const datasets = await getDatasets();
+  return names
+    .map((name) => datasets.find((d) => d.name === name))
+    .filter((d): d is IDataset => d !== undefined);
 }
 
 async function getEntityData(entityId: any): Promise<IEntityDatum | null> {

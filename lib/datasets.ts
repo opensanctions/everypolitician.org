@@ -1,10 +1,8 @@
-import { OSA_URL } from "./constants";
-import { fetchStatic, getDatasets } from "./data";
-import { ITerritoryInfo } from "./territory";
-import { ICollection, IDataset, IExternal, isCollection, ISource } from "./types";
+import { fetchStatic } from "./data";
+import { IDataset } from "./types";
 
 
-interface IAggregatedCountry {
+export interface IAggregatedCountry {
   code: string
   count: number
   label: string
@@ -30,35 +28,9 @@ export interface IDatasetStatistics {
   schemata: string[]
 }
 
-export function parseDataset(data: any, territories: Map<string, ITerritoryInfo>): IDataset {
-  const {
-    sources,
-    externals,
-    ...keep
-  } = data;
-  const thingCount = (data.thing_count || 0) + (data.things?.total || 0);
-  const dataset = {
-    ...keep,
-    link: `${OSA_URL}/datasets/${data.name}/`,
-    issue_count: data.issue_count || 0,
-    issue_levels: data.issue_levels || {},
-    thing_count: thingCount,
-  };
-  if (dataset.publisher?.country && territories.has(dataset.publisher.country)) {
-    dataset.publisher.territory = territories.get(dataset.publisher.country);
-  }
-  if (dataset.type === 'collection') {
-    return dataset as ICollection;
-  }
-  if (dataset.type === 'external') {
-    return dataset as IExternal;
-  }
-  return dataset as ISource;
-}
-
 export async function getDatasetStatistics(dataset: IDataset): Promise<IDatasetStatistics> {
   const empty = { things: { total: 0, countries: [], schemata: [] }, targets: { total: 0, countries: [], schemata: [] }, properties: [], schemata: [] };
-  const url = dataset.statistics_url || `https://data.opensanctions.org/datasets/latest/${dataset.name}/statistics.json`;
+  const url = `https://data.opensanctions.org/datasets/latest/${dataset.name}/statistics.json`;
   const statistics = await fetchStatic<IDatasetStatistics>(url);
   if (statistics === null) {
     console.error("Could not load dataset statistics: " + dataset.name);

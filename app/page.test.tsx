@@ -3,25 +3,14 @@ import { render, screen } from '@testing-library/react'
 import { addFetchHandler } from '../vitest.setup'
 import {
   territories,
-  pepsDataset,
+  defaultCatalog,
+  pepsCatalog,
   searchResponse,
   ftmModel,
   jsonResponse,
 } from '../test/fixtures'
 
 import Page from './page'
-
-// Helper to create a minimal source dataset
-function makeSourceDataset(name: string) {
-  return {
-    name,
-    title: name.toUpperCase(),
-    type: 'source',
-    hidden: false,
-    datasets: [],
-    publisher: null,
-  }
-}
 
 describe('Homepage', () => {
   beforeEach(() => {
@@ -35,19 +24,14 @@ describe('Homepage', () => {
 
     // Mock static data files
     addFetchHandler((url) => {
-      if (url.includes('data.opensanctions.org/datasets/latest/peps/index.json')) {
-        return jsonResponse(pepsDataset)
+      if (url.includes('data.opensanctions.org/datasets/latest/default/catalog.json')) {
+        return jsonResponse(defaultCatalog)
       }
-      if (url.includes('data.opensanctions.org/datasets/latest/default/index.json')) {
-        return jsonResponse({ ...pepsDataset, name: 'default', datasets: ['peps'] })
+      if (url.includes('data.opensanctions.org/datasets/latest/peps/catalog.json')) {
+        return jsonResponse(pepsCatalog)
       }
       if (url.includes('data.opensanctions.org/artifacts/model/default.json')) {
         return jsonResponse(ftmModel)
-      }
-      // Handle any other dataset index.json requests (child datasets)
-      const datasetMatch = url.match(/datasets\/latest\/([^/]+)\/index\.json/)
-      if (datasetMatch) {
-        return jsonResponse(makeSourceDataset(datasetMatch[1]))
       }
       return null
     })
@@ -83,9 +67,9 @@ describe('Homepage', () => {
     const PageComponent = await Page()
     render(PageComponent)
 
-    // Should show countries from the API response
-    expect(screen.getByText('United States')).toBeInTheDocument()
-    expect(screen.getByText('United Kingdom')).toBeInTheDocument()
+    // Should show countries from the API response (may appear multiple times)
+    expect(screen.getAllByText('United States').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('United Kingdom').length).toBeGreaterThan(0)
   })
 
   it('displays regional groupings', async () => {

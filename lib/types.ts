@@ -3,116 +3,54 @@ import { ITerritoryInfo } from "./territory";
 
 export interface IResource {
   url: string
-  name: string
-  sha1: string
   timestamp: string
-  dataset: string
   mime_type: string
-  mime_type_label: string
-  size: number
   title: string
-}
-
-interface IIssueType {
-  warning: number
-  error: number
 }
 
 export interface IDatasetPublisher {
   url?: string
   name: string
-  name_en?: string
   acronym?: string
-  description: string
+  description?: string
   official: boolean
   country?: string
   country_label?: string
   territory?: ITerritoryInfo
-  logo_url?: string
 }
 
 export interface IDatasetCoverage {
-  start: string
-  end: string
-  countries: string[]
+  start?: string
   frequency?: string
-  schedule?: string
 }
 
-interface INKDatasetBase {
+export interface IDataset {
   name: string
   type: string
   title: string
   link: string
   url?: string
-  tags?: string[]
-  version: string
-  updated_at: string
   summary: string
-  description?: string
+  hidden: boolean
+  last_change?: string
+  last_export?: string
+  thing_count?: number
   datasets?: Array<string>
-  resources: Array<IResource>
+  resources?: Array<IResource>
   coverage?: IDatasetCoverage
   publisher?: IDatasetPublisher
 }
 
-
-interface IDatasetBase extends INKDatasetBase {
-  hidden: boolean
-  full_dataset?: string
-  index_url: string
-  last_change?: string
-  last_export: string
-  issue_count: number
-  issue_levels: IIssueType
-  issues_url: string
-  statistics_url?: string
-  target_count?: number
-  entity_count?: number
-  thing_count?: number
-}
-
-interface ISourceData {
-  format?: string
-  model?: string
-  url?: string
-}
-
-export interface ISource extends IDatasetBase {
-  data: ISourceData
-}
-
-export interface IExternal extends IDatasetBase {
-  data?: ISourceData
-}
-
-export interface ICollection extends IDatasetBase {
-  datasets: Array<string>
-}
-
-export type IDataset = ISource | IExternal | ICollection
-
-export interface ICatalogEntry {
-  name: string
-  title: string
-  type?: string
-  hidden?: boolean
-}
-
-export function isCollection(dataset?: IDataset | ICatalogEntry): dataset is ICollection {
+export function isCollection(dataset?: IDataset): dataset is IDataset & { datasets: Array<string> } {
   return dataset?.type === 'collection';
 }
 
-export function isSource(dataset?: IDataset | ICatalogEntry): dataset is ISource {
+export function isSource(dataset?: IDataset): boolean {
   return dataset?.type === 'source';
 }
 
-export function isExternal(dataset?: IDataset | ICatalogEntry): dataset is IExternal {
+export function isExternal(dataset?: IDataset): boolean {
   return dataset?.type === 'external';
-}
-
-export function isDataset(dataset: IDataset | ICatalogEntry | undefined): dataset is IDataset {
-  return isCollection(dataset) || isSource(dataset) || isExternal(dataset);
 }
 
 export interface IModelSpec {
@@ -120,10 +58,6 @@ export interface IModelSpec {
   version: string
   model: IModelDatum
   target_topics: string[]
-}
-
-export interface ICatalog {
-  datasets: Array<ICatalogEntry>
 }
 
 interface ISearchFacetItem {

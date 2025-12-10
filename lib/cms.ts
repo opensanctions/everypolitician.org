@@ -4,7 +4,7 @@ import { CMS_URL, REVALIDATE_BASE } from './constants';
 import { randomizeCache } from './util';
 
 
-interface ItemsResponse {
+export interface ItemsResponse {
   data: any[]
 }
 

@@ -43,6 +43,7 @@ export const pepsDataset = {
   title: 'Politically Exposed Persons',
   type: 'collection',
   hidden: false,
+  summary: 'PEP dataset',
   datasets: ['us_ofac', 'gb_hmt'],
   publisher: null,
 }
@@ -52,8 +53,76 @@ export const defaultDataset = {
   title: 'Default Dataset',
   type: 'collection',
   hidden: false,
+  summary: 'Default dataset',
   datasets: ['peps', 'sanctions'],
   publisher: null,
+}
+
+// Catalog (from data.opensanctions.org)
+export const defaultCatalog = {
+  datasets: [
+    {
+      name: 'default',
+      title: 'Default Dataset',
+      type: 'collection',
+      hidden: false,
+      summary: 'Default dataset',
+      datasets: ['peps'],
+    },
+    {
+      name: 'peps',
+      title: 'Politically Exposed Persons',
+      type: 'collection',
+      hidden: false,
+      summary: 'PEP dataset',
+      datasets: ['us_ofac', 'gb_hmt'],
+    },
+    {
+      name: 'us_ofac',
+      title: 'US OFAC',
+      type: 'source',
+      hidden: false,
+      summary: 'US OFAC sanctions',
+      publisher: { name: 'US Treasury', official: true, country: 'us' },
+    },
+    {
+      name: 'gb_hmt',
+      title: 'UK HMT',
+      type: 'source',
+      hidden: false,
+      summary: 'UK HMT sanctions',
+      publisher: { name: 'UK HM Treasury', official: true, country: 'gb' },
+    },
+  ],
+}
+
+export const pepsCatalog = {
+  datasets: [
+    {
+      name: 'peps',
+      title: 'Politically Exposed Persons',
+      type: 'collection',
+      hidden: false,
+      summary: 'PEP dataset',
+      datasets: ['us_ofac', 'gb_hmt'],
+    },
+    {
+      name: 'us_ofac',
+      title: 'US OFAC',
+      type: 'source',
+      hidden: false,
+      summary: 'US OFAC sanctions',
+      publisher: { name: 'US Treasury', official: true, country: 'us' },
+    },
+    {
+      name: 'gb_hmt',
+      title: 'UK HMT',
+      type: 'source',
+      hidden: false,
+      summary: 'UK HMT sanctions',
+      publisher: { name: 'UK HM Treasury', official: true, country: 'gb' },
+    },
+  ],
 }
 
 // Search API response

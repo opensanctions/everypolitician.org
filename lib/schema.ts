@@ -79,7 +79,7 @@ export function getSchemaDataset(dataset: IDataset) {
     "isAccessibleForFree": true,
     "dateModified": dataset.last_change,
     "potentialAction": getSchemaActions(),
-    "distribution": dataset.resources.map((r) => getResourceDataDownload(r))
+    "distribution": (dataset.resources || []).map((r) => getResourceDataDownload(r))
   }
   if (!!dataset.publisher) {
     schema = {

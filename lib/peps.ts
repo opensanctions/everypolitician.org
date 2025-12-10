@@ -1,13 +1,13 @@
 import { fetchStatic } from './data';
 
-interface IPEPCounts {
+export interface IPEPCounts {
   current: number
   ended: number
   unknown: number
   total: number
 }
 
-interface IPositionSummary {
+export interface IPositionSummary {
   id: string
   names: Array<string>
   categories: Array<string>
