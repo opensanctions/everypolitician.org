@@ -4,7 +4,6 @@ import { notFound, redirect } from 'next/navigation';
 import Dataset from '@/components/Dataset';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { BlockedEntity, LicenseInfo } from '@/components/Policy';
-import Research from '@/components/Research';
 import { Sticky } from '@/components/util';
 import StructuredData from '@/components/utils/StructuredData';
 import { Col, Container, Nav, NavLink, Row, Table } from '@/components/wrapped';
@@ -128,8 +127,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
   return (
     <LayoutFrame activeSection="research">
       <StructuredData data={structured} />
-      <Research.Context hidePrint>
-        <Container>
+      <Container>
           <Row>
             <Col md={9}>
               <h1>{person.caption}</h1>
@@ -182,8 +180,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
               </Sticky>
             </Col>
           </Row>
-        </Container>
-      </Research.Context>
+      </Container>
     </LayoutFrame>
   );
 }

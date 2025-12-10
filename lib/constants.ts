@@ -16,7 +16,6 @@ export const REVALIDATE_LONG = REVALIDATE_BASE * 2;
 export const THEME_COLOR = '#2563eb';
 export const SOCIAL_IMAGE_URL = "https://assets.opensanctions.org/images/nura/social.png";
 export const RSS_MIME = "application/rss+xml";
-export const MAX_FILTERS_PER_FACET = 3;
 
 export const API_TOKEN = process.env.API_TOKEN
 
