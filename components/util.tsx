@@ -4,7 +4,6 @@ import queryString from 'query-string';
 import React, { ReactNode } from 'react';
 import { FileEarmarkCodeFill, Link45deg } from 'react-bootstrap-icons';
 
-import { markdownToHtml } from '@/lib/util';
 
 import { SPACER } from '../lib/constants';
 import { IPaginatedResponse } from '../lib/types';
@@ -91,36 +90,45 @@ export function FileSize({ size }: FileSizeProps) {
   return <span>{filesize(size, { standard: 'jedec', 'base': 2, locale: 'en-US', output: 'string' }) as string}</span>
 }
 
-type MarkdownProps = {
-  markdown?: string | null
+type HtmlContentProps = {
+  html?: string | null
   className?: string
 }
 
-export async function Markdown({ markdown, className }: MarkdownProps) {
-  if (markdown === undefined || markdown === null || markdown.trim().length == 0) {
+/**
+ * Renders pre-converted HTML content.
+ * Callers should convert markdown to HTML at the data layer.
+ */
+export function HtmlContent({ html, className }: HtmlContentProps) {
+  if (html === undefined || html === null || html.trim().length == 0) {
     return null;
   }
-  const html = await markdownToHtml(markdown);
   return <div
     className={className}
     dangerouslySetInnerHTML={{ __html: html }}
   />
 }
 
-export async function BodyText({ body, className }: { body: string | null | undefined, className?: string}) {
+// Backwards compatibility alias
+export const Markdown = HtmlContent;
+
+export function BodyText({ body, className }: { body: string | null | undefined, className?: string}) {
   const combinedClassName = classNames("text-body", className);
-  return <Markdown markdown={body} className={combinedClassName} />;
+  return <HtmlContent html={body} className={combinedClassName} />;
 }
 
 type SummaryProps = {
-  summary?: string | null
+  summaryHtml?: string | null
 }
 
-export async function Summary({ summary }: SummaryProps) {
-  if (summary === undefined || summary === null) {
+/**
+ * Renders a summary section. Expects pre-converted HTML.
+ */
+export function Summary({ summaryHtml }: SummaryProps) {
+  if (summaryHtml === undefined || summaryHtml === null) {
     return null;
   }
-  return <Markdown markdown={summary} className={styles.summary} />;
+  return <HtmlContent html={summaryHtml} className={styles.summary} />;
 }
 
 type FormattedDateProps = {

@@ -11,10 +11,6 @@ import { getTerritoriesByCode } from './territory';
 import { ICatalog, ICatalogEntry, ICollection, IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, isCollection, isDataset } from "./types";
 
 
-const ADJACENT_PAGE_SIZE_SMALL = 10;
-const ADJACENT_PAGE_SIZE_LARGE = 100;
-
-
 export async function fetchStatic<T>(url: string, revalidate: number = REVALIDATE_BASE): Promise<T | null> {
   /* Fetch a static JSON file from data.opensanctions.org. */
   const options: any = {
@@ -200,26 +196,10 @@ function unpackAdjacentResults(model: Model, response: IPropResultsData): IPropR
   }
 }
 
-export async function getAdjacentByProp(entityId: string, propName: string, offset: string) {
-  try {
-    const path = `/entities/${entityId}/adjacent/${propName}`;
-    const params = { limit: ADJACENT_PAGE_SIZE_LARGE, offset };
-    const response = await fetchApiCached<IPropResultsData>(path, params);
-    if (response === undefined || response === null) {
-      return null;
-    }
-    const model = await getModel();
-    return unpackAdjacentResults(model, response);
-  } catch {
-    return null;
-  }
-}
-
 export async function getAdjacent(entityId: string): Promise<IPropsResults | null> {
   try {
     const path = `/entities/${entityId}/adjacent`;
-    const params = { limit: ADJACENT_PAGE_SIZE_SMALL };
-    const response = await fetchApiCached<IPropsResultsData>(path, params);
+    const response = await fetchApiCached<IPropsResultsData>(path);
     if (response === undefined || response === null) {
       return null;
     }

@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 
 
-interface IPageMetadata {
+export interface IPageMetadata {
   path: string
   title: string
   image?: string
@@ -18,9 +18,10 @@ interface IPageMetadata {
   date_updated: string
 }
 
-interface IPage extends IPageMetadata {
+export interface IPage extends IPageMetadata {
   url: string
   body: string
+  summaryHtml: string | null
 }
 
 interface IDocsFile {
@@ -99,6 +100,7 @@ export async function getPageByPath(requestedPath: string): Promise<IPage | null
     ...docsFile.meta,
     url: `${BASE_URL}${docsFile.meta.path}`,
     body: await markdownToHtml(docsFile.body),
+    summaryHtml: docsFile.meta.summary ? await markdownToHtml(docsFile.meta.summary) : null,
   };
 }
 

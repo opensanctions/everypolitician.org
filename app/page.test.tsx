@@ -1,71 +1,99 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
-
-vi.mock('@/lib/data', () => ({
-  fetchApiCached: vi.fn().mockResolvedValue({
-    facets: {
-      countries: {
-        label: 'Countries',
-        values: [
-          { name: 'us', label: 'United States', count: 100 },
-          { name: 'gb', label: 'United Kingdom', count: 50 },
-        ],
-      },
-    },
-  }),
-  getDatasetByName: vi.fn().mockResolvedValue({
-    name: 'peps',
-    title: 'PEPs',
-    hidden: false,
-  }),
-  getDatasetsByScope: vi.fn().mockResolvedValue([
-    { name: 'source1', title: 'Source 1', type: 'source', hidden: false },
-  ]),
-}))
-
-vi.mock('@/lib/pages', () => ({
-  getPageByPath: vi.fn().mockResolvedValue(null),
-}))
-
-vi.mock('@/lib/territory', () => ({
-  getTerritoryInfo: vi.fn().mockResolvedValue({
-    code: 'us',
-    label_short: 'United States',
-    region: 'Americas',
-    subregion: 'North America',
-  }),
-}))
-
-vi.mock('@/components/layout/LayoutFrame', () => ({
-  default: ({ children }: { children: React.ReactNode }) => <div data-testid="layout">{children}</div>,
-}))
-
-vi.mock('@/components/Dataset', () => ({
-  default: {
-    Table: () => <div data-testid="dataset-table">Dataset Table</div>,
-  },
-}))
-
-vi.mock('@/components/Policy', () => ({
-  LicenseInfo: () => <div data-testid="license-info">License</div>,
-}))
-
-vi.mock('@/components/clientUtil', () => ({
-  HelpLink: ({ children }: { children?: React.ReactNode }) => <span>{children}</span>,
-}))
-
-vi.mock('next/link', () => ({
-  default: ({ children, href }: { children: React.ReactNode; href: string }) => <a href={href}>{children}</a>,
-}))
+import { addFetchHandler } from '../vitest.setup'
+import {
+  territories,
+  pepsDataset,
+  searchResponse,
+  ftmModel,
+  jsonResponse,
+} from '../test/fixtures'
 
 import Page from './page'
 
-describe('/ homepage', () => {
-  it('renders the homepage with claim and territory table', async () => {
+// Helper to create a minimal source dataset
+function makeSourceDataset(name: string) {
+  return {
+    name,
+    title: name.toUpperCase(),
+    type: 'source',
+    hidden: false,
+    datasets: [],
+    publisher: null,
+  }
+}
+
+describe('Homepage', () => {
+  beforeEach(() => {
+    // Mock CMS API for territories
+    addFetchHandler((url) => {
+      if (url.includes('opensanctions.directus.app/items/territories')) {
+        return jsonResponse(territories)
+      }
+      return null
+    })
+
+    // Mock static data files
+    addFetchHandler((url) => {
+      if (url.includes('data.opensanctions.org/datasets/latest/peps/index.json')) {
+        return jsonResponse(pepsDataset)
+      }
+      if (url.includes('data.opensanctions.org/datasets/latest/default/index.json')) {
+        return jsonResponse({ ...pepsDataset, name: 'default', datasets: ['peps'] })
+      }
+      if (url.includes('data.opensanctions.org/artifacts/model/default.json')) {
+        return jsonResponse(ftmModel)
+      }
+      // Handle any other dataset index.json requests (child datasets)
+      const datasetMatch = url.match(/datasets\/latest\/([^/]+)\/index\.json/)
+      if (datasetMatch) {
+        return jsonResponse(makeSourceDataset(datasetMatch[1]))
+      }
+      return null
+    })
+
+    // Mock search API
+    addFetchHandler((url) => {
+      if (url.includes('api.opensanctions.org/search/')) {
+        return jsonResponse(searchResponse)
+      }
+      return null
+    })
+  })
+
+  it('displays the main claim headline', async () => {
     const PageComponent = await Page()
     render(PageComponent)
 
-    expect(screen.getByTestId('layout')).toBeInTheDocument()
-    expect(screen.getByText('Who is running the world?')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(
+      'Who is running the world?'
+    )
+  })
+
+  it('displays the subclaim description', async () => {
+    const PageComponent = await Page()
+    render(PageComponent)
+
+    expect(
+      screen.getByText(/global database of political office-holders/i)
+    ).toBeInTheDocument()
+  })
+
+  it('renders territory data from the API', async () => {
+    const PageComponent = await Page()
+    render(PageComponent)
+
+    // Should show countries from the API response
+    expect(screen.getByText('United States')).toBeInTheDocument()
+    expect(screen.getByText('United Kingdom')).toBeInTheDocument()
+  })
+
+  it('displays regional groupings', async () => {
+    const PageComponent = await Page()
+    render(PageComponent)
+
+    // Regions appear in both table headers and navigation
+    expect(screen.getAllByText('Americas').length).toBeGreaterThan(0)
+    expect(screen.getAllByText('Europe').length).toBeGreaterThan(0)
   })
 })

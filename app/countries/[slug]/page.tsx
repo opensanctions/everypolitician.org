@@ -12,11 +12,11 @@ import { Numeric, Plural, SpacedList, Sticky } from "@/components/util";
 import { Col, Container, Nav, NavItem, NavLink, Row } from "@/components/wrapped";
 import { BASE_URL, MAIN_DATASET } from "@/lib/constants";
 import { fetchApiCached, getDatasetByName, getDatasets } from "@/lib/data";
-import { getDatasetStatistics } from "@/lib/datasets";
+import { getDatasetStatistics, IDatasetStatistics } from "@/lib/datasets";
 import { getGenerateMetadata } from "@/lib/meta";
 import { getCountryPEPData, IPositionSummary } from "@/lib/peps";
 import { getTerritoriesByCode, getTerritoryInfo } from "@/lib/territory";
-import { IDictionary, ISearchAPIResponse, ISearchFacet } from "@/lib/types";
+import { IDataset, IDictionary, ISearchAPIResponse, ISearchFacet } from "@/lib/types";
 
 import type { JSX } from "react";
 
@@ -223,46 +223,50 @@ function makePEPSections(countryCode: string, positions: IPositionSummary[]): [[
   return [navItems, sections];
 }
 
-async function EntitiesSection(props: { countryCode: string; countryLabel: string, facets: IDictionary<ISearchFacet> }) {
-  const scope = await getDatasetByName(MAIN_DATASET);
-  if (scope === undefined) {
-    return null;
-  }
-  const statistics = await getDatasetStatistics(scope);
-  const countryThings = statistics.things.countries.filter((c) => c.code == props.countryCode)[0];
+type EntitiesSectionProps = {
+  countryCode: string
+  countryLabel: string
+  facets: IDictionary<ISearchFacet>
+  statistics: IDatasetStatistics
+}
+
+function EntitiesSection({ countryCode, countryLabel, facets, statistics }: EntitiesSectionProps) {
+  const countryThings = statistics.things.countries.filter((c) => c.code == countryCode)[0];
   return (<>
     <Row className="mt-4">
       <h2 id="entities">Entities</h2>
       <p>
         Our <a href="https://opensanctions.org/datasets/default/">standard dataset</a> contains <Numeric value={countryThings?.count} /> entities
-        connected with {props.countryLabel}.
+        connected with {countryLabel}.
         This may include sanctioned entities, politically-exposed persons (PEPs), and their close associates,
         or entities involved in criminal activity.
       </p>
     </Row>
     <Row>
       <Col md={6} className="mt-4">
-        <SearchFacet field="topics" facet={props.facets.topics} searchParams={{ "countries": props.countryCode }} limit={8} />
+        <SearchFacet field="topics" facet={facets.topics} searchParams={{ "countries": countryCode }} limit={8} />
       </Col>
       <Col md={6} className="mt-4">
-        <SearchFacet field="schema" facet={props.facets.schema} searchParams={{ "countries": props.countryCode }} limit={8} />
+        <SearchFacet field="schema" facet={facets.schema} searchParams={{ "countries": countryCode }} limit={8} />
       </Col>
     </Row>
   </>);
 }
 
-async function DatasetsSection(props: { countryCode: string; countryLabel: string }) {
-  const allDatasets = await getDatasets()
-  const countryDatasets = allDatasets.filter((d) => d.publisher?.country == props.countryCode);
-  const datasets = countryDatasets.filter((d) => !d.hidden);
+type DatasetsSectionProps = {
+  countryCode: string
+  countryLabel: string
+  datasets: IDataset[]
+}
 
+function DatasetsSection({ countryCode, countryLabel, datasets }: DatasetsSectionProps) {
   return (<>
     <Row className="mt-4">
       <h2 id="sources">Data sources</h2>
       <p>
         {datasets.length > 0
-          ? <>We include <strong><Plural value={datasets.length} one="data source" many="data sources" /></strong> published by authorities or organizations based in {props.countryLabel}. </>
-          : <>We are not yet including any data published by authorities or organizations based in {props.countryLabel}.</>}
+          ? <>We include <strong><Plural value={datasets.length} one="data source" many="data sources" /></strong> published by authorities or organizations based in {countryLabel}. </>
+          : <>We are not yet including any data published by authorities or organizations based in {countryLabel}.</>}
         {' '}See our global list of <a href="https://opensanctions.org/datasets/">data sources</a> and our <Link href="/docs/criteria/">criteria for selecting datasets</Link>.
       </p>
     </Row>
@@ -274,22 +278,29 @@ async function DatasetsSection(props: { countryCode: string; countryLabel: strin
   </>)
 }
 
-async function PEPsSection(props: { countryCode: string; countryLabel: string, pepCount: number, sections: JSX.Element[] }) {
-  const searchUrl = `/search?countries=${props.countryCode}&topics=role.pep`;
+type PEPsSectionProps = {
+  countryCode: string
+  countryLabel: string
+  pepCount: number
+  sections: JSX.Element[]
+}
+
+function PEPsSection({ countryCode, countryLabel, pepCount, sections }: PEPsSectionProps) {
+  const searchUrl = `/search?countries=${countryCode}&topics=role.pep`;
   return (<>
     <Row className="mt-4" >
       <h2 id="peps">Politically-exposed persons (PEPs)</h2>
       <p>
         Our database
-        {props.pepCount == 0
+        {pepCount == 0
           ? <> does not yet contain entities identified as PEPs </>
-          : <> contains <Link prefetch={false} href={searchUrl}><Plural value={props.pepCount} one="entity" many="entities" /></Link> identified as PEPs </>}
+          : <> contains <Link prefetch={false} href={searchUrl}><Plural value={pepCount} one="entity" many="entities" /></Link> identified as PEPs </>}
         connected with
-        {' '}{props.countryLabel}.
+        {' '}{countryLabel}.
       </p>
     </Row>
     <Row>
-      {...props.sections}
+      {...sections}
 
       <h4 id="explainer" className="mt-4">What do these numbers mean?</h4>
       <p>
@@ -322,10 +333,10 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
   if (info === undefined) {
     notFound()
   }
+
+  // Fetch all data at page level
   const countryPEPSummary = await getCountryPEPData(countryCode);
   const positions: IPositionSummary[] = !!countryPEPSummary.positions ? countryPEPSummary.positions : [];
-
-  const [pepNavItems, pepSections] = makePEPSections(countryCode, positions);
   const searchParams = {
     'limit': 0,
     'schema': "Person",
@@ -333,8 +344,22 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
     'facets': ["schema", "topics",]
   };
   const searchResponse = await fetchApiCached<ISearchAPIResponse>(`/search/${MAIN_DATASET}`, searchParams);
+
+  // Data for EntitiesSection
+  const scope = await getDatasetByName(MAIN_DATASET);
+  const statistics = scope ? await getDatasetStatistics(scope) : null;
+
+  // Data for DatasetsSection
+  const allDatasets = await getDatasets();
+  const countryDatasets = allDatasets
+    .filter((d) => d.publisher?.country == countryCode)
+    .filter((d) => !d.hidden);
+
+  // Process PEPs data
+  const [pepNavItems, pepSections] = makePEPSections(countryCode, positions);
   const pepFacets = searchResponse.facets.topics.values.filter((topic) => topic.name == "role.pep");
   const pepCount = pepFacets.length == 1 ? pepFacets[0].count : 0;
+
   return (
     <LayoutFrame activeSection="research">
       <div className={styles.hero}>
@@ -366,8 +391,19 @@ export default async function Page(props: { params: Promise<{ slug: string }> })
       <Container>
         <Row>
           <Col md={9} >
-            <EntitiesSection countryCode={countryCode} countryLabel={info.in_sentence} facets={searchResponse.facets} />
-            <DatasetsSection countryCode={countryCode} countryLabel={info.in_sentence} />
+            {statistics && (
+              <EntitiesSection
+                countryCode={countryCode}
+                countryLabel={info.in_sentence}
+                facets={searchResponse.facets}
+                statistics={statistics}
+              />
+            )}
+            <DatasetsSection
+              countryCode={countryCode}
+              countryLabel={info.in_sentence}
+              datasets={countryDatasets}
+            />
             <PEPsSection countryCode={countryCode} countryLabel={info.in_sentence} pepCount={pepCount} sections={pepSections} />
           </Col>
           <Col md={3} className={classnames(styles.nav, "d-none", "d-md-block")}>

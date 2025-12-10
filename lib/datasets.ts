@@ -23,7 +23,7 @@ interface IAggregatedStats {
   schemata: Array<IAggregatedSchema>
 }
 
-interface IDatasetStatistics {
+export interface IDatasetStatistics {
   targets: IAggregatedStats
   things: IAggregatedStats
   properties: string[]

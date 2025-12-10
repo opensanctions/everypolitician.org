@@ -36,14 +36,22 @@ export interface EntityDisplayProps {
   via?: Property
 }
 
+function getEntityPath(entity: Entity): string {
+  if (entity.schema.isA('Person')) {
+    return `/persons/${entity.id}/`;
+  }
+  return `/positions/${entity.id}/`;
+}
+
 export function EntityLink({ entity, children }: React.PropsWithChildren<EntityDisplayProps>) {
+  const href = getEntityPath(entity);
   if (isBlocked(entity)) {
-    return <a href={`/entities/${entity.id}/`} rel='nofollow'>[blocked entity]</a>
+    return <a href={href} rel='nofollow'>[blocked entity]</a>
   }
   const rel = isIndexRelevant(entity) ? '' : 'nofollow';
   const content = children || entity.caption;
 
-  return <a href={`/entities/${entity.id}/`} rel={rel}>{content}</a>
+  return <a href={href} rel={rel}>{content}</a>
 }
 
 function RiskTaggedEntityLink({ entity, children }: React.PropsWithChildren<EntityDisplayProps>) {
@@ -184,16 +192,14 @@ function FeaturedValues({ entity, schema, prop }: FeaturedValuesProps) {
 }
 
 interface LinkedEntityRowsProps {
-  entityId: string
   prop: Property
   propResults: IPropResults
   schema: Schema
   featured: Property[]
   datasets: Array<IDataset>
-  offset: number
 }
 
-async function LinkedEntityRows({ entityId, prop, propResults, schema, featured, datasets }: LinkedEntityRowsProps) {
+function LinkedEntityRows({ prop, propResults, schema, featured, datasets }: LinkedEntityRowsProps) {
   return <>
     {propResults.results.map((entity) => (
       <tr key={entity.id}>
@@ -218,14 +224,12 @@ async function LinkedEntityRows({ entityId, prop, propResults, schema, featured,
 }
 
 type EntitySchemaTableProps = {
-  entityId: string,
   propResults: IPropResults | undefined,
   datasets: Array<IDataset>,
   prop: Property,
-  showMore?: boolean
 }
 
-export function EntitySchemaTable({ entityId, propResults, datasets, prop, showMore }: EntitySchemaTableProps) {
+export function EntitySchemaTable({ propResults, datasets, prop }: EntitySchemaTableProps) {
   const schema = prop.getRange();
   const reverse = prop.getReverse();
   if (schema === undefined || reverse === undefined || propResults === undefined) {
@@ -269,23 +273,14 @@ export function EntitySchemaTable({ entityId, propResults, datasets, prop, showM
         </thead>
         <tbody>
           <LinkedEntityRows
-            entityId={entityId}
             prop={prop}
             propResults={propResults}
             schema={schema}
             featured={featured}
             datasets={datasets}
-            offset={0}
           />
         </tbody>
       </Table>
-      {!!showMore && (propResults.total.value > propResults.limit + propResults.offset) &&
-        <Link
-          href={`/entities/${entityId}/adjacent/${prop.name}/`}
-          prefetch={false}
-        >
-          Show more ({propResults.total.relation === "gte" ? "More than " : ""}{propResults.total.value})
-        </Link>}
     </>
   );
 }

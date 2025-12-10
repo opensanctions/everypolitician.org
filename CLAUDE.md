@@ -15,3 +15,14 @@ The EveryPolitician (EP) website presents a global atlas of political offices as
   - https://followthemoney.tech/explorer/schemata/Person/
   - https://followthemoney.tech/explorer/schemata/Position/
   - https://followthemoney.tech/explorer/schemata/Occupancy/
+
+### Testing
+
+**Strategy: Behavior-focused, minimal tests**
+
+- Test what users experience, not implementation details
+- Avoid mocking internal modules—mock only at system boundaries (external APIs, network)
+- Tests should pass when refactoring internals, fail only when behavior changes
+- Write only tests that provide real value: critical user journeys, edge cases, regression prevention
+- Stack: Vitest + React Testing Library + jsdom
+- Run tests: `npm test` (watch) or `npm run test:run` (single run)
