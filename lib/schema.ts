@@ -2,7 +2,14 @@
 // https://developers.google.com/search/docs/advanced/structured-data/dataset
 // https://schema.org/Dataset
 
-import { BASE_URL, LICENSE_URL, CLAIM, EMAIL, SITE } from './constants';
+import {
+  BASE_URL,
+  OSA_URL,
+  LICENSE_URL,
+  CLAIM,
+  EMAIL,
+  SITE,
+} from './constants';
 import { Entity } from './ftm';
 import { IDataset, IResource, isExternal, IDatasetPublisher } from './types';
 
@@ -11,7 +18,7 @@ function getSchemaOpenSanctionsOrganization() {
     '@context': 'https://schema.org/',
     '@type': 'Organization',
     name: 'OpenSanctions Datenbanken GmbH',
-    url: `${BASE_URL}/docs/about`,
+    url: `${OSA_URL}/docs/about`,
     email: EMAIL,
     description: CLAIM,
   };
@@ -22,7 +29,7 @@ function getDataCatalog() {
     '@context': 'https://schema.org/',
     '@type': 'DataCatalog',
     name: SITE,
-    url: `${BASE_URL}/datasets/`,
+    url: `${OSA_URL}/datasets/`,
     creator: getSchemaOpenSanctionsOrganization(),
     license: LICENSE_URL,
   };
@@ -57,7 +64,7 @@ export function getSchemaDataset(dataset: IDataset) {
     '@context': 'https://schema.org/',
     '@type': 'Dataset',
     name: dataset.title,
-    url: `${BASE_URL}/datasets/${dataset.name}/`,
+    url: `${OSA_URL}/datasets/${dataset.name}/`,
     description: dataset.summary,
     license: LICENSE_URL,
     includedInDataCatalog: getDataCatalog(),
