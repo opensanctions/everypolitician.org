@@ -5,7 +5,7 @@ import { PropertyType } from './type'
 
 export type Value = string | Entity
 export type Values = Array<Value>
-export type EntityProperties = { [prop: string]: Array<Value | IEntityDatum> }
+type EntityProperties = { [prop: string]: Array<Value | IEntityDatum> }
 
 export interface IEntityDatum {
   caption: string

@@ -4,11 +4,11 @@ import { CMS_URL, REVALIDATE_BASE } from './constants';
 import { randomizeCache } from './util';
 
 
-export interface ItemsResponse {
+interface ItemsResponse {
   data: any[]
 }
 
-export const client = createDirectus(CMS_URL, { globals: { fetch: loggingFetch } }).with(rest({
+const client = createDirectus(CMS_URL, { globals: { fetch: loggingFetch } }).with(rest({
   onRequest: (options: any) => ({
     ...options,
     cache: 'force-cache',
@@ -39,15 +39,7 @@ export async function fetchCms<T>(path: string, params: StringifiableRecord): Pr
 }
 
 
-export function getAssetUrl(id: string, query: any): string {
-  return queryString.stringifyUrl({
-    'url': `${CMS_URL}/assets/${id}`,
-    'query': query,
-  });
-}
-
-
-export async function loggingFetch(url: string, options: any) {
+async function loggingFetch(url: string, options: any) {
   const response = await fetch(url, options);
   if (!response.ok) {
     console.error('Failed to fetch', url, options, response.status, response.statusText, response.headers);

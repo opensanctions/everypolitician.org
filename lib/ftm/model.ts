@@ -9,10 +9,6 @@ export interface IModelDatum {
   types: { [name: string]: IPropertyTypeDatum }
 }
 
-export class ModelSingleton {
-  public static instance?: Model
-}
-
 export class Model {
   public readonly schemata: { [x: string]: Schema | undefined } = {}
   public readonly types: { [x: string]: PropertyType } = {}

@@ -11,7 +11,7 @@ import styles from '@/styles/Dataset.module.scss';
 
 
 
-export type SourceFilterScope = {
+type SourceFilterScope = {
   name: string;
   title: string;
 };

@@ -1,10 +1,6 @@
 import { Entity, IEntityDatum, IModelDatum, Property } from "./ftm";
 import { ITerritoryInfo } from "./territory";
 
-export interface IVersionsIndex {
-  items: Array<string>
-}
-
 export interface IResource {
   url: string
   name: string
@@ -17,7 +13,7 @@ export interface IResource {
   title: string
 }
 
-export interface IIssueType {
+interface IIssueType {
   warning: number
   error: number
 }
@@ -43,7 +39,7 @@ export interface IDatasetCoverage {
   schedule?: string
 }
 
-export interface INKDatasetBase {
+interface INKDatasetBase {
   name: string
   type: string
   title: string
@@ -61,7 +57,7 @@ export interface INKDatasetBase {
 }
 
 
-export interface IDatasetBase extends INKDatasetBase {
+interface IDatasetBase extends INKDatasetBase {
   hidden: boolean
   full_dataset?: string
   index_url: string
@@ -76,7 +72,7 @@ export interface IDatasetBase extends INKDatasetBase {
   thing_count?: number
 }
 
-export interface ISourceData {
+interface ISourceData {
   format?: string
   model?: string
   url?: string
@@ -95,10 +91,6 @@ export interface ICollection extends IDatasetBase {
 }
 
 export type IDataset = ISource | IExternal | ICollection
-
-export interface INKDataCatalog {
-  datasets: Array<IDataset>
-}
 
 export interface ICatalogEntry {
   name: string
@@ -123,25 +115,6 @@ export function isDataset(dataset: IDataset | ICatalogEntry | undefined): datase
   return isCollection(dataset) || isSource(dataset) || isExternal(dataset);
 }
 
-export const LEVEL_ERROR = 'error'
-export const LEVEL_WARNING = 'warning'
-
-export interface IIssue {
-  id: number
-  level: string
-  message: string
-  module: string
-  timestamp: string
-  data: { [key: string]: string }
-  dataset: string
-  entity_id?: string | null
-  entity_schema?: string | null
-}
-
-export interface IIssueIndex {
-  issues: Array<IIssue>
-}
-
 export interface IModelSpec {
   app: string
   version: string
@@ -153,7 +126,7 @@ export interface ICatalog {
   datasets: Array<ICatalogEntry>
 }
 
-export interface ISearchFacetItem {
+interface ISearchFacetItem {
   name: string
   label: string
   count: number
@@ -164,7 +137,7 @@ export interface ISearchFacet {
   values: Array<ISearchFacetItem>
 }
 
-export interface IResponseTotal {
+interface IResponseTotal {
   value: number
   relation: string
 }
@@ -180,56 +153,8 @@ export interface ISearchAPIResponse extends IPaginatedResponse {
   facets: { [prop: string]: ISearchFacet }
 }
 
-export interface IFtResult {
-  detail: string
-  score: number
-}
-
-export interface IMatchedEntityDatum extends IEntityDatum {
-  explanations: { [key: string]: IFtResult }
-  score: number
-  match: boolean
-}
-
-export interface IMatchAPIResponse {
-  results: Array<IMatchedEntityDatum>
-  total: IResponseTotal
-}
-
-export interface IMatchQuery {
-  schema: string
-  properties: { [prop: string]: string[] }
-}
-
-export interface ISitemapEntity {
-  id: string
-  lastmod: string
-}
-
-export interface IRecentEntity {
-  id: string
-  caption: string
-  first_seen: string
-  schema: string
-  countries: string[]
-}
-
 export interface IDictionary<T> {
   [key: string]: T
-}
-
-export interface ITaggingPosition {
-  entity_id: string
-  caption: string
-  countries: Array<string>
-  topics: Array<string>
-  dataset: string
-  is_pep: boolean
-  created_at: string
-}
-
-export interface ITaggingSearchResponse extends IPaginatedResponse {
-  results: Array<ITaggingPosition>
 }
 
 export interface IPropResultsData extends IPaginatedResponse {

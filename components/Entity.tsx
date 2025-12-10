@@ -19,12 +19,12 @@ import styles from '@/styles/Entity.module.scss';
 
 
 
-export interface EntityRawLinkProps {
+interface EntityRawLinkProps {
   entity: Entity
   prop: string
 }
 
-export function EntityRawLink({ entity, prop }: EntityRawLinkProps) {
+function EntityRawLink({ entity, prop }: EntityRawLinkProps) {
   const query = queryString.stringify({
     prop: prop
   })
@@ -46,7 +46,7 @@ export function EntityLink({ entity, children }: React.PropsWithChildren<EntityD
   return <a href={`/entities/${entity.id}/`} rel={rel}>{content}</a>
 }
 
-export function RiskTaggedEntityLink({ entity, children }: React.PropsWithChildren<EntityDisplayProps>) {
+function RiskTaggedEntityLink({ entity, children }: React.PropsWithChildren<EntityDisplayProps>) {
   const link = <EntityLink entity={entity}>{children}</EntityLink>;
   const topics = getEntityRiskTopics(entity);
   const prop = entity.schema.getProperty("topics");
@@ -56,14 +56,14 @@ export function RiskTaggedEntityLink({ entity, children }: React.PropsWithChildr
   return <>{link} <PropertyValues prop={prop} values={topics} /></>;
 }
 
-export interface EntityPropsTableProps extends EntityDisplayProps {
+interface EntityPropsTableProps extends EntityDisplayProps {
   entity: Entity
   datasets: Array<IDataset>
   showEmpty?: boolean
   via?: Property
 }
 
-export function EntityPropsTable({ entity, via, datasets, showEmpty = false }: EntityPropsTableProps) {
+function EntityPropsTable({ entity, via, datasets, showEmpty = false }: EntityPropsTableProps) {
   const viaReverse = via?.getReverse();
   const props = entity.getDisplayProperties()
     .filter((p) => viaReverse === undefined || p.qname !== viaReverse.qname)
@@ -107,7 +107,7 @@ export function EntityPropsTable({ entity, via, datasets, showEmpty = false }: E
 
 
 
-export type EntityFactsheetProps = {
+type EntityFactsheetProps = {
   entity: Entity
 }
 
@@ -158,7 +158,7 @@ export function EntityFactsheet({ entity }: EntityFactsheetProps) {
   )
 }
 
-export type FeaturedValuesProps = {
+type FeaturedValuesProps = {
   entity: Entity,
   schema: Schema,
   prop: Property
@@ -217,7 +217,7 @@ async function LinkedEntityRows({ entityId, prop, propResults, schema, featured,
   </>
 }
 
-export type EntitySchemaTableProps = {
+type EntitySchemaTableProps = {
   entityId: string,
   propResults: IPropResults | undefined,
   datasets: Array<IDataset>,

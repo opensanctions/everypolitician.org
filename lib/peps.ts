@@ -1,14 +1,13 @@
 import { fetchStatic } from './data';
-import { IDictionary } from './types';
 
-export interface IPEPCounts {
+interface IPEPCounts {
   current: number
   ended: number
   unknown: number
   total: number
 }
 
-export interface IPositionSummary {
+interface IPositionSummary {
   id: string
   names: Array<string>
   categories: Array<string>
@@ -16,27 +15,12 @@ export interface IPositionSummary {
   counts: IPEPCounts
 }
 
-export interface ICountryPEPIndex {
+interface ICountryPEPData {
   label: string
   counts: IPEPCounts
-}
-
-export interface ICountryPEPData extends ICountryPEPIndex {
   positions: Array<IPositionSummary>
 }
 
-export interface IPEPIndex {
-  countries: IDictionary<ICountryPEPIndex>
-}
-
-
-export async function getCountries(): Promise<IPEPIndex> {
-  const index = await fetchStatic<IPEPIndex>("https://data.opensanctions.org/meta/peps/index.json");
-  if (index === null) {
-    return { countries: {} } as IPEPIndex;
-  }
-  return index;
-}
 
 export async function getCountryPEPData(countryCode: string): Promise<ICountryPEPData> {
   const url = `https://data.opensanctions.org/meta/peps/countries/${countryCode}.json`;

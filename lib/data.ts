@@ -8,7 +8,7 @@ import { parseDataset } from "./datasets";
 import { Entity, IEntityDatum, Model, Property } from "./ftm";
 import { getModel } from './model';
 import { getTerritoriesByCode } from './territory';
-import { ICatalog, ICatalogEntry, ICollection, IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, IVersionsIndex, isCollection, isDataset } from "./types";
+import { ICatalog, ICatalogEntry, ICollection, IDataset, IPropResults, IPropResultsData, IPropsResults, IPropsResultsData, isCollection, isDataset } from "./types";
 
 
 const ADJACENT_PAGE_SIZE_SMALL = 10;
@@ -65,12 +65,6 @@ export async function fetchApiCached<T>(path: string, query: any = undefined, ac
   return await fetchApi(path, query, accessToken, options);
 }
 
-export async function fetchApiUncached<T>(path: string, query: any = undefined, accessToken: string | null = null): Promise<T> {
-  const options: any = {
-    cache: 'no-store'
-  };
-  return await fetchApi(path, query, accessToken, options);
-}
 
 
 export function getDatasetLatestPublishedFileUrl(name: string, file_name: string): string {
@@ -88,7 +82,7 @@ export async function getDatasetByName(name: string): Promise<IDataset | undefin
 }
 
 
-export function sortDatasetsByTitle(datasets: Array<IDataset | undefined>): Array<IDataset> {
+function sortDatasetsByTitle(datasets: Array<IDataset | undefined>): Array<IDataset> {
   return datasets.filter(isDataset)
     .sort((a, b) => a.title.localeCompare(b.title));
 }
@@ -171,7 +165,7 @@ export async function canSearchDataset(dataset: IDataset): Promise<boolean> {
   return intersection.length == range.length;
 }
 
-export async function getEntityData(entityId: any): Promise<IEntityDatum | null> {
+async function getEntityData(entityId: any): Promise<IEntityDatum | null> {
   if (entityId === undefined || entityId === null) {
     return null;
   }

@@ -7,7 +7,7 @@ import fs from 'fs';
 import path from 'path';
 
 
-export interface IPageMetadata {
+interface IPageMetadata {
   path: string
   title: string
   image?: string
@@ -18,7 +18,7 @@ export interface IPageMetadata {
   date_updated: string
 }
 
-export interface IPage extends IPageMetadata {
+interface IPage extends IPageMetadata {
   url: string
   body: string
 }
@@ -103,7 +103,7 @@ export async function getPageByPath(requestedPath: string): Promise<IPage | null
 }
 
 
-export function getPageMetadata(page: IPage | null): Metadata {
+function getPageMetadata(page: IPage | null): Metadata {
   if (page === null) {
     return {}
   }

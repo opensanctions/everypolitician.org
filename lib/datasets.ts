@@ -4,26 +4,26 @@ import { ITerritoryInfo } from "./territory";
 import { ICollection, IDataset, IExternal, isCollection, ISource } from "./types";
 
 
-export interface IAggregatedCountry {
+interface IAggregatedCountry {
   code: string
   count: number
   label: string
 }
 
-export interface IAggregatedSchema {
+interface IAggregatedSchema {
   name: string
   count: number
   label: string
   plural: string
 }
 
-export interface IAggregatedStats {
+interface IAggregatedStats {
   total: number
   countries: Array<IAggregatedCountry>
   schemata: Array<IAggregatedSchema>
 }
 
-export interface IDatasetStatistics {
+interface IDatasetStatistics {
   targets: IAggregatedStats
   things: IAggregatedStats
   properties: string[]
@@ -54,11 +54,6 @@ export function parseDataset(data: any, territories: Map<string, ITerritoryInfo>
     return dataset as IExternal;
   }
   return dataset as ISource;
-}
-
-export async function getDatasetCount(): Promise<number> {
-  const datasets = await getDatasets();
-  return datasets.filter((d) => !isCollection(d) && !d.hidden).length;
 }
 
 export async function getDatasetStatistics(dataset: IDataset): Promise<IDatasetStatistics> {

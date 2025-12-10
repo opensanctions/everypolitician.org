@@ -17,7 +17,7 @@ type TypeValueProps = {
   entityComponent?: ComponentType<EntityDisplayProps>
 }
 
-export function TypeValue({ type, value, plain = false, entityComponent: Entity = EntityLink, prop }: TypeValueProps) {
+function TypeValue({ type, value, plain = false, entityComponent: Entity = EntityLink, prop }: TypeValueProps) {
   const strValue = value + '';
   if (type.name == 'country') {
     return <>{type.values.get(strValue) || strValue}</>
@@ -66,7 +66,7 @@ type TypeValuesProps = {
   entityComponent?: ComponentType<EntityDisplayProps>
 }
 
-export function TypeValues({ type, values, entityComponent, prop, limit, empty }: TypeValuesProps) {
+function TypeValues({ type, values, entityComponent, prop, limit, empty }: TypeValuesProps) {
   const elems = values.sort().map((v, i) => <TypeValue key={i} type={type} value={v} entityComponent={entityComponent} prop={prop} />)
   if (elems.length === 0 && empty) {
     return <span className="text-muted">{empty}</span>
@@ -86,15 +86,6 @@ export function TypeValues({ type, values, entityComponent, prop, limit, empty }
   return <SpacedList values={elems} />
 }
 
-type PropertyValueProps = {
-  prop: Property
-  value: Value
-  entity?: ComponentType<EntityDisplayProps>
-}
-
-export function PropertyValue({ prop, value, entity }: PropertyValueProps) {
-  return <TypeValue type={prop.type} value={value} entityComponent={entity} prop={prop} />
-}
 
 type PropertyValuesProps = {
   prop: Property

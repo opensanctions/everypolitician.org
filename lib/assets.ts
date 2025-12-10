@@ -5,14 +5,14 @@ import queryString from 'query-string';
 import { CMS_URL, REVALIDATE_BASE } from './constants';
 
 
-export interface IAssetData {
+interface IAssetData {
     data: string;
     contentDisposition: string | null;
     contentType: string | null;
 }
 
 
-export function getAssetUrl(id: string, query: any): string {
+function getAssetUrl(id: string, query: any): string {
   return queryString.stringifyUrl({
     'url': `/assets/${id}/`,
     'query': query,

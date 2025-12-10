@@ -4,12 +4,10 @@ import React, { ReactElement } from 'react'
 import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import rehypeStringify from 'rehype-stringify'
-import { remark } from 'remark';
 import remarkGfm from 'remark-gfm'
 import remarkHeadingId from 'remark-heading-id'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
-import stripMarkdown from 'strip-markdown';
 import { unified } from 'unified'
 
 export async function markdownToHtml(markdown: string | undefined | null, fragment: string = ''): Promise<string> {
@@ -28,15 +26,6 @@ export async function markdownToHtml(markdown: string | undefined | null, fragme
   return result.value as string;
 }
 
-export async function markdownToText(markdown: string | undefined | null): Promise<string> {
-  if (markdown === null || markdown === undefined) {
-    return '';
-  }
-  const result = await remark()
-    .use(stripMarkdown)
-    .process(markdown);
-  return result.value as string;
-}
 
 /*
  * https://stackoverflow.com/questions/23618744/rendering-comma-separated-list-of-links
@@ -64,22 +53,6 @@ export function arrayFirst(value: string | string[] | null | undefined): string 
   const arr = ensureArray(value);
   if (arr.length > 0) {
     return arr[0];
-  }
-  return undefined;
-}
-
-export function asString(value: any): string | undefined {
-  if (!Array.isArray(value)) {
-    value = [value];
-  }
-  for (let item of value) {
-    if (item !== null && item !== undefined) {
-      item = item + ''
-      item = item.trim()
-      if (item.length > 0) {
-        return item;
-      }
-    }
   }
   return undefined;
 }

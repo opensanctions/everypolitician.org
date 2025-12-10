@@ -44,10 +44,6 @@ export function compareDisplayProps(a: Property, b: Property): number {
   return weights || a.label.localeCompare(b.label);
 }
 
-export function sortPropertiesForDisplay(props: Property[]) {
-  return props.sort(compareDisplayProps);
-}
-
 export function pickFeaturedValues(entity: Entity, prop: Property): Values {
   const values = [...entity.getProperty(prop)];
   if (values.length === 0) {

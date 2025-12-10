@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { filesize } from 'filesize';
 import queryString from 'query-string';
 import React, { ReactNode } from 'react';
-import { FileEarmarkCodeFill, Link45deg, RssFill } from 'react-bootstrap-icons';
+import { FileEarmarkCodeFill, Link45deg } from 'react-bootstrap-icons';
 
 import { markdownToHtml } from '@/lib/util';
 
@@ -32,7 +32,7 @@ export function RoutedNavLink({ href, current, active, children }: React.PropsWi
 }
 
 
-export function NullValue() {
+function NullValue() {
   return <span className={styles.nullValue}>-</span>;
 }
 
@@ -55,16 +55,6 @@ export function Numeric({ value, digits }: NumericProps) {
   return <span>{fmt.format(value)}</span>;
 }
 
-type MoneyProps = {
-  value: number
-  currency: string
-}
-
-export function Money({ value, currency }: MoneyProps) {
-  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat
-  const fmt = new Intl.NumberFormat('en-US', { style: 'currency', currency: currency.toUpperCase() });
-  return <span>{fmt.format(value)}</span>;
-}
 
 type NumericBadgeProps = {
   value?: number | null
@@ -222,20 +212,6 @@ export function JSONLink({ href }: { href: string }) {
   )
 }
 
-export function RSSLink({ href }: { href: string }) {
-  return (
-    <Button
-      variant="outline-dark"
-      size="sm"
-      className={classNames("d-print-none", "d-none", "d-md-block", styles.rssLink)}
-      href={href}
-      type={"application/rss+xml" as unknown as undefined}  // fuck that's hacky 
-    >
-      <RssFill className="bsIcon" />
-      {' '}RSS
-    </Button>
-  )
-}
 
 type SpacedListProps = {
   values: Array<ReactNode>
@@ -303,8 +279,3 @@ export function ResponsePagination({ response, searchParams }: ResponsePaginatio
   );
 }
 
-export function daysFromNow(days: number): string {
-  const date = new Date();
-  date.setDate(date.getDate() + days);
-  return date.toISOString().slice(0, 16)
-}

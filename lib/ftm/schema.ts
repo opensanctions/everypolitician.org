@@ -15,7 +15,7 @@ interface ITemportalExtent {
   end?: string[]
 }
 
-export type SchemaSpec = string | null | undefined | Schema;
+type SchemaSpec = string | null | undefined | Schema;
 
 export interface ISchemaDatum {
   label: string

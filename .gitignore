@@ -4,3 +4,4 @@ data/*
 # *.tsbuildinfo
 .pytest_cache
 .DS_Store
+.env

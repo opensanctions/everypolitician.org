@@ -4,10 +4,10 @@
 
 import { BASE_URL, LICENSE_URL, CLAIM, EMAIL, SITE } from './constants';
 import { Entity } from './ftm';
-import { IDataset, IResource, isExternal, IDatasetPublisher, isSource } from './types';
+import { IDataset, IResource, isExternal, IDatasetPublisher } from './types';
 
 
-export function getSchemaOpenSanctionsOrganization() {
+function getSchemaOpenSanctionsOrganization() {
   return {
     "@context": "https://schema.org/",
     "@type": "Organization",
@@ -18,7 +18,7 @@ export function getSchemaOpenSanctionsOrganization() {
   }
 }
 
-export function getSchemaActions() {
+function getSchemaActions() {
   return {
     "@context": "https://schema.org/",
     "@type": "SearchAction",
@@ -31,21 +31,7 @@ export function getSchemaActions() {
   }
 }
 
-export function getSchemaWebSite() {
-  return {
-    "@context": "https://schema.org/",
-    "@type": "WebSite",
-    "name": SITE,
-    "url": BASE_URL,
-    "description": CLAIM,
-    "license": LICENSE_URL,
-    "mainEntityOfPage": getDataCatalog(),
-    "creator": getSchemaOpenSanctionsOrganization(),
-    "potentialAction": getSchemaActions(),
-  }
-}
-
-export function getDataCatalog() {
+function getDataCatalog() {
   return {
     "@context": "https://schema.org/",
     "@type": "DataCatalog",
