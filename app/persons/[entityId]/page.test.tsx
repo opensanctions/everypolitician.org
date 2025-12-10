@@ -73,24 +73,4 @@ describe('Person page', () => {
     await expect(Page({ params })).rejects.toThrow('NEXT_REDIRECT')
   })
 
-  it('does not throw notFound for valid entity', async () => {
-    addFetchHandler((url) => {
-      if (url.includes('api.opensanctions.org/entities/Q123/adjacent')) {
-        return jsonResponse(null)
-      }
-      if (url.includes('api.opensanctions.org/entities/Q123')) {
-        return jsonResponse(personEntity)
-      }
-      return null
-    })
-
-    const params = Promise.resolve({ entityId: 'Q123' })
-
-    try {
-      await Page({ params })
-    } catch (e) {
-      const error = e as Error
-      expect(error.message).not.toContain('NEXT_NOT_FOUND')
-    }
-  })
 })

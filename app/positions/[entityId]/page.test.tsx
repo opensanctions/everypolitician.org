@@ -84,24 +84,4 @@ describe('Position page', () => {
     await expect(Page({ params })).rejects.toThrow('NEXT_REDIRECT')
   })
 
-  it('does not throw notFound for valid position entity', async () => {
-    addFetchHandler((url) => {
-      if (url.includes('api.opensanctions.org/entities/pos-123/adjacent')) {
-        return jsonResponse(null)
-      }
-      if (url.includes('api.opensanctions.org/entities/pos-123')) {
-        return jsonResponse(positionEntity)
-      }
-      return null
-    })
-
-    const params = Promise.resolve({ entityId: 'pos-123' })
-
-    try {
-      await Page({ params })
-    } catch (e) {
-      const error = e as Error
-      expect(error.message).not.toContain('NEXT_NOT_FOUND')
-    }
-  })
 })

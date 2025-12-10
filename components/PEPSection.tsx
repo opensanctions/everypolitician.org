@@ -15,7 +15,7 @@ function positionRows(positions: IPositionSummary[], limit: number) {
   return collapsedPositions.map((position: IPositionSummary) => {
     return <tr key={position.id}>
       <td>
-        <Link prefetch={false} href={`/entities/${position.id}/`}>
+        <Link prefetch={false} href={`/positions/${position.id}/`}>
           {bestLabel(position.names)}
         </Link>
       </td>
