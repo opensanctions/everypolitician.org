@@ -53,13 +53,12 @@ type TerritorySummary = {
   code: string;
   label: string;
   numPeps: number;
-  numRcas: number;
   numPositions: number;
   region: string | undefined;
   subregion: string | undefined;
 };
 
-type TerritoryIndicator = 'numPeps' | 'numRcas' | 'numPositions';
+type TerritoryIndicator = 'numPeps' | 'numPositions';
 
 async function makeTerritory(
   code: string,
@@ -80,7 +79,6 @@ async function makeTerritory(
     code: code,
     label: info.label_short,
     numPeps: 0,
-    numRcas: 0,
     numPositions: 0,
     region: info.region,
     subregion: info.subregion,
@@ -112,7 +110,7 @@ function Subregion({ label, territories }: SubregionProps) {
     <>
       {label !== 'undefined' && (
         <tr>
-          <th colSpan={4} className={styles.subregionCell}>
+          <th colSpan={3} className={styles.subregionCell}>
             {label}
           </th>
         </tr>
@@ -132,9 +130,6 @@ function Subregion({ label, territories }: SubregionProps) {
           <td className="numeric">
             <Numeric value={territory.numPeps} />
           </td>
-          <td className="numeric">
-            <Numeric value={territory.numRcas} />
-          </td>
         </tr>
       ))}
     </>
@@ -153,7 +148,7 @@ function Region({ label, territories }: RegionTBodyProps) {
   return (
     <tbody>
       <tr>
-        <th colSpan={4} id={`region-${slugify(label, { lower: true })}`}>
+        <th colSpan={3} id={`region-${slugify(label, { lower: true })}`}>
           {label}
         </th>
       </tr>
@@ -191,16 +186,6 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
               placement="left"
             >
               Politically Exposed Persons
-            </HelpLink>
-          </th>
-          <th className="numeric text-nowrap">
-            RCAs
-            <HelpLink
-              href="/docs/topics/#peps"
-              tooltipId="help-rca"
-              placement="left"
-            >
-              Relatives and Close Associates
             </HelpLink>
           </th>
         </tr>
@@ -242,12 +227,6 @@ export default async function Page() {
     facets: ['countries'],
   };
   let pepSummaryResponse: ISearchAPIResponse;
-  const rcaSummaryParams = {
-    limit: 0,
-    topics: 'role.rca',
-    facets: ['countries'],
-  };
-  let rcaSummaryResponse: ISearchAPIResponse;
   const positionSummaryParams = {
     limit: 0,
     schema: 'Position',
@@ -266,16 +245,6 @@ export default async function Page() {
   }
 
   try {
-    rcaSummaryResponse = await fetchApiCached<ISearchAPIResponse>(
-      `/search/default`,
-      rcaSummaryParams,
-    );
-  } catch (e) {
-    console.error('Error fetching RCA summary.');
-    throw e;
-  }
-
-  try {
     positionSummaryResponse = await fetchApiCached<ISearchAPIResponse>(
       `/search/default`,
       positionSummaryParams,
@@ -290,11 +259,6 @@ export default async function Page() {
     territories,
     pepSummaryResponse.facets.countries,
     'numPeps',
-  );
-  await updateTerritories(
-    territories,
-    rcaSummaryResponse.facets.countries,
-    'numRcas',
   );
   await updateTerritories(
     territories,
