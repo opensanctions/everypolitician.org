@@ -14,7 +14,7 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@directus/sdk": "~20.2.0",
+    "@directus/sdk": "~20.3.0",
     "@fortedigital/nextjs-cache-handler": "^2.1.0-canary.11",
     "@types/lodash": "^4.17.16",
     "bootstrap": "~5.3.3",
