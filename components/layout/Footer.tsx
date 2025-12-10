@@ -32,20 +32,6 @@ export default function Footer() {
                   </ul>
                 </Col>
                 <Col md={3}>
-                  <strong>Collections</strong>
-                  <ul>
-                    <li>
-                      <Link href="/datasets/sanctions/">Global sanctions</Link>
-                    </li>
-                    <li>
-                      <Link href="/pep/">Politically exposed persons</Link>
-                    </li>
-                    <li>
-                      <Link href="/datasets/crime/">Criminal watchlists</Link>
-                    </li>
-                  </ul>
-                </Col>
-                <Col md={3}>
                   <strong>Keep updated</strong>
                   <ul>
                     <li>

@@ -101,7 +101,7 @@ export function PEPSubsection({ subsectionDefinition, positions, countryCode, ha
             You&apos;ve reached the maximum number of positions we can show on this page but even more are available.
             Rather use the <Link href={`/search?countries=${countryCode}&schema=Position`}>search page </Link>
             for more, or access the data in JSON format in the
-            <Link href={`/datasets/peps#download`}> pep-positions.json file of the PEPs dataset</Link>.
+            <a href="https://opensanctions.org/datasets/peps/#download">pep-positions.json file of the PEPs dataset</a>.
           </td>
         </tr>
       }

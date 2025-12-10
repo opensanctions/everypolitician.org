@@ -163,7 +163,6 @@ export default async function Page() {
 
   try {
     dataset = await getDatasetByName("peps");
-    console.log("Fetched PEP dataset:", dataset);
   } catch (e) {
     console.error("Error fetching dataset.");
     throw e
@@ -311,14 +310,14 @@ export default async function Page() {
             </p>
             <ul>
               <li>
-                <Link href={"/datasets/wd_peps/"}>Wikidata Politically Exposed Persons</Link> data
+                <a href="https://opensanctions.org/datasets/wd_peps/">Wikidata Politically Exposed Persons</a> data
                 is maintained by volunteers in a similar manner to the rest of the Wikimedia Foundation
                 projects. OpenSanctions monitors specific positions in national and sub-national
                 legislatures, executives and senior administrators for changes. As a volunteer-driven
                 project, there are very limited guarantees of how up-to-date the information is.
               </li>
               <li>
-                mySociety&apos;s <Link href={"/datasets/everypolitician/"}>EveryPolitician</Link> project
+                mySociety&apos;s <a href="https://opensanctions.org/datasets/everypolitician/">EveryPolitician</a> project
                 contains a significant foundation of data for national legislatures. However, its maintenance
                 ended in June 2019 and the data is quickly becoming more outdated. We aim to remove or
                 replace this dataset in time.
@@ -327,7 +326,7 @@ export default async function Page() {
 
             <h2 id="use">How do I use the data?</h2>
             <p>
-              You can <Link href="/datasets/peps/">download the PEP bulk data</Link> or
+              You can <a href="https://opensanctions.org/datasets/peps/">download the PEP bulk data</a> or
               look up individual entries using the <Link href="/search?topics=role.pep">web
                 search</Link> or <Link href="/api/">API</Link>. Commercial users
               can license the dataset as part of the OpenSanctions <Link href="/licensing/">bulk data

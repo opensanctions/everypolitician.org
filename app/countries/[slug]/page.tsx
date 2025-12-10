@@ -234,7 +234,7 @@ async function EntitiesSection(props: { countryCode: string; countryLabel: strin
     <Row className="mt-4">
       <h2 id="entities">Entities</h2>
       <p>
-        Our <Link href="/datasets/default/">standard dataset</Link> contains <Numeric value={countryThings?.count} /> entities
+        Our <a href="https://opensanctions.org/datasets/default/">standard dataset</a> contains <Numeric value={countryThings?.count} /> entities
         connected with {props.countryLabel}.
         This may include sanctioned entities, politically-exposed persons (PEPs), and their close associates,
         or entities involved in criminal activity.
@@ -263,7 +263,7 @@ async function DatasetsSection(props: { countryCode: string; countryLabel: strin
         {datasets.length > 0
           ? <>We include <strong><Plural value={datasets.length} one="data source" many="data sources" /></strong> published by authorities or organizations based in {props.countryLabel}. </>
           : <>We are not yet including any data published by authorities or organizations based in {props.countryLabel}.</>}
-        {' '}See our global list of <Link href="/datasets/">data sources</Link> and our <Link href="/docs/criteria/">criteria for selecting datasets</Link>.
+        {' '}See our global list of <a href="https://opensanctions.org/datasets/">data sources</a> and our <Link href="/docs/criteria/">criteria for selecting datasets</Link>.
       </p>
     </Row>
     <Row>

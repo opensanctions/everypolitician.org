@@ -14,8 +14,7 @@ export default function NotFound() {
         </h1>
         <p className={styles.errorSummary}>
           The page you have requested cannot be found. Try visiting
-          the <Link href="/datasets/">dataset listing</Link> to explore all
-          material published on this site.
+          the <Link href="/">home page</Link> to explore the site.
         </p>
       </Container>
     </LayoutFrame>

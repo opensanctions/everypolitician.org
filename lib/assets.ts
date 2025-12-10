@@ -12,7 +12,7 @@ interface IAssetData {
 }
 
 
-function getAssetUrl(id: string, query: any): string {
+export function getAssetUrl(id: string, query: any): string {
   return queryString.stringifyUrl({
     'url': `/assets/${id}/`,
     'query': query,

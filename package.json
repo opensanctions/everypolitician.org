@@ -8,7 +8,10 @@
     "build": "npm run fetch-model && next build",
     "start": "next start",
     "lint": "next lint",
-    "lint-fix": "next lint --fix"
+    "lint-fix": "next lint --fix",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@directus/sdk": "~20.2.0",
@@ -41,13 +44,18 @@
   },
   "devDependencies": {
     "@chargebee/chargebee-js-types": "^1.0.1",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
     "@types/gtag.js": "^0.0.20",
     "@types/mdast": "^4.0.4",
     "@types/node": "^24.0.3",
     "@types/react": "^19.2.0",
+    "@vitejs/plugin-react": "^5.1.2",
     "eslint": "^9.23.0",
     "eslint-config-next": "^15.2.4",
     "eslint-plugin-import": "^2.32.0",
-    "typescript": "^5.8.2"
+    "jsdom": "^27.3.0",
+    "typescript": "^5.8.2",
+    "vitest": "^4.0.15"
   }
 }
