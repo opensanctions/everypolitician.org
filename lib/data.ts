@@ -1,6 +1,5 @@
 import 'server-only';
 import intersection from 'lodash/intersection';
-import { unstable_cache } from 'next/cache';
 import queryString from 'query-string';
 
 import { API_TOKEN, API_URL, BLOCKED_ENTITIES, MAIN_DATASET, REVALIDATE_BASE } from "./constants";
@@ -84,42 +83,36 @@ function sortDatasetsByTitle(datasets: Array<IDataset | undefined>): Array<IData
 }
 
 
-export const getDatasetsByScope: (scope: string) => Promise<Array<IDataset>> = unstable_cache(
-  async (scope: string) => {
+export async function getDatasetsByScope(scope: string): Promise<Array<IDataset>> {
     const collection = await getDatasetByName(scope);
     if (collection === undefined || !isCollection(collection)) {
-      throw Error("Dataset not found (or not a collection): " + scope);
+        throw Error("Dataset not found (or not a collection): " + scope);
     }
     const territories = await getTerritoriesByCode();
     const datasetDatas = new Array<IDataset>();
     for (let datasetName of collection.datasets) {
-      const datasetData = await fetchStatic<IDataset>(getDatasetLatestPublishedFileUrl(datasetName, 'index.json'));
-      if (datasetData !== null) {
-        datasetDatas.push(datasetData);
-      }
+        const datasetData = await fetchStatic<IDataset>(getDatasetLatestPublishedFileUrl(datasetName, 'index.json'));
+        if (datasetData !== null) {
+            datasetDatas.push(datasetData);
+        }
     }
     const datasets = datasetDatas.map((d) => parseDataset(d, territories));
     datasets.push(collection);
     return sortDatasetsByTitle(datasets);
-  },
-  ['scoped-datasets'], { revalidate: REVALIDATE_BASE, tags: ['data'] }
-);
+}
 
 
-export const getCatalogEntriesByScope: (scope: string) => Promise<Array<ICatalogEntry>> = unstable_cache(
-  async (scope: string) => {
+export async function getCatalogEntriesByScope(scope: string): Promise<Array<ICatalogEntry>> {
     const catalogUrl = getDatasetLatestPublishedFileUrl(scope, 'catalog.json');
     const catalog = await fetchStatic<ICatalog>(catalogUrl);
     if (catalog === null) {
-      throw Error("Catalog not found: " + scope);
+        throw Error("Catalog not found: " + scope);
     }
     const datasets: Array<ICatalogEntry> = catalog?.datasets
-      .map((d) => { return { name: d.name, title: d.title, type: d.type } as ICatalogEntry })
-      .sort((a, b) => a.title.localeCompare(b.title));
+        .map((d) => { return { name: d.name, title: d.title, type: d.type } as ICatalogEntry })
+        .sort((a, b) => a.title.localeCompare(b.title));
     return datasets;
-  },
-  ['scoped-catalog'], { revalidate: REVALIDATE_BASE, tags: ['data'] }
-);
+}
 
 
 export async function getDatasets(): Promise<Array<IDataset>> {
