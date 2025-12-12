@@ -5,7 +5,7 @@ import rehypeHighlight from 'rehype-highlight'
 import rehypeRaw from 'rehype-raw'
 import rehypeStringify from 'rehype-stringify'
 import remarkGfm from 'remark-gfm'
-import remarkHeadingId from 'remark-heading-id'
+//import remarkHeadingId from 'remark-heading-id'
 import remarkParse from 'remark-parse'
 import remarkRehype from 'remark-rehype'
 import { unified } from 'unified'
@@ -15,7 +15,7 @@ export async function markdownToHtml(markdown: string | undefined | null, fragme
     return '';
   }
   const result = await unified()
-    .use(remarkHeadingId, { defaults: true })
+    //.use(remarkHeadingId, { defaults: true })
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkRehype, { allowDangerousHtml: true })
