@@ -1,4 +1,4 @@
-FROM node:24-slim
+FROM node:25-slim
 
 LABEL org.opencontainers.image.title="EveryPolitician"
 LABEL org.opencontainers.image.source=https://github.com/opensanctions/everypolitician.org
