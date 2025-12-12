@@ -10,7 +10,7 @@ describe('/assets/[id] API route', () => {
     addFetchHandler((url) => {
       if (url.includes('opensanctions.directus.app/assets/abc123')) {
         return binaryResponse(
-          Buffer.from('test-image-data'),
+          'test-image-data',
           'image/png',
           'inline; filename="test.png"'
         )
@@ -25,7 +25,7 @@ describe('/assets/[id] API route', () => {
         )
       }
       if (url.includes('opensanctions.directus.app/assets/test-id')) {
-        return binaryResponse(Buffer.from('data'), 'image/jpeg')
+        return binaryResponse('data', 'image/jpeg')
       }
       return null
     })
