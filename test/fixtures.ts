@@ -247,7 +247,7 @@ export function jsonResponse(data: unknown, status = 200): Promise<Response> {
  * Helper to create a binary Response (for assets)
  */
 export function binaryResponse(
-  data: Buffer | ArrayBuffer,
+  data: string | ArrayBuffer,
   contentType = 'application/octet-stream',
   contentDisposition?: string,
 ): Promise<Response> {
@@ -255,6 +255,11 @@ export function binaryResponse(
   if (contentDisposition) {
     headers['Content-Disposition'] = contentDisposition;
   }
-  const body = data instanceof ArrayBuffer ? data : new Uint8Array(data);
-  return Promise.resolve(new Response(body, { status: 200, headers }));
+  let bodyInit: ArrayBuffer;
+  if (typeof data === 'string') {
+    bodyInit = new TextEncoder().encode(data).buffer;
+  } else {
+    bodyInit = data;
+  }
+  return Promise.resolve(new Response(bodyInit, { status: 200, headers }));
 }
