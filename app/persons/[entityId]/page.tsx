@@ -4,8 +4,7 @@ import { notFound, redirect } from 'next/navigation';
 import Dataset from '@/components/Dataset';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { BlockedEntity, LicenseInfo } from '@/components/Policy';
-import Research from '@/components/Research';
-import { FormattedDate, SpacedList, Sticky } from '@/components/util';
+import { Sticky } from '@/components/util';
 import StructuredData from '@/components/utils/StructuredData';
 import { Col, Container, Nav, NavLink, Row, Table } from '@/components/wrapped';
 import { BASE_URL } from '@/lib/constants';
@@ -38,22 +37,21 @@ export async function generateMetadata({ params }: PersonPageProps) {
   });
 }
 
-function PersonLink({ person }: { person: Entity }) {
-  return <Link href={`/persons/${person.id}/`}>{person.caption}</Link>;
-}
-
 function PositionLink({ position }: { position: Entity }) {
   return <Link href={`/positions/${position.id}/`}>{position.caption}</Link>;
 }
 
-function PersonFactsheet({ person, datasets }: { person: Entity, datasets: IDataset[] }) {
+function PersonFactsheet({ person }: { person: Entity }) {
   const properties = [
     { label: 'Also known as', value: person.getStringProperty('alias').join(', ') },
-    { label: 'Birth date', value: person.getFirst('birthDate') as string | null },
-    { label: 'Birth place', value: person.getFirst('birthPlace') as string | null },
-    { label: 'Nationality', value: person.getStringProperty('nationality').join(', ') },
-    { label: 'Gender', value: person.getFirst('gender') as string | null },
+    { label: 'Date of birth', value: person.getFirst('birthDate') as string | null },
+    { label: 'Place of birth', value: person.getFirst('birthPlace') as string | null },
+    { label: 'Political affiliation', value: person.getStringProperty('political').join(', ') },
   ].filter(p => p.value);
+
+  if (properties.length === 0) {
+    return null;
+  }
 
   return (
     <Table className={styles.factsheet}>
@@ -64,16 +62,6 @@ function PersonFactsheet({ person, datasets }: { person: Entity, datasets: IData
             <td>{value}</td>
           </tr>
         ))}
-        <tr>
-          <th className={styles.cardProp}>Last change</th>
-          <td><FormattedDate date={person.last_change} /></td>
-        </tr>
-        <tr>
-          <th className={styles.cardProp}>Data sources</th>
-          <td>
-            <SpacedList values={datasets.map((d) => <Dataset.Link key={d.name} dataset={d} />)} />
-          </td>
-        </tr>
       </tbody>
     </Table>
   );
@@ -139,8 +127,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
   return (
     <LayoutFrame activeSection="research">
       <StructuredData data={structured} />
-      <Research.Context hidePrint>
-        <Container>
+      <Container>
           <Row>
             <Col md={9}>
               <h1>{person.caption}</h1>
@@ -151,7 +138,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
             <Col md={9} className="order-1">
               <section id="factsheet">
                 <h2>Profile</h2>
-                <PersonFactsheet person={person} datasets={sources} />
+                <PersonFactsheet person={person} />
               </section>
 
               <section id="positions" className={styles.entityPageSection}>
@@ -193,8 +180,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
               </Sticky>
             </Col>
           </Row>
-        </Container>
-      </Research.Context>
+      </Container>
     </LayoutFrame>
   );
 }

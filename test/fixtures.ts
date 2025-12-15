@@ -35,7 +35,7 @@ export const territories = {
       see: [],
     },
   ],
-}
+};
 
 // Dataset index (from data.opensanctions.org)
 export const pepsDataset = {
@@ -46,7 +46,7 @@ export const pepsDataset = {
   summary: 'PEP dataset',
   datasets: ['us_ofac', 'gb_hmt'],
   publisher: null,
-}
+};
 
 export const defaultDataset = {
   name: 'default',
@@ -56,7 +56,7 @@ export const defaultDataset = {
   summary: 'Default dataset',
   datasets: ['peps', 'sanctions'],
   publisher: null,
-}
+};
 
 // Catalog (from data.opensanctions.org)
 export const defaultCatalog = {
@@ -94,7 +94,7 @@ export const defaultCatalog = {
       publisher: { name: 'UK HM Treasury', official: true, country: 'gb' },
     },
   ],
-}
+};
 
 export const pepsCatalog = {
   datasets: [
@@ -123,7 +123,7 @@ export const pepsCatalog = {
       publisher: { name: 'UK HM Treasury', official: true, country: 'gb' },
     },
   ],
-}
+};
 
 // Search API response
 export const searchResponse = {
@@ -152,7 +152,7 @@ export const searchResponse = {
       ],
     },
   },
-}
+};
 
 // Entity API response
 export const personEntity = {
@@ -166,7 +166,7 @@ export const personEntity = {
     country: ['us'],
     topics: ['role.pep'],
   },
-}
+};
 
 // FTM model (from data.opensanctions.org)
 export const ftmModel = {
@@ -201,7 +201,7 @@ export const ftmModel = {
     },
   },
   types: {},
-}
+};
 
 // Country PEP data (from data.opensanctions.org)
 export const countryPepData = {
@@ -219,7 +219,7 @@ export const countryPepData = {
       counts: { total: 100, current: 50, ended: 40, unclear: 10 },
     },
   ],
-}
+};
 
 // Dataset statistics
 export const datasetStatistics = {
@@ -229,7 +229,7 @@ export const datasetStatistics = {
       { code: 'gb', count: 500 },
     ],
   },
-}
+};
 
 /**
  * Helper to create a JSON Response
@@ -239,8 +239,8 @@ export function jsonResponse(data: unknown, status = 200): Promise<Response> {
     new Response(JSON.stringify(data), {
       status,
       headers: { 'Content-Type': 'application/json' },
-    })
-  )
+    }),
+  );
 }
 
 /**
@@ -249,11 +249,12 @@ export function jsonResponse(data: unknown, status = 200): Promise<Response> {
 export function binaryResponse(
   data: Buffer | ArrayBuffer,
   contentType = 'application/octet-stream',
-  contentDisposition?: string
+  contentDisposition?: string,
 ): Promise<Response> {
-  const headers: Record<string, string> = { 'Content-Type': contentType }
+  const headers: Record<string, string> = { 'Content-Type': contentType };
   if (contentDisposition) {
-    headers['Content-Disposition'] = contentDisposition
+    headers['Content-Disposition'] = contentDisposition;
   }
-  return Promise.resolve(new Response(data, { status: 200, headers }))
+  const body = data instanceof ArrayBuffer ? data : new Uint8Array(data);
+  return Promise.resolve(new Response(body, { status: 200, headers }));
 }

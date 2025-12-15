@@ -3,7 +3,6 @@ import { Entity } from '../lib/ftm';
 
 
 import LayoutFrame from './layout/LayoutFrame';
-import Research from './Research';
 import { Alert, AlertHeading, Button, ButtonGroup, Container } from './wrapped';
 
 import styles from '@/styles/Policy.module.scss';
@@ -34,18 +33,16 @@ interface BlockedEntityProps {
 export function BlockedEntity({ entity }: BlockedEntityProps) {
   return (
     <LayoutFrame activeSection="research">
-      <Research.Context>
-        <Container>
-          <br />
-          <Alert variant="warning">
-            <AlertHeading>Blocked entity</AlertHeading>
-            <p>
-              The entity with ID <code>{entity.id}</code> has been removed from the
-              OpenSanctions website due to unusual legal circumstances.
-            </p>
-          </Alert>
-        </Container>
-      </Research.Context>
+      <Container>
+        <br />
+        <Alert variant="warning">
+          <AlertHeading>Blocked entity</AlertHeading>
+          <p>
+            The entity with ID <code>{entity.id}</code> has been removed from the
+            OpenSanctions website due to unusual legal circumstances.
+          </p>
+        </Alert>
+      </Container>
     </LayoutFrame>
   );
 }
