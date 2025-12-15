@@ -70,7 +70,7 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
       - name: Ping betterstack to report a everypolitician build
-        run: exit 1 # curl https://uptime.betterstack.com/api/v1/heartbeat/
+        run: curl ${{ secrets.BETTERSTACK_HEARTBEAT_URL }}
 
   dispatch:
     if: |
