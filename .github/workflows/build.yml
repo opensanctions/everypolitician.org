@@ -1,0 +1,27 @@
+name: build
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "15 8 * * 1"
+  push: {}
+  pull_request: {}
+
+permissions:
+  contents: read
+
+jobs:
+  # Build, just to do typechecks, really.
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 24
+      - name: Install dependencies
+        env:
+          API_TOKEN: ${{ secrets.SITE_TEST_API_KEY }}
+        run: npm ci
+      - run: npm run build
