@@ -21,7 +21,8 @@ jobs:
         with:
           node-version: 24
       - name: Install dependencies
-        env:
-          API_TOKEN: ${{ secrets.SITE_TEST_API_KEY }}
         run: npm ci
       - run: npm run build
+        env:
+          API_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.EVERYPOLITICIAN_PROD_API_KEY || secrets.EVERYPOLITICIAN_TEST_API_KEY }}
+          NEXT_PUBLIC_API_URL: https://api.${{ github.ref == 'refs/heads/main' && 'opensanctions.org' || 'test.opensanctions.org' }}
