@@ -25,4 +25,4 @@ jobs:
       - run: npm run build
         env:
           API_TOKEN: ${{ github.ref == 'refs/heads/main' && secrets.EVERYPOLITICIAN_PROD_API_KEY || secrets.EVERYPOLITICIAN_TEST_API_KEY }}
-          NEXT_PUBLIC_API_URL: https://api.${{ github.ref == 'refs/heads/main' && 'opensanctions.org' || 'test.opensanctions.org' }}
+          NEXT_PUBLIC_API_URL: "https://api.${{ github.ref == 'refs/heads/main' && '' || 'test.' }}opensanctions.org"

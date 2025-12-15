@@ -25,8 +25,6 @@ jobs:
       - name: Set build date
         run: echo "BUILD_TIME=$(date +%Y%m%d)" >> $GITHUB_ENV
       - uses: actions/checkout@v6
-        with:
-          ref: deploy/prod
       - name: Docker meta
         id: meta
         uses: docker/metadata-action@v5
