@@ -7,4 +7,4 @@ no_index: false
 path: /docs/about/
 ---
 
-Hello, world! -
+Hello, world!
