@@ -82,7 +82,7 @@ jobs:
         with:
           token: ${{ secrets.OPERATIONS_PAT }}
           repository: opensanctions/operations
-          event-type: release-everypolitician
+          event-type: deploy-everypolitician
           client-payload: |-
             {
               "environment": "${{ github.ref == 'refs/heads/main' && 'prod' || 'test' }}",
