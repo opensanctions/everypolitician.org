@@ -19,6 +19,8 @@ jobs:
     permissions:
       contents: read
       packages: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
     steps:
       - name: Set env
         run: echo "BUILD_TIME=$(date +%s)" >> $GITHUB_ENV
