@@ -59,10 +59,8 @@ export function FormattedDate({ date }: FormattedDateProps) {
 
 export function Sticky({ children }: React.PropsWithChildren) {
   return (
-    <div className="h-100 position-relative">
-      <div className="position-sticky" style={{ top: '2rem' }}>
-        {children}
-      </div>
+    <div className="sticky-parent">
+      <div className="sticky-child">{children}</div>
     </div>
   );
 }

@@ -1,11 +1,64 @@
-/* Apply custom fonts via Bootstrap CSS variables */
+/* Bootstrap theme customizations matching everypolitician.org */
 :root {
+  /* Color palette */
+  --bs-blue: #004eeb;
+  --bs-red: #fb2c36;
+  --bs-yellow: #fe9a00;
+  --bs-green: #00c950;
+  --bs-cyan: #06aed4;
+
+  /* Theme colors */
+  --bs-primary: #004eeb;
+  --bs-secondary: #00c950;
+  --bs-success: #00c950;
+  --bs-tertiary: #7bf1a8;
+  --bs-info: #67e3f9;
+  --bs-warning: #ffd230;
+  --bs-danger: #9f0712;
+  --bs-light: #f5f5f5;
+  --bs-dark: #262626;
+
+  /* RGB values for opacity utilities */
+  --bs-primary-rgb: 0, 78, 235;
+  --bs-secondary-rgb: 0, 201, 80;
+  --bs-success-rgb: 0, 201, 80;
+  --bs-tertiary-rgb: 123, 241, 168;
+  --bs-danger-rgb: 159, 7, 18;
+  --bs-light-rgb: 245, 245, 245;
+  --bs-dark-rgb: 38, 38, 38;
+
+  /* Gray scale */
+  --bs-gray: #525252;
+  --bs-gray-100: #f5f5f5;
+  --bs-gray-200: #e5e5e5;
+  --bs-gray-300: #d4d4d4;
+  --bs-gray-400: #a1a1a1;
+  --bs-gray-500: #737373;
+  --bs-gray-600: #525252;
+  --bs-gray-700: #404040;
+  --bs-gray-800: #262626;
+  --bs-gray-900: #171717;
+
+  /* Typography */
   --bs-body-font-family:
     var(--font-mona-sans), system-ui, -apple-system, 'Segoe UI', Roboto,
     'Helvetica Neue', Arial, sans-serif;
   --bs-font-monospace:
     var(--font-monaspace), SFMono-Regular, Menlo, Monaco, Consolas,
     'Liberation Mono', 'Courier New', monospace;
+  --bs-body-color: #171717;
+  --bs-body-bg: #fff;
+
+  /* Links */
+  --bs-link-color: #004eeb;
+  --bs-link-hover-color: #0037a5;
+
+  /* Borders */
+  --bs-border-color: #d4d4d4;
+
+  /* Nav links */
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
 }
 
 code,
@@ -13,4 +66,319 @@ pre,
 kbd,
 samp {
   font-family: var(--bs-font-monospace);
+}
+
+/* Heading styles */
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3 {
+  font-weight: 700;
+  letter-spacing: 0.01rem;
+  color: #262626;
+}
+
+h1 a,
+.h1 a,
+h2 a,
+.h2 a,
+h3 a,
+.h3 a {
+  color: #00359e;
+  text-decoration: none;
+}
+
+h1 a:hover,
+.h1 a:hover,
+h2 a:hover,
+.h2 a:hover,
+h3 a:hover,
+.h3 a:hover {
+  text-decoration: underline;
+}
+
+h2,
+.h2 {
+  margin-top: 1em;
+}
+
+h3,
+.h3 {
+  margin-top: 1.1em;
+}
+
+h4,
+.h4,
+h5,
+.h5 {
+  margin-top: 0.5em;
+  font-size: 1.15em;
+}
+
+/* Link styles */
+a {
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Blockquote */
+blockquote {
+  border-left: 0.2em solid #d4d4d4;
+  padding-left: 1em;
+  margin-left: 0;
+}
+
+/* Utility classes */
+.numeric {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.spaced li {
+  margin-bottom: 0.75em;
+}
+
+/* Footer styles */
+.footer {
+  background-color: #404040;
+  color: #f5f5f5;
+  margin-top: 2em;
+  padding-top: 3em;
+  padding-bottom: 6em;
+  line-height: 1.5;
+}
+
+.footer ul {
+  padding: 0;
+  list-style-type: none;
+}
+
+.footer li {
+  margin-top: 0.3em;
+}
+
+.footer strong {
+  color: #fff;
+}
+
+.footer a {
+  color: #f5f5f5;
+  text-decoration: underline;
+}
+
+.footer a:hover {
+  color: #acacac;
+}
+
+/* Navigation styles */
+.nav-link.nav-item-custom {
+  color: #004eeb;
+  font-weight: 700;
+  letter-spacing: 0.01rem;
+  margin-left: 1rem;
+}
+
+.nav-link.nav-item-custom:hover {
+  background-color: #e5e5e5;
+  color: #002776;
+}
+
+.nav-link.nav-item-custom.active {
+  color: #fff;
+  background-color: #004eeb;
+}
+
+.nav-link.nav-item-custom.active:hover,
+.nav-link.nav-item-custom.active:focus {
+  color: #fff;
+}
+
+/* Hero/Banner section */
+.claim-banner {
+  background-color: #0040c1;
+  background-image: url('https://assets.opensanctions.org/images/nura/banner-big.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-top: 5em;
+  padding-bottom: 3em;
+  color: #fff;
+}
+
+.claim-banner .claim {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1em;
+  font-size: 2em;
+  line-height: 1.5;
+}
+
+.claim-banner .sub-claim {
+  color: #f5f5f5;
+  margin-bottom: 1em;
+  font-size: 1.2em;
+}
+
+/* Sticky sidebar */
+.sticky-parent {
+  height: 100%;
+  position: relative;
+}
+
+.sticky-child {
+  position: sticky;
+  top: 2rem;
+}
+
+/* Navbar spacing */
+.navbar {
+  margin-top: 0.4rem;
+  margin-bottom: 0.3rem;
+}
+
+@media print {
+  .navbar {
+    margin-bottom: 1em;
+  }
+}
+
+/* Main content area */
+.content-area {
+  padding-top: 1rem;
+}
+
+/* Country/territory hero */
+.hero {
+  background-color: #2970ff;
+  color: #fff;
+  padding-top: 2.5rem;
+  padding-bottom: 3rem;
+}
+
+.hero h1 {
+  color: #fff;
+}
+
+.hero a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.hero a:hover {
+  color: #e5e5e5;
+}
+
+/* Sidebar nav */
+.sidebar-nav {
+  padding-top: 3rem;
+}
+
+/* Nav and nav-pills */
+.nav {
+  --bs-nav-link-padding-x: 1rem;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-color: var(--bs-link-color);
+  --bs-nav-link-hover-color: var(--bs-link-hover-color);
+  padding-left: 0;
+  list-style: none;
+}
+
+.nav-pills {
+  --bs-nav-pills-border-radius: var(--bs-border-radius);
+  --bs-nav-pills-link-active-color: #fff;
+  --bs-nav-pills-link-active-bg: #004eeb;
+}
+
+/* Table utilities */
+.table tbody th {
+  font-weight: 600;
+  background-color: var(--bs-gray-100);
+}
+
+.table tbody th[colspan] {
+  padding-top: 1em;
+}
+
+/* Territory table indentation */
+.subregion-cell {
+  padding-left: 1em !important;
+}
+
+.territory-cell {
+  padding-left: 2em !important;
+}
+
+/* Success/green styling */
+.alert-success {
+  --bs-alert-bg: #ccf4dc;
+  --bs-alert-border-color: #99e9b9;
+  --bs-alert-color: #005020;
+}
+
+.btn-success {
+  --bs-btn-bg: #00c950;
+  --bs-btn-border-color: #00c950;
+  --bs-btn-hover-bg: #00a040;
+  --bs-btn-hover-border-color: #009038;
+  --bs-btn-active-bg: #008030;
+  --bs-btn-active-border-color: #007028;
+}
+
+.btn-outline-success {
+  --bs-btn-color: #00c950;
+  --bs-btn-border-color: #00c950;
+  --bs-btn-hover-bg: #00c950;
+  --bs-btn-hover-border-color: #00c950;
+  --bs-btn-active-bg: #00c950;
+  --bs-btn-active-border-color: #00c950;
+}
+
+.btn-secondary {
+  --bs-btn-bg: #00c950;
+  --bs-btn-border-color: #00c950;
+  --bs-btn-color: #fff;
+  --bs-btn-hover-bg: #00a040;
+  --bs-btn-hover-border-color: #009038;
+  --bs-btn-hover-color: #fff;
+  --bs-btn-active-bg: #008030;
+  --bs-btn-active-border-color: #007028;
+  --bs-btn-active-color: #fff;
+}
+
+.btn-tertiary {
+  --bs-btn-bg: #7bf1a8;
+  --bs-btn-border-color: #7bf1a8;
+  --bs-btn-color: #005020;
+  --bs-btn-hover-bg: #5de090;
+  --bs-btn-hover-border-color: #5de090;
+  --bs-btn-hover-color: #005020;
+  --bs-btn-active-bg: #4dd080;
+  --bs-btn-active-border-color: #4dd080;
+  --bs-btn-active-color: #005020;
+}
+
+/* License info box */
+.license-box .alert {
+  background-color: #004eeb;
+  margin-top: 1em;
+  font-size: 15px;
+}
+
+.license-box .alert p {
+  color: #fff;
+}
+
+@media print {
+  .license-box .alert {
+    background-color: #e5e5e5;
+  }
+
+  .license-box .alert p {
+    color: #262626;
+  }
 }

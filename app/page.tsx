@@ -180,23 +180,15 @@ export default async function Page() {
 
   return (
     <LayoutFrame activeSection="research">
-      <div
-        className="bg-primary text-white"
-        style={{
-          backgroundImage:
-            "url('https://assets.opensanctions.org/images/nura/banner-big.png')",
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      >
+      <div className="claim-banner">
         <Container>
           <Row>
-            <h1 className="text-white fw-bold fs-1">{CLAIM}</h1>
-            <p className="fs-5 text-light">{SUBCLAIM}</p>
+            <h1 className="claim">{CLAIM}</h1>
+            <p className="sub-claim">{SUBCLAIM}</p>
           </Row>
         </Container>
       </div>
-      <Container>
+      <Container className="content-area">
         <Row>
           <Col md={9}>
             <h2 id="what">What are Politically Exposed Persons?</h2>
@@ -345,7 +337,7 @@ export default async function Page() {
               </li>
             </ul>
           </Col>
-          <Col md={3} className="d-none d-md-block">
+          <Col md={3} className="d-none d-md-block sidebar-nav">
             <Sticky>
               <Menu
                 items={[

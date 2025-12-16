@@ -261,7 +261,7 @@ export default async function Page(props: {
 
   return (
     <LayoutFrame activeSection="research">
-      <div className="bg-primary">
+      <div className="hero">
         <Container>
           <Row>
             <Col md={9}>
@@ -307,71 +307,63 @@ export default async function Page(props: {
         </Container>
       </div>
 
-      <Container>
+      <Container className="content-area">
         <Row>
           <Col md={9}>
-            <Row>
-              <h2 id="peps">Politically-exposed persons (PEPs)</h2>
-              <p>
-                Our database
-                {pepCount == 0 ? (
-                  <> does not yet contain entities identified as PEPs </>
-                ) : (
-                  <>
-                    {' '}
-                    contains{' '}
-                    <Plural
-                      value={pepCount}
-                      one="entity"
-                      many="entities"
-                    />{' '}
-                    identified as PEPs{' '}
-                  </>
-                )}
-                connected with {info.in_sentence}.
-              </p>
+            <h2 id="peps">Politically-exposed persons (PEPs)</h2>
+            <p>
+              Our database
+              {pepCount == 0 ? (
+                <> does not yet contain entities identified as PEPs </>
+              ) : (
+                <>
+                  {' '}
+                  contains{' '}
+                  <Plural value={pepCount} one="entity" many="entities" />{' '}
+                  identified as PEPs{' '}
+                </>
+              )}
+              connected with {info.in_sentence}.
+            </p>
 
-              {positionSections
-                .filter(
-                  (section) =>
-                    section.showIfEmpty ||
-                    !isSectionEmpty(section, categoryResults),
-                )
-                .map((section) => (
-                  <PositionSection
-                    key={section.name}
-                    sectionDefinition={section}
-                    categoryResults={categoryResults}
-                    allEmpty={isSectionEmpty(section, categoryResults)}
-                  />
-                ))}
+            {positionSections
+              .filter(
+                (section) =>
+                  section.showIfEmpty ||
+                  !isSectionEmpty(section, categoryResults),
+              )
+              .map((section) => (
+                <PositionSection
+                  key={section.name}
+                  sectionDefinition={section}
+                  categoryResults={categoryResults}
+                  allEmpty={isSectionEmpty(section, categoryResults)}
+                />
+              ))}
 
-              <h4 id="explainer">What do these numbers mean?</h4>
-              <p>
-                We keep track both if political positions and the individuals
-                who occupy those positions over time. Of course, a person can
-                hold a position for multiple terms, and multiple people can
-                occupy the same position at the same time (e.g. members of
-                parliament).
-              </p>
-              <p>
-                If a person previously held a position, and currently holds the
-                same position, they are only counted once and recorded under
-                Current. If it is unclear from the source whether they have left
-                the position, they will be counted under Unclear.
-              </p>
-              <h4 id="explain-status-unclear">How can status be unclear?</h4>
-              <p>
-                Some of the data sources we rely on indicate both past and
-                present holders of political offices. In those cases, a lack of
-                a precise end date for a person&apos;s occupancy of a position
-                can mean that we don&apos;t know whether they currently hold the
-                position or not.{' '}
-                <Link href="/docs/pep/methodology/#types">Read more...</Link>
-              </p>
-            </Row>
+            <h4 id="explainer">What do these numbers mean?</h4>
+            <p>
+              We keep track both if political positions and the individuals who
+              occupy those positions over time. Of course, a person can hold a
+              position for multiple terms, and multiple people can occupy the
+              same position at the same time (e.g. members of parliament).
+            </p>
+            <p>
+              If a person previously held a position, and currently holds the
+              same position, they are only counted once and recorded under
+              Current. If it is unclear from the source whether they have left
+              the position, they will be counted under Unclear.
+            </p>
+            <h4 id="explain-status-unclear">How can status be unclear?</h4>
+            <p>
+              Some of the data sources we rely on indicate both past and present
+              holders of political offices. In those cases, a lack of a precise
+              end date for a person&apos;s occupancy of a position can mean that
+              we don&apos;t know whether they currently hold the position or
+              not. <Link href="/docs/pep/methodology/#types">Read more...</Link>
+            </p>
           </Col>
-          <Col md={3} className="d-none d-md-block">
+          <Col md={3} className="d-none d-md-block sidebar-nav">
             <Sticky>
               <Nav className="flex-column d-print-none" variant="pills">
                 <NavItem>

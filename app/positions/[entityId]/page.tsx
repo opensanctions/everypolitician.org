@@ -159,7 +159,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
         />
       )}
-      <Container>
+      <Container className="content-area">
         <Row>
           <Col md={9}>
             <h1>{position.caption}</h1>
@@ -202,9 +202,12 @@ export default async function PositionPage({ params }: PositionPageProps) {
               )}
             </section>
           </Col>
-          <Col md={3} className="order-2">
+          <Col md={3} className="order-2 sidebar-nav">
             <Sticky>
-              <Nav className="flex-column d-print-none d-none d-md-flex">
+              <Nav
+                className="flex-column d-print-none d-none d-md-flex"
+                variant="pills"
+              >
                 <NavLink href="#factsheet">Position details</NavLink>
                 <NavLink href="#holders">Position holders</NavLink>
                 <NavLink href="#sources">Data sources</NavLink>

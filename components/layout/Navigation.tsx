@@ -14,7 +14,7 @@ type NavLinkProps = {
 };
 
 function NavLink({ active, href, children }: NavLinkProps) {
-  const clazz = `nav-link fw-bold rounded ${active ? 'text-white bg-primary' : 'text-primary'}`;
+  const clazz = `nav-link nav-item-custom rounded ${active ? 'active' : ''}`;
   return (
     <Link className={clazz} href={href} prefetch={false}>
       {children}

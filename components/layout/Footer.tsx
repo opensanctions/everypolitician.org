@@ -19,7 +19,7 @@ import { CLAIM, LICENSE_URL, OSA_URL, SPACER } from '@/lib/constants';
 export default function Footer() {
   return (
     <>
-      <div className="d-print-none text-light bg-dark" role="contentinfo">
+      <div className="footer d-print-none" role="contentinfo">
         <Container>
           <Row>
             <Col md={10}>

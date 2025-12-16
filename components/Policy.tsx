@@ -9,17 +9,17 @@ import ButtonGroup from 'react-bootstrap/ButtonGroup';
 export function LicenseInfo() {
   // 'use cache';
   return (
-    <div>
+    <div className="license-box">
       <Alert variant="primary">
-        <p className="text-white">
+        <p>
           EveryPolitician is <strong>free for non-commercial users.</strong>{' '}
           Businesses must acquire a data license to use the dataset.
         </p>
         <ButtonGroup className="d-print-none">
-          <Button href={`${OSA_URL}/api/`} variant="light">
+          <Button href={`${OSA_URL}/api/`} variant="secondary">
             Use the API
           </Button>
-          <Button href={`${OSA_URL}/licensing/`} variant="outline-light">
+          <Button href={`${OSA_URL}/licensing/`} className="btn-tertiary">
             License in bulk
           </Button>
         </ButtonGroup>
