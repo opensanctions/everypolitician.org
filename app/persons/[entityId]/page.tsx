@@ -1,25 +1,34 @@
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
+import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
+import { Sticky } from '@/components/Formatting';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { BlockedEntity, LicenseInfo } from '@/components/Policy';
-import { Sticky } from '@/components/util';
-import StructuredData from '@/components/utils/StructuredData';
-import { Col, Container, Nav, NavLink, Row, Table } from '@/components/wrapped';
-import { BASE_URL } from '@/lib/constants';
-import { getAdjacent, getEntity, getEntityDatasets, isBlocked, isIndexRelevant } from '@/lib/data';
-import { Entity } from '@/lib/ftm';
+import { LicenseInfo } from '@/components/Policy';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import NavLink from 'react-bootstrap/NavLink';
+import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
+import { getAdjacent, getEntity, getEntityDatasets } from '@/lib/data';
 import { getGenerateMetadata } from '@/lib/meta';
 import { getSchemaEntityPage } from '@/lib/schema';
-import { IDataset, IPropResults, isExternal, isSource } from '@/lib/types';
-
-import styles from '@/styles/Entity.module.scss';
+import {
+  EntityData,
+  getFirst,
+  getStringProperty,
+  getEntityProperty,
+  IPropResults,
+  isExternal,
+  isSource,
+} from '@/lib/types';
 
 export const maxDuration = 25;
 
 interface PersonPageProps {
-  params: Promise<{ entityId: string }>
+  params: Promise<{ entityId: string }>;
 }
 
 export async function generateMetadata({ params }: PersonPageProps) {
@@ -27,38 +36,40 @@ export async function generateMetadata({ params }: PersonPageProps) {
   if (entity === null) {
     return getGenerateMetadata({ title: 'Person not found' });
   }
-  const title = isBlocked(entity) ? 'Blocked entity' : entity.caption;
-  const noIndex = !isIndexRelevant(entity);
-  const canonicalUrl = `${BASE_URL}/persons/${entity.id}/`;
   return getGenerateMetadata({
-    title,
-    noIndex,
-    canonicalUrl: noIndex ? null : canonicalUrl
+    title: entity.caption,
+    noIndex: true,
   });
 }
 
-function PositionLink({ position }: { position: Entity }) {
+function PositionLink({ position }: { position: EntityData }) {
   return <Link href={`/positions/${position.id}/`}>{position.caption}</Link>;
 }
 
-function PersonFactsheet({ person }: { person: Entity }) {
+function PersonFactsheet({ person }: { person: EntityData }) {
   const properties = [
-    { label: 'Also known as', value: person.getStringProperty('alias').join(', ') },
-    { label: 'Date of birth', value: person.getFirst('birthDate') as string | null },
-    { label: 'Place of birth', value: person.getFirst('birthPlace') as string | null },
-    { label: 'Political affiliation', value: person.getStringProperty('political').join(', ') },
-  ].filter(p => p.value);
+    {
+      label: 'Also known as',
+      value: getStringProperty(person, 'alias').join(', '),
+    },
+    { label: 'Date of birth', value: getFirst(person, 'birthDate') },
+    { label: 'Place of birth', value: getFirst(person, 'birthPlace') },
+    {
+      label: 'Political affiliation',
+      value: getStringProperty(person, 'political').join(', '),
+    },
+  ].filter((p) => p.value);
 
   if (properties.length === 0) {
     return null;
   }
 
   return (
-    <Table className={styles.factsheet}>
+    <Table>
       <tbody>
         {properties.map(({ label, value }) => (
           <tr key={label}>
-            <th className={styles.cardProp}>{label}</th>
+            <th className="text-muted">{label}</th>
             <td>{value}</td>
           </tr>
         ))}
@@ -73,7 +84,7 @@ function OccupanciesTable({ occupancies }: { occupancies: IPropResults }) {
   }
 
   return (
-    <Table bordered size="sm">
+    <Table>
       <thead>
         <tr>
           <th>Position</th>
@@ -83,12 +94,12 @@ function OccupanciesTable({ occupancies }: { occupancies: IPropResults }) {
       </thead>
       <tbody>
         {occupancies.results.map((occupancy) => {
-          const post = occupancy.getProperty('post').find((v): v is Entity => typeof v !== 'string');
+          const post = getEntityProperty(occupancy, 'post')[0];
           return (
             <tr key={occupancy.id}>
               <td>{post ? <PositionLink position={post} /> : '-'}</td>
-              <td>{(occupancy.getFirst('startDate') as string) || '-'}</td>
-              <td>{(occupancy.getFirst('endDate') as string) || '-'}</td>
+              <td>{getFirst(occupancy, 'startDate') || '-'}</td>
+              <td>{getFirst(occupancy, 'endDate') || '-'}</td>
             </tr>
           );
         })}
@@ -106,13 +117,9 @@ export default async function PersonPage({ params }: PersonPageProps) {
   if (person.id !== resolvedParams.entityId) {
     redirect(`/persons/${person.id}/`);
   }
-  if (!person.schema.isA('Person')) {
+  if (person.schema !== 'Person') {
     redirect(`/positions/${person.id}/`);
   }
-  if (isBlocked(person)) {
-    return <BlockedEntity entity={person} />
-  }
-
   const datasets = await getEntityDatasets(person);
   const propsResults = await getAdjacent(person.id);
 
@@ -121,65 +128,71 @@ export default async function PersonPage({ params }: PersonPageProps) {
   const externals = datasets.filter(isExternal);
 
   // Get occupancies (positions held by this person)
-  const occupanciesProp = person.schema.getProperty('positionOccupancies');
-  const occupancies = occupanciesProp ? propsResults?.adjacent.get(occupanciesProp) : undefined;
+  const occupancies = propsResults?.adjacent['positionOccupancies'];
 
   return (
     <LayoutFrame activeSection="research">
-      <StructuredData data={structured} />
+      {structured && (
+        <Script
+          type="application/ld+json"
+          id="json-ld"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
+        />
+      )}
       <Container>
-          <Row>
-            <Col md={9}>
-              <h1>{person.caption}</h1>
-            </Col>
-            <Col md={3}></Col>
-          </Row>
-          <Row>
-            <Col md={9} className="order-1">
-              <section id="factsheet">
-                <h2>Profile</h2>
-                <PersonFactsheet person={person} />
-              </section>
+        <Row>
+          <Col md={9}>
+            <h1>{person.caption}</h1>
+          </Col>
+          <Col md={3}></Col>
+        </Row>
+        <Row>
+          <Col md={9} className="order-1">
+            <section id="factsheet">
+              <h2>Profile</h2>
+              <PersonFactsheet person={person} />
+            </section>
 
-              <section id="positions" className={styles.entityPageSection}>
-                <h2>Positions held</h2>
-                {occupancies ? (
-                  <OccupanciesTable occupancies={occupancies} />
-                ) : (
-                  <p>No positions found.</p>
-                )}
-              </section>
+            <section id="positions">
+              <h2>Positions held</h2>
+              {occupancies ? (
+                <OccupanciesTable occupancies={occupancies} />
+              ) : (
+                <p>No positions found.</p>
+              )}
+            </section>
 
-              <section id="sources" className={styles.entityPageSection}>
-                <h2>Data sources</h2>
-                {sources.map((d) => (
-                  <Dataset.Item key={d.name} dataset={d} />
-                ))}
-                {externals.length > 0 && (
-                  <>
-                    <h5>External databases</h5>
-                    <p>
-                      The record has been <Link href="/docs/enrichment/">enriched with data</Link> from
-                      the following external databases:
-                    </p>
-                    {externals.map((d) => (
-                      <Dataset.Item key={d.name} dataset={d} />
-                    ))}
-                  </>
-                )}
-              </section>
-            </Col>
-            <Col md={3} className="order-2">
-              <Sticky>
-                <Nav className="flex-column d-print-none d-none d-md-flex">
-                  <NavLink href="#factsheet">Profile</NavLink>
-                  <NavLink href="#positions">Positions held</NavLink>
-                  <NavLink href="#sources">Data sources</NavLink>
-                </Nav>
-                <LicenseInfo />
-              </Sticky>
-            </Col>
-          </Row>
+            <section id="sources">
+              <h2>Data sources</h2>
+              {sources.map((d) => (
+                <Dataset.Item key={d.name} dataset={d} />
+              ))}
+              {externals.length > 0 && (
+                <>
+                  <h5>External databases</h5>
+                  <p>
+                    The record has been{' '}
+                    <Link href="/docs/enrichment/">enriched with data</Link>{' '}
+                    from the following external databases:
+                  </p>
+                  {externals.map((d) => (
+                    <Dataset.Item key={d.name} dataset={d} />
+                  ))}
+                </>
+              )}
+            </section>
+          </Col>
+          <Col md={3} className="order-2">
+            <Sticky>
+              <Nav className="flex-column d-print-none d-none d-md-flex">
+                <NavLink href="#factsheet">Profile</NavLink>
+                <NavLink href="#positions">Positions held</NavLink>
+                <NavLink href="#sources">Data sources</NavLink>
+              </Nav>
+              <LicenseInfo />
+            </Sticky>
+          </Col>
+        </Row>
       </Container>
     </LayoutFrame>
   );

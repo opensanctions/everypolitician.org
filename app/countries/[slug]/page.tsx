@@ -1,36 +1,43 @@
-import classnames from 'classnames';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
-import { HelpLink } from '@/components/clientUtil';
-import Dataset from '@/components/Dataset';
-import Flag from '@/components/Flag';
+import { Plural, SpacedList, Sticky } from '@/components/Formatting';
+import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { PEPSectionDefinition, PEPSubsection } from '@/components/PEPSection';
-import { Plural, SpacedList, Sticky } from '@/components/util';
-import {
-  Col,
-  Container,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-} from '@/components/wrapped';
+import { PositionSubsection } from './PositionSubsection';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import NavItem from 'react-bootstrap/NavItem';
+import NavLink from 'react-bootstrap/NavLink';
+import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
 import { BASE_URL, MAIN_DATASET } from '@/lib/constants';
-import { fetchApiCached, getDatasets } from '@/lib/data';
+import { fetchApiCached } from '@/lib/data';
 import { getGenerateMetadata } from '@/lib/meta';
 import { getCountryPEPData, IPositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode, getTerritoryInfo } from '@/lib/territory';
-import { IDataset, ISearchAPIResponse } from '@/lib/types';
+import { ISearchAPIResponse } from '@/lib/types';
 
 import type { JSX } from 'react';
-
-import styles from '@/styles/Country.module.scss';
 
 // export const dynamic = 'force-static';
 const HARD_LIMIT = 2000;
 
 const slugCountryCode = (slug: string) => slug.split('.')[0];
+
+type PositionSubsectionDefinition = {
+  name: string;
+  label: string;
+};
+
+type PositionSectionDefinition = {
+  name: string;
+  label: string;
+  navLabel: string;
+  subsections: PositionSubsectionDefinition[];
+  showIfEmpty: boolean;
+};
 
 export async function generateMetadata(props: {
   params: Promise<{ slug: string }>;
@@ -54,7 +61,7 @@ export async function generateMetadata(props: {
 //   return params;
 // }
 
-const pepSections: PEPSectionDefinition[] = [
+const positionSections: PositionSectionDefinition[] = [
   {
     name: 'national',
     label: 'National government positions',
@@ -112,7 +119,7 @@ function groupPositions(
   positions: IPositionSummary[],
 ): Map<string, IPositionSummary[]> {
   const categoryResults = new Map();
-  pepSections.forEach((section) => {
+  positionSections.forEach((section) => {
     section.subsections.forEach((subsection) => {
       categoryResults.set(subsection.name, []);
     });
@@ -140,24 +147,19 @@ function groupPositions(
   return categoryResults;
 }
 
-type PEPSectionProps = {
-  sectionDefinition: PEPSectionDefinition;
+type PositionSectionProps = {
+  sectionDefinition: PositionSectionDefinition;
   categoryResults: Map<string, IPositionSummary[]>;
   allEmpty: boolean;
-  countryCode: string;
 };
 
-function PEPSection({
+function PositionSection({
   sectionDefinition,
   categoryResults,
   allEmpty,
-  countryCode,
-}: PEPSectionProps) {
+}: PositionSectionProps) {
   return (
-    <table
-      id={`peps-${sectionDefinition.name}`}
-      className={'table table-responsive ' + styles.pepTable}
-    >
+    <Table id={`peps-${sectionDefinition.name}`}>
       <thead>
         <tr>
           <th>
@@ -187,9 +189,8 @@ function PEPSection({
             // to be kind to vercel's response body limit and browserkind everywhere.
             positions = positions.slice(0, HARD_LIMIT + 1);
             return (
-              <PEPSubsection
+              <PositionSubsection
                 key={subsectionDefinition.name}
-                countryCode={countryCode}
                 subsectionDefinition={subsectionDefinition}
                 positions={positions}
                 hardLimit={HARD_LIMIT}
@@ -198,7 +199,7 @@ function PEPSection({
           }
         })
       )}
-    </table>
+    </Table>
   );
 }
 
@@ -211,156 +212,14 @@ function reverseNumericAlphabetic(a: IPositionSummary, b: IPositionSummary) {
   else return b.counts.total - a.counts.total;
 }
 
-function makePEPSections(
-  countryCode: string,
-  positions: IPositionSummary[],
-): [[string, string][], JSX.Element[]] {
-  positions.sort(caseInsensitiveAlphabetic);
-  const categoryResults = groupPositions(positions);
-  categoryResults.get('other')?.sort(reverseNumericAlphabetic);
-  const sections: JSX.Element[] = [];
-  const navItems: [string, string][] = [];
-
-  pepSections.forEach((sectionDefinition) => {
-    const allEmpty = sectionDefinition.subsections.every((subsection) => {
-      const positions = categoryResults.get(subsection.name);
-      return positions == undefined || positions.length == 0;
-    });
-    if (allEmpty && !sectionDefinition.showIfEmpty) return;
-    sections.push(
-      <PEPSection
-        key={sectionDefinition.name}
-        sectionDefinition={sectionDefinition}
-        categoryResults={categoryResults}
-        allEmpty={allEmpty}
-        countryCode={countryCode}
-      />,
-    );
-    navItems.push([sectionDefinition.name, sectionDefinition.navLabel]);
+function isSectionEmpty(
+  section: PositionSectionDefinition,
+  categoryResults: Map<string, IPositionSummary[]>,
+) {
+  return section.subsections.every((subsection) => {
+    const positions = categoryResults.get(subsection.name);
+    return positions == undefined || positions.length == 0;
   });
-
-  return [navItems, sections];
-}
-
-type DatasetsSectionProps = {
-  countryCode: string;
-  countryLabel: string;
-  datasets: IDataset[];
-};
-
-function DatasetsSection({
-  countryCode,
-  countryLabel,
-  datasets,
-}: DatasetsSectionProps) {
-  return (
-    <>
-      <Row className="mt-4">
-        <h2 id="sources">Data sources</h2>
-        <p>
-          {datasets.length > 0 ? (
-            <>
-              We include{' '}
-              <strong>
-                <Plural
-                  value={datasets.length}
-                  one="data source"
-                  many="data sources"
-                />
-              </strong>{' '}
-              published by authorities or organizations based in {countryLabel}
-              .{' '}
-            </>
-          ) : (
-            <>
-              We are not yet including any data published by authorities or
-              organizations based in {countryLabel}.
-            </>
-          )}{' '}
-          See our global list of{' '}
-          <a href="https://opensanctions.org/datasets/">data sources</a> and our{' '}
-          <Link href="/docs/criteria/">criteria for selecting datasets</Link>.
-        </p>
-      </Row>
-      <Row>
-        {datasets.length > 0 && (
-          <Dataset.Table
-            datasets={datasets}
-            country={false}
-            frequency
-            publisher
-          />
-        )}
-      </Row>
-    </>
-  );
-}
-
-type PEPsSectionProps = {
-  countryCode: string;
-  countryLabel: string;
-  pepCount: number;
-  sections: JSX.Element[];
-};
-
-function PEPsSection({
-  countryCode,
-  countryLabel,
-  pepCount,
-  sections,
-}: PEPsSectionProps) {
-  return (
-    <>
-      <Row className="mt-4">
-        <h2 id="peps">Politically-exposed persons (PEPs)</h2>
-        <p>
-          Our database
-          {pepCount == 0 ? (
-            <> does not yet contain entities identified as PEPs </>
-          ) : (
-            <>
-              {' '}
-              contains <Plural
-                value={pepCount}
-                one="entity"
-                many="entities"
-              />{' '}
-              identified as PEPs{' '}
-            </>
-          )}
-          connected with {countryLabel}.
-        </p>
-
-        {...sections}
-
-        <h4 id="explainer" className="mt-4">
-          What do these numbers mean?
-        </h4>
-        <p>
-          We keep track both if political positions and the individuals who
-          occupy those positions over time. Of course, a person can hold a
-          position for multiple terms, and multiple people can occupy the same
-          position at the same time (e.g. members of parliament).
-        </p>
-        <p>
-          If a person previously held a position, and currently holds the same
-          position, they are only counted once and recorded under Current. If it
-          is unclear from the source whether they have left the position, they
-          will be counted under Unclear.
-        </p>
-        <h4 id="explain-status-unclear" className="mt-4">
-          How can status be unclear?
-        </h4>
-        <p>
-          Some of the data sources we rely on indicate both past and present
-          holders of political offices. In those cases, a lack of a precise end
-          date for a person&apos;s occupancy of a position can mean that we
-          don&apos;t know whether they currently hold the position or not.{' '}
-          <Link href="/docs/pep/methodology/#types">Read more...</Link>
-        </p>
-      </Row>
-    </>
-  );
 }
 
 export default async function Page(props: {
@@ -390,14 +249,11 @@ export default async function Page(props: {
     searchParams,
   );
 
-  // Data for DatasetsSection
-  const allDatasets = await getDatasets();
-  const countryDatasets = allDatasets
-    .filter((d) => d.publisher?.country == countryCode)
-    .filter((d) => !d.hidden);
-
   // Process PEPs data
-  const [pepNavItems, pepSections] = makePEPSections(countryCode, positions);
+  positions.sort(caseInsensitiveAlphabetic);
+  const categoryResults = groupPositions(positions);
+  categoryResults.get('other')?.sort(reverseNumericAlphabetic);
+
   const pepFacets = searchResponse.facets.topics.values.filter(
     (topic) => topic.name == 'role.pep',
   );
@@ -405,37 +261,47 @@ export default async function Page(props: {
 
   return (
     <LayoutFrame activeSection="research">
-      <div className={styles.hero}>
+      <div className="bg-primary">
         <Container>
           <Row>
             <Col md={9}>
-              <div className={styles.flagContainer}>
-                <Flag flag={info.flag} regionLabel={info.in_sentence} />
-              </div>
-              <div className={styles.headingContainer}>
-                <h1 className={styles.title}>{info.label_full}</h1>
-              </div>
-              <div className={styles.content}>
-                {info?.summary || info?.summary}
-                {!info?.summary && info?.wikipedia_url && (
-                  <span>
-                    {' '}
-                    -&nbsp;<Link href={info?.wikipedia_url}>Wikipedia</Link>
-                  </span>
-                )}
-              </div>
-              {info.see.length > 0 && (
-                <div className={styles.content}>
-                  See also:{' '}
-                  <SpacedList
-                    values={info.see.map((c) => (
-                      <Link key={c} href={`/countries/${c}/`}>
-                        {territories.get(c)?.label_short}
-                      </Link>
-                    ))}
+              <Row className="align-items-start">
+                <Col xs={3}>
+                  <img
+                    src={`/assets/${info.flag || '10c75c82-b086-4b42-b930-dce7533e1f01'}/?w=150&format=auto`}
+                    alt={
+                      info.flag
+                        ? `Flag of ${info.in_sentence}`
+                        : 'Placeholder flag'
+                    }
+                    className="w-100"
                   />
-                </div>
-              )}
+                </Col>
+                <Col xs={9}>
+                  <h1>{info.label_full}</h1>
+                  <div>
+                    {info?.summary || info?.summary}
+                    {!info?.summary && info?.wikipedia_url && (
+                      <span>
+                        {' '}
+                        -&nbsp;<Link href={info?.wikipedia_url}>Wikipedia</Link>
+                      </span>
+                    )}
+                  </div>
+                  {info.see.length > 0 && (
+                    <div>
+                      See also:{' '}
+                      <SpacedList
+                        values={info.see.map((c) => (
+                          <Link key={c} href={`/countries/${c}/`}>
+                            {territories.get(c)?.label_short}
+                          </Link>
+                        ))}
+                      />
+                    </div>
+                  )}
+                </Col>
+              </Row>
             </Col>
           </Row>
         </Container>
@@ -444,34 +310,87 @@ export default async function Page(props: {
       <Container>
         <Row>
           <Col md={9}>
-            <PEPsSection
-              countryCode={countryCode}
-              countryLabel={info.in_sentence}
-              pepCount={pepCount}
-              sections={pepSections}
-            />
-            <DatasetsSection
-              countryCode={countryCode}
-              countryLabel={info.in_sentence}
-              datasets={countryDatasets}
-            />
+            <Row>
+              <h2 id="peps">Politically-exposed persons (PEPs)</h2>
+              <p>
+                Our database
+                {pepCount == 0 ? (
+                  <> does not yet contain entities identified as PEPs </>
+                ) : (
+                  <>
+                    {' '}
+                    contains{' '}
+                    <Plural
+                      value={pepCount}
+                      one="entity"
+                      many="entities"
+                    />{' '}
+                    identified as PEPs{' '}
+                  </>
+                )}
+                connected with {info.in_sentence}.
+              </p>
+
+              {positionSections
+                .filter(
+                  (section) =>
+                    section.showIfEmpty ||
+                    !isSectionEmpty(section, categoryResults),
+                )
+                .map((section) => (
+                  <PositionSection
+                    key={section.name}
+                    sectionDefinition={section}
+                    categoryResults={categoryResults}
+                    allEmpty={isSectionEmpty(section, categoryResults)}
+                  />
+                ))}
+
+              <h4 id="explainer">What do these numbers mean?</h4>
+              <p>
+                We keep track both if political positions and the individuals
+                who occupy those positions over time. Of course, a person can
+                hold a position for multiple terms, and multiple people can
+                occupy the same position at the same time (e.g. members of
+                parliament).
+              </p>
+              <p>
+                If a person previously held a position, and currently holds the
+                same position, they are only counted once and recorded under
+                Current. If it is unclear from the source whether they have left
+                the position, they will be counted under Unclear.
+              </p>
+              <h4 id="explain-status-unclear">How can status be unclear?</h4>
+              <p>
+                Some of the data sources we rely on indicate both past and
+                present holders of political offices. In those cases, a lack of
+                a precise end date for a person&apos;s occupancy of a position
+                can mean that we don&apos;t know whether they currently hold the
+                position or not.{' '}
+                <Link href="/docs/pep/methodology/#types">Read more...</Link>
+              </p>
+            </Row>
           </Col>
-          <Col
-            md={3}
-            className={classnames(styles.nav, 'd-none', 'd-md-block')}
-          >
+          <Col md={3} className="d-none d-md-block">
             <Sticky>
               <Nav className="flex-column d-print-none" variant="pills">
                 <NavItem>
                   <NavLink href="#peps">PEPs</NavLink>
 
-                  {...pepNavItems.map(([anchor, navLabel]) => (
-                    <NavItem key={anchor}>
-                      <NavLink href={`#peps-${anchor}`}>{navLabel}</NavLink>
-                    </NavItem>
-                  ))}
+                  {positionSections
+                    .filter(
+                      (section) =>
+                        section.showIfEmpty ||
+                        !isSectionEmpty(section, categoryResults),
+                    )
+                    .map((section) => (
+                      <NavItem key={section.name}>
+                        <NavLink href={`#peps-${section.name}`}>
+                          {section.navLabel}
+                        </NavLink>
+                      </NavItem>
+                    ))}
                 </NavItem>
-                <NavLink href="#sources">Data sources</NavLink>
               </Nav>
             </Sticky>
           </Col>

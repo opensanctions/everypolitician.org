@@ -1,16 +1,20 @@
-import Link from "next/link";
+import Link from 'next/link';
 
-import { ITerritoryInfo } from "@/lib/territory";
+import { ITerritoryInfo } from '@/lib/territory';
 
-import { Badge } from "./wrapped";
+import Badge from 'react-bootstrap/Badge';
 
 type TerritoryProps = {
-  territory?: ITerritoryInfo
-  short?: boolean
-  sentence?: boolean
-}
+  territory?: ITerritoryInfo;
+  short?: boolean;
+  sentence?: boolean;
+};
 
-function TerritoryName({ territory, short = true, sentence = false }: TerritoryProps) {
+function TerritoryName({
+  territory,
+  short = true,
+  sentence = false,
+}: TerritoryProps) {
   if (!territory) {
     return null;
   }
@@ -21,21 +25,29 @@ function TerritoryName({ territory, short = true, sentence = false }: TerritoryP
       label = territory.in_sentence || label;
     }
   }
-  return <>{label}</>
+  return <>{label}</>;
 }
 
 function TerritoryBadge({ territory, short = true }: TerritoryProps) {
   if (!territory) {
     return null;
   }
-  return <Badge bg="light"><TerritoryName territory={territory} short={short} /></Badge>
+  return (
+    <Badge bg="primary">
+      <TerritoryName territory={territory} short={short} />
+    </Badge>
+  );
 }
 
 function TerritoryLink({ territory, short = true }: TerritoryProps) {
   if (!territory) {
     return null;
   }
-  return <Link href={`/countries/${territory.code}`} prefetch={false}><TerritoryName territory={territory} short={short} /></Link>
+  return (
+    <Link href={`/countries/${territory.code}`} prefetch={false}>
+      <TerritoryName territory={territory} short={short} />
+    </Link>
+  );
 }
 
 export default class Territory {

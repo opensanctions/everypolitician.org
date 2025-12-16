@@ -3,12 +3,19 @@
 import Link from 'next/link';
 import { useState } from 'react';
 
-import { Numeric, Spacer } from '@/components/util';
+import { Numeric, Spacer } from '@/components/Formatting';
+import { HelpLink } from '@/components/HelpLink';
 import { IPositionSummary } from '@/lib/peps';
 
-import { HelpLink } from './clientUtil';
-
 const PAGE_LIMIT = 100;
+
+function bestLabel(labels: string[]) {
+  const isTitlecase = /^[A-Z]\w*/;
+  for (const label of labels) {
+    if (isTitlecase.exec(label) !== null) return label;
+  }
+  return labels[0];
+}
 
 function positionRows(positions: IPositionSummary[], limit: number) {
   const collapsedPositions = positions.slice(0, limit);
@@ -34,40 +41,20 @@ function positionRows(positions: IPositionSummary[], limit: number) {
   });
 }
 
-function bestLabel(labels: string[]) {
-  const isTitlecase = /^[A-Z]\w*/;
-  for (const label of labels) {
-    if (isTitlecase.exec(label) !== null) return label;
-  }
-  return labels[0];
-}
-
-type PEPSubsectionDefinition = {
-  name: string;
-  label: string;
-};
-
-export type PEPSectionDefinition = {
-  name: string;
-  label: string;
-  navLabel: string;
-  subsections: PEPSubsectionDefinition[];
-  showIfEmpty: boolean;
-};
-
-type PEPSubsectionProps = {
-  subsectionDefinition: PEPSubsectionDefinition;
+type PositionSubsectionProps = {
+  subsectionDefinition: {
+    name: string;
+    label: string;
+  };
   positions: IPositionSummary[];
-  countryCode: string;
   hardLimit: number;
 };
 
-export function PEPSubsection({
+export function PositionSubsection({
   subsectionDefinition,
   positions,
-  countryCode,
   hardLimit,
-}: PEPSubsectionProps) {
+}: PositionSubsectionProps) {
   const [limit, setLimit] = useState(PAGE_LIMIT);
   const isEmpty = positions == undefined || positions.length == 0;
   return (

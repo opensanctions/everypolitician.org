@@ -5,21 +5,22 @@ import AnalyticsManager from '@/components/Analytics';
 import Footer from './Footer';
 import Navigation from './Navigation';
 
-import styles from '@/styles/Layout.module.scss';
-
 type LayoutFrameProps = {
-  activeSection?: string
-}
+  activeSection?: string;
+};
 
-export default function LayoutFrame({ activeSection, children }: React.PropsWithChildren<LayoutFrameProps>) {
+export default function LayoutFrame({
+  activeSection,
+  children,
+}: React.PropsWithChildren<LayoutFrameProps>) {
   return (
-    <>
-      <div className={styles.page}>
-        <Navigation activeSection={activeSection} />
+    <div className="d-flex flex-column min-vh-100">
+      <Navigation activeSection={activeSection} />
+      <main className="flex-grow-1">
         {children}
         <AnalyticsManager />
-      </div>
+      </main>
       <Footer />
-    </>
-  )
+    </div>
+  );
 }

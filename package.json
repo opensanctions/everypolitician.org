@@ -15,16 +15,11 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@directus/sdk": "~20.3.0",
-    "@types/lodash": "^4.17.21",
     "bootstrap": "~5.3.8",
-    "classnames": "^2.5.1",
     "cronstrue": "^3.9.0",
     "filesize": "^11.0.13",
     "gray-matter": "^4.0.3",
-    "lodash": "^4.17.21",
     "next": "~16.0.10",
-    "query-string": "^9.3.1",
     "react": "~19.2.3",
     "react-bootstrap": "2.10.10",
     "react-bootstrap-icons": "^1.11.6",
@@ -36,18 +31,17 @@
     "remark-heading-id": "^1.0.1",
     "remark-parse": "^11.0.0",
     "remark-rehype": "^11.1.2",
-    "sass": "^1.96.0",
     "server-only": "^0.0.1",
     "slugify": "^1.6.6",
     "unified": "^11.0.5"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "prettier --write",
-    "*.{json,css,scss,md}": "prettier --write"
+    "*.{json,css,md}": "prettier --write"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.0",
+    "@testing-library/react": "^16.3.1",
     "@types/node": "^25.0.2",
     "@types/react": "^19.2.7",
     "@vitejs/plugin-react": "^5.1.2",
@@ -59,6 +53,6 @@
     "lint-staged": "^16.2.7",
     "prettier": "^3.7.4",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.15"
+    "vitest": "^4.0.16"
   }
 }

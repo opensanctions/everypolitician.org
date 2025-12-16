@@ -2,16 +2,15 @@
 // https://developers.google.com/search/docs/advanced/structured-data/dataset
 // https://schema.org/Dataset
 
+import { OSA_URL, LICENSE_URL, CLAIM, EMAIL, SITE } from './constants';
 import {
-  BASE_URL,
-  OSA_URL,
-  LICENSE_URL,
-  CLAIM,
-  EMAIL,
-  SITE,
-} from './constants';
-import { Entity } from './ftm';
-import { IDataset, IResource, isExternal, IDatasetPublisher } from './types';
+  EntityData,
+  getFirst,
+  IDataset,
+  IResource,
+  isExternal,
+  IDatasetPublisher,
+} from './types';
 
 function getSchemaOpenSanctionsOrganization() {
   return {
@@ -97,7 +96,10 @@ export function getSchemaDataset(dataset: IDataset) {
   return schema;
 }
 
-export function getSchemaEntityPage(entity: Entity, datasets: Array<IDataset>) {
+export function getSchemaEntityPage(
+  entity: EntityData,
+  datasets: Array<IDataset>,
+) {
   const schemaDatasets = datasets
     .map((d) => getSchemaDataset(d))
     .filter((d) => !!d);
@@ -109,6 +111,6 @@ export function getSchemaEntityPage(entity: Entity, datasets: Array<IDataset>) {
     isPartOf: schemaDatasets.map((d) => d.url),
     license: LICENSE_URL,
     dateCreated: entity.first_seen,
-    dateModified: entity.getFirst('modifiedAt') || entity.last_seen,
+    dateModified: getFirst(entity, 'modifiedAt') || entity.last_seen,
   };
 }

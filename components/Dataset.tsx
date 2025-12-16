@@ -1,41 +1,74 @@
-import classNames from 'classnames';
-import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
 import { FolderFill, NodePlusFill, Server } from 'react-bootstrap-icons';
 
-import { IDataset, IDatasetPublisher, isCollection, isExternal } from '../lib/types';
+import {
+  IDataset,
+  IDatasetCoverage,
+  isCollection,
+  isExternal,
+} from '../lib/types';
 
-import { Explain } from './clientUtil';
-import { FrequencyBadge } from './Metadata';
+import { FormattedDate, Numeric } from './Formatting';
 import Territory from './Territory';
-import { FormattedDate, Numeric, NumericBadge, Spacer, UnofficialBadge } from './util';
-import { Badge, Card, CardBody, CardSubtitle, CardText, Table } from "./wrapped";
+import Badge from 'react-bootstrap/Badge';
+import Card from 'react-bootstrap/Card';
+import CardBody from 'react-bootstrap/CardBody';
+import Table from 'react-bootstrap/Table';
 
-import styles from '@/styles/Dataset.module.scss';
+function NumericBadge({
+  value,
+  className,
+}: {
+  value?: number | null;
+  className?: string;
+}) {
+  return (
+    <Badge bg="dark" className={className}>
+      <Numeric value={value} />
+    </Badge>
+  );
+}
 
-
+function FrequencyBadge({
+  coverage,
+  hideNever = false,
+}: {
+  coverage?: IDatasetCoverage;
+  hideNever?: boolean;
+}) {
+  if (!coverage || !coverage.frequency || coverage.frequency == 'unknown') {
+    return null;
+  }
+  if (coverage.frequency == 'never') {
+    if (hideNever) {
+      return null;
+    }
+    return <Badge bg="warning">not automated</Badge>;
+  }
+  return <Badge bg="light">{coverage.frequency}</Badge>;
+}
 
 type DatasetProps = {
-  dataset: IDataset
-}
+  dataset: IDataset;
+};
 
 type DatasetIconProps = {
-  dataset?: IDataset
-  color?: string
-  size?: string
-}
+  dataset?: IDataset;
+  color?: string;
+  size?: string;
+};
 
 function DatasetIcon({ dataset, ...props }: DatasetIconProps) {
   if (dataset === undefined) {
     return null;
   }
   if (isCollection(dataset)) {
-    return <FolderFill className="bsIcon" {...props} />
+    return <FolderFill className="bsIcon" {...props} />;
   }
   if (isExternal(dataset)) {
-    return <NodePlusFill className="bsIcon" {...props} />
+    return <NodePlusFill className="bsIcon" {...props} />;
   }
-  return <Server className="bsIcon" {...props} />
+  return <Server className="bsIcon" {...props} />;
 }
 
 function DatasetLink({ dataset, ...props }: DatasetIconProps) {
@@ -44,207 +77,133 @@ function DatasetLink({ dataset, ...props }: DatasetIconProps) {
   }
   return (
     <a href={dataset.link}>
-      <span><DatasetIcon dataset={dataset} {...props} /> {dataset.title}</span>
+      <span>
+        <DatasetIcon dataset={dataset} {...props} /> {dataset.title}
+      </span>
     </a>
-  )
+  );
 }
-
-function DatasetPublisher({ publisher, short = true, country = false }: { publisher: IDatasetPublisher, short?: boolean, country?: boolean }) {
-  const label = (short && publisher.acronym) ? <Explain tooltip={publisher.name}>{publisher.acronym}</Explain> : publisher.name;
-  return <>{label} {country && publisher.country && <Territory.Badge territory={publisher.territory} />}</>;
-}
-
-
-function DatasetCard({ dataset }: DatasetProps) {
-  return (
-    <Card key={dataset.name} className={styles.card}>
-      <CardBody>
-        <h4 className={styles.cardTitle}>
-          <DatasetLink dataset={dataset} />
-        </h4>
-        <CardSubtitle className={classNames("mb-2", styles.cardSubtitle)}>
-          <Numeric value={dataset.thing_count} /> entities
-          {!!dataset.publisher && (
-            <>
-              <Spacer />
-              {dataset.publisher.country_label && (
-                <>{dataset.publisher.country_label}</>
-              )}
-              {!dataset.publisher.official && (
-                <>
-                  <Spacer />
-                  <UnofficialBadge />
-                </>
-              )}
-            </>
-          )}
-
-        </CardSubtitle>
-        <CardText>
-          {dataset.summary}
-        </CardText>
-      </CardBody>
-    </Card>
-  )
-}
-
 
 function DatasetItem({ dataset }: DatasetProps) {
   return (
-    <Card key={dataset.name} className={styles.item}>
+    <Card key={dataset.name}>
       <CardBody>
-        <a href={dataset.link} className={styles.itemHeader}>
+        <a
+          href={dataset.link}
+          className="fw-bold d-block text-decoration-none fs-5"
+        >
           <DatasetIcon dataset={dataset} /> {dataset.title}
-          <NumericBadge value={dataset.thing_count} className={styles.itemTargets} />
+          <NumericBadge value={dataset.thing_count} className="float-end" />
         </a>
-        <p className={styles.itemSummary}>
-          {dataset.summary}
-        </p>
-        <p className={styles.itemDetails}>
-          {isCollection(dataset) && (
-            <>
-              <Badge bg="light">Collection</Badge>
-            </>
-          )}
-          {!!dataset.publisher && (
-            <>
-              {isExternal(dataset) && (
-                <>
-                  <Badge bg="light">External dataset</Badge>
-                  <Spacer />
-                </>
-              )}
-              {dataset.publisher.country_label && (
-                <>
-                  <Badge bg="light">{dataset.publisher.country_label}</Badge>
-                  <Spacer />
-                </>
-              )}
-              <DatasetPublisher publisher={dataset.publisher} country={false} />
-              {!dataset.publisher.official && (
-                <>
-                  <Spacer />
-                  <UnofficialBadge />
-                </>
-              )}
-            </>
-          )}
+        <p className="text-muted">{dataset.summary}</p>
+        <p>
+          {isCollection(dataset) && <Badge bg="light">Collection</Badge>}
+          {isExternal(dataset) && <Badge bg="light">External dataset</Badge>}
         </p>
       </CardBody>
     </Card>
-  )
+  );
 }
 
 interface DatasetTableConfig {
-  icon?: boolean
-  publisher?: boolean
-  country?: boolean
-  frequency?: boolean
-  dateAdded?: boolean
+  icon?: boolean;
+  country?: boolean;
+  frequency?: boolean;
+  dateAdded?: boolean;
 }
 
 interface DatasetTableRowProps extends DatasetTableConfig {
-  dataset: IDataset
+  dataset: IDataset;
 }
 
-function DatasetTableRow({ dataset, icon, publisher, country, frequency, dateAdded }: DatasetTableRowProps) {
+function DatasetTableRow({
+  dataset,
+  icon,
+  country,
+  frequency,
+  dateAdded,
+}: DatasetTableRowProps) {
   return (
-    <>
-      <tr>
-        {icon && (
-          <td>
-            <DatasetIcon dataset={dataset} />
-          </td>
-        )}
-        <td colSpan={2}>
-          <Link href={dataset.link} prefetch={false}>{dataset.title}</Link>
-        </td>
-        {publisher && (
-          <td>
-            {!!dataset.publisher && (
-              <>
-                <DatasetPublisher publisher={dataset.publisher} short />
-                {!dataset.publisher.official && (
-                  <>&nbsp;<UnofficialBadge short /></>
-                )}
-              </>
-            )}
-          </td>
-        )}
-        {country && (
-          <td>
-            {!!dataset.publisher && (
-              <Territory.Badge territory={dataset.publisher.territory} />
-            )}
-          </td>
-        )}
-        {frequency && (
-          <td>
-            {!!dataset.coverage && (
-              <FrequencyBadge coverage={dataset.coverage} hideNever />
-            )}
-          </td>
-        )}
-        {dateAdded && (
-          <td>
-            {!!dataset.coverage && (
-              <FormattedDate date={dataset.coverage.start} />
-            )}
-          </td>
-        )}
+    <tr>
+      {icon && (
         <td>
-          <Numeric value={dataset.thing_count} />
+          <DatasetIcon dataset={dataset} />
         </td>
-      </tr>
-    </>
+      )}
+      <td colSpan={2}>
+        <Link href={dataset.link} prefetch={false}>
+          {dataset.title}
+        </Link>
+      </td>
+      {country && (
+        <td>
+          {!!dataset.publisher && (
+            <Territory.Badge territory={dataset.publisher.territory} />
+          )}
+        </td>
+      )}
+      {frequency && (
+        <td>
+          {!!dataset.coverage && (
+            <FrequencyBadge coverage={dataset.coverage} hideNever />
+          )}
+        </td>
+      )}
+      {dateAdded && (
+        <td>
+          {!!dataset.coverage && (
+            <FormattedDate date={dataset.coverage.start} />
+          )}
+        </td>
+      )}
+      <td className="text-end">
+        <Numeric value={dataset.thing_count} />
+      </td>
+    </tr>
   );
 }
 
 interface DatasetsTableProps extends DatasetTableConfig {
-  datasets: Array<IDataset>
+  datasets: Array<IDataset>;
 }
 
-function DatasetsTable({ datasets, icon = true, publisher = false, country = true, frequency = false, dateAdded = false }: DatasetsTableProps) {
+function DatasetsTable({
+  datasets,
+  icon = true,
+  country = true,
+  frequency = false,
+  dateAdded = false,
+}: DatasetsTableProps) {
   return (
-    <Table size="sm" responsive>
+    <Table>
       <thead>
         <tr>
           <th colSpan={icon ? 3 : 2}>Name</th>
-          {publisher && (
-            <th>Publisher</th>
-          )}
-          {country && (
-            <th>Country</th>
-          )}
-          {frequency && (
-            <th>Updates</th>
-          )}
-          {dateAdded && (
-            <th>Date added</th>
-          )}
-          <th className="numeric">Entities</th>
+          {country && <th>Country</th>}
+          {frequency && <th>Updates</th>}
+          {dateAdded && <th>Date added</th>}
+          <th className="text-end">Entities</th>
         </tr>
       </thead>
       <tbody>
-        {datasets.map(dataset =>
+        {datasets.map((dataset) => (
           <DatasetTableRow
             key={dataset.name}
             dataset={dataset}
             icon={icon}
-            publisher={publisher}
             country={country}
             frequency={frequency}
-            dateAdded={dateAdded} />
-        )}
+            dateAdded={dateAdded}
+          />
+        ))}
       </tbody>
-    </Table >
-  )
+    </Table>
+  );
 }
 
 export default class Dataset {
-  static Card = DatasetCard
-  static Item = DatasetItem
-  static Table = DatasetsTable
-  static Icon = DatasetIcon
-  static Link = DatasetLink
+  static Item = DatasetItem;
+  static Table = DatasetsTable;
+  static Icon = DatasetIcon;
+  static Link = DatasetLink;
 }

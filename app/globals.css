@@ -1,0 +1,16 @@
+/* Apply custom fonts via Bootstrap CSS variables */
+:root {
+  --bs-body-font-family:
+    var(--font-mona-sans), system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --bs-font-monospace:
+    var(--font-monaspace), SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
+}
+
+code,
+pre,
+kbd,
+samp {
+  font-family: var(--bs-font-monospace);
+}

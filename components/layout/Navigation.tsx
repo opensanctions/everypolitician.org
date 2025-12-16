@@ -1,34 +1,37 @@
-import classNames from 'classnames';
+'use client';
+
 import Link from 'next/link';
 import React from 'react';
 
-import { NavbarBrand, NavbarToggle, NavbarCollapse, Navbar, Nav, Container } from '@/components/wrapped';
-
-import styles from '@/styles/Navigation.module.scss';
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 type NavLinkProps = {
-  active: boolean
-  href: string
-  children?: React.ReactNode
-}
-
+  active: boolean;
+  href: string;
+  children?: React.ReactNode;
+};
 
 function NavLink({ active, href, children }: NavLinkProps) {
-  const clazz = classNames("nav-link", styles.navItem, { [styles.active]: active });
-  return <Link className={clazz} href={href} prefetch={false}>{children}</Link>
+  const clazz = `nav-link fw-bold rounded ${active ? 'text-white bg-primary' : 'text-primary'}`;
+  return (
+    <Link className={clazz} href={href} prefetch={false}>
+      {children}
+    </Link>
+  );
 }
-
 
 type NavbarSectionProps = {
-  activeSection?: string
-}
+  activeSection?: string;
+};
 
 export default function Navigation({ activeSection }: NavbarSectionProps) {
   return (
-    <Navbar expand="lg" className={styles.navBar} role="banner">
+    <Navbar expand="lg" role="banner">
       <Container>
         <Link href="/" passHref>
-          <NavbarBrand>
+          <Navbar.Brand>
             <img
               src="https://assets.opensanctions.org/images/ep/logo-oneline-color.svg"
               width="190"
@@ -36,20 +39,22 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
               className="align-top"
               alt="OpenSanctions"
             />
-          </NavbarBrand>
+          </Navbar.Brand>
         </Link>
-        <NavbarToggle className={styles.navToggle} />
-        <NavbarCollapse className="justify-content-end">
+        <Navbar.Toggle />
+        <Navbar.Collapse className="justify-content-end">
           <Nav
-            className={classNames("justify-content-end", styles.nav)}
+            className="justify-content-end"
             variant="pills"
             role="navigation"
             aria-label="Site menu"
           >
-            <NavLink href="/docs/" active={activeSection === 'docs'}>Documentation</NavLink>
+            <NavLink href="/docs/" active={activeSection === 'docs'}>
+              Documentation
+            </NavLink>
           </Nav>
-        </NavbarCollapse>
+        </Navbar.Collapse>
       </Container>
-    </Navbar >
-  )
+    </Navbar>
+  );
 }

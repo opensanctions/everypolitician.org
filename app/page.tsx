@@ -1,41 +1,20 @@
-import classnames from 'classnames';
-import groupBy from 'lodash/groupBy';
 import Link from 'next/link';
-import React from 'react';
 import slugify from 'slugify';
 
-import { HelpLink } from '@/components/clientUtil';
 import Dataset from '@/components/Dataset';
+import { Numeric, Sticky } from '@/components/Formatting';
+import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { LicenseInfo } from '@/components/Policy';
-import { Numeric, Sticky } from '@/components/util';
-import {
-  Alert,
-  Col,
-  Container,
-  Nav,
-  NavItem,
-  NavLink,
-  Row,
-  Table,
-} from '@/components/wrapped';
-import {
-  fetchApiCached,
-  getDatasetByName,
-  getDatasetsByScope,
-} from '@/lib/data';
-import { getPageByPath, IPage } from '@/lib/pages';
-import { getTerritoryInfo, ITerritoryInfo } from '@/lib/territory';
-import {
-  IDataset,
-  IDictionary,
-  ISearchAPIResponse,
-  ISearchFacet,
-  isSource,
-} from '@/lib/types';
+import { Menu } from '@/components/Menu';
+import Alert from 'react-bootstrap/Alert';
+import Col from 'react-bootstrap/Col';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Table from 'react-bootstrap/Table';
+import { fetchApiCached, getDatasetsByScope } from '@/lib/data';
+import { getTerritoriesByCode } from '@/lib/territory';
+import { ISearchAPIResponse, isSource } from '@/lib/types';
 
-import styles from '@/styles/PEPs.module.scss';
-import utilStyles from '@/styles/util.module.scss';
 import { getGenerateMetadata } from '@/lib/meta';
 import { BASE_URL, CLAIM, SUBCLAIM } from '@/lib/constants';
 
@@ -58,48 +37,6 @@ type TerritorySummary = {
   subregion: string | undefined;
 };
 
-type TerritoryIndicator = 'numPeps' | 'numPositions';
-
-async function makeTerritory(
-  code: string,
-  label: string,
-): Promise<TerritorySummary> {
-  let info: ITerritoryInfo | null = null;
-  try {
-    info = await getTerritoryInfo(code);
-  } catch (e) {
-    console.error('Error fetching territory.');
-    throw e;
-  }
-  if (info === null) {
-    throw `Territory not found: ${code}`;
-  }
-
-  return {
-    code: code,
-    label: info.label_short,
-    numPeps: 0,
-    numPositions: 0,
-    region: info.region,
-    subregion: info.subregion,
-  };
-}
-
-async function updateTerritories(
-  territories: Map<string, TerritorySummary>,
-  facet: ISearchFacet,
-  field: TerritoryIndicator,
-) {
-  for (let facetItem of facet.values) {
-    let territory = territories.get(facetItem.name);
-    if (territory == undefined) {
-      territory = await makeTerritory(facetItem.name, facetItem.label);
-      territories.set(facetItem.name, territory);
-    }
-    territory[field] = facetItem.count;
-  }
-}
-
 type SubregionProps = {
   label: string;
   territories: TerritorySummary[];
@@ -110,14 +47,12 @@ function Subregion({ label, territories }: SubregionProps) {
     <>
       {label !== 'undefined' && (
         <tr>
-          <th colSpan={3} className={styles.subregionCell}>
-            {label}
-          </th>
+          <th colSpan={3}>{label}</th>
         </tr>
       )}
       {territories.map((territory) => (
         <tr key={territory.code}>
-          <td className={styles.territoryCell}>
+          <td>
             <Link prefetch={false} href={`/countries/${territory.code}/`}>
               {territory.label}
             </Link>
@@ -142,7 +77,7 @@ type RegionTBodyProps = {
 };
 
 function Region({ label, territories }: RegionTBodyProps) {
-  const subregions = groupBy(territories, (territory) => territory.subregion);
+  const subregions = Object.groupBy(territories, (t) => t.subregion ?? '');
   const subregionNames = Object.keys(subregions);
   subregionNames.sort();
   return (
@@ -156,7 +91,7 @@ function Region({ label, territories }: RegionTBodyProps) {
         <Subregion
           key={subregion}
           label={subregion}
-          territories={subregions[subregion]}
+          territories={subregions[subregion]!}
         />
       ))}
     </tbody>
@@ -164,7 +99,7 @@ function Region({ label, territories }: RegionTBodyProps) {
 }
 
 type TerritoryTableProps = {
-  regions: IDictionary<TerritorySummary[]>;
+  regions: Partial<Record<string, TerritorySummary[]>>;
   regionNames: string[];
 };
 
@@ -172,7 +107,7 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
   return (
     <Table>
       <thead>
-        <tr className={styles.stickyHeader}>
+        <tr>
           <th></th>
           <th className="numeric text-nowrap">
             Positions
@@ -191,100 +126,83 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
         </tr>
       </thead>
       {regionNames.map((region) => (
-        <Region key={region} label={region} territories={regions[region]} />
+        <Region key={region} label={region} territories={regions[region]!} />
       ))}
     </Table>
   );
 }
 
 export default async function Page() {
-  let dataset: IDataset | undefined;
-  let datasets: Array<IDataset>;
+  // Fetch all data in parallel
+  const [datasets, territoryInfo, pepResponse, positionResponse] =
+    await Promise.all([
+      getDatasetsByScope('peps'),
+      getTerritoriesByCode(),
+      fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+        limit: 0,
+        topics: 'role.pep',
+        facets: ['countries'],
+      }),
+      fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+        limit: 0,
+        schema: 'Position',
+        facets: ['countries'],
+      }),
+    ]);
 
-  try {
-    dataset = await getDatasetByName('peps');
-  } catch (e) {
-    console.error('Error fetching dataset.');
-    throw e;
-  }
-  if (dataset === undefined) {
-    throw Error('PEP dataset not found on PEP page');
-  }
+  const sources = datasets.filter((ds) => !ds.hidden).filter(isSource);
 
-  try {
-    datasets = await getDatasetsByScope('peps');
-  } catch (e) {
-    console.error('Error fetching datasets.');
-    throw e;
-  }
-
-  const visibleDatasets = datasets.filter((ds) => !ds.hidden);
-  const sources = visibleDatasets.filter(isSource);
-
-  const pepSummaryParams = {
-    limit: 0,
-    topics: 'role.pep',
-    facets: ['countries'],
-  };
-  let pepSummaryResponse: ISearchAPIResponse;
-  const positionSummaryParams = {
-    limit: 0,
-    schema: 'Position',
-    facets: ['countries'],
-  };
-  let positionSummaryResponse: ISearchAPIResponse;
-
-  try {
-    pepSummaryResponse = await fetchApiCached<ISearchAPIResponse>(
-      `/search/default`,
-      pepSummaryParams,
-    );
-  } catch (e) {
-    console.error('Error fetching PEP summary.');
-    throw e;
-  }
-
-  try {
-    positionSummaryResponse = await fetchApiCached<ISearchAPIResponse>(
-      `/search/default`,
-      positionSummaryParams,
-    );
-  } catch (e) {
-    console.error('Error fetching position summary.');
-    throw e;
-  }
-
+  // Build territory summaries from facets
   const territories = new Map<string, TerritorySummary>();
-  await updateTerritories(
-    territories,
-    pepSummaryResponse.facets.countries,
-    'numPeps',
-  );
-  await updateTerritories(
-    territories,
-    positionSummaryResponse.facets.countries,
-    'numPositions',
-  );
 
-  const regions = groupBy(
+  for (const { name: code, count } of positionResponse.facets.countries
+    .values) {
+    const info = territoryInfo.get(code);
+    if (!info) continue;
+    territories.set(code, {
+      code,
+      label: info.label_short,
+      numPeps: 0,
+      numPositions: count,
+      region: info.region,
+      subregion: info.subregion,
+    });
+  }
+
+  for (const { name: code, count } of pepResponse.facets.countries.values) {
+    const territory = territories.get(code);
+    if (territory) {
+      territory.numPeps = count;
+    }
+  }
+
+  const regions = Object.groupBy(
     Array.from(territories.values()),
-    (territory) => territory.region,
+    (t) => t.region ?? '',
   );
   const regionNames = Object.keys(regions);
   regionNames.sort();
 
   return (
     <LayoutFrame activeSection="research">
-      <div className={styles.claimBanner}>
+      <div
+        className="bg-primary text-white"
+        style={{
+          backgroundImage:
+            "url('https://assets.opensanctions.org/images/nura/banner-big.png')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <Container>
           <Row>
-            <h1 className={styles.claim}>{CLAIM}</h1>
-            <p className={styles.subClaim}>{SUBCLAIM}</p>
+            <h1 className="text-white fw-bold fs-1">{CLAIM}</h1>
+            <p className="fs-5 text-light">{SUBCLAIM}</p>
           </Row>
         </Container>
       </div>
       <Container>
-        <Row className={utilStyles.explainer}>
+        <Row>
           <Col md={9}>
             <h2 id="what">What are Politically Exposed Persons?</h2>
             <p>
@@ -334,7 +252,7 @@ export default async function Page() {
               level of influence.
             </p>
 
-            <Alert variant="secondary">
+            <Alert variant="success">
               <span>
                 The data coverage survey shows a{' '}
                 <strong>work in progress</strong>. We are continuously expanding
@@ -357,7 +275,7 @@ export default async function Page() {
               officeholders, e.g. to reflect a person holding both a public
               office and running a business.
             </p>
-            <Dataset.Table datasets={sources} publisher country frequency />
+            <Dataset.Table datasets={sources} country />
             <p>
               Official sources are government authorities and inter-governmental
               agencies. Non-official sources are community, civil-society or
@@ -458,27 +376,25 @@ export default async function Page() {
               </li>
             </ul>
           </Col>
-          <Col md={3} className={classnames('d-none', 'd-md-block')}>
+          <Col md={3} className="d-none d-md-block">
             <Sticky>
-              <Nav className="flex-column d-print-none" variant="pills">
-                <NavLink href="#what">Introduction</NavLink>
-                <NavItem>
-                  <NavLink href="#coverage">Data coverage</NavLink>
-                  {regionNames.map((region) => (
-                    <NavItem key={slugify(region)}>
-                      <NavLink
-                        href={`#region-${slugify(region, { lower: true })}`}
-                      >
-                        {region}
-                      </NavLink>
-                    </NavItem>
-                  ))}
-                </NavItem>
-                <NavLink href="#sources">Sources</NavLink>
-                <NavLink href="#use">Use the data</NavLink>
-                <NavLink href="#contribute">Contribute</NavLink>
-              </Nav>
-              <LicenseInfo />
+              <Menu
+                items={[
+                  { href: '#what', label: 'Introduction' },
+                  {
+                    href: '#coverage',
+                    label: 'Data coverage',
+                    children: regionNames.map((region) => ({
+                      href: `#region-${slugify(region, { lower: true })}`,
+                      label: region,
+                    })),
+                  },
+                  { href: '#sources', label: 'Sources' },
+                  { href: '#use', label: 'Use the data' },
+                  { href: '#contribute', label: 'Contribute' },
+                ]}
+                showLicense
+              />
             </Sticky>
           </Col>
         </Row>

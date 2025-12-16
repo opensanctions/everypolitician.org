@@ -1,34 +1,88 @@
-
-import { BoxArrowUpRight } from "react-bootstrap-icons";
+import { BoxArrowUpRight } from 'react-bootstrap-icons';
 
 import { LicenseInfo } from './Policy';
-import { RoutedNavLink } from './util';
-import { Nav, NavItem } from "./wrapped";
+import Nav from 'react-bootstrap/Nav';
+import NavItem from 'react-bootstrap/NavItem';
+import NavLink from 'react-bootstrap/NavLink';
 
+export type MenuItem = {
+  href: string;
+  label: string;
+  external?: boolean;
+  children?: MenuItem[];
+};
 
-export type MenuProps = {
-  path: string
+type MenuItemComponentProps = {
+  item: MenuItem;
+  current?: string;
+  nested?: boolean;
+};
+
+function MenuItemComponent({ item, current, nested }: MenuItemComponentProps) {
+  const matchingPath = item.href.split('?')[0];
+  const isActive = current === matchingPath;
+
+  const linkContent = (
+    <>
+      {item.label}
+      {item.external && (
+        <>
+          {' '}
+          <BoxArrowUpRight className="menu-icon" />
+        </>
+      )}
+    </>
+  );
+
+  if (item.children && item.children.length > 0) {
+    return (
+      <NavItem>
+        <NavLink href={item.href} active={isActive}>
+          {linkContent}
+        </NavLink>
+        <NavItem className="ms-3">
+          {item.children.map((child) => (
+            <MenuItemComponent
+              key={child.href}
+              item={child}
+              current={current}
+              nested
+            />
+          ))}
+        </NavItem>
+      </NavItem>
+    );
+  }
+
+  return (
+    <NavLink
+      href={item.href}
+      active={isActive}
+      className={nested ? 'small' : undefined}
+    >
+      {linkContent}
+    </NavLink>
+  );
 }
 
-export function DocsMenu({ path }: MenuProps) {
+export type MenuProps = {
+  items: MenuItem[];
+  current?: string;
+  showLicense?: boolean;
+};
+
+export function Menu({ items, current, showLicense = false }: MenuProps) {
   return (
     <>
-      <Nav className="flex-column justify-content-start d-print-none" variant="pills">
-        <RoutedNavLink href="/docs/" current={path}>Overview</RoutedNavLink>
-        <RoutedNavLink href="/docs/contribute/" current={path}>Contribute</RoutedNavLink>
-        <RoutedNavLink href="/docs/methodology/" current={path}>Methodology</RoutedNavLink>
-        <NavItem>
-          <RoutedNavLink href="/docs/opensource/" current={path}>Open source</RoutedNavLink>
-          <NavItem>
-            <RoutedNavLink href="https://yente.followthemoney.tech" current={path}>yente <BoxArrowUpRight className="menu-icon" /></RoutedNavLink>
-            <RoutedNavLink href="https://followthemoney.tech" current={path}>followthemoney <BoxArrowUpRight className="menu-icon" /></RoutedNavLink>
-            <RoutedNavLink href="https://zavod.opensanctions.org" current={path}>zavod <BoxArrowUpRight className="menu-icon" /></RoutedNavLink>
-            <RoutedNavLink href="/docs/opensource/contributing" current={path}>Contributing</RoutedNavLink>
-            <RoutedNavLink href="/docs/opensource/pairs/" current={path}>Matcher training data</RoutedNavLink>
-          </NavItem>
-        </NavItem>
-      </Nav >
-      <LicenseInfo />
+      <Nav
+        className="flex-column justify-content-start d-print-none"
+        variant="pills"
+      >
+        {items.map((item) => (
+          <MenuItemComponent key={item.href} item={item} current={current} />
+        ))}
+      </Nav>
+      {showLicense && <LicenseInfo />}
     </>
   );
 }
