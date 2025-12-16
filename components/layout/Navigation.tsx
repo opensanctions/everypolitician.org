@@ -49,6 +49,9 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
             role="navigation"
             aria-label="Site menu"
           >
+            <NavLink href="/datasets/" active={activeSection === 'datasets'}>
+              Datasets
+            </NavLink>
             <NavLink href="/docs/" active={activeSection === 'docs'}>
               Documentation
             </NavLink>

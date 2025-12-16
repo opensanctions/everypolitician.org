@@ -86,7 +86,9 @@ function PositionFactsheet({
           <td>
             <SpacedList
               values={datasets.map((d) => (
-                <Dataset.Link key={d.name} dataset={d} />
+                <Link key={d.name} href={d.link}>
+                  {d.title}
+                </Link>
               ))}
             />
           </td>
@@ -183,7 +185,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
             <section id="sources">
               <h2>Data sources</h2>
               {sources.map((d) => (
-                <Dataset.Item key={d.name} dataset={d} />
+                <Dataset key={d.name} dataset={d} />
               ))}
               {externals.length > 0 && (
                 <>
@@ -194,7 +196,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
                     from the following external databases:
                   </p>
                   {externals.map((d) => (
-                    <Dataset.Item key={d.name} dataset={d} />
+                    <Dataset key={d.name} dataset={d} />
                   ))}
                 </>
               )}

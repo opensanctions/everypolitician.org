@@ -1,7 +1,6 @@
 import Link from 'next/link';
 import slugify from 'slugify';
 
-import Dataset from '@/components/Dataset';
 import { Numeric, Sticky } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -11,9 +10,9 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
-import { fetchApiCached, getDatasetsByScope } from '@/lib/data';
+import { fetchApiCached } from '@/lib/data';
 import { getTerritoriesByCode } from '@/lib/territory';
-import { ISearchAPIResponse, isSource } from '@/lib/types';
+import { ISearchAPIResponse } from '@/lib/types';
 
 import { getGenerateMetadata } from '@/lib/meta';
 import { BASE_URL, CLAIM, SUBCLAIM } from '@/lib/constants';
@@ -134,23 +133,19 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
 
 export default async function Page() {
   // Fetch all data in parallel
-  const [datasets, territoryInfo, pepResponse, positionResponse] =
-    await Promise.all([
-      getDatasetsByScope('peps'),
-      getTerritoriesByCode(),
-      fetchApiCached<ISearchAPIResponse>(`/search/default`, {
-        limit: 0,
-        topics: 'role.pep',
-        facets: ['countries'],
-      }),
-      fetchApiCached<ISearchAPIResponse>(`/search/default`, {
-        limit: 0,
-        schema: 'Position',
-        facets: ['countries'],
-      }),
-    ]);
-
-  const sources = datasets.filter((ds) => !ds.hidden).filter(isSource);
+  const [territoryInfo, pepResponse, positionResponse] = await Promise.all([
+    getTerritoriesByCode(),
+    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+      limit: 0,
+      topics: 'role.pep',
+      facets: ['countries'],
+    }),
+    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+      limit: 0,
+      schema: 'Position',
+      facets: ['countries'],
+    }),
+  ]);
 
   // Build territory summaries from facets
   const territories = new Map<string, TerritorySummary>();
@@ -275,35 +270,9 @@ export default async function Page() {
               officeholders, e.g. to reflect a person holding both a public
               office and running a business.
             </p>
-            <Dataset.Table datasets={sources} country />
             <p>
-              Official sources are government authorities and inter-governmental
-              agencies. Non-official sources are community, civil-society or
-              journalistic organisations, including:
+              <Link href="/datasets/">Browse all PEP data sets →</Link>
             </p>
-            <ul>
-              <li>
-                <a href="https://opensanctions.org/datasets/wd_peps/">
-                  Wikidata Politically Exposed Persons
-                </a>{' '}
-                data is maintained by volunteers in a similar manner to the rest
-                of the Wikimedia Foundation projects. OpenSanctions monitors
-                specific positions in national and sub-national legislatures,
-                executives and senior administrators for changes. As a
-                volunteer-driven project, there are very limited guarantees of
-                how up-to-date the information is.
-              </li>
-              <li>
-                mySociety&apos;s{' '}
-                <a href="https://opensanctions.org/datasets/everypolitician/">
-                  EveryPolitician
-                </a>{' '}
-                project contains a significant foundation of data for national
-                legislatures. However, its maintenance ended in June 2019 and
-                the data is quickly becoming more outdated. We aim to remove or
-                replace this dataset in time.
-              </li>
-            </ul>
 
             <h2 id="use">How do I use the data?</h2>
             <p>
