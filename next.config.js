@@ -16,7 +16,7 @@ const secureHeaders = [
     key: 'cache-control',
     value: 'private, max-age=0, no-cache',
   },
-]
+];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -28,6 +28,7 @@ const nextConfig = {
     // dynamicIO: true,
     cpus: 1,
   },
+  /*
   cacheHandler:
     process.env.NODE_ENV === "production"
       ? require.resolve("./cache-handler.mjs")
@@ -36,6 +37,7 @@ const nextConfig = {
     process.env.NODE_ENV === "production"
       ? 0
       : 250 * 1024 * 1024,
+  */
   // cacheMaxMemorySize: 250 * 1024 * 1024,
   staticPageGenerationTimeout: 360,
   productionBrowserSourceMaps: true,
@@ -46,11 +48,11 @@ const nextConfig = {
     silenceDeprecations: [
       /* Until bootstrap migrates _variables.scss to @use.
          https://github.com/twbs/bootstrap/issues/40962 */
-      "import",
+      'import',
       /* Until next.js adds experimental support for new SASS API
          or stable support no sooner than NextJS 16
          https://github.com/vercel/next.js/issues/71638 */
-      "legacy-js-api",
+      'legacy-js-api',
     ],
   },
   images: {
@@ -58,47 +60,38 @@ const nextConfig = {
     // domains: ['assets.opensanctions.org', 'opensanctions.directus.app'],
     remotePatterns: [
       {
-        "protocol": "https",
-        "hostname": "assets.opensanctions.org",
+        protocol: 'https',
+        hostname: 'assets.opensanctions.org',
       },
       {
-        "protocol": "https",
-        "hostname": "opensanctions.directus.app",
-      }
-    ]
+        protocol: 'https',
+        hostname: 'opensanctions.directus.app',
+      },
+    ],
   },
   async redirects() {
-    return [
-    ]
+    return [];
   },
   async headers() {
     return [
       {
-        source: "/docs/:path*",
+        source: '/docs/:path*',
         headers: cachedHeader,
       },
       {
-        source: "/faq/:path*",
+        source: '/faq/:path*',
         headers: cachedHeader,
       },
       {
-        source: "/entities/:path*",
+        source: '/persons/:path*',
         headers: cachedHeader,
       },
       {
-        source: "/datasets/:path*",
+        source: '/countries/:path*',
         headers: cachedHeader,
       },
-      {
-        source: "/programs/:path*",
-        headers: cachedHeader,
-      },
-      {
-        source: "/countries/:path*",
-        headers: cachedHeader,
-      }
-    ]
-  }
+    ];
+  },
 };
 
 // if (
@@ -110,5 +103,4 @@ const nextConfig = {
 //   cacheMaxMemorySize: 0;
 // }
 
-
-module.exports = nextConfig
+module.exports = nextConfig;

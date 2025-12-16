@@ -1,3 +1,4 @@
+/*
 export const register = async () => {
   if (process.env.NEXT_RUNTIME === "nodejs") {
     const { registerInitialCache } = await import(
@@ -7,3 +8,4 @@ export const register = async () => {
     await registerInitialCache(CacheHandler);
   }
 };
+*/

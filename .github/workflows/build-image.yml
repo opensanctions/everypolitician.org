@@ -69,8 +69,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-      - name: Ping betterstack to report a everypolitician build
-        run: curl ${{ secrets.BETTERSTACK_HEARTBEAT_URL }}
 
   dispatch:
     if: |
