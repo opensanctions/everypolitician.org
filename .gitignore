@@ -7,3 +7,4 @@ data/*
 .env
 tsconfig.tsbuildinfo
 .envrc
+next-env.d.ts
