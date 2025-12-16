@@ -3,7 +3,7 @@ name: build-image
 on:
   workflow_dispatch: {}
   schedule:
-    - cron: "15 8 * * 1"
+    - cron: "15 8 * * *"
   push: {}
   pull_request: {}
 
