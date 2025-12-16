@@ -28,7 +28,7 @@ type NavbarSectionProps = {
 
 export default function Navigation({ activeSection }: NavbarSectionProps) {
   return (
-    <Navbar expand="lg" role="banner">
+    <Navbar expand="lg" role="banner" className="my-1">
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand>

@@ -29,7 +29,7 @@ export default async function Page() {
 
   return (
     <LayoutFrame activeSection="datasets">
-      <Container className="content-area">
+      <Container className="pt-3">
         <Row>
           <Col md={9}>
             <h1>PEP Data Sets</h1>

@@ -166,7 +166,7 @@ function PositionSection({
             <h3>{sectionDefinition.label}</h3>
           </th>
           {allEmpty || (
-            <th colSpan={3} className="numeric d-none d-md-table-cell">
+            <th colSpan={3} className="numeric text-end d-none d-md-table-cell">
               Number of known occupants
               <HelpLink href="#explainer" />
             </th>
@@ -307,7 +307,7 @@ export default async function Page(props: {
         </Container>
       </div>
 
-      <Container className="content-area">
+      <Container className="pt-3">
         <Row>
           <Col md={9}>
             <h2 id="peps">Politically-exposed persons (PEPs)</h2>
@@ -363,7 +363,7 @@ export default async function Page(props: {
               not. <Link href="/docs/pep/methodology/#types">Read more...</Link>
             </p>
           </Col>
-          <Col md={3} className="d-none d-md-block sidebar-nav">
+          <Col md={3} className="d-none d-md-block pt-5">
             <Sticky>
               <Nav className="flex-column d-print-none" variant="pills">
                 <NavItem>

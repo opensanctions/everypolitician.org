@@ -32,7 +32,7 @@ export default async function Page(props: ContentPageProps) {
   }
   return (
     <LayoutFrame activeSection="docs">
-      <Container className="content-area">
+      <Container className="pt-3">
         <Row>
           <Col md={9} className="order-1 order-md-2">
             {page.body && (
@@ -47,7 +47,7 @@ export default async function Page(props: ContentPageProps) {
               to meet the community.
             </Alert>
           </Col>
-          <Col md={3} className="order-2 order-md-1 sidebar-nav">
+          <Col md={3} className="order-2 order-md-1 pt-5">
             <Menu
               items={[
                 { href: '/docs/', label: 'Overview' },

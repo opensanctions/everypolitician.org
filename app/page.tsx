@@ -56,12 +56,12 @@ function Subregion({ label, territories }: SubregionProps) {
               {territory.label}
             </Link>
           </td>
-          <td className="numeric">
+          <td className="numeric text-end">
             <Link prefetch={false} href={`/countries/${territory.code}/#peps`}>
               <Numeric value={territory.numPositions} />
             </Link>
           </td>
-          <td className="numeric">
+          <td className="numeric text-end">
             <Numeric value={territory.numPeps} />
           </td>
         </tr>
@@ -108,11 +108,11 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
       <thead>
         <tr>
           <th></th>
-          <th className="numeric text-nowrap">
+          <th className="numeric text-end text-nowrap">
             Positions
             <HelpLink href="/docs/pep/methodology/" />
           </th>
-          <th className="numeric text-nowrap">
+          <th className="numeric text-end text-nowrap">
             PEPs
             <HelpLink
               href="/docs/topics/#peps"
@@ -188,7 +188,7 @@ export default async function Page() {
           </Row>
         </Container>
       </div>
-      <Container className="content-area">
+      <Container className="pt-3">
         <Row>
           <Col md={9}>
             <h2 id="what">What are Politically Exposed Persons?</h2>
@@ -337,7 +337,7 @@ export default async function Page() {
               </li>
             </ul>
           </Col>
-          <Col md={3} className="d-none d-md-block sidebar-nav">
+          <Col md={3} className="d-none d-md-block pt-5">
             <Sticky>
               <Menu
                 items={[

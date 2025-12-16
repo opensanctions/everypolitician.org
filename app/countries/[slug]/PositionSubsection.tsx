@@ -27,13 +27,13 @@ function positionRows(positions: IPositionSummary[], limit: number) {
             {bestLabel(position.names)}
           </Link>
         </td>
-        <td className="numeric d-none d-md-table-cell">
+        <td className="numeric text-end d-none d-md-table-cell">
           <Numeric value={position.counts.current} />
         </td>
-        <td className="numeric d-none d-md-table-cell">
+        <td className="numeric text-end d-none d-md-table-cell">
           <Numeric value={position.counts.ended} />
         </td>
-        <td className="numeric d-none d-md-table-cell">
+        <td className="numeric text-end d-none d-md-table-cell">
           <Numeric value={position.counts.unknown} />
         </td>
       </tr>
@@ -62,8 +62,8 @@ export function PositionSubsection({
       <tbody key={subsectionDefinition.name}>
         <tr>
           <th>{subsectionDefinition.label}</th>
-          <th className="numeric d-none d-md-table-cell">Current</th>
-          <th className="numeric d-none d-md-table-cell">Ended</th>
+          <th className="numeric text-end d-none d-md-table-cell">Current</th>
+          <th className="numeric text-end d-none d-md-table-cell">Ended</th>
           <th className="numeric d-none d-md-table-cell text-nowrap">
             Status unclear
             <HelpLink href="#explain-status-unclear" tooltipId="status-unclear">

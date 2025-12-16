@@ -135,7 +135,6 @@ blockquote {
 
 /* Utility classes */
 .numeric {
-  text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
@@ -235,21 +234,10 @@ blockquote {
   top: 2rem;
 }
 
-/* Navbar spacing */
-.navbar {
-  margin-top: 0.4rem;
-  margin-bottom: 0.3rem;
-}
-
 @media print {
   .navbar {
     margin-bottom: 1em;
   }
-}
-
-/* Main content area */
-.content-area {
-  padding-top: 1rem;
 }
 
 /* Country/territory hero */
@@ -271,11 +259,6 @@ blockquote {
 
 .hero a:hover {
   color: #e5e5e5;
-}
-
-/* Sidebar nav */
-.sidebar-nav {
-  padding-top: 3rem;
 }
 
 /* Nav and nav-pills */
