@@ -242,10 +242,17 @@ blockquote {
 
 /* Country/territory hero */
 .hero {
-  background-color: #2970ff;
+  background-color: #0040c1;
   color: #fff;
   padding-top: 2.5rem;
   padding-bottom: 3rem;
+}
+
+.hero-map {
+  height: 40rem;
+  position: relative;
+  overflow: hidden;
+  padding: 0;
 }
 
 .hero h1 {
@@ -367,12 +374,6 @@ blockquote {
 }
 
 /* World Map styles */
-.world-map-banner {
-  background: #0040c1;
-  height: 40rem;
-  position: relative;
-  overflow: hidden;
-}
 
 .world-map-overlay {
   position: absolute;
@@ -388,7 +389,7 @@ blockquote {
   text-align: left;
 }
 
-.world-map-banner .claim {
+.hero-map .claim {
   font-weight: 700;
   color: #fff;
   font-size: 2.5rem;
@@ -396,7 +397,7 @@ blockquote {
   text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.world-map-banner .sub-claim {
+.hero-map .sub-claim {
   color: var(--bs-gray-200);
   font-size: 1.25rem;
   font-weight: 500;
@@ -447,11 +448,11 @@ blockquote {
 }
 
 @media (max-width: 768px) {
-  .world-map-banner .claim {
+  .hero-map .claim {
     font-size: 1.75rem;
   }
 
-  .world-map-banner .sub-claim {
+  .hero-map .sub-claim {
     font-size: 1rem;
   }
 }

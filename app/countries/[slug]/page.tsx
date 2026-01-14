@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { Plural, SpacedList, Sticky } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
+import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { PositionSubsection } from './PositionSubsection';
 import Col from 'react-bootstrap/Col';
@@ -261,7 +262,7 @@ export default async function Page(props: {
 
   return (
     <LayoutFrame activeSection="research">
-      <div className="hero">
+      <Hero>
         <Container>
           <Row>
             <Col md={9}>
@@ -305,7 +306,7 @@ export default async function Page(props: {
             </Col>
           </Row>
         </Container>
-      </div>
+      </Hero>
 
       <Container className="pt-3">
         <Row>

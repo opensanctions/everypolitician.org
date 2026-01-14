@@ -3,6 +3,7 @@ import slugify from 'slugify';
 
 import { Numeric, Sticky } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
+import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { Menu } from '@/components/Menu';
 import WorldMap, { CountryData } from '@/components/WorldMap';
@@ -194,7 +195,7 @@ export default async function Page() {
 
   return (
     <LayoutFrame activeSection="research">
-      <div className="world-map-banner">
+      <Hero className="hero-map">
         <WorldMap countryDataArray={countryDataArray} />
         <div className="world-map-overlay">
           <Container>
@@ -202,7 +203,7 @@ export default async function Page() {
             <p className="sub-claim">{SUBCLAIM}</p>
           </Container>
         </div>
-      </div>
+      </Hero>
       <Container className="pt-3">
         <Row>
           <Col md={9}>
