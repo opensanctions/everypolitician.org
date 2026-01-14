@@ -5,6 +5,7 @@ import { Numeric, Sticky } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { Menu } from '@/components/Menu';
+import WorldMap, { CountryData } from '@/components/WorldMap';
 import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
@@ -171,6 +172,19 @@ export default async function Page() {
     }
   }
 
+  // Build country data for the map (needs to be serializable for client component)
+  const countryDataArray: [string, CountryData][] = Array.from(
+    territories.values(),
+  ).map((t) => [
+    t.code,
+    {
+      code: t.code,
+      label: t.label,
+      numPeps: t.numPeps,
+      numPositions: t.numPositions,
+    },
+  ]);
+
   const regions = Object.groupBy(
     Array.from(territories.values()),
     (t) => t.region ?? '',
@@ -180,13 +194,12 @@ export default async function Page() {
 
   return (
     <LayoutFrame activeSection="research">
-      <div className="claim-banner">
+      <div className="world-map-banner">
         <Container>
-          <Row>
-            <h1 className="claim">{CLAIM}</h1>
-            <p className="sub-claim">{SUBCLAIM}</p>
-          </Row>
+          <h1 className="claim">{CLAIM}</h1>
+          <p className="sub-claim">{SUBCLAIM}</p>
         </Container>
+        <WorldMap countryDataArray={countryDataArray} />
       </div>
       <Container className="pt-3">
         <Row>
