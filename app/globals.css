@@ -77,7 +77,7 @@ h3,
 .h3 {
   font-weight: 700;
   letter-spacing: 0.01rem;
-  color: #262626;
+  color: var(--bs-dark);
 }
 
 h1 a,
@@ -128,7 +128,7 @@ a:hover {
 
 /* Blockquote */
 blockquote {
-  border-left: 0.2em solid #d4d4d4;
+  border-left: 0.2em solid var(--bs-border-color);
   padding-left: 1em;
   margin-left: 0;
 }
@@ -144,8 +144,8 @@ blockquote {
 
 /* Footer styles */
 .footer {
-  background-color: #404040;
-  color: #f5f5f5;
+  background-color: var(--bs-gray-700);
+  color: var(--bs-light);
   margin-top: 2em;
   padding-top: 3em;
   padding-bottom: 6em;
@@ -166,7 +166,7 @@ blockquote {
 }
 
 .footer a {
-  color: #f5f5f5;
+  color: var(--bs-light);
   text-decoration: underline;
 }
 
@@ -176,20 +176,20 @@ blockquote {
 
 /* Navigation styles */
 .nav-link.nav-item-custom {
-  color: #004eeb;
+  color: var(--bs-primary);
   font-weight: 700;
   letter-spacing: 0.01rem;
   margin-left: 1rem;
 }
 
 .nav-link.nav-item-custom:hover {
-  background-color: #e5e5e5;
-  color: #002776;
+  background-color: var(--bs-gray-200);
+  color: var(--bs-link-hover-color);
 }
 
 .nav-link.nav-item-custom.active {
   color: #fff;
-  background-color: #004eeb;
+  background-color: var(--bs-primary);
 }
 
 .nav-link.nav-item-custom.active:hover,
@@ -218,7 +218,7 @@ blockquote {
 }
 
 .claim-banner .sub-claim {
-  color: #f5f5f5;
+  color: var(--bs-light);
   margin-bottom: 1em;
   font-size: 1.2em;
 }
@@ -258,7 +258,7 @@ blockquote {
 }
 
 .hero a:hover {
-  color: #e5e5e5;
+  color: var(--bs-gray-200);
 }
 
 /* Nav and nav-pills */
@@ -274,7 +274,7 @@ blockquote {
 .nav-pills {
   --bs-nav-pills-border-radius: var(--bs-border-radius);
   --bs-nav-pills-link-active-color: #fff;
-  --bs-nav-pills-link-active-bg: #004eeb;
+  --bs-nav-pills-link-active-bg: var(--bs-primary);
 }
 
 /* Table utilities */
@@ -347,7 +347,7 @@ blockquote {
 
 /* License info box */
 .license-box .alert {
-  background-color: #004eeb;
+  background-color: var(--bs-primary);
   margin-top: 1em;
   font-size: 15px;
 }
@@ -358,11 +358,11 @@ blockquote {
 
 @media print {
   .license-box .alert {
-    background-color: #e5e5e5;
+    background-color: var(--bs-gray-200);
   }
 
   .license-box .alert p {
-    color: #262626;
+    color: var(--bs-dark);
   }
 }
 
@@ -380,7 +380,7 @@ blockquote {
 }
 
 .world-map-banner .sub-claim {
-  color: #e5e5e5;
+  color: var(--bs-gray-200);
   font-size: 1.1rem;
   margin-bottom: 1.5rem;
 }
@@ -396,7 +396,7 @@ blockquote {
   align-items: center;
   justify-content: center;
   height: 400px;
-  color: #a1a1a1;
+  color: var(--bs-gray-400);
 }
 
 .world-map {
@@ -414,12 +414,12 @@ blockquote {
 }
 
 .country-path.clickable:hover {
-  fill: #ffd230 !important;
+  fill: var(--bs-warning) !important;
 }
 
 .world-map-tooltip {
   position: fixed;
-  background: #262626;
+  background: var(--bs-dark);
   color: #fff;
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
@@ -440,7 +440,7 @@ blockquote {
   flex-direction: column;
   gap: 0.125rem;
   font-size: 0.8125rem;
-  color: #d4d4d4;
+  color: var(--bs-gray-300);
 }
 
 @media (max-width: 768px) {
