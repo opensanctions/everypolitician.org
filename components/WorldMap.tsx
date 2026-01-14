@@ -280,7 +280,8 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
     null,
   );
   const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const tooltipRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const countryData = useMemo(
@@ -353,16 +354,15 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    containerRef.current?.style.setProperty('--mouse-x', String(e.clientX));
-    containerRef.current?.style.setProperty('--mouse-y', String(e.clientY));
+    setMousePos({ x: e.clientX, y: e.clientY });
   };
 
+  const showTooltipLeft =
+    tooltipRef.current &&
+    mousePos.x + tooltipRef.current.offsetWidth + 20 > window.innerWidth;
+
   return (
-    <div
-      className="world-map-container"
-      ref={containerRef}
-      onMouseMove={handleMouseMove}
-    >
+    <div className="world-map-container" onMouseMove={handleMouseMove}>
       <svg viewBox="0 0 1000 500" className="world-map">
         <g>
           {features.map((feature) => {
@@ -394,14 +394,17 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
       </svg>
       {hoveredCountry && (
         <div
-          className="tooltip bs-tooltip-end show"
+          ref={tooltipRef}
+          className={`tooltip ${showTooltipLeft ? 'bs-tooltip-start' : 'bs-tooltip-end'} show`}
           role="tooltip"
           style={{
             position: 'fixed',
-            left: 'calc(var(--mouse-x, 0) * 1px + 12px)',
-            top: 'calc(var(--mouse-y, 0) * 1px)',
+            left: showTooltipLeft ? mousePos.x - 12 : mousePos.x + 12,
+            top: mousePos.y,
             pointerEvents: 'none',
-            transform: 'translateY(-50%)',
+            transform: showTooltipLeft
+              ? 'translate(-100%, -50%)'
+              : 'translateY(-50%)',
           }}
         >
           <div className="tooltip-inner">
