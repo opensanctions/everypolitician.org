@@ -1,11 +1,13 @@
 'use client';
 
-import { useEffect, useState, useMemo, useCallback } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
+import Overlay from 'react-bootstrap/Overlay';
+import Tooltip from 'react-bootstrap/Tooltip';
 
 // Mapping from ISO 3166-1 numeric codes to alpha-2 codes
 const numericToAlpha2: Record<string, string> = {
@@ -276,18 +278,19 @@ interface WorldTopology extends Topology {
 }
 
 export default function WorldMap({ countryDataArray }: WorldMapProps) {
-  const [hoveredCountry, setHoveredCountry] = useState<CountryData | null>(
-    null,
-  );
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [hoveredElement, setHoveredElement] = useState<Element | null>(null);
   const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
   const router = useRouter();
 
-  // Create Map from array (memoized to avoid recreating on every render)
   const countryData = useMemo(
     () => new Map(countryDataArray),
     [countryDataArray],
   );
+
+  const hoveredCountry = useMemo(() => {
+    const code = hoveredElement?.getAttribute('data-country');
+    return code ? countryData.get(code) : null;
+  }, [hoveredElement, countryData]);
 
   // Load TopoJSON data
   useEffect(() => {
@@ -302,83 +305,46 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
       });
   }, []);
 
-  // Filter out Antarctica
-  const filteredGeoData = useMemo(() => {
-    if (!geoData) return null;
+  // Filter out Antarctica and create projection
+  const { features, pathGenerator } = useMemo(() => {
+    if (!geoData) return { features: null, pathGenerator: null };
+
+    const filtered = geoData.features.filter((f) => f.id !== '010');
+    const filteredCollection = { ...geoData, features: filtered };
+
+    const proj = geoNaturalEarth1().fitSize([1000, 500], filteredCollection);
+
     return {
-      ...geoData,
-      features: geoData.features.filter((f) => f.id !== '010'),
+      features: filtered,
+      pathGenerator: geoPath().projection(proj),
     };
   }, [geoData]);
 
-  // Create projection and path generator
-  const pathGenerator = useMemo(() => {
-    const proj = geoNaturalEarth1();
-    if (filteredGeoData) {
-      proj.fitSize([1000, 500], filteredGeoData);
-    }
-    return geoPath().projection(proj);
-  }, [filteredGeoData]);
-
-  // Calculate color scale based on data
-  const getCountryColor = useCallback(
-    (numericId: string) => {
-      const alpha2 = numericToAlpha2[numericId];
-      if (!alpha2) return '#e5e7eb';
-
-      const data = countryData.get(alpha2);
-      if (!data || data.numPositions === 0) return '#e5e7eb';
-
-      // Color scale from light blue to dark blue based on positions
-      const maxPositions = Math.max(
-        ...Array.from(countryData.values()).map((d) => d.numPositions),
-      );
-      const intensity =
-        Math.log(data.numPositions + 1) / Math.log(maxPositions + 1);
-      const hue = 220;
-      const saturation = 70 + intensity * 20;
-      const lightness = 85 - intensity * 45;
-
-      return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
-    },
+  const maxPositions = useMemo(
+    () =>
+      Math.max(...Array.from(countryData.values()).map((d) => d.numPositions)),
     [countryData],
   );
 
-  const handleMouseEnter = useCallback(
-    (_e: React.MouseEvent, numericId: string) => {
-      const alpha2 = numericToAlpha2[numericId];
-      if (alpha2) {
-        const data = countryData.get(alpha2);
-        if (data) {
-          setHoveredCountry(data);
-        }
-      }
-    },
-    [countryData],
-  );
+  const getCountryColor = (numericId: string) => {
+    const alpha2 = numericToAlpha2[numericId];
+    if (!alpha2) return '#e5e7eb';
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setMousePos({ x: e.clientX, y: e.clientY });
-  }, []);
+    const data = countryData.get(alpha2);
+    if (!data || data.numPositions === 0) return '#e5e7eb';
 
-  const handleMouseLeave = useCallback(() => {
-    setHoveredCountry(null);
-  }, []);
+    const intensity =
+      Math.log(data.numPositions + 1) / Math.log(maxPositions + 1);
 
-  const handleClick = useCallback(
-    (numericId: string) => {
-      const alpha2 = numericToAlpha2[numericId];
-      if (alpha2) {
-        const data = countryData.get(alpha2);
-        if (data) {
-          router.push(`/countries/${alpha2}/`);
-        }
-      }
-    },
-    [countryData, router],
-  );
+    return `hsl(220, ${70 + intensity * 20}%, ${85 - intensity * 45}%)`;
+  };
 
-  if (!filteredGeoData) {
+  const handleClick = (e: React.MouseEvent) => {
+    const code = e.currentTarget.getAttribute('data-country');
+    if (code) router.push(`/countries/${code}/`);
+  };
+
+  if (!features || !pathGenerator) {
     return (
       <div className="world-map-container">
         <div className="world-map-loading">Loading map...</div>
@@ -390,7 +356,7 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
     <div className="world-map-container">
       <svg viewBox="0 0 1000 500" className="world-map">
         <g>
-          {filteredGeoData.features.map((feature) => {
+          {features.map((feature) => {
             const countryFeature = feature as CountryFeature;
             const numericId = countryFeature.id;
             const alpha2 = numericToAlpha2[numericId];
@@ -399,37 +365,43 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
             return (
               <path
                 key={numericId}
+                data-country={alpha2}
                 d={pathGenerator(countryFeature) || ''}
                 fill={getCountryColor(numericId)}
                 stroke="#fff"
                 strokeWidth={0.5}
                 className={hasData ? 'country-path clickable' : 'country-path'}
-                onMouseEnter={(e) => handleMouseEnter(e, numericId)}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={handleMouseLeave}
-                onClick={() => hasData && handleClick(numericId)}
+                onMouseEnter={
+                  hasData
+                    ? (e) => setHoveredElement(e.currentTarget)
+                    : undefined
+                }
+                onMouseLeave={
+                  hasData ? () => setHoveredElement(null) : undefined
+                }
+                onClick={hasData ? handleClick : undefined}
               />
             );
           })}
         </g>
       </svg>
-      {hoveredCountry && (
-        <div
-          className="world-map-tooltip"
-          style={{
-            left: mousePos.x + 10,
-            top: mousePos.y - 10,
-          }}
-        >
-          <strong>{hoveredCountry.label}</strong>
-          <div className="tooltip-stats">
-            <span>
-              {hoveredCountry.numPositions.toLocaleString()} positions
-            </span>
-            <span>{hoveredCountry.numPeps.toLocaleString()} PEPs</span>
-          </div>
-        </div>
-      )}
+      <Overlay
+        target={hoveredElement}
+        show={!!hoveredCountry}
+        placement="right"
+      >
+        {(props) => (
+          <Tooltip id="country-tooltip" {...props}>
+            <strong>{hoveredCountry?.label}</strong>
+            <div className="tooltip-stats">
+              <span>
+                {hoveredCountry?.numPositions.toLocaleString()} positions
+              </span>
+              <span>{hoveredCountry?.numPeps.toLocaleString()} PEPs</span>
+            </div>
+          </Tooltip>
+        )}
+      </Overlay>
     </div>
   );
 }

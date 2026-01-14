@@ -417,25 +417,7 @@ blockquote {
   fill: var(--bs-warning) !important;
 }
 
-.world-map-tooltip {
-  position: fixed;
-  background: var(--bs-dark);
-  color: #fff;
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  pointer-events: none;
-  z-index: 1000;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
-  max-width: 200px;
-}
-
-.world-map-tooltip strong {
-  display: block;
-  margin-bottom: 0.25rem;
-}
-
-.world-map-tooltip .tooltip-stats {
+.tooltip-stats {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
