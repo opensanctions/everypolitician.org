@@ -336,7 +336,7 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
     const intensity =
       Math.log(data.numPositions + 1) / Math.log(maxPositions + 1);
 
-    return `hsl(220, ${70 + intensity * 20}%, ${85 - intensity * 45}%)`;
+    return `hsl(220, ${70 + intensity * 20}%, ${75 - intensity * 40}%)`;
   };
 
   const handleClick = (e: React.MouseEvent) => {
