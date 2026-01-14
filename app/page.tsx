@@ -195,11 +195,13 @@ export default async function Page() {
   return (
     <LayoutFrame activeSection="research">
       <div className="world-map-banner">
-        <Container>
-          <h1 className="claim">{CLAIM}</h1>
-          <p className="sub-claim">{SUBCLAIM}</p>
-        </Container>
         <WorldMap countryDataArray={countryDataArray} />
+        <div className="world-map-overlay">
+          <Container>
+            <h1 className="claim">{CLAIM}</h1>
+            <p className="sub-claim">{SUBCLAIM}</p>
+          </Container>
+        </div>
       </div>
       <Container className="pt-3">
         <Row>

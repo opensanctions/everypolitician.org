@@ -369,40 +369,60 @@ blockquote {
 /* World Map styles */
 .world-map-banner {
   background: linear-gradient(135deg, #0040c1 0%, #002776 100%);
-  padding: 2rem 0 1rem 0;
+  height: 40rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.world-map-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.world-map-overlay .container {
+  text-align: left;
 }
 
 .world-map-banner .claim {
   font-weight: 700;
   color: #fff;
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 0.5rem;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .world-map-banner .sub-claim {
   color: var(--bs-gray-200);
-  font-size: 1.1rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.25rem;
+  margin-bottom: 0;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .world-map-container {
-  width: 100%;
-  position: relative;
-  overflow: hidden;
+  position: absolute;
+  inset: 0;
 }
 
 .world-map-loading {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 400px;
+  height: 100%;
   color: var(--bs-gray-400);
 }
 
 .world-map {
-  display: block;
-  max-width: 100%;
-  height: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100vw, 100vh);
+  height: max(100vw, 100vh);
 }
 
 .country-path {
@@ -427,7 +447,7 @@ blockquote {
 
 @media (max-width: 768px) {
   .world-map-banner .claim {
-    font-size: 1.5rem;
+    font-size: 1.75rem;
   }
 
   .world-map-banner .sub-claim {
