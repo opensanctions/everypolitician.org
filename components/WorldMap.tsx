@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
-import Overlay from 'react-bootstrap/Overlay';
-import Tooltip from 'react-bootstrap/Tooltip';
 
 // Mapping from ISO 3166-1 numeric codes to alpha-2 codes
 const numericToAlpha2: Record<string, string> = {
@@ -278,8 +276,11 @@ interface WorldTopology extends Topology {
 }
 
 export default function WorldMap({ countryDataArray }: WorldMapProps) {
-  const [hoveredElement, setHoveredElement] = useState<Element | null>(null);
+  const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
+    null,
+  );
   const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   const countryData = useMemo(
@@ -288,9 +289,8 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
   );
 
   const hoveredCountry = useMemo(() => {
-    const code = hoveredElement?.getAttribute('data-country');
-    return code ? countryData.get(code) : null;
-  }, [hoveredElement, countryData]);
+    return hoveredCountryCode ? countryData.get(hoveredCountryCode) : null;
+  }, [hoveredCountryCode, countryData]);
 
   // Load TopoJSON data
   useEffect(() => {
@@ -352,8 +352,17 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
     );
   }
 
+  const handleMouseMove = (e: React.MouseEvent) => {
+    containerRef.current?.style.setProperty('--mouse-x', String(e.clientX));
+    containerRef.current?.style.setProperty('--mouse-y', String(e.clientY));
+  };
+
   return (
-    <div className="world-map-container">
+    <div
+      className="world-map-container"
+      ref={containerRef}
+      onMouseMove={handleMouseMove}
+    >
       <svg viewBox="0 0 1000 500" className="world-map">
         <g>
           {features.map((feature) => {
@@ -372,12 +381,10 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
                 strokeWidth={0.5}
                 className={hasData ? 'country-path clickable' : 'country-path'}
                 onMouseEnter={
-                  hasData
-                    ? (e) => setHoveredElement(e.currentTarget)
-                    : undefined
+                  hasData ? () => setHoveredCountryCode(alpha2) : undefined
                 }
                 onMouseLeave={
-                  hasData ? () => setHoveredElement(null) : undefined
+                  hasData ? () => setHoveredCountryCode(null) : undefined
                 }
                 onClick={hasData ? handleClick : undefined}
               />
@@ -385,23 +392,29 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
           })}
         </g>
       </svg>
-      <Overlay
-        target={hoveredElement}
-        show={!!hoveredCountry}
-        placement="right"
-      >
-        {(props) => (
-          <Tooltip id="country-tooltip" {...props}>
-            <strong>{hoveredCountry?.label}</strong>
+      {hoveredCountry && (
+        <div
+          className="tooltip bs-tooltip-end show"
+          role="tooltip"
+          style={{
+            position: 'fixed',
+            left: 'calc(var(--mouse-x, 0) * 1px + 12px)',
+            top: 'calc(var(--mouse-y, 0) * 1px)',
+            pointerEvents: 'none',
+            transform: 'translateY(-50%)',
+          }}
+        >
+          <div className="tooltip-inner">
+            <strong>{hoveredCountry.label}</strong>
             <div className="tooltip-stats">
               <span>
-                {hoveredCountry?.numPositions.toLocaleString()} positions
+                {hoveredCountry.numPositions.toLocaleString()} positions
               </span>
-              <span>{hoveredCountry?.numPeps.toLocaleString()} PEPs</span>
+              <span>{hoveredCountry.numPeps.toLocaleString()} PEPs</span>
             </div>
-          </Tooltip>
-        )}
-      </Overlay>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
