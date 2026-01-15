@@ -249,7 +249,7 @@ blockquote {
 }
 
 .hero-map {
-  height: 40rem;
+  height: 30rem;
   position: relative;
   overflow: hidden;
   padding: 0;
@@ -380,29 +380,32 @@ blockquote {
   inset: 0;
   display: flex;
   align-items: center;
-  justify-content: center;
   pointer-events: none;
   z-index: 1;
 }
 
 .world-map-overlay .container {
-  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
 .hero-map .claim {
   font-weight: 700;
   color: #fff;
   font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  margin: 0 0 0 -1rem;
+  background-color: #0040c1;
+  padding: 0.5rem 1rem;
 }
 
 .hero-map .sub-claim {
   color: var(--bs-gray-200);
   font-size: 1.25rem;
   font-weight: 500;
-  margin-bottom: 0;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  margin: 0 0 0 -1rem;
+  background-color: #0040c1;
+  padding: 0.5rem 1rem;
 }
 
 .world-map-container {
