@@ -1,8 +1,7 @@
-import { Viewport } from 'next';
+import { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
-// import SSRProvider from 'react-bootstrap/SSRProvider';
 
-import { THEME_COLOR } from '@/lib/constants';
+import { BASE_URL, THEME_COLOR } from '@/lib/constants';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import './globals.css';
@@ -30,10 +29,24 @@ const monaSpace = localFont({
   adjustFontFallback: false,
 });
 
-export const metadata = {
+export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: {
-    template: '%s - OpenSanctions',
-    default: 'OpenSanctions',
+    template: '%s - EveryPolitician',
+    default: 'EveryPolitician',
+  },
+  applicationName: 'EveryPolitician.org',
+  icons: {
+    icon: 'https://assets.opensanctions.org/images/ep/favicon-32.png',
+    apple: 'https://assets.opensanctions.org/images/ep/logo-icon-color.png',
+  },
+  openGraph: {
+    siteName: 'EveryPolitician.org',
+    images: ['https://assets.opensanctions.org/images/nura/social.png'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    creator: '@open_sanctions',
   },
 };
 

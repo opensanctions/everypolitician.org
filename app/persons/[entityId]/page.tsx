@@ -13,7 +13,6 @@ import NavLink from 'react-bootstrap/NavLink';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { getAdjacent, getEntity, getEntityDatasets } from '@/lib/data';
-import { getGenerateMetadata } from '@/lib/meta';
 import { getSchemaEntityPage } from '@/lib/schema';
 import {
   EntityData,
@@ -34,12 +33,12 @@ interface PersonPageProps {
 export async function generateMetadata({ params }: PersonPageProps) {
   const entity = await getEntity((await params).entityId);
   if (entity === null) {
-    return getGenerateMetadata({ title: 'Person not found' });
+    return { title: 'Person not found' };
   }
-  return getGenerateMetadata({
+  return {
     title: entity.caption,
-    noIndex: true,
-  });
+    robots: { index: false },
+  };
 }
 
 function PositionLink({ position }: { position: EntityData }) {

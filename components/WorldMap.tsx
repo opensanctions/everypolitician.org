@@ -258,6 +258,9 @@ export type CountryData = {
   numPositions: number;
 };
 
+const VIEWBOX_WIDTH = 1000;
+const VIEWBOX_HEIGHT = 500;
+
 interface WorldMapProps {
   countryDataArray: [string, CountryData][];
   focusCountry?: string;
@@ -325,12 +328,12 @@ export default function WorldMap({
       if (focusFeature) {
         const focusCollection = { ...geoData, features: [focusFeature] };
         const padding = 0.3;
-        const padX = 1000 * padding;
-        const padY = 500 * padding;
+        const padX = VIEWBOX_WIDTH * padding;
+        const padY = VIEWBOX_HEIGHT * padding;
         const proj = geoNaturalEarth1().fitExtent(
           [
             [padX, padY],
-            [1000 - padX, 500 - padY],
+            [VIEWBOX_WIDTH - padX, VIEWBOX_HEIGHT - padY],
           ],
           focusCollection,
         );
@@ -344,7 +347,10 @@ export default function WorldMap({
 
     // Default: show entire world
     const filteredCollection = { ...geoData, features: filtered };
-    const proj = geoNaturalEarth1().fitSize([1000, 500], filteredCollection);
+    const proj = geoNaturalEarth1().fitSize(
+      [VIEWBOX_WIDTH, VIEWBOX_HEIGHT],
+      filteredCollection,
+    );
 
     return {
       features: filtered,
@@ -394,7 +400,10 @@ export default function WorldMap({
 
   return (
     <div className="world-map-container" onMouseMove={handleMouseMove}>
-      <svg viewBox="0 0 1000 500" className="world-map">
+      <svg
+        viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
+        className="world-map"
+      >
         <g>
           {features.map((feature) => {
             const countryFeature = feature as CountryFeature;

@@ -15,19 +15,16 @@ import Table from 'react-bootstrap/Table';
 import { getMapCountryData } from '@/lib/data';
 import { getTerritoriesByCode } from '@/lib/territory';
 
-import { getGenerateMetadata } from '@/lib/meta';
-import { BASE_URL } from '@/lib/constants';
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-static';
 
-export async function generateMetadata() {
-  return getGenerateMetadata({
-    title: 'EveryPolitician: Who is running the world?',
-    description:
-      'EveryPolitician is a global database of political office-holders, from rulers, law-makers to judges and more.',
-    canonicalUrl: `${BASE_URL}/`,
-  });
-}
+export const metadata: Metadata = {
+  title: 'EveryPolitician: Who is running the world?',
+  description:
+    'EveryPolitician is a global database of political office-holders, from rulers, law-makers to judges and more.',
+  alternates: { canonical: '/' },
+};
 
 type TerritorySummary = {
   code: string;

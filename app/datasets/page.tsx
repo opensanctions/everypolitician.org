@@ -9,19 +9,16 @@ import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { getDatasetsByScope } from '@/lib/data';
 import { isSource } from '@/lib/types';
-import { getGenerateMetadata } from '@/lib/meta';
-import { BASE_URL } from '@/lib/constants';
+
+import type { Metadata } from 'next';
 
 export const dynamic = 'force-static';
 
-export async function generateMetadata() {
-  return getGenerateMetadata({
-    title: 'PEP Data Sets - EveryPolitician',
-    description:
-      'Browse all PEP-relevant data sources used by EveryPolitician.',
-    canonicalUrl: `${BASE_URL}/datasets/`,
-  });
-}
+export const metadata: Metadata = {
+  title: 'PEP Data Sets',
+  description: 'Browse all PEP-relevant data sources used by EveryPolitician.',
+  alternates: { canonical: '/datasets/' },
+};
 
 export default async function Page() {
   const datasets = await getDatasetsByScope('peps');

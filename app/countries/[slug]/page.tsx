@@ -14,9 +14,8 @@ import NavItem from 'react-bootstrap/NavItem';
 import NavLink from 'react-bootstrap/NavLink';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
-import { BASE_URL, MAIN_DATASET } from '@/lib/constants';
+import { MAIN_DATASET } from '@/lib/constants';
 import { fetchApiCached, getMapCountryData } from '@/lib/data';
-import { getGenerateMetadata } from '@/lib/meta';
 import { getCountryPEPData, IPositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode, getTerritoryInfo } from '@/lib/territory';
 import { ISearchAPIResponse } from '@/lib/types';
@@ -50,10 +49,10 @@ export async function generateMetadata(props: {
   if (info === null) {
     return {};
   }
-  return getGenerateMetadata({
+  return {
     title: `Data available for ${info.in_sentence}`,
-    canonicalUrl: `${BASE_URL}/countries/${countryCode}/`,
-  });
+    alternates: { canonical: `/countries/${countryCode}/` },
+  };
 }
 
 // export async function generateStaticParams() {

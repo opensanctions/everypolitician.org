@@ -11,7 +11,6 @@ import remarkRehype from 'remark-rehype';
 import { unified } from 'unified';
 
 import { BASE_URL } from './constants';
-import { getGenerateMetadata } from './meta';
 
 async function markdownToHtml(
   markdown: string | undefined | null,
@@ -138,13 +137,13 @@ function getPageMetadata(page: IPage | null): Metadata {
   if (page === null) {
     return {};
   }
-  return getGenerateMetadata({
+  return {
     title: page.title,
-    noIndex: page.no_index,
     description: page.summary || undefined,
-    canonicalUrl: page.url,
-    imageUrl: page.image || null,
-  });
+    alternates: { canonical: page.url },
+    robots: page.no_index ? { index: false } : undefined,
+    openGraph: page.image ? { images: [page.image] } : undefined,
+  };
 }
 
 export async function getPathMetadata(path: string): Promise<Metadata> {
