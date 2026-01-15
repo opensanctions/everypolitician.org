@@ -263,54 +263,35 @@ export default async function Page(props: {
 
   return (
     <LayoutFrame activeSection="research">
-      <Hero className="hero-map">
-        <WorldMap countryDataArray={countryDataArray} focusTerritory={info} />
-        <div className="world-map-overlay">
-          <Container>
-            <Row>
-              <Col md={9}>
-                <Row className="align-items-start">
-                  <Col xs={3}>
-                    <img
-                      src={`/assets/${info.flag || '10c75c82-b086-4b42-b930-dce7533e1f01'}/?w=150&format=auto`}
-                      alt={
-                        info.flag
-                          ? `Flag of ${info.in_sentence}`
-                          : 'Placeholder flag'
-                      }
-                      className="w-100"
-                    />
-                  </Col>
-                  <Col xs={9}>
-                    <h1>{info.label_full}</h1>
-                    <div>
-                      {info?.summary || info?.summary}
-                      {!info?.summary && info?.wikipedia_url && (
-                        <span>
-                          {' '}
-                          -&nbsp;
-                          <Link href={info?.wikipedia_url}>Wikipedia</Link>
-                        </span>
-                      )}
-                    </div>
-                    {info.see.length > 0 && (
-                      <div>
-                        See also:{' '}
-                        <SpacedList
-                          values={info.see.map((c) => (
-                            <Link key={c} href={`/countries/${c}/`}>
-                              {territories.get(c)?.label_short}
-                            </Link>
-                          ))}
-                        />
-                      </div>
-                    )}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </Container>
+      <Hero
+        title={info.label_full}
+        size="large"
+        background={
+          <WorldMap countryDataArray={countryDataArray} focusTerritory={info} />
+        }
+      >
+        <div className="hero-subtitle">
+          {info?.summary || info?.summary}
+          {!info?.summary && info?.wikipedia_url && (
+            <span>
+              {' '}
+              -&nbsp;
+              <Link href={info?.wikipedia_url}>Wikipedia</Link>
+            </span>
+          )}
         </div>
+        {info.see.length > 0 && (
+          <div className="hero-subtitle">
+            See also:{' '}
+            <SpacedList
+              values={info.see.map((c) => (
+                <Link key={c} href={`/countries/${c}/`}>
+                  {territories.get(c)?.label_short}
+                </Link>
+              ))}
+            />
+          </div>
+        )}
       </Hero>
 
       <Container className="pt-3">

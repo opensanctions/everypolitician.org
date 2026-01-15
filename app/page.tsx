@@ -161,17 +161,15 @@ export default async function Page() {
 
   return (
     <LayoutFrame activeSection="research">
-      <Hero className="hero-map">
-        <WorldMap countryDataArray={countryDataArray} />
-        <div className="world-map-overlay">
-          <Container>
-            <h1 className="claim">Who is running the world?</h1>
-            <p className="sub-claim">
-              EveryPolitician is a global database of political office-holders,
-              from rulers, law-makers to judges and more.
-            </p>
-          </Container>
-        </div>
+      <Hero
+        title="Who is running the world?"
+        size="large"
+        background={<WorldMap countryDataArray={countryDataArray} />}
+      >
+        <p className="hero-subtitle">
+          EveryPolitician is a global database of political office-holders, from
+          rulers, law-makers to judges and more.
+        </p>
       </Hero>
       <Container className="pt-3">
         <Row>
