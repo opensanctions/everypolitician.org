@@ -12,8 +12,9 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'PEP Data Sets',
-  description: 'Browse all PEP-relevant data sources used by EveryPolitician.',
+  title: 'Data Sources - EveryPolitician',
+  description:
+    'Browse the official sources used by EveryPolitician to compile information about political office-holders.',
   alternates: { canonical: '/datasets/' },
 };
 
@@ -24,10 +25,10 @@ export default async function Page() {
   return (
     <LayoutFrame activeSection="datasets">
       <Container className="pt-3">
-        <h1>PEP Data Sets</h1>
+        <h1>Data Sources</h1>
         <p>
-          These are the data sources used by EveryPolitician to compile
-          information about politically exposed persons.
+          These are the official sources used by EveryPolitician to compile
+          information about political office-holders around the world.
         </p>
         <Table>
           <thead>

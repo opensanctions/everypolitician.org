@@ -502,7 +502,7 @@ export default function WorldMap({
               <span>
                 {hoveredCountry.numPositions.toLocaleString()} positions
               </span>
-              <span>{hoveredCountry.numPeps.toLocaleString()} PEPs</span>
+              <span>{hoveredCountry.numPeps.toLocaleString()} politicians</span>
             </div>
           </div>
         </div>

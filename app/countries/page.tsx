@@ -113,13 +113,13 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
             <HelpLink href="/docs/pep/methodology/" />
           </th>
           <th className="numeric text-end text-nowrap">
-            PEPs
+            Politicians
             <HelpLink
-              href="/docs/topics/#peps"
-              tooltipId="help-pep"
+              href="/docs/pep/methodology/"
+              tooltipId="help-politicians"
               placement="left"
             >
-              Politically Exposed Persons
+              Political office-holders in our database
             </HelpLink>
           </th>
         </tr>

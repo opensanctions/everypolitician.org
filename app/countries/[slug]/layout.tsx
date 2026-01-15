@@ -81,20 +81,20 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
       </Hero>
 
       <Container className="pt-3">
-        <h2 id="peps">Politically-exposed persons (PEPs)</h2>
+        <h2 id="peps">Political office-holders</h2>
         <p>
           Our database
           {pepCount == 0 ? (
-            <> does not yet contain entities identified as PEPs </>
+            <> does not yet contain any politicians </>
           ) : (
             <>
               {' '}
-              contains <Plural
+              contains{' '}
+              <Plural
                 value={pepCount}
-                one="entity"
-                many="entities"
+                one="politician"
+                many="politicians"
               />{' '}
-              identified as PEPs{' '}
             </>
           )}
           connected with {info.in_sentence}.
