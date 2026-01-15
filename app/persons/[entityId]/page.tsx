@@ -3,6 +3,7 @@ import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
+import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
@@ -79,8 +80,8 @@ function OccupanciesTable({ occupancies }: { occupancies: IPropResults }) {
       <thead>
         <tr>
           <th>Position</th>
-          <th>Start date</th>
-          <th>End date</th>
+          <th className="text-end">Start date</th>
+          <th className="text-end">End date</th>
         </tr>
       </thead>
       <tbody>
@@ -89,8 +90,12 @@ function OccupanciesTable({ occupancies }: { occupancies: IPropResults }) {
           return (
             <tr key={occupancy.id}>
               <td>{post ? <PositionLink position={post} /> : '-'}</td>
-              <td>{getFirst(occupancy, 'startDate') || '-'}</td>
-              <td>{getFirst(occupancy, 'endDate') || '-'}</td>
+              <td className="text-end">
+                {getFirst(occupancy, 'startDate') || '-'}
+              </td>
+              <td className="text-end">
+                {getFirst(occupancy, 'endDate') || '-'}
+              </td>
             </tr>
           );
         })}
@@ -128,9 +133,8 @@ export default async function PersonPage({ params }: PersonPageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
         />
       )}
+      <Hero title={person.caption} />
       <Container className="pt-3">
-        <h1>{person.caption}</h1>
-
         <section id="factsheet">
           <h2>Profile</h2>
           <PersonFactsheet person={person} />

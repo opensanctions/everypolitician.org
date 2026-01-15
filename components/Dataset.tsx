@@ -12,7 +12,7 @@ type DatasetProps = {
 
 export default function Dataset({ dataset }: DatasetProps) {
   return (
-    <Card>
+    <Card className="mb-3">
       <CardBody>
         <CardTitle>{dataset.title}</CardTitle>
         <p className="text-muted">{dataset.summary}</p>
