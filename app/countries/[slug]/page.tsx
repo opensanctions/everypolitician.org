@@ -264,10 +264,7 @@ export default async function Page(props: {
   return (
     <LayoutFrame activeSection="research">
       <Hero className="hero-map">
-        <WorldMap
-          countryDataArray={countryDataArray}
-          focusCountry={countryCode}
-        />
+        <WorldMap countryDataArray={countryDataArray} focusTerritory={info} />
         <div className="world-map-overlay">
           <Container>
             <Row>

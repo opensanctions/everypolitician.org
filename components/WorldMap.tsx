@@ -6,6 +6,7 @@ import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
+import type { ITerritoryInfo } from '@/lib/territory';
 
 // Mapping from ISO 3166-1 numeric codes to alpha-2 codes
 const numericToAlpha2: Record<string, string> = {
@@ -263,7 +264,7 @@ const VIEWBOX_HEIGHT = 500;
 
 interface WorldMapProps {
   countryDataArray: [string, CountryData][];
-  focusCountry?: string;
+  focusTerritory?: ITerritoryInfo;
 }
 
 interface CountryFeature extends Feature<Geometry> {
@@ -281,8 +282,12 @@ interface WorldTopology extends Topology {
 
 export default function WorldMap({
   countryDataArray,
-  focusCountry,
+  focusTerritory,
 }: WorldMapProps) {
+  const focusCountry = focusTerritory?.code;
+  const flagUrl = focusTerritory?.flag
+    ? `/assets/${focusTerritory.flag}/?w=500&format=auto`
+    : undefined;
   const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
     null,
   );
@@ -314,19 +319,20 @@ export default function WorldMap({
   }, []);
 
   // Filter out Antarctica and create projection
-  const { features, pathGenerator } = useMemo(() => {
-    if (!geoData) return { features: null, pathGenerator: null };
+  const { features, pathGenerator, focusFeature } = useMemo(() => {
+    if (!geoData)
+      return { features: null, pathGenerator: null, focusFeature: null };
 
     const filtered = geoData.features.filter((f) => f.id !== '010');
 
     // If focusing on a country, fit projection to that country
     if (focusCountry) {
-      const focusFeature = filtered.find(
+      const foundFeature = filtered.find(
         (f) => numericToAlpha2[f.id as string] === focusCountry,
       );
 
-      if (focusFeature) {
-        const focusCollection = { ...geoData, features: [focusFeature] };
+      if (foundFeature) {
+        const focusCollection = { ...geoData, features: [foundFeature] };
         const padding = 0.3;
         const padX = VIEWBOX_WIDTH * padding;
         const padY = VIEWBOX_HEIGHT * padding;
@@ -341,6 +347,7 @@ export default function WorldMap({
         return {
           features: filtered,
           pathGenerator: geoPath().projection(proj),
+          focusFeature: foundFeature,
         };
       }
     }
@@ -355,8 +362,21 @@ export default function WorldMap({
     return {
       features: filtered,
       pathGenerator: geoPath().projection(proj),
+      focusFeature: null,
     };
   }, [geoData, focusCountry]);
+
+  // Calculate bounding box of focus country for flag pattern
+  const focusBounds = useMemo(() => {
+    if (!focusFeature || !pathGenerator) return null;
+    const bounds = pathGenerator.bounds(focusFeature);
+    return {
+      x: bounds[0][0],
+      y: bounds[0][1],
+      width: bounds[1][0] - bounds[0][0],
+      height: bounds[1][1] - bounds[0][1],
+    };
+  }, [focusFeature, pathGenerator]);
 
   const maxPositions = useMemo(
     () =>
@@ -404,6 +424,13 @@ export default function WorldMap({
         viewBox={`0 0 ${VIEWBOX_WIDTH} ${VIEWBOX_HEIGHT}`}
         className="world-map"
       >
+        {flagUrl && focusFeature && pathGenerator && (
+          <defs>
+            <clipPath id="country-clip">
+              <path d={pathGenerator(focusFeature) || ''} />
+            </clipPath>
+          </defs>
+        )}
         <g>
           {features.map((feature) => {
             const countryFeature = feature as CountryFeature;
@@ -411,12 +438,14 @@ export default function WorldMap({
             const alpha2 = numericToAlpha2[numericId];
             const hasData = alpha2 && countryData.has(alpha2);
 
+            const fill = getCountryColor(numericId);
+
             return (
               <path
                 key={numericId}
                 data-country={alpha2}
                 d={pathGenerator(countryFeature) || ''}
-                fill={getCountryColor(numericId)}
+                fill={fill}
                 stroke="#fff"
                 strokeWidth={0.5}
                 className={hasData ? 'country-path clickable' : 'country-path'}
@@ -431,6 +460,25 @@ export default function WorldMap({
             );
           })}
         </g>
+        {flagUrl && focusBounds && (
+          <foreignObject
+            x={focusBounds.x}
+            y={focusBounds.y}
+            width={focusBounds.width}
+            height={focusBounds.height}
+            clipPath="url(#country-clip)"
+          >
+            <img
+              src={flagUrl}
+              alt=""
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+              }}
+            />
+          </foreignObject>
+        )}
       </svg>
       {hoveredCountry && (
         <div
