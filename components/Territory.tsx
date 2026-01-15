@@ -44,7 +44,7 @@ function TerritoryLink({ territory, short = true }: TerritoryProps) {
     return null;
   }
   return (
-    <Link href={`/countries/${territory.code}`} prefetch={false}>
+    <Link href={`/countries/${territory.code}/national/`} prefetch={false}>
       <TerritoryName territory={territory} short={short} />
     </Link>
   );

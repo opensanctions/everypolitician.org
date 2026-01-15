@@ -51,12 +51,18 @@ function Subregion({ label, territories }: SubregionProps) {
       {territories.map((territory) => (
         <tr key={territory.code}>
           <td>
-            <Link prefetch={false} href={`/countries/${territory.code}/`}>
+            <Link
+              prefetch={false}
+              href={`/countries/${territory.code}/national/`}
+            >
               {territory.label}
             </Link>
           </td>
           <td className="numeric text-end">
-            <Link prefetch={false} href={`/countries/${territory.code}/#peps`}>
+            <Link
+              prefetch={false}
+              href={`/countries/${territory.code}/national/`}
+            >
               <Numeric value={territory.numPositions} />
             </Link>
           </td>
