@@ -3,14 +3,8 @@ import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
-import { Sticky } from '@/components/Formatting';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { LicenseInfo } from '@/components/Policy';
-import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import NavLink from 'react-bootstrap/NavLink';
-import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { getAdjacent, getEntity, getEntityDatasets } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
@@ -139,62 +133,41 @@ export default async function PersonPage({ params }: PersonPageProps) {
         />
       )}
       <Container className="pt-3">
-        <Row>
-          <Col md={9}>
-            <h1>{person.caption}</h1>
-          </Col>
-          <Col md={3}></Col>
-        </Row>
-        <Row>
-          <Col md={9} className="order-1">
-            <section id="factsheet">
-              <h2>Profile</h2>
-              <PersonFactsheet person={person} />
-            </section>
+        <h1>{person.caption}</h1>
 
-            <section id="positions">
-              <h2>Positions held</h2>
-              {occupancies ? (
-                <OccupanciesTable occupancies={occupancies} />
-              ) : (
-                <p>No positions found.</p>
-              )}
-            </section>
+        <section id="factsheet">
+          <h2>Profile</h2>
+          <PersonFactsheet person={person} />
+        </section>
 
-            <section id="sources">
-              <h2>Data sources</h2>
-              {sources.map((d) => (
+        <section id="positions">
+          <h2>Positions held</h2>
+          {occupancies ? (
+            <OccupanciesTable occupancies={occupancies} />
+          ) : (
+            <p>No positions found.</p>
+          )}
+        </section>
+
+        <section id="sources">
+          <h2>Data sources</h2>
+          {sources.map((d) => (
+            <Dataset key={d.name} dataset={d} />
+          ))}
+          {externals.length > 0 && (
+            <>
+              <h5>External databases</h5>
+              <p>
+                The record has been{' '}
+                <Link href="/docs/enrichment/">enriched with data</Link> from
+                the following external databases:
+              </p>
+              {externals.map((d) => (
                 <Dataset key={d.name} dataset={d} />
               ))}
-              {externals.length > 0 && (
-                <>
-                  <h5>External databases</h5>
-                  <p>
-                    The record has been{' '}
-                    <Link href="/docs/enrichment/">enriched with data</Link>{' '}
-                    from the following external databases:
-                  </p>
-                  {externals.map((d) => (
-                    <Dataset key={d.name} dataset={d} />
-                  ))}
-                </>
-              )}
-            </section>
-          </Col>
-          <Col md={3} className="order-2 pt-5">
-            <Sticky>
-              <Nav
-                className="flex-column d-print-none d-none d-md-flex"
-                variant="pills"
-              >
-                <NavLink href="#factsheet">Profile</NavLink>
-                <NavLink href="#positions">Positions held</NavLink>
-                <NavLink href="#sources">Data sources</NavLink>
-              </Nav>
-              <LicenseInfo />
-            </Sticky>
-          </Col>
-        </Row>
+            </>
+          )}
+        </section>
       </Container>
     </LayoutFrame>
   );

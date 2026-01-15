@@ -3,14 +3,9 @@ import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
-import { FormattedDate, SpacedList, Sticky } from '@/components/Formatting';
+import { FormattedDate, SpacedList } from '@/components/Formatting';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import { LicenseInfo } from '@/components/Policy';
-import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import NavLink from 'react-bootstrap/NavLink';
-import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { getAdjacent, getEntity, getEntityDatasets } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
@@ -158,62 +153,41 @@ export default async function PositionPage({ params }: PositionPageProps) {
         />
       )}
       <Container className="pt-3">
-        <Row>
-          <Col md={9}>
-            <h1>{position.caption}</h1>
-          </Col>
-          <Col md={3}></Col>
-        </Row>
-        <Row>
-          <Col md={9} className="order-1">
-            <section id="factsheet">
-              <h2>Position details</h2>
-              <PositionFactsheet position={position} datasets={sources} />
-            </section>
+        <h1>{position.caption}</h1>
 
-            <section id="holders">
-              <h2>Position holders</h2>
-              {occupancies ? (
-                <HoldersTable occupancies={occupancies} />
-              ) : (
-                <p>No holders found.</p>
-              )}
-            </section>
+        <section id="factsheet">
+          <h2>Position details</h2>
+          <PositionFactsheet position={position} datasets={sources} />
+        </section>
 
-            <section id="sources">
-              <h2>Data sources</h2>
-              {sources.map((d) => (
+        <section id="holders">
+          <h2>Position holders</h2>
+          {occupancies ? (
+            <HoldersTable occupancies={occupancies} />
+          ) : (
+            <p>No holders found.</p>
+          )}
+        </section>
+
+        <section id="sources">
+          <h2>Data sources</h2>
+          {sources.map((d) => (
+            <Dataset key={d.name} dataset={d} />
+          ))}
+          {externals.length > 0 && (
+            <>
+              <h5>External databases</h5>
+              <p>
+                The record has been{' '}
+                <Link href="/docs/enrichment/">enriched with data</Link> from
+                the following external databases:
+              </p>
+              {externals.map((d) => (
                 <Dataset key={d.name} dataset={d} />
               ))}
-              {externals.length > 0 && (
-                <>
-                  <h5>External databases</h5>
-                  <p>
-                    The record has been{' '}
-                    <Link href="/docs/enrichment/">enriched with data</Link>{' '}
-                    from the following external databases:
-                  </p>
-                  {externals.map((d) => (
-                    <Dataset key={d.name} dataset={d} />
-                  ))}
-                </>
-              )}
-            </section>
-          </Col>
-          <Col md={3} className="order-2 pt-5">
-            <Sticky>
-              <Nav
-                className="flex-column d-print-none d-none d-md-flex"
-                variant="pills"
-              >
-                <NavLink href="#factsheet">Position details</NavLink>
-                <NavLink href="#holders">Position holders</NavLink>
-                <NavLink href="#sources">Data sources</NavLink>
-              </Nav>
-              <LicenseInfo />
-            </Sticky>
-          </Col>
-        </Row>
+            </>
+          )}
+        </section>
       </Container>
     </LayoutFrame>
   );

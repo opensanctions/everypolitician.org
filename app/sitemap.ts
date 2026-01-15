@@ -9,12 +9,8 @@ export const dynamic = 'force-static';
 
 const PAGES = ['', 'datasets/'];
 
-function dateTruncate(date: string | null | undefined) {
-  if (date === null || date === undefined) {
-    const now = new Date();
-    date = now.toISOString();
-  }
-  return date.substring(0, 10);
+function dateTruncate(date?: string | null) {
+  return (date ?? new Date().toISOString()).slice(0, 10);
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
