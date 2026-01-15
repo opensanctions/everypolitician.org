@@ -6,7 +6,6 @@ import Territory from '@/components/Territory';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import { getDatasetsByScope } from '@/lib/data';
-import { isSource } from '@/lib/types';
 
 import type { Metadata } from 'next';
 
@@ -20,7 +19,7 @@ export const metadata: Metadata = {
 
 export default async function Page() {
   const datasets = await getDatasetsByScope('peps');
-  const sources = datasets.filter((ds) => !ds.hidden).filter(isSource);
+  const sources = datasets.filter((ds) => !ds.hidden && ds.type === 'source');
 
   return (
     <LayoutFrame activeSection="datasets">

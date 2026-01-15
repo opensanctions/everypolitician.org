@@ -62,7 +62,6 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
     <LayoutFrame activeSection="research">
       <Hero
         title={info.label_full}
-        size="large"
         background={
           <WorldMap countryDataArray={countryDataArray} focusTerritory={info} />
         }

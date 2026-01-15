@@ -16,8 +16,6 @@ import {
   getEntityProperty,
   IDataset,
   IPropResults,
-  isExternal,
-  isSource,
 } from '@/lib/types';
 
 export const maxDuration = 25;
@@ -136,9 +134,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
   const datasets = await getEntityDatasets(position);
   const propsResults = await getAdjacent(position.id);
 
-  const structured = getSchemaEntityPage(position, datasets);
-  const sources = datasets.filter(isSource);
-  const externals = datasets.filter(isExternal);
+  const structured = getSchemaEntityPage(position);
 
   // Get occupancies (people who held this position)
   const occupancies = propsResults?.adjacent['occupancies'];
@@ -157,7 +153,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
 
         <section id="factsheet">
           <h2>Position details</h2>
-          <PositionFactsheet position={position} datasets={sources} />
+          <PositionFactsheet position={position} datasets={datasets} />
         </section>
 
         <section id="holders">
@@ -171,22 +167,9 @@ export default async function PositionPage({ params }: PositionPageProps) {
 
         <section id="sources">
           <h2>Data sources</h2>
-          {sources.map((d) => (
+          {datasets.map((d) => (
             <Dataset key={d.name} dataset={d} />
           ))}
-          {externals.length > 0 && (
-            <>
-              <h5>External databases</h5>
-              <p>
-                The record has been{' '}
-                <Link href="/docs/enrichment/">enriched with data</Link> from
-                the following external databases:
-              </p>
-              {externals.map((d) => (
-                <Dataset key={d.name} dataset={d} />
-              ))}
-            </>
-          )}
         </section>
       </Container>
     </LayoutFrame>

@@ -246,10 +246,11 @@ blockquote {
   color: #fff;
   position: relative;
   overflow: hidden;
+  height: 30rem;
 }
 
 .hero-large {
-  height: 30rem;
+  height: 40rem;
 }
 
 .hero h1 {

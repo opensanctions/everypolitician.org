@@ -1,115 +1,28 @@
 //
-// https://developers.google.com/search/docs/advanced/structured-data/dataset
-// https://schema.org/Dataset
+// https://developers.google.com/search/docs/advanced/structured-data/
+// https://schema.org/WebPage
 
-import { OSA_URL, LICENSE_URL, EMAIL, SITE } from './constants';
-import {
-  EntityData,
-  getFirst,
-  IDataset,
-  IResource,
-  isExternal,
-  IDatasetPublisher,
-} from './types';
+import { LICENSE_URL, EMAIL } from './constants';
+import { EntityData, getFirst } from './types';
 
-function getSchemaOpenSanctionsOrganization() {
+function getEveryPoliticianOrganization() {
   return {
     '@context': 'https://schema.org/',
     '@type': 'Organization',
-    name: 'OpenSanctions Datenbanken GmbH',
-    url: `${OSA_URL}/docs/about`,
+    name: 'EveryPolitician',
+    url: 'https://everypolitician.org',
     email: EMAIL,
     description:
-      'A global database of persons in public office and under sanctions.',
+      'A global atlas of political offices and the people who hold them.',
   };
 }
 
-function getDataCatalog() {
-  return {
-    '@context': 'https://schema.org/',
-    '@type': 'DataCatalog',
-    name: SITE,
-    url: `${OSA_URL}/datasets/`,
-    creator: getSchemaOpenSanctionsOrganization(),
-    license: LICENSE_URL,
-  };
-}
-
-function getPublisherOrganization(publisher: IDatasetPublisher) {
-  return {
-    '@context': 'https://schema.org/',
-    '@type': 'Organization',
-    name: publisher.name,
-    url: publisher.url,
-    description: publisher.description,
-  };
-}
-
-function getResourceDataDownload(resource: IResource) {
-  return {
-    '@context': 'https://schema.org/',
-    '@type': 'DataDownload',
-    name: resource.title,
-    contentUrl: resource.url,
-    encodingFormat: resource.mime_type,
-    uploadDate: resource.timestamp,
-  };
-}
-
-export function getSchemaDataset(dataset: IDataset) {
-  if (isExternal(dataset)) {
-    return undefined;
-  }
-  let schema: any = {
-    '@context': 'https://schema.org/',
-    '@type': 'Dataset',
-    name: dataset.title,
-    url: `${OSA_URL}/datasets/${dataset.name}/`,
-    description: dataset.summary,
-    license: LICENSE_URL,
-    includedInDataCatalog: getDataCatalog(),
-    creator: getSchemaOpenSanctionsOrganization(),
-    isAccessibleForFree: true,
-    dateModified: dataset.last_change,
-    distribution: (dataset.resources || []).map((r) =>
-      getResourceDataDownload(r),
-    ),
-  };
-  if (!!dataset.publisher) {
-    schema = {
-      ...schema,
-      creator: getPublisherOrganization(dataset.publisher),
-      maintainer: getSchemaOpenSanctionsOrganization(),
-    };
-    if (dataset.url) {
-      schema = {
-        ...schema,
-        isBasedOn: dataset.url,
-      };
-    }
-    if (dataset.publisher.country !== 'zz') {
-      schema = {
-        ...schema,
-        countryOfOrigin: dataset.publisher.country,
-      };
-    }
-  }
-  return schema;
-}
-
-export function getSchemaEntityPage(
-  entity: EntityData,
-  datasets: Array<IDataset>,
-) {
-  const schemaDatasets = datasets
-    .map((d) => getSchemaDataset(d))
-    .filter((d) => !!d);
+export function getSchemaEntityPage(entity: EntityData) {
   return {
     '@context': 'https://schema.org/',
     '@type': 'WebPage',
     name: entity.caption,
-    maintainer: getSchemaOpenSanctionsOrganization(),
-    isPartOf: schemaDatasets.map((d) => d.url),
+    maintainer: getEveryPoliticianOrganization(),
     license: LICENSE_URL,
     dateCreated: entity.first_seen,
     dateModified: getFirst(entity, 'modifiedAt') || entity.last_seen,

@@ -28,13 +28,6 @@ export function getStringProperty(entity: EntityData, prop: string): string[] {
   );
 }
 
-export function getProperty(
-  entity: EntityData,
-  prop: string,
-): (string | EntityData)[] {
-  return entity.properties?.[prop] ?? [];
-}
-
 export function getEntityProperty(
   entity: EntityData,
   prop: string,
@@ -44,10 +37,6 @@ export function getEntityProperty(
       (v): v is EntityData => typeof v !== 'string',
     ) ?? []
   );
-}
-
-export function isSchema(entity: EntityData, schema: string): boolean {
-  return entity.schema === schema;
 }
 
 // Dataset types
@@ -90,20 +79,6 @@ export interface IDataset {
   resources?: Array<IResource>;
   coverage?: IDatasetCoverage;
   publisher?: IDatasetPublisher;
-}
-
-export function isCollection(
-  dataset?: IDataset,
-): dataset is IDataset & { datasets: Array<string> } {
-  return dataset?.type === 'collection';
-}
-
-export function isSource(dataset?: IDataset): boolean {
-  return dataset?.type === 'source';
-}
-
-export function isExternal(dataset?: IDataset): boolean {
-  return dataset?.type === 'external';
 }
 
 // Search API types
