@@ -3,7 +3,6 @@ import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
-import { FormattedDate, SpacedList } from '@/components/Formatting';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
@@ -12,9 +11,7 @@ import { getSchemaEntityPage } from '@/lib/schema';
 import {
   EntityData,
   getFirst,
-  getStringProperty,
   getEntityProperty,
-  IDataset,
   IPropResults,
 } from '@/lib/types';
 
@@ -37,56 +34,6 @@ export async function generateMetadata({ params }: PositionPageProps) {
 
 function PersonLink({ person }: { person: EntityData }) {
   return <Link href={`/persons/${person.id}/`}>{person.caption}</Link>;
-}
-
-function PositionFactsheet({
-  position,
-  datasets,
-}: {
-  position: EntityData;
-  datasets: IDataset[];
-}) {
-  const properties = [
-    {
-      label: 'Also known as',
-      value: getStringProperty(position, 'alias').join(', '),
-    },
-    { label: 'Country', value: getFirst(position, 'country') },
-    { label: 'Subnational area', value: getFirst(position, 'subnationalArea') },
-    { label: 'Inception date', value: getFirst(position, 'inceptionDate') },
-    { label: 'Dissolution date', value: getFirst(position, 'dissolutionDate') },
-  ].filter((p) => p.value);
-
-  return (
-    <Table>
-      <tbody>
-        {properties.map(({ label, value }) => (
-          <tr key={label}>
-            <th className="text-muted">{label}</th>
-            <td>{value}</td>
-          </tr>
-        ))}
-        <tr>
-          <th className="text-muted">Last change</th>
-          <td>
-            <FormattedDate date={position.last_change} />
-          </td>
-        </tr>
-        <tr>
-          <th className="text-muted">Data sources</th>
-          <td>
-            <SpacedList
-              values={datasets.map((d) => (
-                <Link key={d.name} href={d.link}>
-                  {d.title}
-                </Link>
-              ))}
-            />
-          </td>
-        </tr>
-      </tbody>
-    </Table>
-  );
 }
 
 function HoldersTable({ occupancies }: { occupancies: IPropResults }) {
@@ -150,11 +97,6 @@ export default async function PositionPage({ params }: PositionPageProps) {
       )}
       <Container className="pt-3">
         <h1>{position.caption}</h1>
-
-        <section id="factsheet">
-          <h2>Position details</h2>
-          <PositionFactsheet position={position} datasets={datasets} />
-        </section>
 
         <section id="holders">
           <h2>Position holders</h2>
