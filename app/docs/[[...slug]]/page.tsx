@@ -42,35 +42,7 @@ export default async function Page(props: ContentPageProps) {
                 { href: '/docs/', label: 'Overview' },
                 { href: '/docs/contribute/', label: 'Contribute' },
                 { href: '/docs/methodology/', label: 'Methodology' },
-                {
-                  href: '/docs/opensource/',
-                  label: 'Open source',
-                  children: [
-                    {
-                      href: 'https://yente.followthemoney.tech',
-                      label: 'yente',
-                      external: true,
-                    },
-                    {
-                      href: 'https://followthemoney.tech',
-                      label: 'followthemoney',
-                      external: true,
-                    },
-                    {
-                      href: 'https://zavod.opensanctions.org',
-                      label: 'zavod',
-                      external: true,
-                    },
-                    {
-                      href: '/docs/opensource/contributing',
-                      label: 'Contributing',
-                    },
-                    {
-                      href: '/docs/opensource/pairs/',
-                      label: 'Matcher training data',
-                    },
-                  ],
-                },
+                { href: '/docs/opensource/', label: 'Open source' },
               ]}
               current={page.menu_path}
               showLicense

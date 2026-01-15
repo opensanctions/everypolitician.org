@@ -110,12 +110,12 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
           <th></th>
           <th className="numeric text-end text-nowrap">
             Positions
-            <HelpLink href="/docs/pep/methodology/" />
+            <HelpLink href="/docs/methodology/" />
           </th>
           <th className="numeric text-end text-nowrap">
             Politicians
             <HelpLink
-              href="/docs/pep/methodology/"
+              href="/docs/methodology/"
               tooltipId="help-politicians"
               placement="left"
             >

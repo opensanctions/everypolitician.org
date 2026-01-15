@@ -165,7 +165,7 @@ export default async function SectionPage({ params }: PageProps) {
         holders of political offices. In those cases, a lack of a precise end
         date for a person&apos;s occupancy of a position can mean that we
         don&apos;t know whether they currently hold the position or not.{' '}
-        <Link href="/docs/pep/methodology/#types">Read more...</Link>
+        <Link href="/docs/methodology/#types">Read more...</Link>
       </p>
     </>
   );

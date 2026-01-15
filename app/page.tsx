@@ -44,8 +44,8 @@ export default async function Page() {
         </p>
         <p>
           We track{' '}
-          <Link href="/docs/pep/methodology/#types">a wide range of roles</Link>
-          : members of cabinets and parliaments, senior public servants, judges,
+          <Link href="/docs/methodology/#types">a wide range of roles</Link>:
+          members of cabinets and parliaments, senior public servants, judges,
           military leaders, and executives of state-owned enterprises. Our goal
           is to make this information accessible and useful to everyone.
         </p>
@@ -66,8 +66,8 @@ export default async function Page() {
           information becomes a shared resource that anyone can use and improve.
         </p>
         <p>
-          Read more about our{' '}
-          <Link href="/docs/pep/methodology">methodology</Link>.
+          Read more about our <Link href="/docs/methodology/">methodology</Link>
+          .
         </p>
 
         <h2>Where does the data come from?</h2>

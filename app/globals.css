@@ -353,6 +353,7 @@ blockquote {
 /* License info box */
 .license-box .alert {
   background-color: var(--bs-primary);
+  border: none;
   margin-top: 1em;
   font-size: 15px;
 }
