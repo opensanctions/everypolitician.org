@@ -6,25 +6,25 @@ import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { Menu } from '@/components/Menu';
-import WorldMap, { CountryData } from '@/components/WorldMap';
+import WorldMap from '@/components/WorldMap';
 import Alert from 'react-bootstrap/Alert';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
-import { fetchApiCached } from '@/lib/data';
+import { getMapCountryData } from '@/lib/data';
 import { getTerritoriesByCode } from '@/lib/territory';
-import { ISearchAPIResponse } from '@/lib/types';
 
 import { getGenerateMetadata } from '@/lib/meta';
-import { BASE_URL, CLAIM, SUBCLAIM } from '@/lib/constants';
+import { BASE_URL } from '@/lib/constants';
 
 export const dynamic = 'force-static';
 
 export async function generateMetadata() {
   return getGenerateMetadata({
-    title: `EveryPolitican: ${CLAIM}`,
-    description: SUBCLAIM,
+    title: 'EveryPolitician: Who is running the world?',
+    description:
+      'EveryPolitician is a global database of political office-holders, from rulers, law-makers to judges and more.',
     canonicalUrl: `${BASE_URL}/`,
   });
 }
@@ -135,56 +135,25 @@ function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
 
 export default async function Page() {
   // Fetch all data in parallel
-  const [territoryInfo, pepResponse, positionResponse] = await Promise.all([
+  const [territoryInfo, countryDataArray] = await Promise.all([
     getTerritoriesByCode(),
-    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
-      limit: 0,
-      topics: 'role.pep',
-      facets: ['countries'],
-    }),
-    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
-      limit: 0,
-      schema: 'Position',
-      facets: ['countries'],
-    }),
+    getMapCountryData(),
   ]);
 
-  // Build territory summaries from facets
+  // Build territory summaries from map data
   const territories = new Map<string, TerritorySummary>();
-
-  for (const { name: code, count } of positionResponse.facets.countries
-    .values) {
+  for (const [code, data] of countryDataArray) {
     const info = territoryInfo.get(code);
     if (!info) continue;
     territories.set(code, {
       code,
-      label: info.label_short,
-      numPeps: 0,
-      numPositions: count,
+      label: data.label,
+      numPeps: data.numPeps,
+      numPositions: data.numPositions,
       region: info.region,
       subregion: info.subregion,
     });
   }
-
-  for (const { name: code, count } of pepResponse.facets.countries.values) {
-    const territory = territories.get(code);
-    if (territory) {
-      territory.numPeps = count;
-    }
-  }
-
-  // Build country data for the map (needs to be serializable for client component)
-  const countryDataArray: [string, CountryData][] = Array.from(
-    territories.values(),
-  ).map((t) => [
-    t.code,
-    {
-      code: t.code,
-      label: t.label,
-      numPeps: t.numPeps,
-      numPositions: t.numPositions,
-    },
-  ]);
 
   const regions = Object.groupBy(
     Array.from(territories.values()),
@@ -199,8 +168,11 @@ export default async function Page() {
         <WorldMap countryDataArray={countryDataArray} />
         <div className="world-map-overlay">
           <Container>
-            <h1 className="claim">{CLAIM}</h1>
-            <p className="sub-claim">{SUBCLAIM}</p>
+            <h1 className="claim">Who is running the world?</h1>
+            <p className="sub-claim">
+              EveryPolitician is a global database of political office-holders,
+              from rulers, law-makers to judges and more.
+            </p>
           </Container>
         </div>
       </Hero>

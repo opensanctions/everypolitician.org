@@ -260,6 +260,7 @@ export type CountryData = {
 
 interface WorldMapProps {
   countryDataArray: [string, CountryData][];
+  focusCountry?: string;
 }
 
 interface CountryFeature extends Feature<Geometry> {
@@ -275,7 +276,10 @@ interface WorldTopology extends Topology {
   };
 }
 
-export default function WorldMap({ countryDataArray }: WorldMapProps) {
+export default function WorldMap({
+  countryDataArray,
+  focusCountry,
+}: WorldMapProps) {
   const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
     null,
   );
@@ -311,15 +315,42 @@ export default function WorldMap({ countryDataArray }: WorldMapProps) {
     if (!geoData) return { features: null, pathGenerator: null };
 
     const filtered = geoData.features.filter((f) => f.id !== '010');
-    const filteredCollection = { ...geoData, features: filtered };
 
+    // If focusing on a country, fit projection to that country
+    if (focusCountry) {
+      const focusFeature = filtered.find(
+        (f) => numericToAlpha2[f.id as string] === focusCountry,
+      );
+
+      if (focusFeature) {
+        const focusCollection = { ...geoData, features: [focusFeature] };
+        const padding = 0.3;
+        const padX = 1000 * padding;
+        const padY = 500 * padding;
+        const proj = geoNaturalEarth1().fitExtent(
+          [
+            [padX, padY],
+            [1000 - padX, 500 - padY],
+          ],
+          focusCollection,
+        );
+
+        return {
+          features: filtered,
+          pathGenerator: geoPath().projection(proj),
+        };
+      }
+    }
+
+    // Default: show entire world
+    const filteredCollection = { ...geoData, features: filtered };
     const proj = geoNaturalEarth1().fitSize([1000, 500], filteredCollection);
 
     return {
       features: filtered,
       pathGenerator: geoPath().projection(proj),
     };
-  }, [geoData]);
+  }, [geoData, focusCountry]);
 
   const maxPositions = useMemo(
     () =>

@@ -2,7 +2,7 @@
 // https://developers.google.com/search/docs/advanced/structured-data/dataset
 // https://schema.org/Dataset
 
-import { OSA_URL, LICENSE_URL, CLAIM, EMAIL, SITE } from './constants';
+import { OSA_URL, LICENSE_URL, EMAIL, SITE } from './constants';
 import {
   EntityData,
   getFirst,
@@ -19,7 +19,8 @@ function getSchemaOpenSanctionsOrganization() {
     name: 'OpenSanctions Datenbanken GmbH',
     url: `${OSA_URL}/docs/about`,
     email: EMAIL,
-    description: CLAIM,
+    description:
+      'A global database of persons in public office and under sanctions.',
   };
 }
 

@@ -8,7 +8,14 @@ import {
   REVALIDATE_BASE,
 } from './constants';
 import { getTerritoriesByCode } from './territory';
-import { EntityData, IDataset, IPropResults, IPropsResults } from './types';
+import {
+  EntityData,
+  IDataset,
+  IPropResults,
+  IPropsResults,
+  ISearchAPIResponse,
+} from './types';
+import { CountryData } from '@/components/WorldMap';
 
 export async function fetchStatic<T>(
   url: string,
@@ -219,4 +226,41 @@ export async function getEntityDatasets(
   return entity.datasets
     .map((name) => allDatasets.find((d) => d.name === name))
     .filter((d): d is IDataset => d !== undefined);
+}
+
+export async function getMapCountryData(): Promise<[string, CountryData][]> {
+  const [territoryInfo, pepResponse, positionResponse] = await Promise.all([
+    getTerritoriesByCode(),
+    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+      limit: 0,
+      topics: 'role.pep',
+      facets: ['countries'],
+    }),
+    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+      limit: 0,
+      schema: 'Position',
+      facets: ['countries'],
+    }),
+  ]);
+
+  const countryDataMap = new Map<string, CountryData>();
+
+  for (const { name: code, count } of positionResponse.facets.countries
+    .values) {
+    const info = territoryInfo.get(code);
+    if (!info) continue;
+    countryDataMap.set(code, {
+      code,
+      label: info.label_short,
+      numPeps: 0,
+      numPositions: count,
+    });
+  }
+
+  for (const { name: code, count } of pepResponse.facets.countries.values) {
+    const data = countryDataMap.get(code);
+    if (data) data.numPeps = count;
+  }
+
+  return Array.from(countryDataMap.entries());
 }

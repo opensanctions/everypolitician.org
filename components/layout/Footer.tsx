@@ -14,7 +14,7 @@ import { Spacer } from '@/components/Formatting';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { CLAIM, LICENSE_URL, OSA_URL, SPACER } from '@/lib/constants';
+import { LICENSE_URL, OSA_URL, SPACER } from '@/lib/constants';
 
 export default function Footer() {
   return (

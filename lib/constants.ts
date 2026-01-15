@@ -4,9 +4,6 @@ export const OSA_URL = 'https://www.opensanctions.org';
 export const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc/4.0/';
 export const CMS_URL = 'https://opensanctions.directus.app';
 export const MAIN_DATASET = 'default';
-export const CLAIM = 'Who is running the world?';
-export const SUBCLAIM =
-  'EveryPolitician is a global database of political office-holders, from rulers, law-makers to judges and more.';
 export const EMAIL = 'info@opensanctions.org';
 export const FEATURED_COLLECTIONS = ['default', 'sanctions'];
 export const EXTRA_COLLECTIONS = [

@@ -6,6 +6,7 @@ import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { PositionSubsection } from './PositionSubsection';
+import WorldMap from '@/components/WorldMap';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -14,7 +15,7 @@ import NavLink from 'react-bootstrap/NavLink';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { BASE_URL, MAIN_DATASET } from '@/lib/constants';
-import { fetchApiCached } from '@/lib/data';
+import { fetchApiCached, getMapCountryData } from '@/lib/data';
 import { getGenerateMetadata } from '@/lib/meta';
 import { getCountryPEPData, IPositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode, getTerritoryInfo } from '@/lib/territory';
@@ -235,20 +236,21 @@ export default async function Page(props: {
   }
 
   // Fetch all data at page level
-  const countryPEPSummary = await getCountryPEPData(countryCode);
+  const [countryPEPSummary, searchResponse, countryDataArray] =
+    await Promise.all([
+      getCountryPEPData(countryCode),
+      fetchApiCached<ISearchAPIResponse>(`/search/${MAIN_DATASET}`, {
+        limit: 0,
+        schema: 'Person',
+        countries: countryCode,
+        facets: ['schema', 'topics'],
+      }),
+      getMapCountryData(),
+    ]);
+
   const positions: IPositionSummary[] = !!countryPEPSummary.positions
     ? countryPEPSummary.positions
     : [];
-  const searchParams = {
-    limit: 0,
-    schema: 'Person',
-    countries: countryCode,
-    facets: ['schema', 'topics'],
-  };
-  const searchResponse = await fetchApiCached<ISearchAPIResponse>(
-    `/search/${MAIN_DATASET}`,
-    searchParams,
-  );
 
   // Process PEPs data
   positions.sort(caseInsensitiveAlphabetic);
@@ -262,50 +264,57 @@ export default async function Page(props: {
 
   return (
     <LayoutFrame activeSection="research">
-      <Hero>
-        <Container>
-          <Row>
-            <Col md={9}>
-              <Row className="align-items-start">
-                <Col xs={3}>
-                  <img
-                    src={`/assets/${info.flag || '10c75c82-b086-4b42-b930-dce7533e1f01'}/?w=150&format=auto`}
-                    alt={
-                      info.flag
-                        ? `Flag of ${info.in_sentence}`
-                        : 'Placeholder flag'
-                    }
-                    className="w-100"
-                  />
-                </Col>
-                <Col xs={9}>
-                  <h1>{info.label_full}</h1>
-                  <div>
-                    {info?.summary || info?.summary}
-                    {!info?.summary && info?.wikipedia_url && (
-                      <span>
-                        {' '}
-                        -&nbsp;<Link href={info?.wikipedia_url}>Wikipedia</Link>
-                      </span>
-                    )}
-                  </div>
-                  {info.see.length > 0 && (
+      <Hero className="hero-map">
+        <WorldMap
+          countryDataArray={countryDataArray}
+          focusCountry={countryCode}
+        />
+        <div className="world-map-overlay">
+          <Container>
+            <Row>
+              <Col md={9}>
+                <Row className="align-items-start">
+                  <Col xs={3}>
+                    <img
+                      src={`/assets/${info.flag || '10c75c82-b086-4b42-b930-dce7533e1f01'}/?w=150&format=auto`}
+                      alt={
+                        info.flag
+                          ? `Flag of ${info.in_sentence}`
+                          : 'Placeholder flag'
+                      }
+                      className="w-100"
+                    />
+                  </Col>
+                  <Col xs={9}>
+                    <h1>{info.label_full}</h1>
                     <div>
-                      See also:{' '}
-                      <SpacedList
-                        values={info.see.map((c) => (
-                          <Link key={c} href={`/countries/${c}/`}>
-                            {territories.get(c)?.label_short}
-                          </Link>
-                        ))}
-                      />
+                      {info?.summary || info?.summary}
+                      {!info?.summary && info?.wikipedia_url && (
+                        <span>
+                          {' '}
+                          -&nbsp;
+                          <Link href={info?.wikipedia_url}>Wikipedia</Link>
+                        </span>
+                      )}
                     </div>
-                  )}
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
+                    {info.see.length > 0 && (
+                      <div>
+                        See also:{' '}
+                        <SpacedList
+                          values={info.see.map((c) => (
+                            <Link key={c} href={`/countries/${c}/`}>
+                              {territories.get(c)?.label_short}
+                            </Link>
+                          ))}
+                        />
+                      </div>
+                    )}
+                  </Col>
+                </Row>
+              </Col>
+            </Row>
+          </Container>
+        </div>
       </Hero>
 
       <Container className="pt-3">
