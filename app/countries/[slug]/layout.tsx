@@ -66,16 +66,6 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
           <WorldMap countryDataArray={countryDataArray} focusTerritory={info} />
         }
       >
-        <div className="hero-subtitle">
-          {info?.summary || info?.summary}
-          {!info?.summary && info?.wikipedia_url && (
-            <span>
-              {' '}
-              -&nbsp;
-              <Link href={info?.wikipedia_url}>Wikipedia</Link>
-            </span>
-          )}
-        </div>
         {info.see.length > 0 && (
           <div className="hero-subtitle">
             See also:{' '}

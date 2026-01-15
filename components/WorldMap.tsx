@@ -333,13 +333,14 @@ export default function WorldMap({
 
       if (foundFeature) {
         const focusCollection = { ...geoData, features: [foundFeature] };
-        const padding = 0.3;
-        const padX = VIEWBOX_WIDTH * padding;
-        const padY = VIEWBOX_HEIGHT * padding;
+        const paddingY = 0.3;
+        const paddingLeft = 0.5;
+        const paddingRight = 0.1;
+        const padY = VIEWBOX_HEIGHT * paddingY;
         const proj = geoNaturalEarth1().fitExtent(
           [
-            [padX, padY],
-            [VIEWBOX_WIDTH - padX, VIEWBOX_HEIGHT - padY],
+            [VIEWBOX_WIDTH * paddingLeft, padY],
+            [VIEWBOX_WIDTH * (1 - paddingRight), VIEWBOX_HEIGHT - padY],
           ],
           focusCollection,
         );
