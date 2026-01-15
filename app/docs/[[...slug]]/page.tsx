@@ -1,11 +1,8 @@
-import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import { Menu } from '@/components/Menu';
 import { getPageByPath, getPathMetadata } from '@/lib/pages';
-import Alert from 'react-bootstrap/Alert';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -38,14 +35,6 @@ export default async function Page(props: ContentPageProps) {
             {page.body && (
               <div dangerouslySetInnerHTML={{ __html: page.body }} />
             )}
-            <Alert variant="primary" className="d-print-none">
-              <Button href="/support/">Got questions?</Button> Our support is
-              here to help. You can also join the{' '}
-              <Link href="https://discuss.opensanctions.org">
-                discussion forum
-              </Link>{' '}
-              to meet the community.
-            </Alert>
           </Col>
           <Col md={3} className="order-2 order-md-1 pt-5">
             <Menu
