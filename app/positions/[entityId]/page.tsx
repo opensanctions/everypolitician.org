@@ -3,11 +3,19 @@ import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
+import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
+import WorldMap from '@/components/WorldMap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import { getAdjacent, getEntity, getEntityDatasets } from '@/lib/data';
+import {
+  getAdjacent,
+  getEntity,
+  getEntityDatasets,
+  getMapCountryData,
+} from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
+import { getTerritoryInfo } from '@/lib/territory';
 import {
   EntityData,
   getFirst,
@@ -78,8 +86,14 @@ export default async function PositionPage({ params }: PositionPageProps) {
   if (position.schema !== 'Position') {
     redirect(`/persons/${position.id}/`);
   }
-  const datasets = await getEntityDatasets(position);
-  const propsResults = await getAdjacent(position.id);
+  const countryCode = getFirst(position, 'country');
+  const [datasets, propsResults, territoryInfo, countryDataArray] =
+    await Promise.all([
+      getEntityDatasets(position),
+      getAdjacent(position.id),
+      countryCode ? getTerritoryInfo(countryCode) : null,
+      countryCode ? getMapCountryData() : Promise.resolve([]),
+    ]);
 
   const structured = getSchemaEntityPage(position);
 
@@ -95,9 +109,29 @@ export default async function PositionPage({ params }: PositionPageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
         />
       )}
+      {territoryInfo ? (
+        <Hero
+          title={position.caption}
+          background={
+            <WorldMap
+              countryDataArray={countryDataArray}
+              focusTerritory={territoryInfo}
+            />
+          }
+        >
+          <div className="hero-subtitle">
+            Political position in{' '}
+            <Link href={`/countries/${territoryInfo.code}/`}>
+              {territoryInfo.label_short}
+            </Link>
+          </div>
+        </Hero>
+      ) : (
+        <Container className="pt-3">
+          <h1>{position.caption}</h1>
+        </Container>
+      )}
       <Container className="pt-3">
-        <h1>{position.caption}</h1>
-
         <section id="holders">
           <h2>Position holders</h2>
           {occupancies ? (
