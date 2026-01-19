@@ -25,9 +25,17 @@ export async function generateMetadata({ params }: PositionPageProps) {
   if (data === null) {
     return { title: 'Position not found' };
   }
+  const position = data.entity;
+  const countryCode = getFirst(position, 'country');
+  const territoryInfo = countryCode
+    ? await getTerritoryInfo(countryCode)
+    : null;
+  const title = territoryInfo
+    ? `${position.caption} (${territoryInfo.label_short})`
+    : position.caption;
   return {
-    title: data.entity.caption,
-    alternates: { canonical: `/positions/${data.entity.id}/` },
+    title,
+    alternates: { canonical: `/positions/${position.id}/` },
   };
 }
 
