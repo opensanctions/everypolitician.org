@@ -7,10 +7,7 @@ export interface ITerritoryInfo {
   flag?: string;
   region?: string;
   subregion?: string;
-  summary?: string;
-  wikipedia_url?: string;
   in_sentence: string;
-  dissolved: boolean;
   date_updated: string;
   date_created: string;
   see: string[];
@@ -25,12 +22,9 @@ function adaptItem(item: any): ITerritoryInfo {
     flag: item.flag,
     region: item.region || undefined,
     subregion: item.subregion || undefined,
-    summary: item.summary,
-    wikipedia_url: item.wikipedia_url,
     date_updated: item.date_updated || item.date_created,
     date_created: item.date_created,
     in_sentence: item.in_sentence || item.label_short,
-    dissolved: item.dissolved,
     see: see.map(
       (r: { related_territories_code: any }) => r.related_territories_code,
     ),

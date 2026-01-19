@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import slugify from 'slugify';
 
 import { Numeric } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
@@ -25,108 +24,72 @@ type TerritorySummary = {
   label: string;
   numPeps: number;
   numPositions: number;
-  region: string | undefined;
+  region: string;
   subregion: string | undefined;
 };
 
-type SubregionProps = {
-  label: string;
-  territories: TerritorySummary[];
-};
-
-function Subregion({ label, territories }: SubregionProps) {
-  territories.sort((a, b) => (a.label > b.label ? 1 : -1));
+function TerritoryRow({ territory }: { territory: TerritorySummary }) {
   return (
-    <>
-      {label !== 'undefined' && (
-        <tr>
-          <th colSpan={3}>{label}</th>
-        </tr>
-      )}
-      {territories.map((territory) => (
-        <tr key={territory.code}>
-          <td>
-            <Link
-              prefetch={false}
-              href={`/countries/${territory.code}/national/`}
-            >
-              {territory.label}
-            </Link>
-          </td>
-          <td className="numeric text-end">
-            <Link
-              prefetch={false}
-              href={`/countries/${territory.code}/national/`}
-            >
-              <Numeric value={territory.numPositions} />
-            </Link>
-          </td>
-          <td className="numeric text-end">
-            <Numeric value={territory.numPeps} />
-          </td>
-        </tr>
-      ))}
-    </>
+    <tr>
+      <td>
+        <Link prefetch={false} href={`/countries/${territory.code}/national/`}>
+          {territory.label}
+        </Link>
+      </td>
+      <td className="numeric text-end">
+        <Link prefetch={false} href={`/countries/${territory.code}/national/`}>
+          <Numeric value={territory.numPositions} />
+        </Link>
+      </td>
+      <td className="numeric text-end">
+        <Numeric value={territory.numPeps} />
+      </td>
+    </tr>
   );
 }
 
-type RegionTBodyProps = {
-  label: string;
-  territories: TerritorySummary[];
-};
-
-function Region({ label, territories }: RegionTBodyProps) {
-  const subregions = Object.groupBy(territories, (t) => t.subregion ?? '');
-  const subregionNames = Object.keys(subregions);
-  subregionNames.sort();
-  return (
-    <tbody>
-      <tr>
-        <th colSpan={3} id={`region-${slugify(label, { lower: true })}`}>
-          {label}
-        </th>
-      </tr>
-      {subregionNames.map((subregion) => (
-        <Subregion
-          key={subregion}
-          label={subregion}
-          territories={subregions[subregion]!}
-        />
-      ))}
-    </tbody>
+function RegionTable({ territories }: { territories: TerritorySummary[] }) {
+  const subregions = Object.groupBy(
+    territories,
+    (t) => t.subregion ?? 'undefined',
   );
-}
+  const subregionNames = Object.keys(subregions).sort();
 
-type TerritoryTableProps = {
-  regions: Partial<Record<string, TerritorySummary[]>>;
-  regionNames: string[];
-};
-
-function TerritoryTable({ regions, regionNames }: TerritoryTableProps) {
   return (
     <Table>
-      <thead>
-        <tr>
-          <th></th>
-          <th className="numeric text-end text-nowrap">
-            Positions
-            <HelpLink href="/docs/methodology/" />
-          </th>
-          <th className="numeric text-end text-nowrap">
-            Politicians
-            <HelpLink
-              href="/docs/methodology/"
-              tooltipId="help-politicians"
-              placement="left"
-            >
-              Political office-holders in our database
-            </HelpLink>
-          </th>
-        </tr>
-      </thead>
-      {regionNames.map((region) => (
-        <Region key={region} label={region} territories={regions[region]!} />
-      ))}
+      <colgroup>
+        <col />
+        <col style={{ width: 'clamp(8rem, 12vw, 15rem)' }} />
+        <col style={{ width: 'clamp(8rem, 12vw, 15rem)' }} />
+      </colgroup>
+      {subregionNames.map((subregion) => {
+        const items = subregions[subregion]!;
+        items.sort((a, b) => a.label.localeCompare(b.label));
+        return (
+          <tbody key={subregion}>
+            <tr>
+              <th>{subregion !== 'undefined' ? subregion : 'Name'}</th>
+              <th className="numeric text-end text-nowrap">
+                Positions
+                <HelpLink href="/docs/methodology/" />
+              </th>
+              <th className="numeric text-end text-nowrap">
+                Politicians
+                <HelpLink
+                  href="/docs/methodology/"
+                  tooltipId={`help-politicians-${subregion}`}
+                  placement="left"
+                >
+                  Political office-holders in our database
+                </HelpLink>
+              </th>
+            </tr>
+            {items.map((territory) => (
+              <TerritoryRow key={territory.code} territory={territory} />
+            ))}
+          </tbody>
+        );
+      })}
     </Table>
   );
 }
@@ -141,6 +104,7 @@ export default async function CountriesPage() {
   for (const [code, data] of countryDataArray) {
     const info = territoryInfo.get(code);
     if (!info) continue;
+    if (!info.region) continue;
     territories.set(code, {
       code,
       label: data.label,
@@ -153,7 +117,7 @@ export default async function CountriesPage() {
 
   const regions = Object.groupBy(
     Array.from(territories.values()),
-    (t) => t.region ?? '',
+    (t) => t.region,
   );
   const regionNames = Object.keys(regions);
   regionNames.sort();
@@ -166,7 +130,12 @@ export default async function CountriesPage() {
           Browse political positions and office-holders by country and
           territory.
         </p>
-        <TerritoryTable regions={regions} regionNames={regionNames} />
+        {regionNames.map((region) => (
+          <section key={region}>
+            <h2>{region}</h2>
+            <RegionTable territories={regions[region]!} />
+          </section>
+        ))}
       </Container>
     </LayoutFrame>
   );
