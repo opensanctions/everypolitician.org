@@ -64,7 +64,7 @@ export default function AnalyticsManager() {
   }
 
   return (
-    <div className="position-fixed bottom-0 w-100 bg-secondary-subtle shadow-lg z-3">
+    <div className="position-fixed bottom-0 w-100 bg-secondary-subtle shadow-lg z-3 py-3">
       <Container className="d-print-none">
         <Row>
           <Col md="9" xs="7">

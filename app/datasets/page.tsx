@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import { Numeric } from '@/components/Formatting';
 import LayoutFrame from '@/components/layout/LayoutFrame';
-import Territory from '@/components/Territory';
+import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import { getDatasetsByScope } from '@/lib/data';
@@ -47,8 +47,15 @@ export default async function Page() {
                   </Link>
                 </td>
                 <td>
-                  {dataset.publisher && (
-                    <Territory.Badge territory={dataset.publisher.territory} />
+                  {dataset.publisher?.territory && (
+                    <Link
+                      href={`/countries/${dataset.publisher.territory.code}/national/`}
+                      prefetch={false}
+                    >
+                      <Badge bg="primary">
+                        {dataset.publisher.territory.label_short}
+                      </Badge>
+                    </Link>
                   )}
                 </td>
                 <td className="text-end">
