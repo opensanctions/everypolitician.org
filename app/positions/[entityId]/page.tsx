@@ -3,25 +3,16 @@ import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
 import Dataset from '@/components/Dataset';
+import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import {
-  getAdjacent,
-  getEntity,
-  getEntityDatasets,
-  getMapCountryData,
-} from '@/lib/data';
+import { getAdjacent, getEntityDatasets, getMapCountryData } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
 import { getTerritoryInfo } from '@/lib/territory';
-import {
-  EntityData,
-  getFirst,
-  getEntityProperty,
-  IPropResults,
-} from '@/lib/types';
+import { getFirst, getEntityProperty, IPropResults } from '@/lib/types';
 
 export const maxDuration = 25;
 
@@ -30,18 +21,14 @@ interface PositionPageProps {
 }
 
 export async function generateMetadata({ params }: PositionPageProps) {
-  const entity = await getEntity((await params).entityId);
-  if (entity === null) {
+  const data = await getAdjacent((await params).entityId);
+  if (data === null) {
     return { title: 'Position not found' };
   }
   return {
-    title: entity.caption,
-    alternates: { canonical: `/positions/${entity.id}/` },
+    title: data.entity.caption,
+    alternates: { canonical: `/positions/${data.entity.id}/` },
   };
-}
-
-function PersonLink({ person }: { person: EntityData }) {
-  return <Link href={`/persons/${person.id}/`}>{person.caption}</Link>;
 }
 
 function HoldersTable({ occupancies }: { occupancies: IPropResults }) {
@@ -63,7 +50,13 @@ function HoldersTable({ occupancies }: { occupancies: IPropResults }) {
           const holder = getEntityProperty(occupancy, 'holder')[0];
           return (
             <tr key={occupancy.id}>
-              <td>{holder ? <PersonLink person={holder} /> : '-'}</td>
+              <td>
+                {holder ? (
+                  <Link href={`/persons/${holder.id}/`}>{holder.caption}</Link>
+                ) : (
+                  '-'
+                )}
+              </td>
               <td>{getFirst(occupancy, 'startDate') || '-'}</td>
               <td>{getFirst(occupancy, 'endDate') || '-'}</td>
             </tr>
@@ -76,10 +69,11 @@ function HoldersTable({ occupancies }: { occupancies: IPropResults }) {
 
 export default async function PositionPage({ params }: PositionPageProps) {
   const resolvedParams = await params;
-  const position = await getEntity(resolvedParams.entityId);
-  if (position === null) {
+  const data = await getAdjacent(resolvedParams.entityId);
+  if (data === null) {
     notFound();
   }
+  const position = data.entity;
   if (position.id !== resolvedParams.entityId) {
     redirect(`/positions/${position.id}/`);
   }
@@ -87,18 +81,14 @@ export default async function PositionPage({ params }: PositionPageProps) {
     redirect(`/persons/${position.id}/`);
   }
   const countryCode = getFirst(position, 'country');
-  const [datasets, propsResults, territoryInfo, countryDataArray] =
-    await Promise.all([
-      getEntityDatasets(position),
-      getAdjacent(position.id),
-      countryCode ? getTerritoryInfo(countryCode) : null,
-      countryCode ? getMapCountryData() : Promise.resolve([]),
-    ]);
+  const [datasets, territoryInfo, countryDataArray] = await Promise.all([
+    getEntityDatasets(position),
+    countryCode ? getTerritoryInfo(countryCode) : null,
+    countryCode ? getMapCountryData() : Promise.resolve([]),
+  ]);
 
   const structured = getSchemaEntityPage(position);
-
-  // Get occupancies (people who held this position)
-  const occupancies = propsResults?.adjacent['occupancies'];
+  const occupancies = data.adjacent['occupancies'];
 
   return (
     <LayoutFrame activeSection="research">
@@ -147,6 +137,8 @@ export default async function PositionPage({ params }: PositionPageProps) {
             <Dataset key={d.name} dataset={d} />
           ))}
         </section>
+
+        <ExternalLinks entity={position} />
       </Container>
     </LayoutFrame>
   );

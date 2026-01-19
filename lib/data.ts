@@ -11,7 +11,6 @@ import { getTerritoriesByCode } from './territory';
 import {
   EntityData,
   IDataset,
-  IPropResults,
   IPropsResults,
   ISearchAPIResponse,
 } from './types';
@@ -179,41 +178,12 @@ export async function getDatasetsByNames(names: string[]): Promise<IDataset[]> {
     .filter((d): d is IDataset => d !== undefined);
 }
 
-export async function getEntity(entityId: string): Promise<EntityData | null> {
-  if (entityId === undefined || entityId === null) {
-    return null;
-  }
-  try {
-    const raw = await fetchApiCached<EntityData>(`/entities/${entityId}`, {
-      nested: false,
-    });
-    if (raw === undefined || raw === null || raw.id === undefined) {
-      return null;
-    }
-    return raw;
-  } catch {
-    return null;
-  }
-}
-
-interface IPropsResultsData {
-  entity: EntityData;
-  adjacent: Record<string, IPropResults>;
-}
-
 export async function getAdjacent(
   entityId: string,
 ): Promise<IPropsResults | null> {
   try {
     const path = `/entities/${entityId}/adjacent`;
-    const response = await fetchApiCached<IPropsResultsData>(path);
-    if (response === undefined || response === null) {
-      return null;
-    }
-    return {
-      entity: response.entity,
-      adjacent: response.adjacent,
-    };
+    return await fetchApiCached<IPropsResults>(path);
   } catch {
     return null;
   }
