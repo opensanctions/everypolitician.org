@@ -1,7 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import { ContributeBox } from '@/components/ContributeBox';
 import { Plural, SpacedList } from '@/components/Formatting';
 import { Hero } from '@/components/Hero';
@@ -71,7 +73,7 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
           <div className="hero-subtitle">
             See also:{' '}
             <SpacedList
-              values={info.see.map((c) => (
+              values={info.see.map(({ related_territories_code: c }) => (
                 <Link key={c} href={`/countries/${c}/national/`}>
                   {territories.get(c)?.label_short}
                 </Link>
@@ -108,7 +110,39 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
 
         {children}
 
-        <ContributeBox countryName={info.label_short} />
+        <div className="mt-4 mb-3">
+          <h3>Help improve data for {info.label_short}</h3>
+          <p>
+            EveryPolitician is a community effort. Contribute data and help us
+            track who holds power around the world.
+          </p>
+          <Row>
+            <Col md={6} className="mb-3 mb-md-0">
+              <ContributeBox
+                variant="primary"
+                title="Enrich Wikidata"
+                linkUrl="https://loom.everypolitician.org/"
+                linkText="Get started with Poliloom"
+              >
+                Use Poliloom to add and correct politician data on Wikidata.
+                It&apos;s designed to make editing political data
+                straightforward, even if you&apos;re new to Wikidata.
+              </ContributeBox>
+            </Col>
+            <Col md={6}>
+              <ContributeBox
+                variant="secondary"
+                title="Add government sources"
+                linkUrl="https://www.govdirectory.org/"
+                linkText="Contribute to GovDirectory"
+              >
+                GovDirectory collects links to official government websites.
+                Help us find the sources we need to track political offices and
+                office-holders.
+              </ContributeBox>
+            </Col>
+          </Row>
+        </div>
       </Container>
     </LayoutFrame>
   );

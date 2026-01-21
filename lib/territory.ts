@@ -10,25 +10,7 @@ export interface ITerritoryInfo {
   in_sentence: string;
   date_updated: string;
   date_created: string;
-  see: string[];
-}
-
-function adaptItem(item: any): ITerritoryInfo {
-  const see = item.see || [];
-  return {
-    label_short: item.label_short,
-    label_full: item.label_full,
-    code: item.code,
-    flag: item.flag,
-    region: item.region || undefined,
-    subregion: item.subregion || undefined,
-    date_updated: item.date_updated || item.date_created,
-    date_created: item.date_created,
-    in_sentence: item.in_sentence || item.label_short,
-    see: see.map(
-      (r: { related_territories_code: any }) => r.related_territories_code,
-    ),
-  };
+  see: Array<{ related_territories_code: string }>;
 }
 
 export async function getTerritories(): Promise<Array<ITerritoryInfo>> {
@@ -40,7 +22,7 @@ export async function getTerritories(): Promise<Array<ITerritoryInfo>> {
     throw new Error(`Failed to fetch territories: ${response.status}`);
   }
   const { data } = await response.json();
-  return data.map(adaptItem);
+  return data;
 }
 
 export async function getTerritoryInfo(
