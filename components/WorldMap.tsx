@@ -7,6 +7,7 @@ import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import type { ITerritoryInfo } from '@/lib/territory';
+import { HelpLink } from '@/components/HelpLink';
 
 export type CountryData = {
   code: string;
@@ -257,6 +258,20 @@ export default function WorldMap({
           </div>
         </div>
       )}
+      <div
+        className="position-absolute bottom-0 end-0 p-2 small text-white"
+        style={{ backgroundColor: '#0040c1', zIndex: 2, pointerEvents: 'auto' }}
+      >
+        Standard political map. Reality is more complicated.
+        <HelpLink
+          href="/docs/mapping/"
+          tooltipId="map-disclaimer-help"
+          placement="top"
+          variant="white"
+        >
+          Learn more about how we represent territories
+        </HelpLink>
+      </div>
     </div>
   );
 }

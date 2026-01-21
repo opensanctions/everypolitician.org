@@ -13,6 +13,7 @@ type HelpLinkProps = {
   children?: ReactNode;
   tooltipId?: string;
   placement?: Placement;
+  variant?: 'muted' | 'white';
 };
 
 export function HelpLink({
@@ -21,9 +22,11 @@ export function HelpLink({
   children,
   tooltipId,
   placement = 'top',
+  variant = 'muted',
 }: HelpLinkProps) {
+  const colorClass = variant === 'white' ? 'text-white' : 'text-muted';
   const link = (
-    <a href={href} className="d-print-none text-muted">
+    <a href={href} className={`d-print-none ${colorClass}`}>
       <sup>
         <QuestionCircleFill size={size} />
       </sup>
