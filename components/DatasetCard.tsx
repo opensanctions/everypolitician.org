@@ -4,13 +4,13 @@ import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
 
-import { IDataset } from '../lib/types';
+import type { Dataset } from '../lib/types';
 
-type DatasetProps = {
-  dataset: IDataset;
+type DatasetCardProps = {
+  dataset: Dataset;
 };
 
-export default function Dataset({ dataset }: DatasetProps) {
+export default function DatasetCard({ dataset }: DatasetCardProps) {
   return (
     <Card className="mb-3">
       <CardBody>

@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
-import Dataset from '@/components/Dataset';
+import DatasetCard from '@/components/DatasetCard';
 import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -12,7 +12,7 @@ import Table from 'react-bootstrap/Table';
 import { getAdjacent, getEntityDatasets, getMapCountryData } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
 import { getTerritoryInfo } from '@/lib/territory';
-import { getFirst, getEntityProperty, IPropResults } from '@/lib/types';
+import { getFirst, getEntityProperty, PropResults } from '@/lib/types';
 
 export const maxDuration = 25;
 
@@ -39,7 +39,7 @@ export async function generateMetadata({ params }: PositionPageProps) {
   };
 }
 
-function HoldersTable({ occupancies }: { occupancies: IPropResults }) {
+function HoldersTable({ occupancies }: { occupancies: PropResults }) {
   if (occupancies.results.length === 0) {
     return <p>No known holders.</p>;
   }
@@ -142,7 +142,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
         <section id="sources">
           <h2>Data sources</h2>
           {datasets.map((d) => (
-            <Dataset key={d.name} dataset={d} />
+            <DatasetCard key={d.name} dataset={d} />
           ))}
         </section>
 

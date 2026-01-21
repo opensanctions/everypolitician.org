@@ -8,12 +8,7 @@ import {
   REVALIDATE_BASE,
 } from './constants';
 import { getTerritoriesByCode } from './territory';
-import {
-  EntityData,
-  IDataset,
-  IPropsResults,
-  ISearchAPIResponse,
-} from './types';
+import { EntityData, Dataset, PropsResults, SearchAPIResponse } from './types';
 import { CountryData } from '@/components/WorldMap';
 
 export async function fetchStatic<T>(
@@ -81,7 +76,7 @@ export async function fetchApiCached<T>(
   return await fetchApi(path, query, accessToken, options);
 }
 
-interface ICatalogDataset {
+type CatalogDataset = {
   name: string;
   type: string;
   title: string;
@@ -108,27 +103,27 @@ interface ICatalogDataset {
     country?: string;
     country_label?: string;
   };
-}
+};
 
-interface ICatalog {
-  datasets: ICatalogDataset[];
-}
+type Catalog = {
+  datasets: CatalogDataset[];
+};
 
 function getCatalogUrl(scope: string): string {
   return `https://data.opensanctions.org/datasets/latest/${scope}/catalog.json`;
 }
 
-async function parseCatalog(scope: string): Promise<IDataset[]> {
+async function parseCatalog(scope: string): Promise<Dataset[]> {
   const catalogUrl = getCatalogUrl(scope);
-  const catalog = await fetchStatic<ICatalog>(catalogUrl);
+  const catalog = await fetchStatic<Catalog>(catalogUrl);
   if (catalog === null) {
     throw Error('Catalog not found: ' + scope);
   }
   const territories = await getTerritoriesByCode();
 
   return catalog.datasets
-    .map((d): IDataset => {
-      const dataset: IDataset = {
+    .map((d): Dataset => {
+      const dataset: Dataset = {
         name: d.name,
         type: d.type,
         title: d.title,
@@ -156,34 +151,34 @@ async function parseCatalog(scope: string): Promise<IDataset[]> {
     .sort((a, b) => a.title.localeCompare(b.title));
 }
 
-export async function getDatasets(): Promise<IDataset[]> {
+export async function getDatasets(): Promise<Dataset[]> {
   return parseCatalog(MAIN_DATASET);
 }
 
-export async function getDatasetsByScope(scope: string): Promise<IDataset[]> {
+export async function getDatasetsByScope(scope: string): Promise<Dataset[]> {
   return parseCatalog(scope);
 }
 
 export async function getDatasetByName(
   name: string,
-): Promise<IDataset | undefined> {
+): Promise<Dataset | undefined> {
   const datasets = await getDatasets();
   return datasets.find((d) => d.name === name);
 }
 
-export async function getDatasetsByNames(names: string[]): Promise<IDataset[]> {
+export async function getDatasetsByNames(names: string[]): Promise<Dataset[]> {
   const datasets = await getDatasets();
   return names
     .map((name) => datasets.find((d) => d.name === name))
-    .filter((d): d is IDataset => d !== undefined);
+    .filter((d): d is Dataset => d !== undefined);
 }
 
 export async function getAdjacent(
   entityId: string,
-): Promise<IPropsResults | null> {
+): Promise<PropsResults | null> {
   try {
     const path = `/entities/${entityId}/adjacent`;
-    return await fetchApiCached<IPropsResults>(path);
+    return await fetchApiCached<PropsResults>(path);
   } catch {
     return null;
   }
@@ -191,22 +186,22 @@ export async function getAdjacent(
 
 export async function getEntityDatasets(
   entity: EntityData,
-): Promise<IDataset[]> {
+): Promise<Dataset[]> {
   const allDatasets = await getDatasets();
   return entity.datasets
     .map((name) => allDatasets.find((d) => d.name === name))
-    .filter((d): d is IDataset => d !== undefined);
+    .filter((d): d is Dataset => d !== undefined);
 }
 
 export async function getMapCountryData(): Promise<[string, CountryData][]> {
   const [territoryInfo, pepResponse, positionResponse] = await Promise.all([
     getTerritoriesByCode(),
-    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+    fetchApiCached<SearchAPIResponse>(`/search/default`, {
       limit: 0,
       topics: 'role.pep',
       facets: ['countries'],
     }),
-    fetchApiCached<ISearchAPIResponse>(`/search/default`, {
+    fetchApiCached<SearchAPIResponse>(`/search/default`, {
       limit: 0,
       schema: 'Position',
       facets: ['countries'],

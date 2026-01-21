@@ -5,7 +5,7 @@ import { Metadata } from 'next';
 import Table from 'react-bootstrap/Table';
 import { Numeric } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
-import { getCountryPEPData, IPositionSummary } from '@/lib/peps';
+import { getCountryPEPData, PositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode } from '@/lib/territory';
 import {
   positionSections,
@@ -50,7 +50,7 @@ function bestLabel(labels: string[]) {
 
 type PositionSubsectionProps = {
   subsectionDefinition: PositionSubsectionDefinition;
-  positions: IPositionSummary[];
+  positions: PositionSummary[];
 };
 
 function PositionSubsection({
@@ -77,7 +77,7 @@ function PositionSubsection({
           </HelpLink>
         </th>
       </tr>
-      {positions.map((position: IPositionSummary) => (
+      {positions.map((position: PositionSummary) => (
         <tr key={position.id}>
           <td>
             <Link prefetch={false} href={`/positions/${position.id}/`}>
@@ -113,7 +113,7 @@ export default async function SectionPage({ params }: PageProps) {
   }
 
   const countryPEPSummary = await getCountryPEPData(countryCode);
-  const positions: IPositionSummary[] = countryPEPSummary.positions ?? [];
+  const positions: PositionSummary[] = countryPEPSummary.positions ?? [];
 
   positions.sort(caseInsensitiveAlphabetic);
   const categoryResults = groupPositions(positions);

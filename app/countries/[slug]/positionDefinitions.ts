@@ -1,4 +1,4 @@
-import { IPositionSummary } from '@/lib/peps';
+import { PositionSummary } from '@/lib/peps';
 
 export type PositionSubsectionDefinition = {
   name: string;
@@ -53,13 +53,13 @@ export const positionSections: PositionSectionDefinition[] = [
   },
 ];
 
-export type CategoryResults = Record<string, IPositionSummary[]>;
+export type CategoryResults = Record<string, PositionSummary[]>;
 
 /**
  * Groups position summaries by category.
  * Positions without categories are added to 'other'.
  */
-export function groupPositions(positions: IPositionSummary[]): CategoryResults {
+export function groupPositions(positions: PositionSummary[]): CategoryResults {
   const categoryResults: CategoryResults = {};
   positionSections.forEach((section) => {
     section.subsections.forEach((subsection) => {
@@ -98,15 +98,15 @@ export function isSectionEmpty(
 }
 
 export function caseInsensitiveAlphabetic(
-  a: IPositionSummary,
-  b: IPositionSummary,
+  a: PositionSummary,
+  b: PositionSummary,
 ) {
   return a.names[0].toLowerCase() > b.names[0].toLowerCase() ? 1 : -1;
 }
 
 export function reverseNumericAlphabetic(
-  a: IPositionSummary,
-  b: IPositionSummary,
+  a: PositionSummary,
+  b: PositionSummary,
 ) {
   if (a.counts.total == b.counts.total) return caseInsensitiveAlphabetic(a, b);
   else return b.counts.total - a.counts.total;

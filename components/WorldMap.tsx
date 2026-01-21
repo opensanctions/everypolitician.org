@@ -6,7 +6,7 @@ import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
-import type { ITerritoryInfo } from '@/lib/territory';
+import type { TerritoryInfo } from '@/lib/territory';
 import { HelpLink } from '@/components/HelpLink';
 
 export type CountryData = {
@@ -21,7 +21,7 @@ const VIEWBOX_HEIGHT = 500;
 
 interface WorldMapProps {
   countryDataArray: [string, CountryData][];
-  focusTerritory?: ITerritoryInfo;
+  focusTerritory?: TerritoryInfo;
 }
 
 interface CountryFeature extends Feature<Geometry> {

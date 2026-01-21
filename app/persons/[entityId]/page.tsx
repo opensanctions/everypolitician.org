@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
-import Dataset from '@/components/Dataset';
+import DatasetCard from '@/components/DatasetCard';
 import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -15,7 +15,7 @@ import {
   getFirst,
   getStringProperty,
   getEntityProperty,
-  IPropResults,
+  PropResults,
 } from '@/lib/types';
 
 export const maxDuration = 25;
@@ -87,7 +87,7 @@ function PersonFactsheet({ person }: { person: EntityData }) {
   );
 }
 
-function OccupanciesTable({ occupancies }: { occupancies: IPropResults }) {
+function OccupanciesTable({ occupancies }: { occupancies: PropResults }) {
   if (occupancies.results.length === 0) {
     return <p>No positions held.</p>;
   }
@@ -172,7 +172,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
         <section id="sources">
           <h2>Data sources</h2>
           {datasets.map((d) => (
-            <Dataset key={d.name} dataset={d} />
+            <DatasetCard key={d.name} dataset={d} />
           ))}
         </section>
 

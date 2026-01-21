@@ -29,7 +29,7 @@ async function markdownToHtml(
   return result.value as string;
 }
 
-export interface IPageMetadata {
+export type PageMetadata = {
   path: string;
   title: string;
   image?: string;
@@ -38,23 +38,23 @@ export interface IPageMetadata {
   no_index: boolean;
   date_created: string;
   date_updated: string;
-}
+};
 
-export interface IPage extends IPageMetadata {
+export type Page = PageMetadata & {
   url: string;
   body: string;
   summaryHtml: string | null;
-}
+};
 
-interface IDocsFile {
+type DocsFile = {
   filePath: string;
-  meta: IPageMetadata;
+  meta: PageMetadata;
   body: string;
-}
+};
 
-async function getDocsFiles(): Promise<IDocsFile[]> {
+async function getDocsFiles(): Promise<DocsFile[]> {
   const docsDir = path.join(process.cwd(), 'docs');
-  const files: IDocsFile[] = [];
+  const files: DocsFile[] = [];
 
   const processDirectory = async (dir: string): Promise<void> => {
     try {
@@ -79,7 +79,7 @@ async function getDocsFiles(): Promise<IDocsFile[]> {
             }
 
             // Create complete metadata with defaults
-            const meta: IPageMetadata = {
+            const meta: PageMetadata = {
               path: finalPath,
               title: frontmatter.title || 'Untitled',
               image: frontmatter.image,
@@ -115,7 +115,7 @@ async function getDocsFiles(): Promise<IDocsFile[]> {
 
 export async function getPageByPath(
   requestedPath: string,
-): Promise<IPage | null> {
+): Promise<Page | null> {
   const docsFiles = await getDocsFiles();
   const docsFile = docsFiles.find((file) => file.meta.path === requestedPath);
 
@@ -133,7 +133,7 @@ export async function getPageByPath(
   };
 }
 
-function getPageMetadata(page: IPage | null): Metadata {
+function getPageMetadata(page: Page | null): Metadata {
   if (page === null) {
     return {};
   }
@@ -156,7 +156,7 @@ export async function getPathMetadata(path: string): Promise<Metadata> {
 
 export async function getSitemapPages(
   limit: number = 5000,
-): Promise<Array<IPageMetadata>> {
+): Promise<Array<PageMetadata>> {
   const docsFiles = await getDocsFiles();
   const pages = docsFiles
     .filter((file) => !file.meta.no_index)

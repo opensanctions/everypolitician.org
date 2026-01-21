@@ -11,9 +11,9 @@ import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import { MAIN_DATASET } from '@/lib/constants';
 import { fetchApiCached, getMapCountryData } from '@/lib/data';
-import { getCountryPEPData, IPositionSummary } from '@/lib/peps';
+import { getCountryPEPData, PositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode } from '@/lib/territory';
-import { ISearchAPIResponse } from '@/lib/types';
+import { SearchAPIResponse } from '@/lib/types';
 import {
   positionSections,
   groupPositions,
@@ -40,7 +40,7 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
   const [countryPEPSummary, searchResponse, countryDataArray] =
     await Promise.all([
       getCountryPEPData(countryCode),
-      fetchApiCached<ISearchAPIResponse>(`/search/${MAIN_DATASET}`, {
+      fetchApiCached<SearchAPIResponse>(`/search/${MAIN_DATASET}`, {
         limit: 0,
         schema: 'Person',
         countries: countryCode,
@@ -49,7 +49,7 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
       getMapCountryData(),
     ]);
 
-  const positions: IPositionSummary[] = countryPEPSummary.positions ?? [];
+  const positions: PositionSummary[] = countryPEPSummary.positions ?? [];
   const categoryResults = groupPositions(positions);
 
   const pepFacets = searchResponse.facets.topics.values.filter(

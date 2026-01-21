@@ -1,8 +1,8 @@
-import { ITerritoryInfo } from './territory';
+import { TerritoryInfo } from './territory';
 
 // Entity types and helpers
 
-export interface EntityData {
+export type EntityData = {
   id: string;
   caption: string;
   schema: string;
@@ -13,7 +13,7 @@ export interface EntityData {
   last_seen?: string;
   last_change?: string;
   properties?: Record<string, (string | EntityData)[]>;
-}
+};
 
 export function getFirst(entity: EntityData, prop: string): string | null {
   const value = entity.properties?.[prop]?.[0];
@@ -41,14 +41,14 @@ export function getEntityProperty(
 
 // Dataset types
 
-export interface IResource {
+export type Resource = {
   url: string;
   timestamp: string;
   mime_type: string;
   title: string;
-}
+};
 
-export interface IDatasetPublisher {
+export type DatasetPublisher = {
   url?: string;
   name: string;
   acronym?: string;
@@ -56,15 +56,15 @@ export interface IDatasetPublisher {
   official: boolean;
   country?: string;
   country_label?: string;
-  territory?: ITerritoryInfo;
-}
+  territory?: TerritoryInfo;
+};
 
-export interface IDatasetCoverage {
+export type DatasetCoverage = {
   start?: string;
   frequency?: string;
-}
+};
 
-export interface IDataset {
+export type Dataset = {
   name: string;
   type: string;
   title: string;
@@ -76,45 +76,45 @@ export interface IDataset {
   last_export?: string;
   thing_count?: number;
   datasets?: Array<string>;
-  resources?: Array<IResource>;
-  coverage?: IDatasetCoverage;
-  publisher?: IDatasetPublisher;
-}
+  resources?: Array<Resource>;
+  coverage?: DatasetCoverage;
+  publisher?: DatasetPublisher;
+};
 
 // Search API types
 
-interface ISearchFacetItem {
+type SearchFacetItem = {
   name: string;
   label: string;
   count: number;
-}
+};
 
-export interface ISearchFacet {
+export type SearchFacet = {
   label: string;
-  values: Array<ISearchFacetItem>;
-}
+  values: Array<SearchFacetItem>;
+};
 
-interface IResponseTotal {
+type ResponseTotal = {
   value: number;
   relation: string;
-}
+};
 
-export interface IPaginatedResponse {
-  total: IResponseTotal;
+export type PaginatedResponse = {
+  total: ResponseTotal;
   limit: number;
   offset: number;
-}
+};
 
-export interface ISearchAPIResponse extends IPaginatedResponse {
+export type SearchAPIResponse = PaginatedResponse & {
   results: Array<EntityData>;
-  facets: { [prop: string]: ISearchFacet };
-}
+  facets: { [prop: string]: SearchFacet };
+};
 
-export interface IPropResults extends IPaginatedResponse {
+export type PropResults = PaginatedResponse & {
   results: Array<EntityData>;
-}
+};
 
-export interface IPropsResults {
+export type PropsResults = {
   entity: EntityData;
-  adjacent: Record<string, IPropResults>;
-}
+  adjacent: Record<string, PropResults>;
+};
