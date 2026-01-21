@@ -1075,7 +1075,7 @@
         {
           "type": "Polygon",
           "arcs": [[526]],
-          "id": "cn-tw",
+          "id": "tw",
           "bbox": [120.106189, 21.970571, 121.951244, 25.295459],
           "properties": { "name": "Taiwan" }
         },
@@ -1232,7 +1232,7 @@
         {
           "type": "Polygon",
           "arcs": [[573, 574]],
-          "id": "-99",
+          "id": "cy-trnc",
           "bbox": [32.73178, 35.000345, 34.576474, 35.671596],
           "properties": { "name": "N. Cyprus" }
         },
@@ -1281,7 +1281,7 @@
         {
           "type": "Polygon",
           "arcs": [[-116, -584, -586, 586]],
-          "id": "-99",
+          "id": "so-som",
           "bbox": [42.55876, 7.99688, 48.948206, 11.46204],
           "properties": { "name": "Somaliland" }
         },

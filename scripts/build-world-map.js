@@ -4,6 +4,20 @@ const https = require('https');
 
 const NATURAL_EARTH_URL =
   'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson';
+
+// Map Natural Earth ISO codes to EveryPolitician codes
+const ISO_CODE_PATCHES = {
+  'cn-tw': 'tw', // Taiwan
+  // North Cyprus and Somaliland need to be identified by name since
+  // Natural Earth doesn't give them distinct ISO codes
+};
+
+// Territories identified by name that need custom codes
+const NAME_TO_ISO = {
+  'N. Cyprus': 'cy-trnc',
+  Somaliland: 'so-som',
+};
+
 const OUTPUT_PATH = path.resolve(
   __dirname,
   '..',
@@ -38,11 +52,22 @@ async function main() {
   // Natural Earth uses -99 for disputed/special territories, fall back to ISO_A2_EH
   geojson.features = geojson.features.map((feature) => {
     const props = feature.properties;
-    const iso2 =
+    let iso2 =
       props.ISO_A2 !== '-99' ? props.ISO_A2 : props.ISO_A2_EH || props.ISO_N3;
+    iso2 = iso2?.toLowerCase();
+
+    // Apply code patches for territories with different naming conventions
+    if (iso2 && ISO_CODE_PATCHES[iso2]) {
+      iso2 = ISO_CODE_PATCHES[iso2];
+    }
+    // Handle territories identified by name
+    if (NAME_TO_ISO[props.NAME]) {
+      iso2 = NAME_TO_ISO[props.NAME];
+    }
+
     return {
       ...feature,
-      id: iso2?.toLowerCase(),
+      id: iso2,
       properties: {
         name: props.NAME,
       },
