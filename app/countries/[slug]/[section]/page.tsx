@@ -68,11 +68,12 @@ function PositionSubsection({
         <th className="numeric text-end d-none d-md-table-cell">Current</th>
         <th className="numeric text-end d-none d-md-table-cell">Ended</th>
         <th className="numeric text-end d-none d-md-table-cell text-nowrap">
-          Status unclear
-          <HelpLink href="#explain-status-unclear" tooltipId="status-unclear">
-            When we can not determine whether a person currently holds a
-            position from our data source(s) with sufficient confidence, we
-            indicate its status as unclear.
+          <HelpLink
+            href="#explain-status-unclear"
+            tooltipId="status-unclear"
+            tooltip="When we cannot determine whether a person currently holds a position from our data sources with sufficient confidence, we indicate its status as unclear."
+          >
+            Status unclear
           </HelpLink>
         </th>
       </tr>

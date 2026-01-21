@@ -1,45 +1,50 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { Placement } from 'react-bootstrap/esm/types';
 import { QuestionCircleFill } from 'react-bootstrap-icons';
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 
 type HelpLinkProps = {
-  href: string;
-  size?: number;
-  children?: ReactNode;
-  tooltipId?: string;
-  placement?: Placement;
-  variant?: 'muted' | 'white';
+  href?: string;
+  children: ReactNode;
+  tooltip: ReactNode;
+  tooltipId: string;
 };
 
 export function HelpLink({
   href,
-  size = 10,
   children,
+  tooltip,
   tooltipId,
-  placement = 'top',
-  variant = 'muted',
 }: HelpLinkProps) {
-  const colorClass = variant === 'white' ? 'text-white' : 'text-muted';
-  const link = (
-    <a href={href} className={`d-print-none ${colorClass}`}>
+  const inner = (
+    <>
+      {children}
       <sup>
-        <QuestionCircleFill size={size} />
+        <QuestionCircleFill size={10} />
       </sup>
-    </a>
+    </>
   );
-  return !!tooltipId ? (
-    <OverlayTrigger
-      placement={placement}
-      overlay={<Tooltip id={tooltipId}>{children}</Tooltip>}
+
+  const content = href ? (
+    <a
+      href={href}
+      className="d-print-none text-decoration-none"
+      style={{ color: 'inherit' }}
     >
-      <span>{link}</span>
-    </OverlayTrigger>
+      {inner}
+    </a>
   ) : (
-    link
+    <span className="d-print-none" role="button" style={{ cursor: 'help' }}>
+      {inner}
+    </span>
+  );
+
+  return (
+    <OverlayTrigger overlay={<Tooltip id={tooltipId}>{tooltip}</Tooltip>}>
+      {content}
+    </OverlayTrigger>
   );
 }

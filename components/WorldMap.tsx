@@ -262,14 +262,13 @@ export default function WorldMap({
         className="position-absolute bottom-0 end-0 p-2 small text-white"
         style={{ backgroundColor: '#0040c1', zIndex: 2, pointerEvents: 'auto' }}
       >
-        Standard political map. Reality is more complicated.
+        Standard political map.{' '}
         <HelpLink
           href="/docs/mapping/"
           tooltipId="map-disclaimer-help"
-          placement="top"
-          variant="white"
+          tooltip="Maps are political. Not everyone agrees on borders and who controls what."
         >
-          Learn more about how we represent territories
+          Reality is more complicated.
         </HelpLink>
       </div>
     </div>
