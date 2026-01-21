@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
 import Container from 'react-bootstrap/Container';
+import { ContributeBox } from '@/components/ContributeBox';
 import { Plural, SpacedList } from '@/components/Formatting';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -106,6 +107,8 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
         />
 
         {children}
+
+        <ContributeBox countryName={info.label_short} />
       </Container>
     </LayoutFrame>
   );

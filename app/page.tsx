@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { ContributeBox } from '@/components/ContributeBox';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
@@ -92,45 +93,7 @@ export default async function Page() {
           <a href="https://opensanctions.org/datasets/peps/">OpenSanctions</a>.
         </p>
 
-        <h2>Get involved</h2>
-        <p>
-          EveryPolitician is a community effort. Here&apos;s how you can
-          contribute:
-        </p>
-        <ul className="spaced">
-          <li>
-            <strong>Add or improve politician profiles</strong> by contributing
-            to Wikidata&apos;s{' '}
-            <Link href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician">
-              WikiProject Every Politician
-            </Link>
-            . Like all Wikipedia projects, it has community review and
-            verification standards. Start by exploring the{' '}
-            <Link href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician/Political_data_model">
-              political data model
-            </Link>
-            . Edits typically appear here within a few days.
-          </li>
-          <li>
-            <strong>Build a data crawler</strong> for an official source we
-            don&apos;t yet cover. Our crawlers are{' '}
-            <Link href="https://github.com/opensanctions/opensanctions/tree/main/datasets">
-              open source
-            </Link>{' '}
-            and use the zavod framework (Python). See our{' '}
-            <Link href="https://bit.ly/osa-sources">data source wishlist</Link>{' '}
-            for inspiration and the{' '}
-            <Link href="https://zavod.opensanctions.org/tutorial/">
-              tutorial
-            </Link>{' '}
-            to get started.
-          </li>
-          <li>
-            <strong>Partner with us</strong> on research or data projects.{' '}
-            <Link href="/contact/">Get in touch</Link> to discuss collaboration
-            opportunities.
-          </li>
-        </ul>
+        <ContributeBox />
       </Container>
     </LayoutFrame>
   );
