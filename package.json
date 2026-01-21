@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "fetch-model": "node scripts/fetch-model.js",
-    "dev": "npm run fetch-model && next dev",
-    "build": "npm run fetch-model && next build",
+    "build-world-map": "node scripts/build-world-map.js",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "lint-fix": "next lint --fix",
@@ -56,6 +56,7 @@
     "jsdom": "^27.4.0",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.0",
+    "topojson-server": "^3.0.1",
     "typescript": "^5.9.3",
     "vitest": "^4.0.17"
   }
