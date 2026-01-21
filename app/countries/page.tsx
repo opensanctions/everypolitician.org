@@ -5,8 +5,7 @@ import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import { getMapCountryData } from '@/lib/data';
-import { getTerritoriesByCode } from '@/lib/territory';
+import { getTerritorySummaries, TerritorySummary } from '@/lib/data';
 
 import type { Metadata } from 'next';
 
@@ -17,15 +16,6 @@ export const metadata: Metadata = {
   description:
     'Browse political positions and office-holders by country and territory.',
   alternates: { canonical: '/countries/' },
-};
-
-type TerritorySummary = {
-  code: string;
-  label: string;
-  numPeps: number;
-  numPositions: number;
-  region: string;
-  subregion: string | undefined;
 };
 
 function TerritoryRow({ territory }: { territory: TerritorySummary }) {
@@ -99,30 +89,8 @@ function RegionTable({ territories }: { territories: TerritorySummary[] }) {
 }
 
 export default async function CountriesPage() {
-  const [territoryInfo, countryDataArray] = await Promise.all([
-    getTerritoriesByCode(),
-    getMapCountryData(),
-  ]);
-
-  const territories = new Map<string, TerritorySummary>();
-  for (const [code, data] of countryDataArray) {
-    const info = territoryInfo.get(code);
-    if (!info) continue;
-    if (!info.region) continue;
-    territories.set(code, {
-      code,
-      label: data.label,
-      numPeps: data.numPeps,
-      numPositions: data.numPositions,
-      region: info.region,
-      subregion: info.subregion,
-    });
-  }
-
-  const regions = Object.groupBy(
-    Array.from(territories.values()),
-    (t) => t.region,
-  );
+  const territories = await getTerritorySummaries();
+  const regions = Object.groupBy(territories, (t) => t.region);
   const regionNames = Object.keys(regions);
   regionNames.sort();
 

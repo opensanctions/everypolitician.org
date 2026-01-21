@@ -234,3 +234,34 @@ export async function getMapCountryData(): Promise<[string, CountryData][]> {
 
   return Array.from(countryDataMap.entries());
 }
+
+export type TerritorySummary = {
+  code: string;
+  label: string;
+  numPeps: number;
+  numPositions: number;
+  region: string;
+  subregion: string | undefined;
+};
+
+export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
+  const [territoryInfo, countryDataArray] = await Promise.all([
+    getTerritoriesByCode(),
+    getMapCountryData(),
+  ]);
+
+  const summaries: TerritorySummary[] = [];
+  for (const [code, data] of countryDataArray) {
+    const info = territoryInfo.get(code);
+    if (!info?.region) continue;
+    summaries.push({
+      code,
+      label: data.label,
+      numPeps: data.numPeps,
+      numPositions: data.numPositions,
+      region: info.region,
+      subregion: info.subregion,
+    });
+  }
+  return summaries;
+}
