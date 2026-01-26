@@ -14,6 +14,7 @@ type ContributeBoxProps = {
   linkUrl: string;
   linkText: string;
   children: ReactNode;
+  className?: string;
 };
 
 const VARIANT_COLORS: Record<ContributeBoxVariant, string> = {
@@ -27,10 +28,11 @@ export function ContributeBox({
   linkUrl,
   linkText,
   children,
+  className,
 }: ContributeBoxProps) {
   return (
     <Card
-      className="h-100 text-white border-0"
+      className={`text-white border-0 ${className ?? ''}`}
       style={{ backgroundColor: VARIANT_COLORS[variant] }}
     >
       <CardBody>

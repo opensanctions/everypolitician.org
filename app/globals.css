@@ -459,3 +459,16 @@ blockquote {
     font-size: 1rem;
   }
 }
+
+/* Stats row */
+.stats-row {
+  background-color: var(--bs-gray-800);
+  color: var(--bs-gray-300);
+  padding: 0.75rem 0;
+  text-align: center;
+}
+
+.stats-row strong {
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
