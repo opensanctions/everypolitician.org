@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { Numeric } from '@/components/Formatting';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
@@ -58,9 +57,7 @@ export default async function Page() {
                     </Link>
                   )}
                 </td>
-                <td className="text-end">
-                  <Numeric value={dataset.thing_count} />
-                </td>
+                <td className="text-end">{dataset.thing_count || '-'}</td>
               </tr>
             ))}
           </tbody>

@@ -5,11 +5,10 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import { ContributeBox } from '@/components/ContributeBox';
-import { Plural, SpacedList } from '@/components/Formatting';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
-import { MAIN_DATASET } from '@/lib/constants';
+import { MAIN_DATASET, SPACER } from '@/lib/constants';
 import { fetchApiCached, getMapCountryData } from '@/lib/data';
 import { getCountryPEPData, PositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode } from '@/lib/territory';
@@ -72,13 +71,14 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
         {info.see.length > 0 && (
           <div className="hero-subtitle">
             See also:{' '}
-            <SpacedList
-              values={info.see.map(({ related_territories_code: c }) => (
-                <Link key={c} href={`/countries/${c}/national/`}>
+            {info.see.map(({ related_territories_code: c }, idx) => (
+              <span key={c}>
+                {idx > 0 && <span className="fw-bolder">{SPACER}</span>}
+                <Link href={`/countries/${c}/national/`}>
                   {territories.get(c)?.label_short}
                 </Link>
-              ))}
-            />
+              </span>
+            ))}
           </div>
         )}
       </Hero>
@@ -92,12 +92,8 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
           ) : (
             <>
               {' '}
-              contains{' '}
-              <Plural
-                value={pepCount}
-                one="politician"
-                many="politicians"
-              />{' '}
+              contains {pepCount.toLocaleString('en-US')}{' '}
+              {pepCount === 1 ? 'politician' : 'politicians'}{' '}
             </>
           )}
           connected with {info.in_sentence}.

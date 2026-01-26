@@ -1,6 +1,5 @@
 import Link from 'next/link';
 
-import { Numeric } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Container from 'react-bootstrap/Container';
@@ -28,12 +27,10 @@ function TerritoryRow({ territory }: { territory: TerritorySummary }) {
       </td>
       <td className="numeric text-end">
         <Link prefetch={false} href={`/countries/${territory.code}/national/`}>
-          <Numeric value={territory.numPositions} />
+          {territory.numPositions || '-'}
         </Link>
       </td>
-      <td className="numeric text-end">
-        <Numeric value={territory.numPeps} />
-      </td>
+      <td className="numeric text-end">{territory.numPeps || '-'}</td>
     </tr>
   );
 }

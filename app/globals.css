@@ -197,43 +197,6 @@ blockquote {
   color: #fff;
 }
 
-/* Hero/Banner section */
-.claim-banner {
-  background-color: #0040c1;
-  background-image: url('https://assets.opensanctions.org/images/nura/banner-big.png');
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
-  padding-top: 5em;
-  padding-bottom: 3em;
-  color: #fff;
-}
-
-.claim-banner .claim {
-  font-weight: 700;
-  color: #fff;
-  margin-bottom: 1em;
-  font-size: 2em;
-  line-height: 1.5;
-}
-
-.claim-banner .sub-claim {
-  color: var(--bs-light);
-  margin-bottom: 1em;
-  font-size: 1.2em;
-}
-
-/* Sticky sidebar */
-.sticky-parent {
-  height: 100%;
-  position: relative;
-}
-
-.sticky-child {
-  position: sticky;
-  top: 2rem;
-}
-
 @media print {
   .navbar {
     margin-bottom: 1em;
@@ -458,17 +421,4 @@ blockquote {
   .hero .hero-subtitle {
     font-size: 1rem;
   }
-}
-
-/* Stats row */
-.stats-row {
-  background-color: var(--bs-gray-800);
-  color: var(--bs-gray-300);
-  padding: 0.75rem 0;
-  text-align: center;
-}
-
-.stats-row strong {
-  color: #fff;
-  font-variant-numeric: tabular-nums;
 }

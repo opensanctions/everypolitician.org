@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
 import Table from 'react-bootstrap/Table';
-import { Numeric } from '@/components/Formatting';
 import { HelpLink } from '@/components/HelpLink';
 import { getCountryPEPData, PositionSummary } from '@/lib/peps';
 import { getTerritoriesByCode } from '@/lib/territory';
@@ -85,13 +84,13 @@ function PositionSubsection({
             </Link>
           </td>
           <td className="numeric text-end d-none d-md-table-cell">
-            <Numeric value={position.counts.current} />
+            {position.counts.current || '-'}
           </td>
           <td className="numeric text-end d-none d-md-table-cell">
-            <Numeric value={position.counts.ended} />
+            {position.counts.ended || '-'}
           </td>
           <td className="numeric text-end d-none d-md-table-cell">
-            <Numeric value={position.counts.unknown} />
+            {position.counts.unknown || '-'}
           </td>
         </tr>
       ))}

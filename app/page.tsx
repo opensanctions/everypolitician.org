@@ -44,14 +44,12 @@ export default async function Page() {
           rulers, law-makers to judges and more.
         </p>
       </Hero>
-      <div className="stats-row">
-        <Container>
-          Tracking <strong>{totals.politicians.toLocaleString()}</strong>{' '}
-          politicians &middot;{' '}
-          <strong>{totals.positions.toLocaleString()}</strong> positions{' '}
-          &middot; <strong>{territoriesCount}</strong> territories
-        </Container>
-      </div>
+      <Container>
+        Tracking <strong>{totals.politicians.toLocaleString()}</strong>{' '}
+        politicians &middot;{' '}
+        <strong>{totals.positions.toLocaleString()}</strong> positions &middot;{' '}
+        <strong>{territoriesCount}</strong> territories
+      </Container>
       <Container className="pt-3">
         <div className="mt-4 mb-3">
           <Row>

@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import React from 'react';
 import {
   ChatRightHeartFill,
   EnvelopeOpenHeartFill,
@@ -10,7 +9,6 @@ import {
   RocketTakeoffFill,
 } from 'react-bootstrap-icons';
 
-import { Spacer } from '@/components/Formatting';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
