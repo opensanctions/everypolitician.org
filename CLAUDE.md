@@ -5,7 +5,7 @@ The EveryPolitician (EP) website presents a global atlas of political offices as
 ### Technology
 
 - Using Next.js, TypeScript, and running on Google Cloud Run.
-  - Assume a development server is available at http://localhost:4000
+  - Assume a development server is already running
   - Components are used for any re-usable elements and located in `components/`
   - Data interfaces and access functions are in `lib/`
 - Searches and other API requests can be sent against the OpenSanctions API at api.opensanctions.org.
@@ -15,6 +15,14 @@ The EveryPolitician (EP) website presents a global atlas of political offices as
   - https://followthemoney.tech/explorer/schemata/Person/
   - https://followthemoney.tech/explorer/schemata/Position/
   - https://followthemoney.tech/explorer/schemata/Occupancy/
+
+### Styling
+
+- Use react-bootstrap components where possible (e.g., `<Container>`, `<Row>`, `<Button>`)
+- **Import all react-bootstrap components explicitly**, including subcomponents (e.g., `CardBody`, `CardTitle`)
+- For elements without react-bootstrap components, use Bootstrap utility classes
+- Minimize custom CSS—prefer Bootstrap utilities over custom styles
+- Only add custom styles when Bootstrap doesn't provide what's needed
 
 ### Testing
 

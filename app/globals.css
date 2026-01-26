@@ -69,53 +69,13 @@ samp {
   font-family: var(--bs-font-monospace);
 }
 
-/* Heading styles */
 h1,
-.h1,
 h2,
-.h2,
 h3,
-.h3 {
-  font-weight: 700;
-  letter-spacing: 0.01rem;
-  color: var(--bs-dark);
-}
-
-h1 a,
-.h1 a,
-h2 a,
-.h2 a,
-h3 a,
-.h3 a {
-  color: #00359e;
-  text-decoration: none;
-}
-
-h1 a:hover,
-.h1 a:hover,
-h2 a:hover,
-.h2 a:hover,
-h3 a:hover,
-.h3 a:hover {
-  text-decoration: underline;
-}
-
-h2,
-.h2 {
-  margin-top: 1em;
-}
-
-h3,
-.h3 {
-  margin-top: 1.1em;
-}
-
 h4,
-.h4,
 h5,
-.h5 {
-  margin-top: 0.5em;
-  font-size: 1.15em;
+h6 {
+  font-weight: 700;
 }
 
 /* Link styles */
@@ -127,18 +87,9 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Utility classes */
-.numeric {
-  font-variant-numeric: tabular-nums;
-}
-
-.ep-accent-bg {
-  background-color: var(--ep-accent);
-}
-
 /* Footer styles */
 .footer {
-  background-color: var(--bs-gray-700);
+  background-color: var(--bs-gray-800);
   color: var(--bs-light);
   margin-top: 2em;
   padding-top: 3em;
@@ -193,8 +144,6 @@ a:hover {
 
 /* Hero */
 .hero {
-  background-color: var(--ep-accent);
-  color: #fff;
   position: relative;
   overflow: hidden;
   height: 30rem;
@@ -208,12 +157,18 @@ a:hover {
   color: #fff;
 }
 
-.hero a {
+/* Accent background utility */
+.bg-ep-accent {
+  background-color: var(--ep-accent);
+  color: #fff;
+}
+
+.bg-ep-accent a {
   color: #fff;
   text-decoration: underline;
 }
 
-.hero a:hover {
+.bg-ep-accent a:hover {
   color: var(--bs-gray-200);
 }
 
@@ -241,9 +196,7 @@ a:hover {
 }
 
 .hero .hero-title {
-  font-weight: 700;
   color: #fff;
-  font-size: 2.5rem;
   margin: 0 0 0 -1rem;
   background-color: var(--ep-accent);
   padding: 0.5rem 1rem;
