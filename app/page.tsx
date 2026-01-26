@@ -107,7 +107,7 @@ export default async function Page() {
         </Row>
       </Container>
       <div className="bg-ep-accent py-5">
-        <Container className="mt-5 mb-4">
+        <Container className="my-5">
           <Row>
             <Col md={8}>
               <h3>Contribute to political research</h3>
@@ -116,7 +116,7 @@ export default async function Page() {
                 holds power. By contributing to open data you enable journalists
                 and researchers to study power networks.{' '}
                 <a href="/docs/contribute">
-                  See all ways in which you can help you.
+                  See all ways in which you can help.
                 </a>
               </p>
             </Col>
