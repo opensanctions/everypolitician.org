@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
+import { BoxArrowUpRight } from 'react-bootstrap-icons';
 import { getMapCountryData } from '@/lib/data';
 
 import type { Metadata } from 'next';
@@ -47,8 +48,8 @@ export default async function Page() {
         </p>
       </Hero>
       <div style={{ backgroundColor: 'var(--bs-gray-800)' }}>
-        <Container className="py-4 text-white">
-          <Row>
+        <Container>
+          <Row className="py-4 text-white">
             <Col className="text-center">
               <p className="fs-5 mb-0">
                 Tracking{' '}
@@ -97,40 +98,89 @@ export default async function Page() {
             </p>
           </Col>
           <Col md={4}>
-            <h4>What&apos;s a politician?</h4>
+            <h4>Community project</h4>
             <p className="mb-0">
-              Anyone holding public authority: presidents, legislators, judges,
-              senior officials, and military commanders.
+              This dataset is built by volunteers worldwide. Anyone can help
+              improve political data for their country.
             </p>
           </Col>
         </Row>
       </Container>
-      <div className="bg-ep-accent">
-        <Container className="py-5">
-          <Row className="align-items-center">
+      <div className="bg-ep-accent py-5">
+        <Container className="mt-5 mb-4">
+          <Row>
             <Col md={8}>
-              <h3 className="mt-0">Contribute to political research</h3>
-              <p>
-                Help us (<a href="https://opensanctions.org/">OpenSanctions</a>)
-                commodotize political data to further research into who holds
-                power. By contributing to open data you enable journalists and
-                researchers to study power networks.
-              </p>
-              <p className="mb-0">
-                Contributing is easy.{' '}
-                <a href="/docs/contribute">Learn how you can help.</a>
+              <h3>Contribute to political research</h3>
+              <p className="mb-5">
+                Help us commodotize political data to further research into who
+                holds power. By contributing to open data you enable journalists
+                and researchers to study power networks.{' '}
+                <a href="/docs/contribute">
+                  See all ways in which you can help you.
+                </a>
               </p>
             </Col>
-            <Col md={4}>
-              <Card>
+          </Row>
+          <Row>
+            <Col md={4} className="mb-3 mb-md-0">
+              <Card className="h-100">
                 <CardBody>
-                  <CardTitle>Built on Wikidata</CardTitle>
+                  <CardTitle>
+                    <h4>PoliLoom</h4>
+                  </CardTitle>
                   <p>
-                    Wikidata is a free knowledge base that anyone can edit.{' '}
-                    <a href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician">
-                      Join the WikiProject
+                    Use our AI driven tool to enrich Wikidata with politician
+                    data from the web.
+                  </p>
+                  <p className="mb-0">
+                    <a
+                      href="https://loom.everypolitician.org/"
+                      className="link-primary"
+                    >
+                      Start enriching data <BoxArrowUpRight />
                     </a>
-                    .
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md={4} className="mb-3 mb-md-0">
+              <Card className="h-100">
+                <CardBody>
+                  <CardTitle>
+                    <h4>GovDirectory</h4>
+                  </CardTitle>
+                  <p>
+                    Help out the project that aims to map out the levels of
+                    government around the world.
+                  </p>
+                  <p className="mb-0">
+                    <a
+                      href="https://www.govdirectory.org/"
+                      className="link-primary"
+                    >
+                      Explore government structures <BoxArrowUpRight />
+                    </a>
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md={4}>
+              <Card className="h-100">
+                <CardBody>
+                  <CardTitle>
+                    <h4>WikiProject</h4>
+                  </CardTitle>
+                  <p>
+                    Join our Wikidata WikiProject to help improve politician
+                    data directly in the knowledge base.
+                  </p>
+                  <p className="mb-0">
+                    <a
+                      href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician"
+                      className="link-primary"
+                    >
+                      Join the WikiProject <BoxArrowUpRight />
+                    </a>
                   </p>
                 </CardBody>
               </Card>
@@ -138,6 +188,24 @@ export default async function Page() {
           </Row>
         </Container>
       </div>
+      <Container>
+        <Row className="py-5 my-5">
+          <Col md={6}>
+            <h4>What&apos;s a politician?</h4>
+            <p>
+              Anyone holding public authority: presidents, legislators, judges,
+              senior officials, and military commanders.
+            </p>
+          </Col>
+          <Col md={6}>
+            <div className="bg-light rounded p-4 h-100 d-flex align-items-center justify-content-center text-muted">
+              <p className="mb-0">
+                Example politicians from dataset coming soon
+              </p>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </LayoutFrame>
   );
 }
