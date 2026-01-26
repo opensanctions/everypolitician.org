@@ -1,10 +1,10 @@
-import { ContributeBox } from '@/components/ContributeBox';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
-import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import { getMapCountryData } from '@/lib/data';
 
 import type { Metadata } from 'next';
@@ -45,60 +45,67 @@ export default async function Page() {
         </p>
       </Hero>
       <Container>
-        Tracking <strong>{totals.politicians.toLocaleString()}</strong>{' '}
-        politicians &middot;{' '}
-        <strong>{totals.positions.toLocaleString()}</strong> positions &middot;{' '}
-        <strong>{territoriesCount}</strong> territories
+        <Row className="py-5">
+          <Col>
+            <p className="fs-5 mb-0">
+              <span className="ep-accent-bg text-white px-2 py-1">
+                <strong>{totals.politicians.toLocaleString()}</strong>{' '}
+                politicians
+              </span>{' '}
+              in{' '}
+              <span className="ep-accent-bg text-white px-2 py-1">
+                <strong>{totals.positions.toLocaleString()}</strong> positions
+              </span>{' '}
+              across{' '}
+              <span className="ep-accent-bg text-white px-2 py-1">
+                <strong>{territoriesCount}</strong> countries and territories
+              </span>
+            </p>
+          </Col>
+        </Row>
       </Container>
-      <Container className="pt-3">
-        <div className="mt-4 mb-3">
-          <Row>
-            <Col md={5} className="mb-4 mb-md-0">
-              <h3>Help build the dataset</h3>
-              <p>
-                Political data should be a public good. We believe that
-                information about who holds power&mdash;and when&mdash;should be
-                freely available to journalists, researchers, and citizens
-                everywhere.
-              </p>
-              <p>
-                At <a href="https://opensanctions.org/">OpenSanctions</a>,
-                we&apos;re working to make this a reality by building
-                comprehensive, open datasets on politicians worldwide. But we
-                can&apos;t do it alone.
-              </p>
-              <p>
-                Whether you have five minutes or five hours, your contributions
-                help create a resource that benefits everyone. Join us in
-                mapping who runs the world.
+      <div className="ep-accent-bg py-5 text-white">
+        <Container>
+          <Row className="align-items-center">
+            <Col md={8}>
+              <h3 className="text-white mt-0">
+                Contribute to political research
+              </h3>
+              <p className="mb-0">
+                Help us (
+                <a
+                  href="https://opensanctions.org/"
+                  className="text-white text-decoration-underline"
+                >
+                  OpenSanctions
+                </a>
+                ) commodotize political data to further research into who holds
+                power. By contributing to open data you enable journalists and
+                researchers to study power networks.{' '}
+                <a
+                  href="/docs/contribute"
+                  className="text-white text-decoration-underline"
+                >
+                  Learn how you can contribute
+                </a>
+                .
               </p>
             </Col>
-            <Col md={{ span: 6, offset: 1 }}>
-              <ContributeBox
-                variant="primary"
-                title="Enrich Wikidata"
-                linkUrl="https://loom.everypolitician.org/"
-                linkText="Get started with Poliloom"
-                className="mb-3"
+            <Col
+              md={4}
+              className="d-flex align-items-center justify-content-md-end mt-3 mt-md-0"
+            >
+              <Button
+                href="https://loom.everypolitician.org"
+                variant="light"
+                size="lg"
               >
-                Use Poliloom to add and correct politician data on Wikidata.
-                It&apos;s designed to make editing political data
-                straightforward, even if you&apos;re new to Wikidata.
-              </ContributeBox>
-              <ContributeBox
-                variant="secondary"
-                title="Add government sources"
-                linkUrl="https://www.govdirectory.org/"
-                linkText="Contribute to GovDirectory"
-              >
-                GovDirectory collects links to official government websites.
-                Help us find the sources we need to track political offices and
-                office-holders.
-              </ContributeBox>
+                Open PoliLoom
+              </Button>
             </Col>
           </Row>
-        </div>
-      </Container>
+        </Container>
+      </div>
     </LayoutFrame>
   );
 }

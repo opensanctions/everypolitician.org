@@ -10,6 +10,13 @@ path: /docs/
 
 Welcome to the EveryPolitician documentation. Here you'll find information about the project, our data collection methodology, and how you can contribute.
 
+## Licensing
+
+EveryPolitician is **free for non-commercial users.** Businesses must acquire a data license to use the dataset.
+
+- [Use the API](https://api.opensanctions.org/api/)
+- [License in bulk](https://opensanctions.org/licensing/)
+
 ## Getting started
 
 - [About EveryPolitician](/docs/about/) - Learn about the project and its goals
