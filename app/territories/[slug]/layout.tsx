@@ -80,7 +80,7 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
         )}
       </Hero>
 
-      <Container className="pt-3">
+      <Container className="py-5">
         <h2 id="peps">Political office-holders</h2>
         <p>
           Our database
@@ -93,7 +93,7 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
               {pepCount === 1 ? 'politician' : 'politicians'}{' '}
             </>
           )}
-          connected with {info.in_sentence}.
+          connected with {info.in_sentence || info.label_short}.
         </p>
 
         <SectionNav
