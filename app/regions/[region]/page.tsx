@@ -129,11 +129,10 @@ export default async function RegionPage(props: {
 
   return (
     <LayoutFrame activeSection="territories">
-      <Container className="pt-3">
+      <Container className="py-4 mb-5">
         <h1>Regions</h1>
         <p>Browse political positions and office-holders by region.</p>
         <RegionsNav regions={regionNames} />
-        <h2>{regionName}</h2>
         <RegionTable territories={territories} />
       </Container>
     </LayoutFrame>

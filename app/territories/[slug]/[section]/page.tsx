@@ -2,12 +2,16 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
+import Card from 'react-bootstrap/Card';
+import CardBody from 'react-bootstrap/CardBody';
+import CardTitle from 'react-bootstrap/CardTitle';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavItem from 'react-bootstrap/NavItem';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
+import { BoxArrowUpRight } from 'react-bootstrap-icons';
 import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -218,7 +222,7 @@ export default async function SectionPage({ params }: PageProps) {
         )}
 
         <Row className="mt-5">
-          <Col md={6}>
+          <Col md={8}>
             <h4>What do these numbers mean?</h4>
             <p>
               We keep track both if political positions and the individuals who
@@ -232,8 +236,6 @@ export default async function SectionPage({ params }: PageProps) {
               Current. If it is unclear from the source whether they have left
               the position, they will be counted under Unclear.
             </p>
-          </Col>
-          <Col md={6}>
             <h4>How can status be unclear?</h4>
             <p>
               Some of the data sources we rely on indicate both past and present
@@ -248,6 +250,67 @@ export default async function SectionPage({ params }: PageProps) {
           </Col>
         </Row>
       </Container>
+
+      <div className="bg-ep-accent py-5">
+        <Container className="my-5">
+          <Row>
+            <Col md={8}>
+              <h3 className="text-white">
+                Help improve data for {info.label_short}
+              </h3>
+              <p className="text-white mb-5">
+                Our coverage of {info.label_short} depends on contributions from
+                people like you. Help us build the most comprehensive database
+                of political office-holders.
+              </p>
+            </Col>
+          </Row>
+          <Row>
+            <Col md={4} className="mb-3 mb-md-0">
+              <Card className="h-100 border-0">
+                <CardBody>
+                  <CardTitle>
+                    <h5>PoliLoom</h5>
+                  </CardTitle>
+                  <p>
+                    Use our AI driven tool to enrich Wikidata with politician
+                    data for {info.label_short}.
+                  </p>
+                  <p className="mb-0">
+                    <a
+                      href="https://loom.everypolitician.org/"
+                      className="link-primary"
+                    >
+                      Start enriching data <BoxArrowUpRight />
+                    </a>
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col md={4}>
+              <Card className="h-100 border-0">
+                <CardBody>
+                  <CardTitle>
+                    <h5>GovDirectory</h5>
+                  </CardTitle>
+                  <p>
+                    Explore the government structure of {info.label_short} and
+                    help map out its levels of government.
+                  </p>
+                  <p className="mb-0">
+                    <a
+                      href="https://www.govdirectory.org/"
+                      className="link-primary"
+                    >
+                      Explore government structures <BoxArrowUpRight />
+                    </a>
+                  </p>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </LayoutFrame>
   );
 }

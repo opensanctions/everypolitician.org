@@ -87,38 +87,6 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Footer styles */
-.footer {
-  background-color: var(--bs-gray-800);
-  color: var(--bs-light);
-  margin-top: 2em;
-  padding-top: 3em;
-  padding-bottom: 6em;
-  line-height: 1.5;
-}
-
-.footer ul {
-  padding: 0;
-  list-style-type: none;
-}
-
-.footer li {
-  margin-top: 0.3em;
-}
-
-.footer strong {
-  color: #fff;
-}
-
-.footer a {
-  color: var(--bs-light);
-  text-decoration: underline;
-}
-
-.footer a:hover {
-  color: #acacac;
-}
-
 /* Navigation styles */
 .nav-link.nav-item-custom {
   color: var(--bs-primary);

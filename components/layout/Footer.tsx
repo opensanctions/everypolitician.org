@@ -16,197 +16,158 @@ import { LICENSE_URL, OSA_URL, SPACER } from '@/lib/constants';
 
 export default function Footer() {
   return (
-    <>
-      <div className="footer d-print-none" role="contentinfo">
-        <Container>
-          <Row>
-            <Col md={10}>
-              <Row>
-                <Col md={3}>
-                  <strong className="text-white">What we do</strong>
-                  <ul className="list-unstyled">
-                    <li>
-                      <Link href="/docs/about/" className="text-light">
-                        About OpenSanctions
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/docs/" className="text-light">
-                        Documentation
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href={`${OSA_URL}/licensing/`}
-                        className="text-light"
-                      >
-                        Commercial use
-                      </Link>
-                    </li>
-                  </ul>
-                </Col>
-                <Col md={3}>
-                  <strong className="text-white">Keep updated</strong>
-                  <ul className="list-unstyled">
-                    <li>
-                      <Link
-                        href={`${OSA_URL}/newsletter/`}
-                        aria-hidden="true"
-                        className="text-light"
-                      >
-                        <EnvelopeOpenHeartFill />
-                      </Link>{' '}
-                      <Link
-                        href={`${OSA_URL}/newsletter/`}
-                        aria-label="Subscribe to our newsletter"
-                        className="text-light"
-                      >
-                        Newsletter
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="https://www.linkedin.com/company/opensanctions/"
-                        aria-hidden="true"
-                        className="text-light"
-                      >
-                        <Linkedin />
-                      </Link>{' '}
-                      <Link
-                        href="https://www.linkedin.com/company/opensanctions/"
-                        className="text-light"
-                      >
-                        LinkedIn
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="https://github.com/opensanctions/opensanctions"
-                        aria-hidden="true"
-                        className="text-light"
-                      >
-                        <Github />
-                      </Link>{' '}
-                      <Link
-                        href="https://github.com/opensanctions/opensanctions"
-                        className="text-light"
-                      >
-                        Github code
-                      </Link>
-                    </li>
-                  </ul>
-                </Col>
-                <Col md={3}>
-                  <strong className="text-white">Get in touch</strong>
-                  <ul className="list-unstyled">
-                    <li>
-                      <Link
-                        href={`${OSA_URL}/support/`}
-                        prefetch={false}
-                        aria-hidden="true"
-                        className="text-light"
-                      >
-                        <LifePreserver />
-                      </Link>{' '}
-                      <Link
-                        href={`${OSA_URL}/support/`}
-                        prefetch={false}
-                        className="text-light"
-                      >
-                        Get support
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href={`${OSA_URL}/sales/`}
-                        aria-hidden="true"
-                        className="text-light"
-                      >
-                        <RocketTakeoffFill />
-                      </Link>{' '}
-                      <Link href={`${OSA_URL}/sales/`} className="text-light">
-                        Talk to sales
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        href="https://discuss.opensanctions.org"
-                        prefetch={false}
-                        aria-hidden="true"
-                        className="text-light"
-                      >
-                        <ChatRightHeartFill />
-                      </Link>{' '}
-                      <Link
-                        href="https://discuss.opensanctions.org"
-                        prefetch={false}
-                        className="text-light"
-                      >
-                        Forum
-                      </Link>
-                    </li>
-                  </ul>
-                </Col>
-              </Row>
-              <Row>
-                <p className="small">
-                  The data is licensed under the terms of{' '}
-                  <Link href={LICENSE_URL} rel="license" className="text-light">
-                    Creative Commons 4.0 Attribution NonCommercial
-                  </Link>
-                </p>
-                <p className="small">
-                  Made with <HeartFill className="text-danger" /> across Europe
-                  {SPACER}
-                  <Link
-                    href="https://status.opensanctions.org"
-                    className="text-light"
-                  >
-                    System status
-                  </Link>
-                  {SPACER}
-                  <Link href={`${OSA_URL}/changelog/`} className="text-light">
-                    Changelog
-                  </Link>
-                  {SPACER}
-                  <Link
-                    href={`${OSA_URL}/docs/privacy/`}
-                    prefetch={false}
-                    className="text-light"
-                  >
-                    Privacy
-                  </Link>
-                  {SPACER}
-                  <Link
-                    href={`${OSA_URL}/docs/security/`}
-                    prefetch={false}
-                    className="text-light"
-                  >
-                    Security
-                  </Link>
-                  {SPACER}
-                  <Link
-                    href={`${OSA_URL}/impressum/`}
-                    prefetch={false}
-                    className="text-light"
-                  >
-                    Impressum
-                  </Link>
-                </p>
-              </Row>
-            </Col>
-            <Col md={2}>
-              <Link href={OSA_URL}>
-                <img
-                  src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
-                  alt="Part of OpenSanctions"
-                  width="100%"
-                />
+    <div className="bg-dark text-light d-print-none" role="contentinfo">
+      <Container className="py-5 mb-5">
+        <Row>
+          <Col md={3}>
+            <strong className="text-white">What we do</strong>
+            <ul className="list-unstyled">
+              <li className="mt-1">
+                <Link
+                  href="/docs/about/"
+                  className="link-light text-decoration-underline"
+                >
+                  About OpenSanctions
+                </Link>
+              </li>
+              <li className="mt-1">
+                <Link
+                  href="/docs/"
+                  className="link-light text-decoration-underline"
+                >
+                  Documentation
+                </Link>
+              </li>
+              <li className="mt-1">
+                <Link
+                  href={`${OSA_URL}/licensing/`}
+                  className="link-light text-decoration-underline"
+                >
+                  Commercial use
+                </Link>
+              </li>
+            </ul>
+          </Col>
+          <Col md={3}>
+            <strong className="text-white">Keep updated</strong>
+            <ul className="list-unstyled">
+              <li className="mt-1">
+                <Link
+                  href={`${OSA_URL}/newsletter/`}
+                  aria-label="Subscribe to our newsletter"
+                  className="link-light text-decoration-underline"
+                >
+                  <EnvelopeOpenHeartFill aria-hidden="true" /> Newsletter
+                </Link>
+              </li>
+              <li className="mt-1">
+                <Link
+                  href="https://www.linkedin.com/company/opensanctions/"
+                  className="link-light text-decoration-underline"
+                >
+                  <Linkedin aria-hidden="true" /> LinkedIn
+                </Link>
+              </li>
+              <li className="mt-1">
+                <Link
+                  href="https://github.com/opensanctions/opensanctions"
+                  className="link-light text-decoration-underline"
+                >
+                  <Github aria-hidden="true" /> Github code
+                </Link>
+              </li>
+            </ul>
+          </Col>
+          <Col md={3}>
+            <strong className="text-white">Get in touch</strong>
+            <ul className="list-unstyled">
+              <li className="mt-1">
+                <Link
+                  href={`${OSA_URL}/support/`}
+                  prefetch={false}
+                  className="link-light text-decoration-underline"
+                >
+                  <LifePreserver aria-hidden="true" /> Get support
+                </Link>
+              </li>
+              <li className="mt-1">
+                <Link
+                  href={`${OSA_URL}/sales/`}
+                  className="link-light text-decoration-underline"
+                >
+                  <RocketTakeoffFill aria-hidden="true" /> Talk to sales
+                </Link>
+              </li>
+              <li className="mt-1">
+                <Link
+                  href="https://discuss.opensanctions.org"
+                  prefetch={false}
+                  className="link-light text-decoration-underline"
+                >
+                  <ChatRightHeartFill aria-hidden="true" /> Forum
+                </Link>
+              </li>
+            </ul>
+          </Col>
+          <Col md={3}>
+            <Link href={OSA_URL}>
+              <img
+                src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
+                alt="Part of OpenSanctions"
+                width="100%"
+              />
+            </Link>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col>
+            <p className="small mb-1">
+              The data is licensed under the terms of{' '}
+              <Link href={LICENSE_URL} rel="license" className="link-light">
+                Creative Commons 4.0 Attribution NonCommercial
               </Link>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-    </>
+            </p>
+            <p className="small mb-0">
+              Made with <HeartFill className="text-danger" /> across Europe
+              {SPACER}
+              <Link
+                href="https://status.opensanctions.org"
+                className="link-light"
+              >
+                System status
+              </Link>
+              {SPACER}
+              <Link href={`${OSA_URL}/changelog/`} className="link-light">
+                Changelog
+              </Link>
+              {SPACER}
+              <Link
+                href={`${OSA_URL}/docs/privacy/`}
+                prefetch={false}
+                className="link-light"
+              >
+                Privacy
+              </Link>
+              {SPACER}
+              <Link
+                href={`${OSA_URL}/docs/security/`}
+                prefetch={false}
+                className="link-light"
+              >
+                Security
+              </Link>
+              {SPACER}
+              <Link
+                href={`${OSA_URL}/impressum/`}
+                prefetch={false}
+                className="link-light"
+              >
+                Impressum
+              </Link>
+            </p>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }

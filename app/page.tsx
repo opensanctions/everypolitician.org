@@ -123,10 +123,10 @@ export default async function Page() {
           </Row>
           <Row>
             <Col md={4} className="mb-3 mb-md-0">
-              <Card className="h-100">
+              <Card className="h-100 border-0">
                 <CardBody>
                   <CardTitle>
-                    <h4>PoliLoom</h4>
+                    <h5>PoliLoom</h5>
                   </CardTitle>
                   <p>
                     Use our AI driven tool to enrich Wikidata with politician
@@ -144,10 +144,10 @@ export default async function Page() {
               </Card>
             </Col>
             <Col md={4} className="mb-3 mb-md-0">
-              <Card className="h-100">
+              <Card className="h-100 border-0">
                 <CardBody>
                   <CardTitle>
-                    <h4>GovDirectory</h4>
+                    <h5>GovDirectory</h5>
                   </CardTitle>
                   <p>
                     Help out the project that aims to map out the levels of
@@ -165,10 +165,10 @@ export default async function Page() {
               </Card>
             </Col>
             <Col md={4}>
-              <Card className="h-100">
+              <Card className="h-100 border-0">
                 <CardBody>
                   <CardTitle>
-                    <h4>WikiProject</h4>
+                    <h5>WikiProject</h5>
                   </CardTitle>
                   <p>
                     Join our Wikidata WikiProject to help improve politician
