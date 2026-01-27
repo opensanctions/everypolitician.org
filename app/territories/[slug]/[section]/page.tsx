@@ -35,7 +35,7 @@ export async function generateMetadata(props: {
   const countryName = info?.label_short ?? countryCode.toUpperCase();
   return {
     title: `${section.label} in ${countryName}`,
-    alternates: { canonical: `/countries/${countryCode}/${params.section}/` },
+    alternates: { canonical: `/territories/${countryCode}/${params.section}/` },
   };
 }
 

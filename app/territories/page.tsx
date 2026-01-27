@@ -11,22 +11,28 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Countries - EveryPolitician',
+  title: 'Territories - EveryPolitician',
   description:
     'Browse political positions and office-holders by country and territory.',
-  alternates: { canonical: '/countries/' },
+  alternates: { canonical: '/territories/' },
 };
 
 function TerritoryRow({ territory }: { territory: TerritorySummary }) {
   return (
     <tr>
       <td>
-        <Link prefetch={false} href={`/countries/${territory.code}/national/`}>
+        <Link
+          prefetch={false}
+          href={`/territories/${territory.code}/national/`}
+        >
           {territory.label}
         </Link>
       </td>
       <td className="numeric text-end">
-        <Link prefetch={false} href={`/countries/${territory.code}/national/`}>
+        <Link
+          prefetch={false}
+          href={`/territories/${territory.code}/national/`}
+        >
           {territory.numPositions || '-'}
         </Link>
       </td>
@@ -92,9 +98,9 @@ export default async function CountriesPage() {
   regionNames.sort();
 
   return (
-    <LayoutFrame activeSection="countries">
+    <LayoutFrame activeSection="territories">
       <Container className="pt-3">
-        <h1>Countries</h1>
+        <h1>Territories</h1>
         <p>
           Browse political positions and office-holders by country and
           territory.

@@ -16,7 +16,7 @@ export function SectionNav({ countryCode, visibleSections }: SectionNavProps) {
   return (
     <Nav variant="tabs" className="mb-3">
       {visibleSections.map((section) => {
-        const href = `/countries/${countryCode}/${section.name}/`;
+        const href = `/territories/${countryCode}/${section.name}/`;
         const isActive = pathname === href;
         return (
           <Nav.Item key={section.name}>

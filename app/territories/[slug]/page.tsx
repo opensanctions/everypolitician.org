@@ -15,7 +15,7 @@ export async function generateMetadata(props: {
   }
   return {
     title: `Data available for ${info.in_sentence}`,
-    alternates: { canonical: `/countries/${countryCode}/` },
+    alternates: { canonical: `/territories/${countryCode}/` },
   };
 }
 
@@ -24,5 +24,5 @@ export default async function Page(props: {
 }) {
   const params = await props.params;
   const countryCode = slugCountryCode(params.slug);
-  redirect(`/countries/${countryCode}/national/`);
+  redirect(`/territories/${countryCode}/national/`);
 }

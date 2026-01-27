@@ -152,7 +152,7 @@ export default function WorldMap({
 
   const handleClick = (e: React.MouseEvent) => {
     const code = e.currentTarget.getAttribute('data-country');
-    if (code) router.push(`/countries/${code}/national/`);
+    if (code) router.push(`/territories/${code}/national/`);
   };
 
   if (!features || !pathGenerator) {

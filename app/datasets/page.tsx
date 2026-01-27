@@ -48,7 +48,7 @@ export default async function Page() {
                 <td>
                   {dataset.publisher?.territory && (
                     <Link
-                      href={`/countries/${dataset.publisher.territory.code}/national/`}
+                      href={`/territories/${dataset.publisher.territory.code}/national/`}
                       prefetch={false}
                     >
                       <Badge bg="primary">

@@ -119,7 +119,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
         >
           <div className="hero-subtitle">
             Political position in{' '}
-            <Link href={`/countries/${territoryInfo.code}/`}>
+            <Link href={`/territories/${territoryInfo.code}/`}>
               {territoryInfo.label_short}
             </Link>
           </div>

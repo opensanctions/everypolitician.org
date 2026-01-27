@@ -71,7 +71,7 @@ export default async function CountryLayout({ children, params }: LayoutProps) {
             {info.see.map(({ related_territories_code: c }, idx) => (
               <span key={c}>
                 {idx > 0 && <span className="fw-bolder">{SPACER}</span>}
-                <Link href={`/countries/${c}/national/`}>
+                <Link href={`/territories/${c}/national/`}>
                   {territories.get(c)?.label_short}
                 </Link>
               </span>
