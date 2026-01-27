@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import Link from 'next/link';
 
 import Container from 'react-bootstrap/Container';
@@ -17,10 +18,10 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand>
-            <img
+            <Image
               src="https://assets.opensanctions.org/images/ep/logo-oneline-color.svg"
-              width="190"
-              height="30"
+              width={190}
+              height={30}
               className="align-top"
               alt="OpenSanctions"
             />

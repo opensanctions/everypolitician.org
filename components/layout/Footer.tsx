@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import {
   ChatRightHeartFill,
@@ -111,10 +112,12 @@ export default function Footer() {
           </Col>
           <Col md={3}>
             <Link href={OSA_URL}>
-              <img
+              <Image
                 src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
                 alt="Part of OpenSanctions"
-                width="100%"
+                width={200}
+                height={60}
+                style={{ width: '100%', height: 'auto' }}
               />
             </Link>
           </Col>

@@ -30,14 +30,14 @@ export default async function Page(props: ContentPageProps) {
   }
   return (
     <LayoutFrame activeSection="docs">
-      <Container className="pt-3">
+      <Container className="py-4 mb-5">
         <Row>
           <Col md={9} className="order-1 order-md-2">
             {page.body && (
               <div dangerouslySetInnerHTML={{ __html: page.body }} />
             )}
           </Col>
-          <Col md={3} className="order-2 order-md-1 pt-5">
+          <Col md={3} className="order-2 order-md-1 py-2">
             <Nav
               className="flex-column justify-content-start d-print-none"
               variant="pills"
