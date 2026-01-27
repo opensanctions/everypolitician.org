@@ -20,9 +20,7 @@ import {
   caseInsensitiveAlphabetic,
   reverseNumericAlphabetic,
   PositionSectionDefinition,
-  PositionSubsectionDefinition,
 } from '../positionDefinitions';
-import { SectionNav } from '../SectionNav';
 
 const slugCountryCode = (slug: string) => slug.split('.')[0];
 
@@ -54,57 +52,6 @@ function bestLabel(labels: string[]) {
     if (isTitlecase.exec(label) !== null) return label;
   }
   return labels[0];
-}
-
-type PositionSubsectionProps = {
-  subsectionDefinition: PositionSubsectionDefinition;
-  positions: PositionSummary[];
-};
-
-function PositionSubsection({
-  subsectionDefinition,
-  positions,
-}: PositionSubsectionProps) {
-  if (positions == null || positions.length === 0) {
-    return null;
-  }
-
-  return (
-    <tbody>
-      <tr>
-        <th>{subsectionDefinition.label}</th>
-        <th className="numeric text-end d-none d-md-table-cell">Current</th>
-        <th className="numeric text-end d-none d-md-table-cell">Ended</th>
-        <th className="numeric text-end d-none d-md-table-cell text-nowrap">
-          <HelpLink
-            href="#explain-status-unclear"
-            tooltipId="status-unclear"
-            tooltip="When we cannot determine whether a person currently holds a position from our data sources with sufficient confidence, we indicate its status as unclear."
-          >
-            Status unclear
-          </HelpLink>
-        </th>
-      </tr>
-      {positions.map((position: PositionSummary) => (
-        <tr key={position.id}>
-          <td>
-            <Link prefetch={false} href={`/positions/${position.id}/`}>
-              {bestLabel(position.names)}
-            </Link>
-          </td>
-          <td className="numeric text-end d-none d-md-table-cell">
-            {position.counts.current || '-'}
-          </td>
-          <td className="numeric text-end d-none d-md-table-cell">
-            {position.counts.ended || '-'}
-          </td>
-          <td className="numeric text-end d-none d-md-table-cell">
-            {position.counts.unknown || '-'}
-          </td>
-        </tr>
-      ))}
-    </tbody>
-  );
 }
 
 type PageProps = {
@@ -196,10 +143,18 @@ export default async function SectionPage({ params }: PageProps) {
           connected with {info.in_sentence || info.label_short}.
         </p>
 
-        <SectionNav
-          countryCode={countryCode}
-          visibleSections={visibleSections}
-        />
+        <ul className="nav nav-tabs mb-3">
+          {visibleSections.map((s) => (
+            <li key={s.name} className="nav-item">
+              <Link
+                href={`/territories/${countryCode}/${s.name}/`}
+                className={`nav-link ${s.name === sectionName ? 'active' : ''}`}
+              >
+                {s.navLabel}
+              </Link>
+            </li>
+          ))}
+        </ul>
 
         {!hasPositions ? (
           <p>No {section.label.toLowerCase()} available for this territory.</p>
@@ -212,11 +167,47 @@ export default async function SectionPage({ params }: PageProps) {
                 return null;
               }
               return (
-                <PositionSubsection
-                  key={subsectionDefinition.name}
-                  subsectionDefinition={subsectionDefinition}
-                  positions={subsectionPositions}
-                />
+                <tbody key={subsectionDefinition.name}>
+                  <tr>
+                    <th>{subsectionDefinition.label}</th>
+                    <th className="numeric text-end d-none d-md-table-cell">
+                      Current
+                    </th>
+                    <th className="numeric text-end d-none d-md-table-cell">
+                      Ended
+                    </th>
+                    <th className="numeric text-end d-none d-md-table-cell text-nowrap">
+                      <HelpLink
+                        href="#explain-status-unclear"
+                        tooltipId="status-unclear"
+                        tooltip="When we cannot determine whether a person currently holds a position from our data sources with sufficient confidence, we indicate its status as unclear."
+                      >
+                        Status unclear
+                      </HelpLink>
+                    </th>
+                  </tr>
+                  {subsectionPositions.map((position) => (
+                    <tr key={position.id}>
+                      <td>
+                        <Link
+                          prefetch={false}
+                          href={`/positions/${position.id}/`}
+                        >
+                          {bestLabel(position.names)}
+                        </Link>
+                      </td>
+                      <td className="numeric text-end d-none d-md-table-cell">
+                        {position.counts.current || '-'}
+                      </td>
+                      <td className="numeric text-end d-none d-md-table-cell">
+                        {position.counts.ended || '-'}
+                      </td>
+                      <td className="numeric text-end d-none d-md-table-cell">
+                        {position.counts.unknown || '-'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
               );
             })}
           </Table>

@@ -173,6 +173,7 @@ a:hover {
 }
 
 /* Table utilities */
+.table thead th,
 .table tbody th {
   font-weight: 600;
   background-color: var(--bs-gray-100);
