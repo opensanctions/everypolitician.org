@@ -18,7 +18,7 @@ export function Hero({
   const sizeClass = size === 'large' ? 'hero-large' : '';
 
   return (
-    <div className={`hero bg-ep-accent ${sizeClass}`.trim()}>
+    <div className={`hero bg-accent ${sizeClass}`.trim()}>
       {background}
       <div className="hero-overlay">
         <Container>

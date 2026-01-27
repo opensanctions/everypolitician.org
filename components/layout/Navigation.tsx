@@ -1,26 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import React from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
+import NavLink from 'react-bootstrap/NavLink';
 import Navbar from 'react-bootstrap/Navbar';
-
-type NavLinkProps = {
-  active: boolean;
-  href: string;
-  children?: React.ReactNode;
-};
-
-function NavLink({ active, href, children }: NavLinkProps) {
-  const clazz = `nav-link nav-item-custom rounded ${active ? 'active' : ''}`;
-  return (
-    <Link className={clazz} href={href} prefetch={false}>
-      {children}
-    </Link>
-  );
-}
 
 type NavbarSectionProps = {
   activeSection?: string;
@@ -49,13 +34,28 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
             role="navigation"
             aria-label="Site menu"
           >
-            <NavLink href="/regions/" active={activeSection === 'territories'}>
+            <NavLink
+              as={Link}
+              href="/regions/"
+              active={activeSection === 'territories'}
+              className="fw-bold ms-3"
+            >
               Regions
             </NavLink>
-            <NavLink href="/datasets/" active={activeSection === 'datasets'}>
+            <NavLink
+              as={Link}
+              href="/datasets/"
+              active={activeSection === 'datasets'}
+              className="fw-bold ms-3"
+            >
               Datasets
             </NavLink>
-            <NavLink href="/docs/" active={activeSection === 'docs'}>
+            <NavLink
+              as={Link}
+              href="/docs/"
+              active={activeSection === 'docs'}
+              className="fw-bold ms-3"
+            >
               Documentation
             </NavLink>
           </Nav>

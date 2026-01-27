@@ -106,7 +106,7 @@ export default async function Page() {
           </Col>
         </Row>
       </Container>
-      <div className="bg-ep-accent py-5">
+      <div className="bg-accent py-5">
         <Container className="my-5">
           <Row>
             <Col md={8}>
