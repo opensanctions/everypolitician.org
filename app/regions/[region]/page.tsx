@@ -1,21 +1,38 @@
 import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import { getTerritorySummaries, TerritorySummary } from '@/lib/data';
+import { RegionsNav } from '../RegionsNav';
 
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-static';
 
-export const metadata: Metadata = {
-  title: 'Territories - EveryPolitician',
-  description:
-    'Browse political positions and office-holders by country and territory.',
-  alternates: { canonical: '/territories/' },
-};
+export async function generateStaticParams() {
+  const territories = await getTerritorySummaries();
+  const regions = new Set(territories.map((t) => t.region.toLowerCase()));
+  return Array.from(regions).map((region) => ({ region }));
+}
+
+function regionSlugToName(slug: string): string {
+  return slug.charAt(0).toUpperCase() + slug.slice(1);
+}
+
+export async function generateMetadata(props: {
+  params: Promise<{ region: string }>;
+}): Promise<Metadata> {
+  const { region } = await props.params;
+  const regionName = regionSlugToName(region);
+  return {
+    title: `${regionName} - Regions - EveryPolitician`,
+    description: `Browse political positions and office-holders in ${regionName}.`,
+    alternates: { canonical: `/regions/${region}/` },
+  };
+}
 
 function TerritoryRow({ territory }: { territory: TerritorySummary }) {
   return (
@@ -91,26 +108,33 @@ function RegionTable({ territories }: { territories: TerritorySummary[] }) {
   );
 }
 
-export default async function CountriesPage() {
-  const territories = await getTerritorySummaries();
-  const regions = Object.groupBy(territories, (t) => t.region);
-  const regionNames = Object.keys(regions);
-  regionNames.sort();
+export default async function RegionPage(props: {
+  params: Promise<{ region: string }>;
+}) {
+  const { region } = await props.params;
+
+  const allTerritories = await getTerritorySummaries();
+  const territories = allTerritories.filter(
+    (t) => t.region.toLowerCase() === region,
+  );
+
+  if (territories.length === 0) {
+    notFound();
+  }
+
+  const regionNames = Array.from(
+    new Set(allTerritories.map((t) => t.region)),
+  ).sort();
+  const regionName = regionSlugToName(region);
 
   return (
     <LayoutFrame activeSection="territories">
       <Container className="pt-3">
-        <h1>Territories</h1>
-        <p>
-          Browse political positions and office-holders by country and
-          territory.
-        </p>
-        {regionNames.map((region) => (
-          <section key={region}>
-            <h2>{region}</h2>
-            <RegionTable territories={regions[region]!} />
-          </section>
-        ))}
+        <h1>Regions</h1>
+        <p>Browse political positions and office-holders by region.</p>
+        <RegionsNav regions={regionNames} />
+        <h2>{regionName}</h2>
+        <RegionTable territories={territories} />
       </Container>
     </LayoutFrame>
   );

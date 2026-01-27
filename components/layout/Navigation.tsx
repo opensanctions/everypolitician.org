@@ -49,11 +49,8 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
             role="navigation"
             aria-label="Site menu"
           >
-            <NavLink
-              href="/territories/"
-              active={activeSection === 'territories'}
-            >
-              Territories
+            <NavLink href="/regions/" active={activeSection === 'territories'}>
+              Regions
             </NavLink>
             <NavLink href="/datasets/" active={activeSection === 'datasets'}>
               Datasets
