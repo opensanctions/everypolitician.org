@@ -2,7 +2,11 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import NavItem from 'react-bootstrap/NavItem';
+import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
@@ -143,18 +147,18 @@ export default async function SectionPage({ params }: PageProps) {
           connected with {info.in_sentence || info.label_short}.
         </p>
 
-        <ul className="nav nav-tabs mb-3">
+        <Nav variant="tabs" className="mb-3 mt-4">
           {visibleSections.map((s) => (
-            <li key={s.name} className="nav-item">
+            <NavItem key={s.name}>
               <Link
                 href={`/territories/${countryCode}/${s.name}/`}
                 className={`nav-link ${s.name === sectionName ? 'active' : ''}`}
               >
                 {s.navLabel}
               </Link>
-            </li>
+            </NavItem>
           ))}
-        </ul>
+        </Nav>
 
         {!hasPositions ? (
           <p>No {section.label.toLowerCase()} available for this territory.</p>
@@ -213,27 +217,36 @@ export default async function SectionPage({ params }: PageProps) {
           </Table>
         )}
 
-        <h4 id="explainer">What do these numbers mean?</h4>
-        <p>
-          We keep track both if political positions and the individuals who
-          occupy those positions over time. Of course, a person can hold a
-          position for multiple terms, and multiple people can occupy the same
-          position at the same time (e.g. members of parliament).
-        </p>
-        <p>
-          If a person previously held a position, and currently holds the same
-          position, they are only counted once and recorded under Current. If it
-          is unclear from the source whether they have left the position, they
-          will be counted under Unclear.
-        </p>
-        <h4 id="explain-status-unclear">How can status be unclear?</h4>
-        <p>
-          Some of the data sources we rely on indicate both past and present
-          holders of political offices. In those cases, a lack of a precise end
-          date for a person&apos;s occupancy of a position can mean that we
-          don&apos;t know whether they currently hold the position or not.{' '}
-          <Link href="/docs/methodology/#types">Read more...</Link>
-        </p>
+        <Row className="mt-5">
+          <Col md={6}>
+            <h4>What do these numbers mean?</h4>
+            <p>
+              We keep track both if political positions and the individuals who
+              occupy those positions over time. Of course, a person can hold a
+              position for multiple terms, and multiple people can occupy the
+              same position at the same time (e.g. members of parliament).
+            </p>
+            <p>
+              If a person previously held a position, and currently holds the
+              same position, they are only counted once and recorded under
+              Current. If it is unclear from the source whether they have left
+              the position, they will be counted under Unclear.
+            </p>
+          </Col>
+          <Col md={6}>
+            <h4>How can status be unclear?</h4>
+            <p>
+              Some of the data sources we rely on indicate both past and present
+              holders of political offices. In those cases, a lack of a precise
+              end date for a person&apos;s occupancy of a position can mean that{' '}
+              <Link href="/docs/methodology/#types">
+                we don&apos;t know whether they currently hold the position or
+                not
+              </Link>
+              .
+            </p>
+          </Col>
+        </Row>
       </Container>
     </LayoutFrame>
   );
