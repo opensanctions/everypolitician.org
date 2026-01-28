@@ -1,4 +1,17 @@
-import { Territory } from './territory';
+// Territory types
+
+export type Territory = {
+  code: string;
+  name: string;
+  full_name?: string;
+  in_sentence?: string;
+  is_ftm: boolean;
+  is_country?: boolean;
+  region?: string;
+  subregion?: string;
+  qid?: string;
+  parent?: string;
+};
 
 // Entity types and helpers
 

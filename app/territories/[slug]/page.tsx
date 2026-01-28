@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
-import { getTerritories } from '@/lib/territory';
+import { getTerritories } from '@/lib/data';
 
 const slugCountryCode = (slug: string) => slug.split('.')[0];
 

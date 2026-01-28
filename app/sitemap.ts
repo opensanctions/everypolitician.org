@@ -1,9 +1,8 @@
 import { MetadataRoute } from 'next';
 
 import { BASE_URL } from '@/lib/constants';
-import { getDatasets } from '@/lib/data';
+import { getDatasets, getTerritories } from '@/lib/data';
 import { getSitemapPages } from '@/lib/pages';
-import { getTerritories } from '@/lib/territory';
 
 export const dynamic = 'force-static';
 

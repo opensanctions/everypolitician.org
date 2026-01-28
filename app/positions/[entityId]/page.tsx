@@ -9,9 +9,13 @@ import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
-import { getAdjacent, getEntityDatasets, getMapCountryData } from '@/lib/data';
+import {
+  getAdjacent,
+  getEntityDatasets,
+  getMapCountryData,
+  getTerritories,
+} from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
-import { getTerritories } from '@/lib/territory';
 import { getFirst, getEntityProperty, PropResults } from '@/lib/types';
 
 export const maxDuration = 25;

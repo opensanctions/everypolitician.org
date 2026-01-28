@@ -6,7 +6,7 @@ import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
-import type { Territory } from '@/lib/territory';
+import type { Territory } from '@/lib/data';
 import { HelpLink } from '@/components/HelpLink';
 
 export type CountryData = {

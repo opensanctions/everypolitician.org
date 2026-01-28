@@ -7,9 +7,22 @@ import {
   OSA_URL,
   REVALIDATE_BASE,
 } from './constants';
-import { getTerritories } from './territory';
-import { EntityData, Dataset, PropsResults, SearchAPIResponse } from './types';
+import {
+  EntityData,
+  Dataset,
+  PropsResults,
+  SearchAPIResponse,
+  Territory,
+} from './types';
 import { CountryData } from '@/components/WorldMap';
+
+export type { Territory };
+
+const TERRITORIES_URL = 'https://data.opensanctions.org/meta/territories.json';
+
+type TerritoriesResponse = {
+  territories: Territory[];
+};
 
 export async function fetchStatic<T>(
   url: string,
@@ -28,6 +41,14 @@ export async function fetchStatic<T>(
   }
   const body = await data.json();
   return body as T;
+}
+
+export async function getTerritories(): Promise<Array<Territory>> {
+  const data = await fetchStatic<TerritoriesResponse>(TERRITORIES_URL);
+  if (!data) {
+    throw new Error('Failed to fetch territories');
+  }
+  return data.territories.filter((t) => t.is_ftm);
 }
 
 export async function fetchApi<T>(

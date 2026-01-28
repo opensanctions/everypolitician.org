@@ -17,9 +17,8 @@ import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import { MAIN_DATASET } from '@/lib/constants';
-import { fetchApi, getMapCountryData } from '@/lib/data';
+import { fetchApi, getMapCountryData, getTerritories } from '@/lib/data';
 import { getCountryPEPData, PositionSummary } from '@/lib/peps';
-import { getTerritories } from '@/lib/territory';
 import { SearchAPIResponse } from '@/lib/types';
 import {
   positionSections,
