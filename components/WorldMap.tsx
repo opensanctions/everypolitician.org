@@ -6,7 +6,7 @@ import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
-import type { TerritoryInfo } from '@/lib/territory';
+import type { Territory } from '@/lib/territory';
 import { HelpLink } from '@/components/HelpLink';
 
 export type CountryData = {
@@ -21,7 +21,7 @@ const VIEWBOX_HEIGHT = 500;
 
 interface WorldMapProps {
   countryDataArray: [string, CountryData][];
-  focusTerritory?: TerritoryInfo;
+  focusTerritory?: Territory;
 }
 
 interface CountryFeature extends Feature<Geometry> {
@@ -42,8 +42,8 @@ export default function WorldMap({
   focusTerritory,
 }: WorldMapProps) {
   const focusCountry = focusTerritory?.code;
-  const flagUrl = focusTerritory?.flag
-    ? `/assets/${focusTerritory.flag}/?w=500&format=auto`
+  const flagUrl = focusTerritory?.code
+    ? `https://assets.opensanctions.org/images/flags/${focusTerritory.code}.svg`
     : undefined;
   const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
     null,

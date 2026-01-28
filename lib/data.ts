@@ -7,7 +7,7 @@ import {
   OSA_URL,
   REVALIDATE_BASE,
 } from './constants';
-import { getTerritoriesByCode } from './territory';
+import { getTerritories } from './territory';
 import { EntityData, Dataset, PropsResults, SearchAPIResponse } from './types';
 import { CountryData } from '@/components/WorldMap';
 
@@ -30,14 +30,10 @@ export async function fetchStatic<T>(
   return body as T;
 }
 
-async function fetchApi<T>(
+export async function fetchApi<T>(
   path: string,
   query: Record<string, any> = {},
-  accessToken: string | null = null,
-  options: RequestInit = {},
 ): Promise<T> {
-  const authz =
-    accessToken === null ? `ApiKey ${API_TOKEN}` : `Token ${accessToken}`;
   const apiUrl = new URL(`${API_URL}${path}`);
   for (const [key, value] of Object.entries(query)) {
     if (value == null) continue;
@@ -49,31 +45,16 @@ async function fetchApi<T>(
       apiUrl.searchParams.set(key, String(value));
     }
   }
-  const headers = { Authorization: authz };
-  try {
-    const data = await fetch(apiUrl, { keepalive: true, ...options, headers });
-    if (!data.ok) {
-      throw Error(`Backend error [${apiUrl}]: ${data.statusText}`);
-    }
-    return (await data.json()) as T;
-  } catch (e) {
-    throw Error(`API fetch [${apiUrl}]: ${e}`);
-  }
-}
-
-export async function fetchApiCached<T>(
-  path: string,
-  query: any = undefined,
-  accessToken: string | null = null,
-): Promise<T> {
-  const options: any = {
+  const response = await fetch(apiUrl, {
+    keepalive: true,
     cache: 'force-cache',
-    next: {
-      tags: ['data'],
-      revalidate: REVALIDATE_BASE,
-    },
-  };
-  return await fetchApi(path, query, accessToken, options);
+    next: { tags: ['api'], revalidate: REVALIDATE_BASE },
+    headers: { Authorization: `ApiKey ${API_TOKEN}` },
+  });
+  if (!response.ok) {
+    throw Error(`API error [${apiUrl}]: ${response.statusText}`);
+  }
+  return (await response.json()) as T;
 }
 
 type CatalogDataset = {
@@ -119,7 +100,8 @@ async function parseCatalog(scope: string): Promise<Dataset[]> {
   if (catalog === null) {
     throw Error('Catalog not found: ' + scope);
   }
-  const territories = await getTerritoriesByCode();
+  const territories = await getTerritories();
+  const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
 
   return catalog.datasets
     .map((d): Dataset => {
@@ -141,7 +123,7 @@ async function parseCatalog(scope: string): Promise<Dataset[]> {
           ? {
               ...d.publisher,
               territory: d.publisher.country
-                ? territories.get(d.publisher.country)
+                ? territoriesByCode.get(d.publisher.country)
                 : undefined,
             }
           : undefined,
@@ -178,7 +160,7 @@ export async function getAdjacent(
 ): Promise<PropsResults | null> {
   try {
     const path = `/entities/${entityId}/adjacent`;
-    return await fetchApiCached<PropsResults>(path);
+    return await fetchApi<PropsResults>(path);
   } catch {
     return null;
   }
@@ -194,29 +176,30 @@ export async function getEntityDatasets(
 }
 
 export async function getMapCountryData(): Promise<[string, CountryData][]> {
-  const [territoryInfo, pepResponse, positionResponse] = await Promise.all([
-    getTerritoriesByCode(),
-    fetchApiCached<SearchAPIResponse>(`/search/default`, {
+  const [territories, pepResponse, positionResponse] = await Promise.all([
+    getTerritories(),
+    fetchApi<SearchAPIResponse>(`/search/default`, {
       limit: 0,
       topics: 'role.pep',
       facets: ['countries'],
     }),
-    fetchApiCached<SearchAPIResponse>(`/search/default`, {
+    fetchApi<SearchAPIResponse>(`/search/default`, {
       limit: 0,
       schema: 'Position',
       facets: ['countries'],
     }),
   ]);
 
+  const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
   const countryDataMap = new Map<string, CountryData>();
 
   for (const { name: code, count } of positionResponse.facets.countries
     .values) {
-    const info = territoryInfo.get(code);
-    if (!info) continue;
+    const territory = territoriesByCode.get(code);
+    if (!territory) continue;
     countryDataMap.set(code, {
       code,
-      label: info.label_short,
+      label: territory.name,
       numPeps: 0,
       numPositions: count,
     });
@@ -230,33 +213,26 @@ export async function getMapCountryData(): Promise<[string, CountryData][]> {
   return Array.from(countryDataMap.entries());
 }
 
-export type TerritorySummary = {
-  code: string;
-  label: string;
-  numPeps: number;
-  numPositions: number;
+export type TerritorySummary = CountryData & {
   region: string;
-  subregion: string | undefined;
+  subregion?: string;
 };
 
 export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
-  const [territoryInfo, countryDataArray] = await Promise.all([
-    getTerritoriesByCode(),
-    getMapCountryData(),
-  ]);
+  const countryDataArray = await getMapCountryData();
+  const territories = await getTerritories();
+  const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
 
   const summaries: TerritorySummary[] = [];
   for (const [code, data] of countryDataArray) {
-    const info = territoryInfo.get(code);
-    if (!info?.region) continue;
-    summaries.push({
-      code,
-      label: data.label,
-      numPeps: data.numPeps,
-      numPositions: data.numPositions,
-      region: info.region,
-      subregion: info.subregion,
-    });
+    const territory = territoriesByCode.get(code);
+    if (territory?.region) {
+      summaries.push({
+        ...data,
+        region: territory.region,
+        subregion: territory.subregion,
+      });
+    }
   }
   return summaries;
 }

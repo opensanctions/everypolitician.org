@@ -11,7 +11,7 @@ import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
 import { getAdjacent, getEntityDatasets, getMapCountryData } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
-import { getTerritoryInfo } from '@/lib/territory';
+import { getTerritories } from '@/lib/territory';
 import { getFirst, getEntityProperty, PropResults } from '@/lib/types';
 
 export const maxDuration = 25;
@@ -27,11 +27,12 @@ export async function generateMetadata({ params }: PositionPageProps) {
   }
   const position = data.entity;
   const countryCode = getFirst(position, 'country');
-  const territoryInfo = countryCode
-    ? await getTerritoryInfo(countryCode)
+  const territories = await getTerritories();
+  const territory = countryCode
+    ? territories.find((t) => t.code === countryCode)
     : null;
-  const title = territoryInfo
-    ? `${position.caption} (${territoryInfo.label_short})`
+  const title = territory
+    ? `${position.caption} (${territory.name})`
     : position.caption;
   return {
     title,
@@ -89,11 +90,14 @@ export default async function PositionPage({ params }: PositionPageProps) {
     redirect(`/persons/${position.id}/`);
   }
   const countryCode = getFirst(position, 'country');
-  const [datasets, territoryInfo, countryDataArray] = await Promise.all([
+  const [datasets, territories, countryDataArray] = await Promise.all([
     getEntityDatasets(position),
-    countryCode ? getTerritoryInfo(countryCode) : null,
+    getTerritories(),
     countryCode ? getMapCountryData() : Promise.resolve([]),
   ]);
+  const territory = countryCode
+    ? territories.find((t) => t.code === countryCode)
+    : null;
 
   const structured = getSchemaEntityPage(position);
   const occupancies = data.adjacent['occupancies'];
@@ -107,20 +111,20 @@ export default async function PositionPage({ params }: PositionPageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
         />
       )}
-      {territoryInfo ? (
+      {territory ? (
         <Hero
           title={position.caption}
           background={
             <WorldMap
               countryDataArray={countryDataArray}
-              focusTerritory={territoryInfo}
+              focusTerritory={territory}
             />
           }
         >
           <div className="hero-subtitle">
             Political position in{' '}
-            <Link href={`/territories/${territoryInfo.code}/`}>
-              {territoryInfo.label_short}
+            <Link href={`/territories/${territory.code}/`}>
+              {territory.name}
             </Link>
           </div>
         </Hero>

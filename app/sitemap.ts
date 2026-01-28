@@ -35,9 +35,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
   const territories = await getTerritories();
   const territoriesMap = territories.map((t) => ({
-    url: `${BASE_URL}/countries/${t.code}/national/`,
+    url: `${BASE_URL}/territories/${t.code}/national/`,
     priority: 0.2,
-    lastModified: dateTruncate(t.date_updated || t.date_created),
   }));
   return [...baseMap, ...pagesMap, ...datasetMap, ...territoriesMap];
 }

@@ -52,7 +52,7 @@ export default async function Page() {
                       prefetch={false}
                     >
                       <Badge bg="primary">
-                        {dataset.publisher.territory.label_short}
+                        {dataset.publisher.territory.name}
                       </Badge>
                     </Link>
                   )}

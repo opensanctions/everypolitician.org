@@ -3,39 +3,29 @@
  * These mock data at the system boundary (fetch) rather than internal modules.
  */
 
-// Territory data (from CMS)
-export const territories = {
-  data: [
-    {
-      code: 'us',
-      label_short: 'United States',
-      label_full: 'United States of America',
-      in_sentence: 'the United States',
-      flag: '🇺🇸',
-      region: 'Americas',
-      subregion: 'North America',
-      summary: 'A federal republic in North America.',
-      dissolved: false,
-      date_created: '2024-01-01',
-      date_updated: '2024-01-01',
-      see: [],
-    },
-    {
-      code: 'gb',
-      label_short: 'United Kingdom',
-      label_full: 'United Kingdom of Great Britain and Northern Ireland',
-      in_sentence: 'the United Kingdom',
-      flag: '🇬🇧',
-      region: 'Europe',
-      subregion: 'Northern Europe',
-      summary: null,
-      dissolved: false,
-      date_created: '2024-01-01',
-      date_updated: '2024-01-01',
-      see: [],
-    },
-  ],
-};
+// Territory data (from data.opensanctions.org/meta/territories.json)
+export const territories = [
+  {
+    code: 'us',
+    name: 'United States',
+    full_name: 'United States of America',
+    in_sentence: 'the United States',
+    region: 'Americas',
+    subregion: 'North America',
+    is_ftm: true,
+    is_country: true,
+  },
+  {
+    code: 'gb',
+    name: 'United Kingdom',
+    full_name: 'United Kingdom of Great Britain and Northern Ireland',
+    in_sentence: 'the United Kingdom',
+    region: 'Europe',
+    subregion: 'Northern Europe',
+    is_ftm: true,
+    is_country: true,
+  },
+];
 
 // Dataset index (from data.opensanctions.org)
 export const pepsDataset = {

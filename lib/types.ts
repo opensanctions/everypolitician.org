@@ -1,4 +1,4 @@
-import { TerritoryInfo } from './territory';
+import { Territory } from './territory';
 
 // Entity types and helpers
 
@@ -56,7 +56,7 @@ export type DatasetPublisher = {
   official: boolean;
   country?: string;
   country_label?: string;
-  territory?: TerritoryInfo;
+  territory?: Territory;
 };
 
 export type DatasetCoverage = {

@@ -16,10 +16,10 @@ import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
-import { MAIN_DATASET, SPACER } from '@/lib/constants';
-import { fetchApiCached, getMapCountryData } from '@/lib/data';
+import { MAIN_DATASET } from '@/lib/constants';
+import { fetchApi, getMapCountryData } from '@/lib/data';
 import { getCountryPEPData, PositionSummary } from '@/lib/peps';
-import { getTerritoriesByCode } from '@/lib/territory';
+import { getTerritories } from '@/lib/territory';
 import { SearchAPIResponse } from '@/lib/types';
 import {
   positionSections,
@@ -45,11 +45,13 @@ export async function generateMetadata(props: {
   if (!section) {
     return {};
   }
-  const territories = await getTerritoriesByCode();
-  const info = territories.get(countryCode);
-  const countryName = info?.label_short ?? countryCode.toUpperCase();
+  const territories = await getTerritories();
+  const territory = territories.find((t) => t.code === countryCode);
+  if (!territory) {
+    return {};
+  }
   return {
-    title: `${section.label} in ${countryName}`,
+    title: `${section.label} in ${territory.name}`,
     alternates: { canonical: `/territories/${countryCode}/${params.section}/` },
   };
 }
@@ -75,16 +77,16 @@ export default async function SectionPage({ params }: PageProps) {
     notFound();
   }
 
-  const territories = await getTerritoriesByCode();
-  const info = territories.get(countryCode);
-  if (info === undefined) {
+  const territories = await getTerritories();
+  const territory = territories.find((t) => t.code === countryCode);
+  if (!territory) {
     notFound();
   }
 
   const [countryPEPSummary, searchResponse, countryDataArray] =
     await Promise.all([
       getCountryPEPData(countryCode),
-      fetchApiCached<SearchAPIResponse>(`/search/${MAIN_DATASET}`, {
+      fetchApi<SearchAPIResponse>(`/search/${MAIN_DATASET}`, {
         limit: 0,
         schema: 'Person',
         countries: countryCode,
@@ -115,25 +117,14 @@ export default async function SectionPage({ params }: PageProps) {
   return (
     <LayoutFrame activeSection="research">
       <Hero
-        title={info.label_full}
+        title={territory.full_name || territory.name}
         background={
-          <WorldMap countryDataArray={countryDataArray} focusTerritory={info} />
+          <WorldMap
+            countryDataArray={countryDataArray}
+            focusTerritory={territory}
+          />
         }
-      >
-        {info.see.length > 0 && (
-          <div className="hero-subtitle">
-            See also:{' '}
-            {info.see.map(({ related_territories_code: c }, idx) => (
-              <span key={c}>
-                {idx > 0 && <span className="fw-bolder">{SPACER}</span>}
-                <Link href={`/territories/${c}/national/`}>
-                  {territories.get(c)?.label_short}
-                </Link>
-              </span>
-            ))}
-          </div>
-        )}
-      </Hero>
+      />
 
       <Container className="py-5">
         <h2 id="peps">Political office-holders</h2>
@@ -148,7 +139,7 @@ export default async function SectionPage({ params }: PageProps) {
               {pepCount === 1 ? 'politician' : 'politicians'}{' '}
             </>
           )}
-          connected with {info.in_sentence || info.label_short}.
+          connected with {territory.in_sentence || territory.name}.
         </p>
 
         <Nav variant="tabs" className="mb-3 mt-4">
@@ -256,10 +247,10 @@ export default async function SectionPage({ params }: PageProps) {
           <Row>
             <Col md={8}>
               <h3 className="text-white">
-                Help improve data for {info.label_short}
+                Help improve data for {territory.name}
               </h3>
               <p className="text-white mb-5">
-                Our coverage of {info.label_short} depends on contributions from
+                Our coverage of {territory.name} depends on contributions from
                 people like you. Help us build the most comprehensive database
                 of political office-holders.
               </p>
@@ -274,7 +265,7 @@ export default async function SectionPage({ params }: PageProps) {
                   </CardTitle>
                   <p>
                     Use our AI driven tool to enrich Wikidata with politician
-                    data for {info.label_short}.
+                    data for {territory.name}.
                   </p>
                   <p className="mb-0">
                     <a
@@ -294,7 +285,7 @@ export default async function SectionPage({ params }: PageProps) {
                     <h5>GovDirectory</h5>
                   </CardTitle>
                   <p>
-                    Explore the government structure of {info.label_short} and
+                    Explore the government structure of {territory.name} and
                     help map out its levels of government.
                   </p>
                   <p className="mb-0">
