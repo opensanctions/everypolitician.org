@@ -20,6 +20,9 @@ export type Territory = {
   subregion?: string;
   qid?: string;
   parent?: string;
+  see?: string[];
+  claims?: string[];
+  successors?: string[];
 };
 
 // Position types

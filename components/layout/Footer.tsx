@@ -13,7 +13,7 @@ import {
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { LICENSE_URL, OSA_URL, SPACER } from '@/lib/constants';
+import { LICENSE_URL, OSA_URL } from '@/lib/constants';
 
 export default function Footer() {
   return (
@@ -132,18 +132,18 @@ export default function Footer() {
             </p>
             <p className="small mb-0">
               Made with <HeartFill className="text-danger" /> across Europe
-              {SPACER}
+              {' · '}
               <Link
                 href="https://status.opensanctions.org"
                 className="link-light"
               >
                 System status
               </Link>
-              {SPACER}
+              {' · '}
               <Link href={`${OSA_URL}/changelog/`} className="link-light">
                 Changelog
               </Link>
-              {SPACER}
+              {' · '}
               <Link
                 href={`${OSA_URL}/docs/privacy/`}
                 prefetch={false}
@@ -151,7 +151,7 @@ export default function Footer() {
               >
                 Privacy
               </Link>
-              {SPACER}
+              {' · '}
               <Link
                 href={`${OSA_URL}/docs/security/`}
                 prefetch={false}
@@ -159,7 +159,7 @@ export default function Footer() {
               >
                 Security
               </Link>
-              {SPACER}
+              {' · '}
               <Link
                 href={`${OSA_URL}/impressum/`}
                 prefetch={false}

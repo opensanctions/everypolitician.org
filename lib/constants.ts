@@ -13,5 +13,3 @@ export const API_TOKEN = process.env.API_TOKEN;
 // client-side variables
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://api.opensanctions.org';
-
-export const SPACER = ' · ';

@@ -117,6 +117,13 @@ export default async function SectionPage({ params }: PageProps) {
     return subsectionPositions && subsectionPositions.length > 0;
   });
 
+  const relatedCodes = [
+    ...(territory.parent ? [territory.parent] : []),
+    ...(territory.see || []),
+    ...(territory.claims || []),
+    ...(territory.successors || []),
+  ];
+
   return (
     <LayoutFrame activeSection="research">
       <Hero
@@ -127,7 +134,24 @@ export default async function SectionPage({ params }: PageProps) {
             focusTerritory={territory}
           />
         }
-      />
+      >
+        {relatedCodes.length > 0 && (
+          <div className="hero-subtitle">
+            See also:{' '}
+            {relatedCodes.map((code, idx) => {
+              const related = territories.find((t) => t.code === code);
+              return (
+                <span key={code}>
+                  {idx > 0 && ', '}
+                  <Link href={`/territories/${code}/national/`}>
+                    {related?.name || code}
+                  </Link>
+                </span>
+              );
+            })}
+          </div>
+        )}
+      </Hero>
 
       <Container className="py-5">
         <h2 id="peps">Political office-holders</h2>
