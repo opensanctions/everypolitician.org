@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
-import { getMapCountryData } from '@/lib/data';
+import { getTerritorySummaries } from '@/lib/data';
 
 import type { Metadata } from 'next';
 
@@ -22,17 +22,17 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const countryDataArray = await getMapCountryData();
+  const territories = await getTerritorySummaries();
 
-  const totals = countryDataArray.reduce(
-    (acc, [, data]) => ({
-      politicians: acc.politicians + data.numPeps,
-      positions: acc.positions + data.numPositions,
+  const totals = territories.reduce(
+    (acc, t) => ({
+      politicians: acc.politicians + t.numPeps,
+      positions: acc.positions + t.numPositions,
     }),
     { politicians: 0, positions: 0 },
   );
-  const territoriesCount = countryDataArray.filter(
-    ([, data]) => data.numPeps > 0 || data.numPositions > 0,
+  const territoriesCount = territories.filter(
+    (t) => t.numPeps > 0 || t.numPositions > 0,
   ).length;
 
   return (
@@ -40,7 +40,7 @@ export default async function Page() {
       <Hero
         title="Who is running the world?"
         size="large"
-        background={<WorldMap countryDataArray={countryDataArray} />}
+        background={<WorldMap territories={territories} />}
       >
         <p className="hero-subtitle">
           EveryPolitician is a global database of political office-holders, from

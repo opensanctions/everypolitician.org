@@ -1,4 +1,4 @@
-import { PositionSummary } from '@/lib/peps';
+import { PositionSummary } from '@/lib/data';
 
 export type PositionSubsectionDefinition = {
   name: string;

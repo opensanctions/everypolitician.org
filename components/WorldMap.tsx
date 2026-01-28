@@ -6,21 +6,14 @@ import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
-import type { Territory } from '@/lib/data';
+import type { Territory, TerritorySummary } from '@/lib/types';
 import { HelpLink } from '@/components/HelpLink';
-
-export type CountryData = {
-  code: string;
-  label: string;
-  numPeps: number;
-  numPositions: number;
-};
 
 const VIEWBOX_WIDTH = 1000;
 const VIEWBOX_HEIGHT = 500;
 
 interface WorldMapProps {
-  countryDataArray: [string, CountryData][];
+  territories: TerritorySummary[];
   focusTerritory?: Territory;
 }
 
@@ -38,7 +31,7 @@ interface WorldTopology extends Topology {
 }
 
 export default function WorldMap({
-  countryDataArray,
+  territories,
   focusTerritory,
 }: WorldMapProps) {
   const focusCountry = focusTerritory?.code;
@@ -54,8 +47,8 @@ export default function WorldMap({
   const router = useRouter();
 
   const countryData = useMemo(
-    () => new Map(countryDataArray),
-    [countryDataArray],
+    () => new Map(territories.map((t) => [t.code, t])),
+    [territories],
   );
 
   const hoveredCountry = useMemo(() => {

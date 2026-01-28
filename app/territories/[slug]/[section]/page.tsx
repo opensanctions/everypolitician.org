@@ -17,8 +17,13 @@ import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import { MAIN_DATASET } from '@/lib/constants';
-import { fetchApi, getMapCountryData, getTerritories } from '@/lib/data';
-import { getCountryPEPData, PositionSummary } from '@/lib/peps';
+import {
+  fetchApi,
+  getCountryPEPData,
+  getTerritorySummaries,
+  getTerritories,
+  PositionSummary,
+} from '@/lib/data';
 import { SearchAPIResponse } from '@/lib/types';
 import {
   positionSections,
@@ -82,7 +87,7 @@ export default async function SectionPage({ params }: PageProps) {
     notFound();
   }
 
-  const [countryPEPSummary, searchResponse, countryDataArray] =
+  const [countryPEPSummary, searchResponse, territorySummaries] =
     await Promise.all([
       getCountryPEPData(countryCode),
       fetchApi<SearchAPIResponse>(`/search/${MAIN_DATASET}`, {
@@ -91,7 +96,7 @@ export default async function SectionPage({ params }: PageProps) {
         countries: countryCode,
         facets: ['schema', 'topics'],
       }),
-      getMapCountryData(),
+      getTerritorySummaries(),
     ]);
 
   const positions: PositionSummary[] = countryPEPSummary.positions ?? [];
@@ -119,7 +124,7 @@ export default async function SectionPage({ params }: PageProps) {
         title={territory.full_name || territory.name}
         background={
           <WorldMap
-            countryDataArray={countryDataArray}
+            territories={territorySummaries}
             focusTerritory={territory}
           />
         }

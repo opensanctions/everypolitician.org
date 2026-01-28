@@ -1,5 +1,14 @@
 // Territory types
 
+export type TerritorySummary = {
+  code: string;
+  label: string;
+  numPeps: number;
+  numPositions: number;
+  region: string;
+  subregion?: string;
+};
+
 export type Territory = {
   code: string;
   name: string;
@@ -11,6 +20,23 @@ export type Territory = {
   subregion?: string;
   qid?: string;
   parent?: string;
+};
+
+// Position types
+
+export type PEPCounts = {
+  current: number;
+  ended: number;
+  unknown: number;
+  total: number;
+};
+
+export type PositionSummary = {
+  id: string;
+  names: Array<string>;
+  categories: Array<string>;
+  topics: Array<string>;
+  counts: PEPCounts;
 };
 
 // Entity types and helpers
@@ -54,29 +80,6 @@ export function getEntityProperty(
 
 // Dataset types
 
-export type Resource = {
-  url: string;
-  timestamp: string;
-  mime_type: string;
-  title: string;
-};
-
-export type DatasetPublisher = {
-  url?: string;
-  name: string;
-  acronym?: string;
-  description?: string;
-  official: boolean;
-  country?: string;
-  country_label?: string;
-  territory?: Territory;
-};
-
-export type DatasetCoverage = {
-  start?: string;
-  frequency?: string;
-};
-
 export type Dataset = {
   name: string;
   type: string;
@@ -89,38 +92,51 @@ export type Dataset = {
   last_export?: string;
   thing_count?: number;
   datasets?: Array<string>;
-  resources?: Array<Resource>;
-  coverage?: DatasetCoverage;
-  publisher?: DatasetPublisher;
+  resources?: Array<{
+    url: string;
+    timestamp: string;
+    mime_type: string;
+    title: string;
+  }>;
+  coverage?: {
+    start?: string;
+    frequency?: string;
+  };
+  publisher?: {
+    url?: string;
+    name: string;
+    acronym?: string;
+    description?: string;
+    official: boolean;
+    country?: string;
+    country_label?: string;
+    territory?: Territory;
+  };
 };
 
 // Search API types
 
-type SearchFacetItem = {
-  name: string;
-  label: string;
-  count: number;
-};
-
-export type SearchFacet = {
-  label: string;
-  values: Array<SearchFacetItem>;
-};
-
-type ResponseTotal = {
-  value: number;
-  relation: string;
-};
-
-export type PaginatedResponse = {
-  total: ResponseTotal;
+type PaginatedResponse = {
+  total: {
+    value: number;
+    relation: string;
+  };
   limit: number;
   offset: number;
 };
 
 export type SearchAPIResponse = PaginatedResponse & {
   results: Array<EntityData>;
-  facets: { [prop: string]: SearchFacet };
+  facets: {
+    [prop: string]: {
+      label: string;
+      values: Array<{
+        name: string;
+        label: string;
+        count: number;
+      }>;
+    };
+  };
 };
 
 export type PropResults = PaginatedResponse & {

@@ -8,15 +8,17 @@ import {
   REVALIDATE_BASE,
 } from './constants';
 import {
-  EntityData,
   Dataset,
+  EntityData,
+  PEPCounts,
+  PositionSummary,
   PropsResults,
   SearchAPIResponse,
   Territory,
+  TerritorySummary,
 } from './types';
-import { CountryData } from '@/components/WorldMap';
 
-export type { Territory };
+export type { PEPCounts, PositionSummary, Territory, TerritorySummary };
 
 const TERRITORIES_URL = 'https://data.opensanctions.org/meta/territories.json';
 
@@ -27,27 +29,20 @@ type TerritoriesResponse = {
 export async function fetchStatic<T>(
   url: string,
   revalidate: number = REVALIDATE_BASE,
-): Promise<T | null> {
-  /* Fetch a static JSON file from data.opensanctions.org. */
-  const options: any = {
+): Promise<T> {
+  const response = await fetch(url, {
     cache: 'force-cache',
-    next: { tags: ['data'], revalidate: revalidate },
+    next: { tags: ['data'], revalidate },
     keepalive: true,
-  };
-  const data = await fetch(url, { ...options });
-  if (!data.ok) {
-    console.error('Error fetching static data', url, data.statusText);
-    return null;
+  });
+  if (!response.ok) {
+    throw Error(`Static fetch error [${url}]: ${response.statusText}`);
   }
-  const body = await data.json();
-  return body as T;
+  return (await response.json()) as T;
 }
 
 export async function getTerritories(): Promise<Array<Territory>> {
   const data = await fetchStatic<TerritoriesResponse>(TERRITORIES_URL);
-  if (!data) {
-    throw new Error('Failed to fetch territories');
-  }
   return data.territories.filter((t) => t.is_ftm);
 }
 
@@ -78,49 +73,9 @@ export async function fetchApi<T>(
   return (await response.json()) as T;
 }
 
-type CatalogDataset = {
-  name: string;
-  type: string;
-  title: string;
-  url?: string;
-  summary: string;
-  hidden: boolean;
-  last_change?: string;
-  last_export?: string;
-  thing_count?: number;
-  datasets?: string[];
-  resources?: Array<{
-    url: string;
-    timestamp: string;
-    mime_type: string;
-    title: string;
-  }>;
-  coverage?: { start?: string; frequency?: string };
-  publisher?: {
-    url?: string;
-    name: string;
-    acronym?: string;
-    description?: string;
-    official: boolean;
-    country?: string;
-    country_label?: string;
-  };
-};
-
-type Catalog = {
-  datasets: CatalogDataset[];
-};
-
-function getCatalogUrl(scope: string): string {
-  return `https://data.opensanctions.org/datasets/latest/${scope}/catalog.json`;
-}
-
 async function parseCatalog(scope: string): Promise<Dataset[]> {
-  const catalogUrl = getCatalogUrl(scope);
-  const catalog = await fetchStatic<Catalog>(catalogUrl);
-  if (catalog === null) {
-    throw Error('Catalog not found: ' + scope);
-  }
+  const catalogUrl = `https://data.opensanctions.org/datasets/latest/${scope}/catalog.json`;
+  const catalog = await fetchStatic<{ datasets: any[] }>(catalogUrl);
   const territories = await getTerritories();
   const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
 
@@ -162,20 +117,6 @@ export async function getDatasetsByScope(scope: string): Promise<Dataset[]> {
   return parseCatalog(scope);
 }
 
-export async function getDatasetByName(
-  name: string,
-): Promise<Dataset | undefined> {
-  const datasets = await getDatasets();
-  return datasets.find((d) => d.name === name);
-}
-
-export async function getDatasetsByNames(names: string[]): Promise<Dataset[]> {
-  const datasets = await getDatasets();
-  return names
-    .map((name) => datasets.find((d) => d.name === name))
-    .filter((d): d is Dataset => d !== undefined);
-}
-
 export async function getAdjacent(
   entityId: string,
 ): Promise<PropsResults | null> {
@@ -196,7 +137,7 @@ export async function getEntityDatasets(
     .filter((d): d is Dataset => d !== undefined);
 }
 
-export async function getMapCountryData(): Promise<[string, CountryData][]> {
+export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
   const [territories, pepResponse, positionResponse] = await Promise.all([
     getTerritories(),
     fetchApi<SearchAPIResponse>(`/search/default`, {
@@ -212,48 +153,48 @@ export async function getMapCountryData(): Promise<[string, CountryData][]> {
   ]);
 
   const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
-  const countryDataMap = new Map<string, CountryData>();
+  const summaries: TerritorySummary[] = [];
 
   for (const { name: code, count } of positionResponse.facets.countries
     .values) {
     const territory = territoriesByCode.get(code);
-    if (!territory) continue;
-    countryDataMap.set(code, {
+    if (!territory?.region) continue;
+    summaries.push({
       code,
       label: territory.name,
       numPeps: 0,
       numPositions: count,
+      region: territory.region,
+      subregion: territory.subregion,
     });
   }
 
   for (const { name: code, count } of pepResponse.facets.countries.values) {
-    const data = countryDataMap.get(code);
-    if (data) data.numPeps = count;
+    const summary = summaries.find((s) => s.code === code);
+    if (summary) summary.numPeps = count;
   }
 
-  return Array.from(countryDataMap.entries());
+  return summaries;
 }
 
-export type TerritorySummary = CountryData & {
-  region: string;
-  subregion?: string;
+type CountryPEPData = {
+  label: string;
+  counts: PEPCounts;
+  positions: Array<PositionSummary>;
 };
 
-export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
-  const countryDataArray = await getMapCountryData();
-  const territories = await getTerritories();
-  const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
-
-  const summaries: TerritorySummary[] = [];
-  for (const [code, data] of countryDataArray) {
-    const territory = territoriesByCode.get(code);
-    if (territory?.region) {
-      summaries.push({
-        ...data,
-        region: territory.region,
-        subregion: territory.subregion,
-      });
-    }
+export async function getCountryPEPData(
+  countryCode: string,
+): Promise<CountryPEPData> {
+  const url = `https://data.opensanctions.org/meta/peps/countries/${countryCode}.json`;
+  const empty: CountryPEPData = {
+    label: countryCode,
+    counts: { current: 0, ended: 0, unknown: 0, total: 0 },
+    positions: [],
+  };
+  try {
+    return await fetchStatic<CountryPEPData>(url);
+  } catch {
+    return empty;
   }
-  return summaries;
 }

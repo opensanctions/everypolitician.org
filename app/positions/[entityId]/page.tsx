@@ -12,7 +12,7 @@ import Table from 'react-bootstrap/Table';
 import {
   getAdjacent,
   getEntityDatasets,
-  getMapCountryData,
+  getTerritorySummaries,
   getTerritories,
 } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
@@ -94,10 +94,10 @@ export default async function PositionPage({ params }: PositionPageProps) {
     redirect(`/persons/${position.id}/`);
   }
   const countryCode = getFirst(position, 'country');
-  const [datasets, territories, countryDataArray] = await Promise.all([
+  const [datasets, territories, territorySummaries] = await Promise.all([
     getEntityDatasets(position),
     getTerritories(),
-    countryCode ? getMapCountryData() : Promise.resolve([]),
+    countryCode ? getTerritorySummaries() : Promise.resolve([]),
   ]);
   const territory = countryCode
     ? territories.find((t) => t.code === countryCode)
@@ -120,7 +120,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
           title={position.caption}
           background={
             <WorldMap
-              countryDataArray={countryDataArray}
+              territories={territorySummaries}
               focusTerritory={territory}
             />
           }
