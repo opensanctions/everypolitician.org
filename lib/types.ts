@@ -113,37 +113,3 @@ export type Dataset = {
     territory?: Territory;
   };
 };
-
-// Search API types
-
-type PaginatedResponse = {
-  total: {
-    value: number;
-    relation: string;
-  };
-  limit: number;
-  offset: number;
-};
-
-export type SearchAPIResponse = PaginatedResponse & {
-  results: Array<EntityData>;
-  facets: {
-    [prop: string]: {
-      label: string;
-      values: Array<{
-        name: string;
-        label: string;
-        count: number;
-      }>;
-    };
-  };
-};
-
-export type PropResults = PaginatedResponse & {
-  results: Array<EntityData>;
-};
-
-export type PropsResults = {
-  entity: EntityData;
-  adjacent: Record<string, PropResults>;
-};

@@ -12,8 +12,6 @@ import {
   EntityData,
   PEPCounts,
   PositionSummary,
-  PropsResults,
-  SearchAPIResponse,
   Territory,
   TerritorySummary,
 } from './types';
@@ -117,12 +115,10 @@ export async function getDatasetsByScope(scope: string): Promise<Dataset[]> {
   return parseCatalog(scope);
 }
 
-export async function getAdjacent(
-  entityId: string,
-): Promise<PropsResults | null> {
+export async function getAdjacent(entityId: string): Promise<any> {
   try {
     const path = `/entities/${entityId}/adjacent`;
-    return await fetchApi<PropsResults>(path);
+    return await fetchApi<any>(path);
   } catch {
     return null;
   }
@@ -140,12 +136,12 @@ export async function getEntityDatasets(
 export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
   const [territories, pepResponse, positionResponse] = await Promise.all([
     getTerritories(),
-    fetchApi<SearchAPIResponse>(`/search/default`, {
+    fetchApi<any>(`/search/default`, {
       limit: 0,
       topics: 'role.pep',
       facets: ['countries'],
     }),
-    fetchApi<SearchAPIResponse>(`/search/default`, {
+    fetchApi<any>(`/search/default`, {
       limit: 0,
       schema: 'Position',
       facets: ['countries'],

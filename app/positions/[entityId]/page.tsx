@@ -16,7 +16,7 @@ import {
   getTerritories,
 } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
-import { getFirst, getEntityProperty, PropResults } from '@/lib/types';
+import { EntityData, getFirst, getEntityProperty } from '@/lib/types';
 
 export const maxDuration = 25;
 
@@ -44,7 +44,11 @@ export async function generateMetadata({ params }: PositionPageProps) {
   };
 }
 
-function HoldersTable({ occupancies }: { occupancies: PropResults }) {
+function HoldersTable({
+  occupancies,
+}: {
+  occupancies: { results: EntityData[] };
+}) {
   if (occupancies.results.length === 0) {
     return <p>No known holders.</p>;
   }

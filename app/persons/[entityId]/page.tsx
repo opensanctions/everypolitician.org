@@ -15,7 +15,6 @@ import {
   getFirst,
   getStringProperty,
   getEntityProperty,
-  PropResults,
 } from '@/lib/types';
 
 export const maxDuration = 25;
@@ -35,8 +34,8 @@ export async function generateMetadata({ params }: PersonPageProps) {
 
   // Find newest position (sort by startDate descending, nulls last)
   const newestOccupancy = occupancies
-    .filter((occ) => getEntityProperty(occ, 'post')[0])
-    .sort((a, b) => {
+    .filter((occ: any) => getEntityProperty(occ, 'post')[0])
+    .sort((a: any, b: any) => {
       const dateA = getFirst(a, 'startDate') ?? '';
       const dateB = getFirst(b, 'startDate') ?? '';
       return dateB.localeCompare(dateA);
@@ -87,7 +86,11 @@ function PersonFactsheet({ person }: { person: EntityData }) {
   );
 }
 
-function OccupanciesTable({ occupancies }: { occupancies: PropResults }) {
+function OccupanciesTable({
+  occupancies,
+}: {
+  occupancies: { results: EntityData[] };
+}) {
   if (occupancies.results.length === 0) {
     return <p>No positions held.</p>;
   }
