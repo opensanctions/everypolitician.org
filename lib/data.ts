@@ -1,12 +1,6 @@
 import 'server-only';
 
-import {
-  API_TOKEN,
-  API_URL,
-  MAIN_DATASET,
-  OSA_URL,
-  REVALIDATE_BASE,
-} from './constants';
+import { API_URL, MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from './constants';
 import {
   Dataset,
   EntityData,
@@ -63,7 +57,7 @@ export async function fetchApi<T>(
     keepalive: true,
     cache: 'force-cache',
     next: { tags: ['api'], revalidate: REVALIDATE_BASE },
-    headers: { Authorization: `ApiKey ${API_TOKEN}` },
+    headers: { Authorization: `ApiKey ${process.env.API_TOKEN}` },
   });
   if (!response.ok) {
     throw Error(`API error [${apiUrl}]: ${response.statusText}`);

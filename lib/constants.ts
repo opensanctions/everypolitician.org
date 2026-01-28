@@ -8,8 +8,6 @@ export const REVALIDATE_BASE = 3600 * 2;
 export const REVALIDATE_LONG = REVALIDATE_BASE * 2;
 export const THEME_COLOR = '#2563eb';
 
-export const API_TOKEN = process.env.API_TOKEN;
-
 // client-side variables
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL || 'https://api.opensanctions.org';
