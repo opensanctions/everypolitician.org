@@ -180,14 +180,6 @@ a:hover {
   inset: 0;
 }
 
-.world-map-loading {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: var(--bs-gray-400);
-}
-
 .world-map {
   position: absolute;
   top: 50%;

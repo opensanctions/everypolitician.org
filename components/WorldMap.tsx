@@ -156,11 +156,7 @@ export default function WorldMap({
   };
 
   if (!features || !pathGenerator) {
-    return (
-      <div className="world-map-container">
-        <div className="world-map-loading">Loading map...</div>
-      </div>
-    );
+    return null;
   }
 
   const handleMouseMove = (e: React.MouseEvent) => {
