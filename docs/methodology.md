@@ -3,7 +3,6 @@ title: Methodology
 summary: >
   How EveryPolitician collects and organises data about political office-holders
 date_created: 2025-08-16
-date_updated: 2026-01-30
 no_index: false
 path: /docs/methodology/
 ---
