@@ -21,8 +21,9 @@ A **politician** is a person who fills a political position at any given time.
 
 Inspired by the [Wikidata Project EveryPolitician](https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician), OpenSanctions maps **political positions** primarily. We then fill in the details of who occupies each position at different points in time as information changes or becomes available. Our data model keeps the concepts of ‘person’ (or ‘politician’ in this case) and ‘position’ separate, and links them logically via ‘occupancy’ instances.
 
-For the nerds: the relevant OpenSanctions schema types are [Position](https://www.opensanctions.org/reference/#schema.Position) (with a `gov` or similar topic), [Person](https://www.opensanctions.org/reference/#schema.Person) (with a `role.pep` topic), and [Occupancy](https://www.opensanctions.org/reference/#schema.Occupancy). More on [topics](https://followthemoney.tech/explorer/types/topic/).
-
+<div class="alert alert-info">
+  👓 For the nerds: the relevant OpenSanctions schema types are <a href="https://www.opensanctions.org/reference/#schema.Position">Position</a> (with a <code>gov</code> or similar topic), <a href="https://www.opensanctions.org/reference/#schema.Person">Person</a> (with a <code>role.pep</code> topic), and <a href="https://www.opensanctions.org/reference/#schema.Occupancy">Occupancy</a>. More on <a href="https://followthemoney.tech/explorer/types/topic/">topics</a>.
+</div>
 
 ## ⛏️ How we get and work with the data
 
@@ -30,7 +31,9 @@ OpenSanctions maintains a [fleet of crawlers](https://github.com/orgs/opensancti
 
 Since the same person may well show up in multiple sources, we handily merge duplicate entities. If a politician has a [Wikidata](https://www.wikidata.org) entry, that becomes the primary entity (we also use their Wikidata identifiers in these cases).
 
-For the nerds who care about crawlers: [https://zavod.opensanctions.org/peps/](https://zavod.opensanctions.org/peps/).
+<div class="alert alert-info">
+  👓 For the nerds who care about crawlers: <a href="https://zavod.opensanctions.org/peps/">https://zavod.opensanctions.org/peps/</a>.
+</div>
 
 ### Data sources
 
