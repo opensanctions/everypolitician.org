@@ -1,6 +1,7 @@
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
+import PoliticianShowcase from './PoliticianShowcase';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -8,7 +9,10 @@ import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
-import { getTerritorySummaries } from '@/lib/data';
+import {
+  getTerritorySummaries,
+  getPersonsWithOccupanciesFromDataset,
+} from '@/lib/data';
 
 import type { Metadata } from 'next';
 
@@ -22,7 +26,10 @@ export const metadata: Metadata = {
 };
 
 export default async function Page() {
-  const territories = await getTerritorySummaries();
+  const [territories, showcasePersons] = await Promise.all([
+    getTerritorySummaries(),
+    getPersonsWithOccupanciesFromDataset('us_cia_world_leaders', 5),
+  ]);
 
   const totals = territories.reduce(
     (acc, t) => ({
@@ -188,24 +195,7 @@ export default async function Page() {
           </Row>
         </Container>
       </div>
-      <Container>
-        <Row className="py-5 my-5">
-          <Col md={6}>
-            <h4>What&apos;s a politician?</h4>
-            <p>
-              Anyone holding public authority: presidents, legislators, judges,
-              senior officials, and military commanders.
-            </p>
-          </Col>
-          <Col md={6}>
-            <div className="bg-light rounded p-4 h-100 d-flex align-items-center justify-content-center text-muted">
-              <p className="mb-0">
-                Example politicians from dataset coming soon
-              </p>
-            </div>
-          </Col>
-        </Row>
-      </Container>
+      <PoliticianShowcase persons={showcasePersons} />
     </LayoutFrame>
   );
 }

@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
@@ -6,16 +5,12 @@ import DatasetCard from '@/components/DatasetCard';
 import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
+import OccupanciesTable from '@/components/OccupanciesTable';
+import PersonProfile from '@/components/PersonProfile';
 import Container from 'react-bootstrap/Container';
-import Table from 'react-bootstrap/Table';
 import { getAdjacent, getEntityDatasets } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
-import {
-  EntityData,
-  getFirst,
-  getStringProperty,
-  getEntityProperty,
-} from '@/lib/types';
+import { getFirst, getStringProperty, getEntityProperty } from '@/lib/types';
 
 export const maxDuration = 25;
 
@@ -54,50 +49,6 @@ export async function generateMetadata({ params }: PersonPageProps) {
   };
 }
 
-function OccupanciesTable({
-  occupancies,
-}: {
-  occupancies: { results: EntityData[] };
-}) {
-  if (occupancies.results.length === 0) {
-    return <p>No positions held.</p>;
-  }
-
-  return (
-    <Table>
-      <thead>
-        <tr>
-          <th>Position</th>
-          <th className="text-end">Start date</th>
-          <th className="text-end">End date</th>
-        </tr>
-      </thead>
-      <tbody>
-        {occupancies.results.map((occupancy) => {
-          const post = getEntityProperty(occupancy, 'post')[0];
-          return (
-            <tr key={occupancy.id}>
-              <td>
-                {post ? (
-                  <Link href={`/positions/${post.id}/`}>{post.caption}</Link>
-                ) : (
-                  '-'
-                )}
-              </td>
-              <td className="text-end">
-                {getFirst(occupancy, 'startDate') || '-'}
-              </td>
-              <td className="text-end">
-                {getFirst(occupancy, 'endDate') || '-'}
-              </td>
-            </tr>
-          );
-        })}
-      </tbody>
-    </Table>
-  );
-}
-
 export default async function PersonPage({ params }: PersonPageProps) {
   const resolvedParams = await params;
   const data = await getAdjacent(resolvedParams.entityId);
@@ -113,19 +64,12 @@ export default async function PersonPage({ params }: PersonPageProps) {
   }
   const datasets = await getEntityDatasets(person);
   const structured = getSchemaEntityPage(person);
-  const occupancies = data.adjacent['positionOccupancies'];
-  const profileProperties = [
-    {
-      label: 'Also known as',
-      value: getStringProperty(person, 'alias').join(', '),
-    },
-    { label: 'Date of birth', value: getFirst(person, 'birthDate') },
-    { label: 'Place of birth', value: getFirst(person, 'birthPlace') },
-    {
-      label: 'Political affiliation',
-      value: getStringProperty(person, 'political').join(', '),
-    },
-  ].filter((p) => p.value);
+  const occupancies = data.adjacent['positionOccupancies']?.results ?? [];
+  const hasProfileData =
+    getStringProperty(person, 'alias').length > 0 ||
+    getFirst(person, 'birthDate') ||
+    getFirst(person, 'birthPlace') ||
+    getStringProperty(person, 'political').length > 0;
 
   return (
     <LayoutFrame activeSection="research">
@@ -138,29 +82,16 @@ export default async function PersonPage({ params }: PersonPageProps) {
       )}
       <Hero title={person.caption} />
       <Container className="py-5">
-        {profileProperties.length > 0 && (
+        {hasProfileData && (
           <section id="factsheet" className="mb-5">
             <h2>Profile</h2>
-            <Table>
-              <tbody>
-                {profileProperties.map(({ label, value }) => (
-                  <tr key={label}>
-                    <th style={{ minWidth: '10rem' }}>{label}</th>
-                    <td>{value}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
+            <PersonProfile person={person} />
           </section>
         )}
 
         <section id="positions" className="mb-5">
           <h2>Positions held</h2>
-          {occupancies ? (
-            <OccupanciesTable occupancies={occupancies} />
-          ) : (
-            <p>No positions found.</p>
-          )}
+          <OccupanciesTable occupancies={occupancies} />
         </section>
 
         <ExternalLinks entity={person} />

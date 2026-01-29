@@ -188,3 +188,20 @@ export async function getCountryPEPData(
     return empty;
   }
 }
+
+export async function getPersonsWithOccupanciesFromDataset(
+  datasetName: string,
+  limit: number = 5,
+): Promise<any[]> {
+  const response = await fetchApi<any>('/search/default', {
+    datasets: datasetName,
+    schema: 'Person',
+    limit,
+  });
+
+  const results = await Promise.all(
+    response.results.map((person: EntityData) => getAdjacent(person.id)),
+  );
+
+  return results.filter((p) => p !== null);
+}
