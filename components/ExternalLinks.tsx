@@ -8,7 +8,7 @@ export default function ExternalLinks({ entity }: { entity: EntityData }) {
   }
 
   return (
-    <section id="external-links">
+    <section id="external-links" className="mb-5">
       <h2>External links</h2>
       <ul>
         <li>

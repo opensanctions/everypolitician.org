@@ -54,38 +54,6 @@ export async function generateMetadata({ params }: PersonPageProps) {
   };
 }
 
-function PersonFactsheet({ person }: { person: EntityData }) {
-  const properties = [
-    {
-      label: 'Also known as',
-      value: getStringProperty(person, 'alias').join(', '),
-    },
-    { label: 'Date of birth', value: getFirst(person, 'birthDate') },
-    { label: 'Place of birth', value: getFirst(person, 'birthPlace') },
-    {
-      label: 'Political affiliation',
-      value: getStringProperty(person, 'political').join(', '),
-    },
-  ].filter((p) => p.value);
-
-  if (properties.length === 0) {
-    return null;
-  }
-
-  return (
-    <Table>
-      <tbody>
-        {properties.map(({ label, value }) => (
-          <tr key={label}>
-            <th className="text-muted">{label}</th>
-            <td>{value}</td>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
-  );
-}
-
 function OccupanciesTable({
   occupancies,
 }: {
@@ -146,6 +114,18 @@ export default async function PersonPage({ params }: PersonPageProps) {
   const datasets = await getEntityDatasets(person);
   const structured = getSchemaEntityPage(person);
   const occupancies = data.adjacent['positionOccupancies'];
+  const profileProperties = [
+    {
+      label: 'Also known as',
+      value: getStringProperty(person, 'alias').join(', '),
+    },
+    { label: 'Date of birth', value: getFirst(person, 'birthDate') },
+    { label: 'Place of birth', value: getFirst(person, 'birthPlace') },
+    {
+      label: 'Political affiliation',
+      value: getStringProperty(person, 'political').join(', '),
+    },
+  ].filter((p) => p.value);
 
   return (
     <LayoutFrame activeSection="research">
@@ -157,13 +137,24 @@ export default async function PersonPage({ params }: PersonPageProps) {
         />
       )}
       <Hero title={person.caption} />
-      <Container className="pt-3">
-        <section id="factsheet">
-          <h2>Profile</h2>
-          <PersonFactsheet person={person} />
-        </section>
+      <Container className="py-5">
+        {profileProperties.length > 0 && (
+          <section id="factsheet" className="mb-5">
+            <h2>Profile</h2>
+            <Table>
+              <tbody>
+                {profileProperties.map(({ label, value }) => (
+                  <tr key={label}>
+                    <th style={{ minWidth: '10rem' }}>{label}</th>
+                    <td>{value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </section>
+        )}
 
-        <section id="positions">
+        <section id="positions" className="mb-5">
           <h2>Positions held</h2>
           {occupancies ? (
             <OccupanciesTable occupancies={occupancies} />
@@ -172,14 +163,14 @@ export default async function PersonPage({ params }: PersonPageProps) {
           )}
         </section>
 
-        <section id="sources">
+        <ExternalLinks entity={person} />
+
+        <section id="sources" className="mb-5">
           <h2>Data sources</h2>
           {datasets.map((d) => (
             <DatasetCard key={d.name} dataset={d} />
           ))}
         </section>
-
-        <ExternalLinks entity={person} />
       </Container>
     </LayoutFrame>
   );

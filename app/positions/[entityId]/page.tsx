@@ -141,8 +141,8 @@ export default async function PositionPage({ params }: PositionPageProps) {
           <h1>{position.caption}</h1>
         </Container>
       )}
-      <Container className="pt-3">
-        <section id="holders">
+      <Container className="py-5">
+        <section id="holders" className="mb-5">
           <h2>Position holders</h2>
           {occupancies ? (
             <HoldersTable occupancies={occupancies} />
@@ -151,14 +151,14 @@ export default async function PositionPage({ params }: PositionPageProps) {
           )}
         </section>
 
-        <section id="sources">
+        <ExternalLinks entity={position} />
+
+        <section id="sources" className="mb-5">
           <h2>Data sources</h2>
           {datasets.map((d) => (
             <DatasetCard key={d.name} dataset={d} />
           ))}
         </section>
-
-        <ExternalLinks entity={position} />
       </Container>
     </LayoutFrame>
   );

@@ -1,5 +1,4 @@
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
-import Badge from 'react-bootstrap/Badge';
 import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
@@ -14,9 +13,10 @@ export default function DatasetCard({ dataset }: DatasetCardProps) {
   return (
     <Card className="mb-3">
       <CardBody>
-        <CardTitle>{dataset.title}</CardTitle>
+        <CardTitle>
+          <h5>{dataset.title}</h5>
+        </CardTitle>
         <p className="text-muted">{dataset.summary}</p>
-        {dataset.type === 'collection' && <Badge bg="light">Collection</Badge>}
         <a href={dataset.link} target="_blank" rel="noopener noreferrer">
           View on OpenSanctions <BoxArrowUpRight />
         </a>
