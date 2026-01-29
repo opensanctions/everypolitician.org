@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  cacheHandler:
+    process.env.NODE_ENV === 'production'
+      ? require.resolve('./cache-handler.mjs')
+      : undefined,
+  cacheMaxMemorySize: process.env.NODE_ENV === 'production' ? 0 : undefined,
   reactStrictMode: true,
   staticPageGenerationTimeout: 360,
   productionBrowserSourceMaps: true,

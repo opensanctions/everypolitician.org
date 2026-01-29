@@ -15,6 +15,7 @@
     "prepare": "husky"
   },
   "dependencies": {
+    "@fortedigital/nextjs-cache-handler": "^2.5.1",
     "@types/d3-geo": "^3.1.0",
     "@types/topojson-client": "^3.1.5",
     "bootstrap": "~5.3.8",
@@ -27,6 +28,7 @@
     "react-bootstrap": "2.10.10",
     "react-bootstrap-icons": "^1.11.6",
     "react-dom": "~19.2.4",
+    "redis": "^5.10.0",
     "rehype-highlight": "^7.0.2",
     "rehype-raw": "^7.0.0",
     "rehype-stringify": "^10.0.1",
