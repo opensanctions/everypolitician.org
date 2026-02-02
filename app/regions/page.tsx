@@ -2,7 +2,9 @@ import Link from 'next/link';
 
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
+import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { getTerritorySummaries } from '@/lib/data';
 import { RegionsNav } from './RegionsNav';
@@ -42,7 +44,7 @@ export default async function RegionsOverviewPage() {
   const regionNames = regionSummaries.map((r) => r.name);
 
   return (
-    <LayoutFrame activeSection="territories">
+    <LayoutFrame>
       <Container className="py-4 mb-5">
         <h1>Regions</h1>
         <p>Browse political positions and office-holders by region.</p>
@@ -97,6 +99,20 @@ export default async function RegionsOverviewPage() {
             ))}
           </tbody>
         </Table>
+        <Row>
+          <Col md={8}>
+            <h3>Why regions?</h3>
+            <p>
+              Political geography is complicated. Not everyone agrees on
+              borders, sovereignty, or who controls what. Territories may be
+              disputed, occupied, or governed differently from how they appear
+              on a standard map. EveryPolitician aims to track political offices
+              wherever they exist—including internationally recognised states,
+              territories with de facto self-governance, and subnational
+              jurisdictions.
+            </p>
+          </Col>
+        </Row>
       </Container>
     </LayoutFrame>
   );

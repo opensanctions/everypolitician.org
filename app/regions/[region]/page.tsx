@@ -128,7 +128,7 @@ export default async function RegionPage(props: {
   const regionName = regionSlugToName(region);
 
   return (
-    <LayoutFrame activeSection="territories">
+    <LayoutFrame>
       <Container className="py-4 mb-5">
         <h1>Regions</h1>
         <p>Browse political positions and office-holders by region.</p>

@@ -31,7 +31,7 @@ export default async function Page(props: ContentPageProps) {
     notFound();
   }
   return (
-    <LayoutFrame activeSection="about">
+    <LayoutFrame>
       <Container className="py-4 mb-5">
         <Row>
           <Col md={9} className="order-1 order-md-2">

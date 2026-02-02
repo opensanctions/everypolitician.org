@@ -253,7 +253,7 @@ export default function WorldMap({
       >
         Standard political map.{' '}
         <HelpLink
-          href="/about/mapping/"
+          href="/regions/"
           tooltipId="map-disclaimer-help"
           tooltip="Maps are political. Not everyone agrees on borders and who controls what."
         >

@@ -111,7 +111,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
   const occupancies = data.adjacent['occupancies'];
 
   return (
-    <LayoutFrame activeSection="research">
+    <LayoutFrame>
       {structured && (
         <Script
           type="application/ld+json"

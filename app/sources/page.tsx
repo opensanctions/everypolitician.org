@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Data Sources – EveryPolitician',
+  title: 'Sources – EveryPolitician',
   description:
     'Browse the official sources used by EveryPolitician to compile information about political office-holders.',
   alternates: { canonical: '/sources/' },
@@ -22,9 +22,9 @@ export default async function Page() {
   const sources = datasets.filter((ds) => !ds.hidden && ds.type === 'source');
 
   return (
-    <LayoutFrame activeSection="sources">
+    <LayoutFrame>
       <Container className="py-4 mb-5">
-        <h1>Data Sources</h1>
+        <h1>Sources</h1>
         <p>
           These are the sources used by EveryPolitician to compile information
           about political office-holders around the world.

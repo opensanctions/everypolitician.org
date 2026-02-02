@@ -125,7 +125,7 @@ export default async function SectionPage({ params }: PageProps) {
   ];
 
   return (
-    <LayoutFrame activeSection="research">
+    <LayoutFrame>
       <Hero
         title={territory.full_name || territory.name}
         background={

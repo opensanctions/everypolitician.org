@@ -72,7 +72,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
     getStringProperty(person, 'political').length > 0;
 
   return (
-    <LayoutFrame activeSection="research">
+    <LayoutFrame>
       {structured && (
         <Script
           type="application/ld+json"

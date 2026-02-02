@@ -5,17 +5,10 @@ import AnalyticsManager from '@/components/Analytics';
 import Footer from './Footer';
 import Navigation from './Navigation';
 
-type LayoutFrameProps = {
-  activeSection?: string;
-};
-
-export default function LayoutFrame({
-  activeSection,
-  children,
-}: React.PropsWithChildren<LayoutFrameProps>) {
+export default function LayoutFrame({ children }: React.PropsWithChildren) {
   return (
     <div className="d-flex flex-column min-vh-100">
-      <Navigation activeSection={activeSection} />
+      <Navigation />
       <main className="flex-grow-1">
         {children}
         <AnalyticsManager />
