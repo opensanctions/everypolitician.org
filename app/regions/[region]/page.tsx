@@ -28,7 +28,7 @@ export async function generateMetadata(props: {
   const { region } = await props.params;
   const regionName = regionSlugToName(region);
   return {
-    title: `${regionName} - Regions - EveryPolitician`,
+    title: `${regionName} – Regions – EveryPolitician`,
     description: `Browse political positions and office-holders in ${regionName}.`,
     alternates: { canonical: `/regions/${region}/` },
   };

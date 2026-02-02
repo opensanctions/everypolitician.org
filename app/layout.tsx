@@ -32,7 +32,7 @@ const monaSpace = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
   title: {
-    template: '%s - EveryPolitician',
+    template: '%s – EveryPolitician',
     default: 'EveryPolitician',
   },
   applicationName: 'EveryPolitician.org',
