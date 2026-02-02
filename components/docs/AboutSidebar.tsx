@@ -1,14 +1,28 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import Nav from 'react-bootstrap/Nav';
 import NavLink from 'react-bootstrap/NavLink';
 
-import { MenuItem } from '@/lib/pages';
-
-interface DocsSidebarProps {
-  menu: MenuItem[];
-  activePath: string;
+interface MenuItem {
+  path: string;
+  title: string;
+  children?: MenuItem[];
 }
+
+const menu: MenuItem[] = [
+  { path: '/about/', title: 'About' },
+  {
+    path: '/about/contribute/',
+    title: 'Contribute',
+    children: [
+      { path: '/about/contribute/wikidata/', title: 'Editing Wikidata' },
+    ],
+  },
+  { path: '/about/methodology/', title: 'Methodology' },
+  { path: '/about/opensource/', title: 'Open Source' },
+  { path: '/about/privacy/', title: 'Privacy Policy' },
+];
 
 function MenuItemLink({
   item,
@@ -30,7 +44,7 @@ function MenuItemLink({
       >
         {item.title}
       </NavLink>
-      {item.children.map((child) => (
+      {item.children?.map((child) => (
         <MenuItemLink
           key={child.path}
           item={child}
@@ -42,14 +56,16 @@ function MenuItemLink({
   );
 }
 
-export default function DocsSidebar({ menu, activePath }: DocsSidebarProps) {
+export default function AboutSidebar() {
+  const pathname = usePathname();
+
   return (
     <Nav
       className="flex-column justify-content-start d-print-none"
       variant="pills"
     >
       {menu.map((item) => (
-        <MenuItemLink key={item.path} item={item} activePath={activePath} />
+        <MenuItemLink key={item.path} item={item} activePath={pathname} />
       ))}
     </Nav>
   );

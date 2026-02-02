@@ -1,9 +1,10 @@
+import createMDX from '@next/mdx';
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   cacheHandler:
-    process.env.NODE_ENV === 'production'
-      ? require.resolve('./cache-handler.mjs')
-      : undefined,
+    process.env.NODE_ENV === 'production' ? './cache-handler.mjs' : undefined,
   cacheMaxMemorySize: process.env.NODE_ENV === 'production' ? 0 : undefined,
   reactStrictMode: true,
   staticPageGenerationTimeout: 360,
@@ -24,4 +25,6 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+const withMDX = createMDX({});
+
+export default withMDX(nextConfig);
