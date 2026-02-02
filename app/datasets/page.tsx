@@ -26,8 +26,8 @@ export default async function Page() {
       <Container className="py-4 mb-5">
         <h1>Data Sources</h1>
         <p>
-          These are the official sources used by EveryPolitician to compile
-          information about political office-holders around the world.
+          These are the sources used by EveryPolitician to compile information
+          about political office-holders around the world.
         </p>
         <Table>
           <thead>
