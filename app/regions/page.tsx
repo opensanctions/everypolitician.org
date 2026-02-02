@@ -12,7 +12,7 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Regions - EveryPolitician',
+  title: 'Regions – EveryPolitician',
   description: 'Browse political positions and office-holders by region.',
   alternates: { canonical: '/regions/' },
 };

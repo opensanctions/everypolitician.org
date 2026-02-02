@@ -19,10 +19,10 @@ EveryPolitician is **free for non-commercial users.** Businesses must acquire a 
 
 ## Getting started
 
-- [About EveryPolitician](/docs/about/) - Learn about the project and its goals
-- [Methodology](/docs/methodology/) - How we collect and organise political data
-- [Contribute](/docs/contribute/) - Help improve the data
+- [About EveryPolitician](/docs/about/) – Learn about the project and its goals
+- [Methodology](/docs/methodology/) – How we collect and organise political data
+- [Contribute](/docs/contribute/) – Help improve the data
 
 ## Policies
 
-- [Privacy Policy](/docs/privacy/) - How we handle your data
+- [Privacy Policy](/docs/privacy/) – How we handle your data

@@ -11,7 +11,7 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-static';
 
 export const metadata: Metadata = {
-  title: 'Data Sources - EveryPolitician',
+  title: 'Data Sources – EveryPolitician',
   description:
     'Browse the official sources used by EveryPolitician to compile information about political office-holders.',
   alternates: { canonical: '/datasets/' },
