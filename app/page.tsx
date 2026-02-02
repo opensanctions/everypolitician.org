@@ -5,6 +5,7 @@ import PoliticianShowcase from './PoliticianShowcase';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
@@ -54,7 +55,7 @@ export default async function Page() {
           rulers, law-makers to judges and more.
         </p>
       </Hero>
-      <div style={{ backgroundColor: 'var(--bs-gray-800)' }}>
+      <div className="bg-dark">
         <Container>
           <Row className="py-4 text-white">
             <Col className="text-center">
@@ -140,12 +141,12 @@ export default async function Page() {
                     data from the web.
                   </p>
                   <p className="mb-0">
-                    <a
+                    <Button
                       href="https://loom.everypolitician.org/"
-                      className="link-primary"
+                      variant="warning"
                     >
                       Start enriching data <BoxArrowUpRight />
-                    </a>
+                    </Button>
                   </p>
                 </CardBody>
               </Card>
@@ -161,12 +162,12 @@ export default async function Page() {
                     government around the world.
                   </p>
                   <p className="mb-0">
-                    <a
+                    <Button
                       href="https://www.govdirectory.org/"
-                      className="link-primary"
+                      variant="warning"
                     >
                       Explore government structures <BoxArrowUpRight />
-                    </a>
+                    </Button>
                   </p>
                 </CardBody>
               </Card>
@@ -182,12 +183,12 @@ export default async function Page() {
                     data directly in the knowledge base.
                   </p>
                   <p className="mb-0">
-                    <a
+                    <Button
                       href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician"
-                      className="link-primary"
+                      variant="warning"
                     >
                       Join the WikiProject <BoxArrowUpRight />
-                    </a>
+                    </Button>
                   </p>
                 </CardBody>
               </Card>

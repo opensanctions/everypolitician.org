@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
+import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import CardTitle from 'react-bootstrap/CardTitle';
@@ -295,12 +296,12 @@ export default async function SectionPage({ params }: PageProps) {
                     data for {territory.name}.
                   </p>
                   <p className="mb-0">
-                    <a
+                    <Button
                       href="https://loom.everypolitician.org/"
-                      className="link-primary"
+                      variant="warning"
                     >
                       Start enriching data <BoxArrowUpRight />
-                    </a>
+                    </Button>
                   </p>
                 </CardBody>
               </Card>
@@ -316,12 +317,12 @@ export default async function SectionPage({ params }: PageProps) {
                     help map out its levels of government.
                   </p>
                   <p className="mb-0">
-                    <a
+                    <Button
                       href="https://www.govdirectory.org/"
-                      className="link-primary"
+                      variant="warning"
                     >
                       Explore government structures <BoxArrowUpRight />
-                    </a>
+                    </Button>
                   </p>
                 </CardBody>
               </Card>

@@ -1,39 +1,18 @@
 /* Bootstrap theme customizations matching everypolitician.org */
 :root {
-  /* Color palette */
-  --bs-blue: #004eeb;
-  --bs-red: #fb2c36;
-  --bs-yellow: #fe9a00;
-  --bs-green: #00c950;
-  --bs-cyan: #06aed4;
-
   /* Theme colors */
   --bs-primary: #004eeb;
   --ep-accent: #0040c1;
-  --bs-secondary: #00c950;
-  --bs-success: #00c950;
-  --bs-tertiary: #7bf1a8;
-  --bs-info: #67e3f9;
-  --bs-warning: #ffd230;
-  --bs-danger: #9f0712;
-  --bs-light: #f5f5f5;
-  --bs-dark: #262626;
-
-  /* RGB values for opacity utilities */
   --bs-primary-rgb: 0, 78, 235;
-  --bs-secondary-rgb: 0, 201, 80;
-  --bs-success-rgb: 0, 201, 80;
-  --bs-tertiary-rgb: 123, 241, 168;
-  --bs-danger-rgb: 159, 7, 18;
-  --bs-light-rgb: 245, 245, 245;
+  --bs-dark: #262626;
   --bs-dark-rgb: 38, 38, 38;
 
-  /* Gray scale */
+  /* Gray scale (Tailwind neutral) */
   --bs-gray: #525252;
   --bs-gray-100: #f5f5f5;
   --bs-gray-200: #e5e5e5;
   --bs-gray-300: #d4d4d4;
-  --bs-gray-400: #a1a1a1;
+  --bs-gray-400: #a3a3a3;
   --bs-gray-500: #737373;
   --bs-gray-600: #525252;
   --bs-gray-700: #404040;
