@@ -19,7 +19,7 @@ We collect data from several types of sources:
 - **International databases**: Global databases of world leaders and heads of state
 - **Wikidata**: Community-maintained structured data from the Wikimedia ecosystem
 
-All sources are [documented on our data sources page](/datasets/).
+All sources are [documented on our data sources page](/sources/).
 
 ## Types
 

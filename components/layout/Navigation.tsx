@@ -41,15 +41,15 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
               active={activeSection === 'territories'}
               className="fw-bold ms-3"
             >
-              Regions
+              Global Regions
             </NavLink>
             <NavLink
               as={Link}
-              href="/datasets/"
-              active={activeSection === 'datasets'}
+              href="/sources/"
+              active={activeSection === 'sources'}
               className="fw-bold ms-3"
             >
-              Datasets
+              Data Sources
             </NavLink>
             <NavLink
               as={Link}

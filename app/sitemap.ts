@@ -6,7 +6,7 @@ import { getSitemapPages } from '@/lib/pages';
 
 export const dynamic = 'force-static';
 
-const PAGES = ['', 'datasets/'];
+const PAGES = ['', 'sources/'];
 
 function dateTruncate(date?: string | null) {
   return (date ?? new Date().toISOString()).slice(0, 10);

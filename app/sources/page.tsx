@@ -14,7 +14,7 @@ export const metadata: Metadata = {
   title: 'Data Sources - EveryPolitician',
   description:
     'Browse the official sources used by EveryPolitician to compile information about political office-holders.',
-  alternates: { canonical: '/datasets/' },
+  alternates: { canonical: '/sources/' },
 };
 
 export default async function Page() {
@@ -22,7 +22,7 @@ export default async function Page() {
   const sources = datasets.filter((ds) => !ds.hidden && ds.type === 'source');
 
   return (
-    <LayoutFrame activeSection="datasets">
+    <LayoutFrame activeSection="sources">
       <Container className="py-4 mb-5">
         <h1>Data Sources</h1>
         <p>
