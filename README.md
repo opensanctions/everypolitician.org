@@ -22,33 +22,57 @@ npm run build && npm run start
 
 ## Documentation pages
 
-Documentation lives in the `docs/` directory as Markdown files. Pages are served under `/about/` and the sidebar menu is generated automatically.
+Documentation pages use MDX (Markdown with JSX) and live in `app/about/`. The URL is determined by the file path:
 
-### Front-matter options
+- `app/about/page.mdx` → `/about/`
+- `app/about/contribute/page.mdx` → `/about/contribute/`
+- `app/about/contribute/wikidata/page.mdx` → `/about/contribute/wikidata/`
 
-Each Markdown file should have YAML front-matter:
+### Page metadata
 
-```yaml
----
-title: Page Title # Required: page title and default menu label
-summary: Brief description # Optional: used for meta description
-path: /about/example/ # Required: URL path (must end with /)
-menu_order: 1 # Optional: menu sort order (lower = higher)
-menu_title: Short Title # Optional: custom menu label (defaults to title)
-menu_hidden: true # Optional: hide from menu
-no_index: false # Optional: exclude from search engines
-date_created: 2025-01-01 # Optional: for sitemap
----
+Each MDX file exports metadata at the top:
+
+```mdx
+export const metadata = {
+  title: 'Page Title',
+  description: 'Brief description for SEO',
+  robots: { index: false }, // optional: exclude from search engines
+};
+
+# Page Title
+
+Content goes here...
 ```
 
-### Creating submenus
+### Custom components
 
-Submenus are created automatically based on the path hierarchy. For example:
+Two components are available for use in MDX:
 
-- `docs/contribute.md` with `path: /about/contribute/` appears at the top level
-- `docs/wikidata.md` with `path: /about/contribute/wikidata/` appears nested under Contribute
+```mdx
+<Alert type="info">
+  This is an info callout. Types: `info`, `warning`, `secondary`.
+</Alert>
 
-The submenu expands when the parent or any child page is active.
+<Figure
+  src="/images/docs/example.png"
+  alt="Description of image"
+  caption="Optional caption text"
+/>
+```
+
+### Heading anchors
+
+Headings automatically get IDs for anchor links based on their text:
+
+```mdx
+## Getting Started
+
+Link to it with [jump to section](#getting-started)
+```
+
+### Sidebar menu
+
+The sidebar menu is static and defined in `components/docs/AboutSidebar.tsx`. Update it when adding new pages.
 
 ## See also
 
