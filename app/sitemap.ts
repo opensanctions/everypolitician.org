@@ -1,7 +1,8 @@
 import { MetadataRoute } from 'next';
 
 import { BASE_URL } from '@/lib/constants';
-import { getDatasets, getTerritories } from '@/lib/data';
+import { getTerritories } from '@/lib/data';
+import { positionSections } from '@/lib/positionSections';
 
 export const dynamic = 'force-static';
 
@@ -29,17 +30,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${BASE_URL}${path}`,
     changeFrequency: 'monthly' as const,
   }));
-  const allDatasets = await getDatasets();
-  const datasets = allDatasets.filter((d) => !d.hidden);
-  const datasetMap = datasets.map((d) => ({
-    url: `${BASE_URL}/datasets/${d.name}/`,
-    changeFrequency: 'daily' as const,
-    lastModified: dateTruncate(d.last_export || d.last_change),
-  }));
   const territories = await getTerritories();
-  const territoriesMap = territories.map((t) => ({
-    url: `${BASE_URL}/territories/${t.code}/national/`,
-    priority: 0.2,
-  }));
-  return [...baseMap, ...aboutMap, ...datasetMap, ...territoriesMap];
+  const territoriesMap = territories.flatMap((t) =>
+    positionSections.map((s) => ({
+      url: `${BASE_URL}/territories/${t.code}/${s.name}/`,
+      priority: 0.2,
+    })),
+  );
+  return [...baseMap, ...aboutMap, ...territoriesMap];
 }

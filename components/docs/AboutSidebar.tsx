@@ -16,6 +16,7 @@ const menu: MenuItem[] = [
     path: '/about/contribute/',
     title: 'Contribute',
     children: [
+      { path: '/about/contribute/poliloom/', title: 'Using PoliLoom' },
       { path: '/about/contribute/wikidata/', title: 'Editing Wikidata' },
     ],
   },

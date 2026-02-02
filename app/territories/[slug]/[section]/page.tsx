@@ -31,7 +31,7 @@ import {
   caseInsensitiveAlphabetic,
   reverseNumericAlphabetic,
   PositionSectionDefinition,
-} from '../positionDefinitions';
+} from '@/lib/positionSections';
 
 const slugCountryCode = (slug: string) => slug.split('.')[0];
 
