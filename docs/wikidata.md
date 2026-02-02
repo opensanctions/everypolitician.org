@@ -15,7 +15,9 @@ From [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page):
 
 <!-- TODO: style blockquote -->
 
-> Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+<div class="ms-3 mb-3 text-muted">
+  Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+</div>
 
 You may be one of those humans, and OpenSanctions is one of those machines: each time our Wikidata crawler runs, political positions are identified, as are any holders of those positions. So, assuming the position meets our inclusion criteria, any position or related person you’ve added or changed will be included on EveryPolitician after the next crawler run.
 
@@ -83,21 +85,18 @@ For clarity, the following are required for a politician to be included on Every
 </div>
 
 - They must have a Wikidata Item
-- Their [instance of](https://www.wikidata.org/wiki/Property:P31) must be [human](https://www.wikidata.org/wiki/Q5)
-- Their [occupation](https://www.wikidata.org/wiki/Property:P106) must be [politician](https://www.wikidata.org/wiki/Q82955)
-  <!-- TODO: fact check -->
-- Their [country of citizenship](https://www.wikidata.org/wiki/Property:P27) must match the position of their position held, with the exception of dipllomatic positions
+- Their [instance of](https://www.wikidata.org/wiki/Property:P31) should be [human](https://www.wikidata.org/wiki/Q5)
 - Their Wikidata entry must be linked, via a [position held](https://www.wikidata.org/wiki/Property:P39) statement, to a political position
 - Time logic — position held:
   - If the role is the head of a government, the position held may have an end time but it must be in the past 50 years (this is the longest we keep people for)
   - If the role is in national or international government or diplomatic, it may have an end time but it must be in the past 20 years
   - For all other roles, it may have an end date but it must be in the past 5 years
-  - If the position held doesn't have an end time, the start time can't be more than 40 years ago
+  - If the position held doesn’t have an end time, the start time can’t be more than 40 years ago
 - Time logic — the person:
   - If they have a [date of death](https://www.wikidata.org/wiki/Property:P570), it must be in the past 5 years
-  - They must not be older than 110 years, or we assume that even if they're still alive they're probably not in office
+  - They must not be older than 110 years, or we assume that even if they’re still alive they’re probably not in office
 - Time logic — the position:
-  - If the position has an associated [dissolved, abolished or demolished date](https://www.wikidata.org/wiki/Property:P576) or [end time](https://www.wikidata.org/wiki/Property:P582), it must be within the relevant cutoff period (see above)
+  - If the position has an associated [dissolved, abolished or demolished date](https://www.wikidata.org/wiki/Property:P576) or [end time](https://www.wikidata.org/wiki/Property:P582), it must be within the relevant cutoff period (see above) — for clarity, this is _completely separate_ from an end time for the position held; this is for the position itself ceasing to exist
 
 ## <a id="linking"> Linking a politician to a political position
 
@@ -111,12 +110,12 @@ This assumes that both the politician and their position exist as Wikidata Items
   - Searching in another tab and pasting the Q-id into the dropdown can be a bit more successful than filtering, if too many or not the right options appear for you.
       <!-- TODO: get images working -->
       <figure>
-          <img src="./images/position-held-no-match.png"
+          <img src="/public/images/docs/position-held-no-match.png"
               alt="‘Member of South African National Assembly’ gives a `No match was found` result.">
           <figcaption>Oh no! I’m going to have to create this position, what a drag!</figcaption>
       </figure>
       <figure>
-          <img src="./images/position-held-match-found.png"
+          <img src="/public/images/docs/position-held-match-found.png"
               alt="Pasting in the correct Q-id gives the correct position name, ‘member of the National Assembly of South Africa’.">
           <figcaption>Like how was I supposed to guess that 🙄</figcaption>
       </figure>
@@ -129,7 +128,7 @@ This assumes that both the politician and their position exist as Wikidata Items
 - Click **publish**!
 
 <figure>
-    <img src="./images/position-held-qualified-with-reference.png"
+    <img src="/public/images/docs/position-held-qualified-with-reference.png"
         alt="A ‘position held’ statement as described previously, this time with start and end times of 2000 and 2010 added, as well as a reference URL">
     <figcaption>Note that, depending on the type of the position, this politician might not be included on EveryPolitician, since they left office in 2010.</figcaption>
 </figure>
@@ -141,7 +140,7 @@ This assumes that both the politician and their position exist as Wikidata Items
 - Optionally include a description, but use something like ‘French politician’ rather than ‘president of France’, since their title will likely change over time.
 - You can also add one or more aliases if you happen to know any.
 
-![A ‘Create a new Item’ form with example data filled in](./images/new-item-politician.png)
+![A ‘Create a new Item’ form with example data filled in](/public/images/docs/new-item-politician.png)
 
 - Click **Create** and you’ll be taken to the page for that Item for further editing.
 - Click **add statement** to start filling in some basic details about the politician. In all of these cases other than a date, start typing the property or value and select it from the dropdown.
@@ -150,7 +149,7 @@ This assumes that both the politician and their position exist as Wikidata Items
   - [country of citizenship](https://www.wikidata.org/wiki/Property:P27)
   - [date of birth](https://www.wikidata.org/wiki/Property:P569) (if you know it)
 
-  ![Unpublished statements about a politician as described above](./images/politician-statements.png)
+  ![Unpublished statements about a politician as described above](/public/images/docs/politician-statements.png)
 
 - You need to **publish** each of the statements you’ve added.
 
@@ -187,4 +186,4 @@ Happy editing! 🧚
 
 ## One last thing
 
-These guides were written by a person (hi!). I've attempted to translate parts of our codebase and Wikidata's model of the world into English, to help you improve EveryPolitician if that's what you want to do. If I got something wrong, or made things more confusing than they ever needed to be, come and let me know over at the [forum](https://discuss.opensanctions.org/c/every-politician/). Thanks!
+These guides were written by a person (hi!). I’ve attempted to translate parts of our codebase and Wikidata’s model of the world into English, to help you improve EveryPolitician if that’s what you want to do. If I got something wrong, or made things more confusing than they ever needed to be, come and let me know over at the [forum](https://discuss.opensanctions.org/c/every-politician/). Thanks!
