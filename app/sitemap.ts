@@ -6,7 +6,7 @@ import { positionSections } from '@/lib/positionSections';
 
 export const dynamic = 'force-static';
 
-const PAGES = ['', 'sources/'];
+const PAGES = ['', 'sources/', 'regions/'];
 
 const ABOUT_PAGES = [
   '/about/',
@@ -37,5 +37,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.2,
     })),
   );
-  return [...baseMap, ...aboutMap, ...territoriesMap];
+  const regions = Array.from(
+    new Set(territories.map((t) => t.region).filter(Boolean)),
+  );
+  const regionsMap = regions.map((region) => ({
+    url: `${BASE_URL}/regions/${region!.toLowerCase()}/`,
+  }));
+  return [...baseMap, ...aboutMap, ...territoriesMap, ...regionsMap];
 }
