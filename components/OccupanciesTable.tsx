@@ -15,7 +15,7 @@ export default function OccupanciesTable({
   }
 
   return (
-    <Table size="sm">
+    <Table>
       <thead>
         <tr>
           <th>Position</th>

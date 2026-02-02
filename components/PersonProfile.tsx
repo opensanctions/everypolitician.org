@@ -72,7 +72,7 @@ export default function PersonProfile({ person }: PersonProfileProps) {
   }
 
   return (
-    <Table size="sm">
+    <Table>
       <tbody>
         {profileProperties.map(({ label, value }) => (
           <tr key={label}>

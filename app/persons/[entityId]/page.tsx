@@ -1,7 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
-import DatasetCard from '@/components/DatasetCard';
+import DataSourcesSection from '@/components/DataSourcesSection';
 import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -96,12 +96,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
 
         <ExternalLinks entity={person} />
 
-        <section id="sources" className="mb-5">
-          <h2>Data sources</h2>
-          {datasets.map((d) => (
-            <DatasetCard key={d.name} dataset={d} />
-          ))}
-        </section>
+        <DataSourcesSection datasets={datasets} />
       </Container>
     </LayoutFrame>
   );
