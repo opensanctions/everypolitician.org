@@ -4,7 +4,8 @@ summary: >
   How to help improve EveryPolitician's coverage of political office-holders
 date_created: 2025-08-16
 no_index: false
-path: /docs/contribute/
+path: /about/contribute/
+menu_order: 3
 ---
 
 # Contribute

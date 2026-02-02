@@ -4,7 +4,8 @@ summary: >
   How EveryPolitician collects and organises data about political office-holders
 date_created: 2025-08-16
 no_index: false
-path: /docs/methodology/
+path: /about/methodology/
+menu_order: 4
 ---
 
 # Methodology
@@ -61,4 +62,4 @@ Further down the list, we welcome sub-national positions equivalent to the natio
 
 Data is updated automatically when our sources change. For Wikidata-sourced information, updates typically appear within a few days of edits being made.
 
-If you spot an error, the best way to fix it is to [contribute a correction](/docs/contribute/).
+If you spot an error, the best way to fix it is to [contribute a correction](/about/contribute/).

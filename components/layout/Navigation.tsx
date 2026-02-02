@@ -53,11 +53,11 @@ export default function Navigation({ activeSection }: NavbarSectionProps) {
             </NavLink>
             <NavLink
               as={Link}
-              href="/docs/"
-              active={activeSection === 'docs'}
+              href="/about/"
+              active={activeSection === 'about'}
               className="fw-bold ms-3"
             >
-              Documentation
+              About
             </NavLink>
           </Nav>
         </Navbar.Collapse>

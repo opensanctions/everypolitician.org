@@ -259,7 +259,7 @@ export default async function SectionPage({ params }: PageProps) {
               Some of the data sources we rely on indicate both past and present
               holders of political offices. In those cases, a lack of a precise
               end date for a person&apos;s occupancy of a position can mean that{' '}
-              <Link href="/docs/methodology/#types">
+              <Link href="/about/methodology/#types">
                 we don&apos;t know whether they currently hold the position or
                 not
               </Link>

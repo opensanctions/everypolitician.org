@@ -25,18 +25,10 @@ export default function Footer() {
             <ul className="list-unstyled">
               <li className="mt-1">
                 <Link
-                  href="/docs/about/"
+                  href="/about/"
                   className="link-light text-decoration-underline"
                 >
-                  About OpenSanctions
-                </Link>
-              </li>
-              <li className="mt-1">
-                <Link
-                  href="/docs/"
-                  className="link-light text-decoration-underline"
-                >
-                  Documentation
+                  About EveryPolitician
                 </Link>
               </li>
               <li className="mt-1">

@@ -122,7 +122,7 @@ export default async function Page() {
                 Help us commodotize political data to further research into who
                 holds power. By contributing to open data you enable journalists
                 and researchers to study power networks.{' '}
-                <a href="/docs/contribute">
+                <a href="/about/contribute/">
                   See all ways in which you can help.
                 </a>
               </p>

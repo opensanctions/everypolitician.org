@@ -4,7 +4,8 @@ summary: >
   Learn about the EveryPolitician project and its mission to document political office-holders worldwide
 date_created: 2025-08-16
 no_index: false
-path: /docs/about/
+path: /about/
+menu_order: 1
 ---
 
 # About EveryPolitician
@@ -36,4 +37,4 @@ The original EveryPolitician project was created by [mySociety](https://www.myso
 
 ## Get involved
 
-EveryPolitician is only as good as its contributors. See our [contribution guide](/docs/contribute/) to learn how you can help improve the data.
+EveryPolitician is only as good as its contributors. See our [contribution guide](/about/contribute/) to learn how you can help improve the data.

@@ -4,7 +4,8 @@ summary: >
   How EveryPolitician handles your data and protects your privacy
 date_created: 2025-08-16
 no_index: false
-path: /docs/privacy/
+path: /about/privacy/
+menu_order: 7
 ---
 
 # Privacy Policy

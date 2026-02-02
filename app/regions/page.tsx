@@ -60,7 +60,7 @@ export default async function RegionsOverviewPage() {
               <th className="numeric text-end">Territories</th>
               <th className="numeric text-end text-nowrap">
                 <HelpLink
-                  href="/docs/methodology/"
+                  href="/about/methodology/"
                   tooltipId="help-positions"
                   tooltip="Political offices tracked in our database"
                 >
@@ -69,7 +69,7 @@ export default async function RegionsOverviewPage() {
               </th>
               <th className="numeric text-end text-nowrap">
                 <HelpLink
-                  href="/docs/methodology/"
+                  href="/about/methodology/"
                   tooltipId="help-politicians"
                   tooltip="Political office-holders in our database"
                 >

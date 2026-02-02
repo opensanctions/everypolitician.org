@@ -73,11 +73,11 @@ export default function AnalyticsManager() {
               people use the service.
               <br />
               For more information, read our{' '}
-              <Link href="/docs/privacy/">privacy policy</Link>.
+              <Link href="/about/privacy/">privacy policy</Link>.
             </p>
             <p className="d-block d-md-none">
               We use analytics to better understand how people use our service.
-              Read our <Link href="/docs/privacy/">privacy policy</Link>.
+              Read our <Link href="/about/privacy/">privacy policy</Link>.
             </p>
           </Col>
           <Col md="3" xs="5" className="text-end">

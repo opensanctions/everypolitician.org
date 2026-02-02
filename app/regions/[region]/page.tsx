@@ -81,7 +81,7 @@ function RegionTable({ territories }: { territories: TerritorySummary[] }) {
               <th>{subregion !== 'undefined' ? subregion : 'Name'}</th>
               <th className="numeric text-end text-nowrap">
                 <HelpLink
-                  href="/docs/methodology/"
+                  href="/about/methodology/"
                   tooltipId={`help-positions-${subregion}`}
                   tooltip="Political offices tracked in our database"
                 >
@@ -90,7 +90,7 @@ function RegionTable({ territories }: { territories: TerritorySummary[] }) {
               </th>
               <th className="numeric text-end text-nowrap">
                 <HelpLink
-                  href="/docs/methodology/"
+                  href="/about/methodology/"
                   tooltipId={`help-politicians-${subregion}`}
                   tooltip="Political office-holders in our database"
                 >

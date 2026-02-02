@@ -38,6 +38,16 @@ export type PageMetadata = {
   no_index: boolean;
   date_created: string;
   date_updated: string;
+  menu_order?: number;
+  menu_hidden?: boolean;
+  menu_title?: string;
+};
+
+export type MenuItem = {
+  path: string;
+  title: string;
+  order: number;
+  children: MenuItem[];
 };
 
 export type Page = PageMetadata & {
@@ -90,6 +100,9 @@ async function getDocsFiles(): Promise<DocsFile[]> {
                 frontmatter.date_created || stats.birthtime.toISOString(),
               date_updated:
                 frontmatter.date_updated || stats.mtime.toISOString(),
+              menu_order: frontmatter.menu_order,
+              menu_hidden: frontmatter.menu_hidden || false,
+              menu_title: frontmatter.menu_title,
             };
 
             files.push({
@@ -168,4 +181,69 @@ export async function getSitemapPages(
       new Date(b.date_created).getTime() - new Date(a.date_created).getTime(),
   );
   return pages.slice(0, limit);
+}
+
+export async function getDocsMenu(): Promise<MenuItem[]> {
+  const docsFiles = await getDocsFiles();
+
+  // Filter out hidden pages and build a map of path -> metadata
+  const pageMap = new Map<string, PageMetadata>();
+  for (const file of docsFiles) {
+    if (!file.meta.menu_hidden) {
+      pageMap.set(file.meta.path, file.meta);
+    }
+  }
+
+  // Build tree structure from flat list
+  const rootItems: MenuItem[] = [];
+  const itemMap = new Map<string, MenuItem>();
+
+  // Sort pages by path depth (parents before children)
+  const sortedPaths = Array.from(pageMap.keys()).sort(
+    (a, b) => a.split('/').length - b.split('/').length,
+  );
+
+  for (const pagePath of sortedPaths) {
+    const meta = pageMap.get(pagePath)!;
+    const item: MenuItem = {
+      path: meta.path,
+      title: meta.menu_title || meta.title,
+      order: meta.menu_order ?? 100,
+      children: [],
+    };
+    itemMap.set(pagePath, item);
+
+    // Find parent path by going up one level
+    // e.g., /about/contribute/wikidata/ -> /about/contribute/
+    const segments = pagePath.split('/').filter(Boolean);
+    if (segments.length <= 2) {
+      // Top-level item (e.g., /about/ or /about/contribute/)
+      rootItems.push(item);
+    } else {
+      // Try to find parent
+      const parentPath = '/' + segments.slice(0, -1).join('/') + '/';
+      const parent = itemMap.get(parentPath);
+      if (parent) {
+        parent.children.push(item);
+      } else {
+        // No parent found, add to root
+        rootItems.push(item);
+      }
+    }
+  }
+
+  // Sort items recursively by order, then by title
+  const sortItems = (items: MenuItem[]): MenuItem[] => {
+    return items
+      .map((item) => ({
+        ...item,
+        children: sortItems(item.children),
+      }))
+      .sort((a, b) => {
+        if (a.order !== b.order) return a.order - b.order;
+        return a.title.localeCompare(b.title);
+      });
+  };
+
+  return sortItems(rootItems);
 }

@@ -4,7 +4,9 @@ summary: >
   How EveryPolitician represents territories and why political boundaries are complex
 date_created: 2025-01-21
 no_index: false
-path: /docs/mapping/
+path: /about/mapping/
+menu_order: 5
+menu_title: Maps
 ---
 
 # About our maps
@@ -36,4 +38,4 @@ When you use our maps, keep in mind that the boundaries shown are one convention
 
 ## Further reading
 
-For more on how we collect and organise political data, see our [methodology](/docs/methodology/) page.
+For more on how we collect and organise political data, see our [methodology](/about/methodology/) page.

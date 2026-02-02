@@ -4,7 +4,8 @@ summary: >
   Open source code behind EveryPolitician
 date_created: 2025-08-16
 no_index: false
-path: /docs/opensource/
+path: /about/opensource/
+menu_order: 6
 ---
 
 # Open Source

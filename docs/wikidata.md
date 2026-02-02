@@ -4,7 +4,8 @@ summary: >
   Wikidata's data model, and how to edit Wikidata
 date_created: 2026-01-30
 no_index: false
-path: /docs/contribute/wikidata/
+path: /about/contribute/wikidata/
+menu_order: 1
 ---
 
 <!-- TODO: Table of Contents -->
@@ -24,7 +25,7 @@ You may be one of those humans, and OpenSanctions is one of those machines: each
 <div class="alert alert-info">
     <ul>
         <li>
-            <a href="/docs/methodology">Our methodology</a>
+            <a href="/about/methodology">Our methodology</a>
         </li>
         <li>
             <a href="https://www.opensanctions.org/datasets/wikidata/">OpenSanctions’ Wikidata dataset</a>
@@ -39,7 +40,7 @@ You may be one of those humans, and OpenSanctions is one of those machines: each
 
 Wikidata represents everything in terms of **Items**, each of which gets an identifier that starts with Q. Items get labels, descriptions, and aliases, as well as any number of statements (more on those below).
 
-Wikidata Items are thus roughly equivalent to Position and Person entities in OpenSanctions. But where OpenSanctions uses the Occupancy entity for linking a politician and a political position, Wikidata uses a ‘position held’ statement about a person. (See [our methodology](/docs/methodology/#concepts) for details on our data model.)
+Wikidata Items are thus roughly equivalent to Position and Person entities in OpenSanctions. But where OpenSanctions uses the Occupancy entity for linking a politician and a political position, Wikidata uses a ‘position held’ statement about a person. (See [our methodology](/about/methodology/#concepts) for details on our data model.)
 
 **Statements** in Wikidata are essentially properties with values. Each **property** has an identifier starting with P, and **values** can be a date or, most often, another Item. They’re rarely free text. (Values can also get optional qualifiers and references — more on that later.) Most Items we’ll be working with are [instances of](https://www.wikidata.org/wiki/Property:P31) another Item — this is an example of a property of a statement, as is [position held](https://www.wikidata.org/wiki/Property:P39).
 
@@ -110,13 +111,13 @@ This assumes that both the politician and their position exist as Wikidata Items
   - Searching in another tab and pasting the Q-id into the dropdown can be a bit more successful than filtering, if too many or not the right options appear for you.
       <!-- TODO: get images working -->
       <figure>
-          <img src="/public/images/docs/position-held-no-match.png"
-              alt="‘Member of South African National Assembly’ gives a `No match was found` result.">
-          <figcaption>Oh no! I’m going to have to create this position, what a drag!</figcaption>
+          <img src="/images/docs/position-held-no-match.png" class="img-fluid"
+              alt="'Member of South African National Assembly' gives a `No match was found` result.">
+          <figcaption>Oh no! I'm going to have to create this position, what a drag!</figcaption>
       </figure>
       <figure>
-          <img src="/public/images/docs/position-held-match-found.png"
-              alt="Pasting in the correct Q-id gives the correct position name, ‘member of the National Assembly of South Africa’.">
+          <img src="/images/docs/position-held-match-found.png" class="img-fluid"
+              alt="Pasting in the correct Q-id gives the correct position name, 'member of the National Assembly of South Africa'.">
           <figcaption>Like how was I supposed to guess that 🙄</figcaption>
       </figure>
 - Click **add qualifier** and admire the long list of properties available for [position held](https://www.wikidata.org/wiki/Property:P39). The ones we care about especially are:
@@ -128,8 +129,8 @@ This assumes that both the politician and their position exist as Wikidata Items
 - Click **publish**!
 
 <figure>
-    <img src="/public/images/docs/position-held-qualified-with-reference.png"
-        alt="A ‘position held’ statement as described previously, this time with start and end times of 2000 and 2010 added, as well as a reference URL">
+    <img src="/images/docs/position-held-qualified-with-reference.png" class="img-fluid"
+        alt="A 'position held' statement as described previously, this time with start and end times of 2000 and 2010 added, as well as a reference URL">
     <figcaption>Note that, depending on the type of the position, this politician might not be included on EveryPolitician, since they left office in 2010.</figcaption>
 </figure>
 
@@ -140,7 +141,7 @@ This assumes that both the politician and their position exist as Wikidata Items
 - Optionally include a description, but use something like ‘French politician’ rather than ‘president of France’, since their title will likely change over time.
 - You can also add one or more aliases if you happen to know any.
 
-![A ‘Create a new Item’ form with example data filled in](/public/images/docs/new-item-politician.png)
+<img src="/images/docs/new-item-politician.png" class="img-fluid" alt="A 'Create a new Item' form with example data filled in">
 
 - Click **Create** and you’ll be taken to the page for that Item for further editing.
 - Click **add statement** to start filling in some basic details about the politician. In all of these cases other than a date, start typing the property or value and select it from the dropdown.
@@ -149,7 +150,7 @@ This assumes that both the politician and their position exist as Wikidata Items
   - [country of citizenship](https://www.wikidata.org/wiki/Property:P27)
   - [date of birth](https://www.wikidata.org/wiki/Property:P569) (if you know it)
 
-  ![Unpublished statements about a politician as described above](/public/images/docs/politician-statements.png)
+  <img src="/images/docs/politician-statements.png" class="img-fluid" alt="Unpublished statements about a politician as described above">
 
 - You need to **publish** each of the statements you’ve added.
 
