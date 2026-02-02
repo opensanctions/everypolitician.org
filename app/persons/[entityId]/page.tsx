@@ -80,7 +80,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
         />
       )}
-      <Hero title={person.caption} />
+      <Hero title={person.caption} size="small" />
       <Container className="py-5">
         {hasProfileData && (
           <section id="factsheet" className="mb-5">

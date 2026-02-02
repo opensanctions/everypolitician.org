@@ -109,6 +109,13 @@ a:hover {
 .hero {
   position: relative;
   overflow: hidden;
+}
+
+.hero-small {
+  height: 20rem;
+}
+
+.hero-medium {
   height: 30rem;
 }
 

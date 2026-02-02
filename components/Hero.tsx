@@ -4,21 +4,19 @@ import Container from 'react-bootstrap/Container';
 
 interface HeroProps {
   title: string;
-  size?: 'default' | 'large';
+  size?: 'small' | 'medium' | 'large';
   background?: ReactNode;
   children?: ReactNode;
 }
 
 export function Hero({
   title,
-  size = 'default',
+  size = 'medium',
   background,
   children,
 }: HeroProps) {
-  const sizeClass = size === 'large' ? 'hero-large' : '';
-
   return (
-    <div className={`hero bg-accent ${sizeClass}`.trim()}>
+    <div className={`hero hero-${size} bg-accent`}>
       {background}
       <div className="hero-overlay">
         <Container>
