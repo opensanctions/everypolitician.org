@@ -11,79 +11,54 @@ path: /docs/methodology/
 
 This page explains how EveryPolitician collects, organises, and maintains data about political office-holders.
 
-## The concepts we use
+# <a id="concepts"></a> The concepts we use
 
 A **political position** is an office which can be filled by different people at different times, like the President of Ethiopia. This position is distinct from the President of France, but it remains the same position when a new person fills it.
 
 A **politician** is a person who fills a political position at any given time.
 
-**Occupancy** is the time-bound link between a person (specifically, a politician) and a political position.
+**Occupancy** is the time-bound link between a person (specifically, a politician) and a political position. It has start and end dates, as well as a `status` which indicates whether it’s current.
 
 Inspired by the [Wikidata Project EveryPolitician](https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician), OpenSanctions maps **political positions** primarily. We then fill in the details of who occupies each position at different points in time as information changes or becomes available. Our data model keeps the concepts of ‘person’ (or ‘politician’ in this case) and ‘position’ separate, and links them logically via ‘occupancy’ instances.
 
 <div class="alert alert-info">
-  For the nerds: the relevant OpenSanctions schema types are <a href="https://www.opensanctions.org/reference/#schema.Position">Position</a> (with a <code>gov</code> or similar topic), <a href="https://www.opensanctions.org/reference/#schema.Person">Person</a> (with a <code>role.pep</code> topic), and <a href="https://www.opensanctions.org/reference/#schema.Occupancy">Occupancy</a>. More on <a href="https://followthemoney.tech/explorer/types/topic/">topics</a>.
+  For the nerds: the relevant OpenSanctions schema types are <a href="https://www.opensanctions.org/reference/#schema.Position">Position</a> (with a <code>gov</code> or similar topic), <a href="https://www.opensanctions.org/reference/#schema.Person">Person</a> (with a <code>role.pep</code> topic), and <a href="https://www.opensanctions.org/reference/#schema.Occupancy">Occupancy</a>. More on <a href="https://www.opensanctions.org/docs/topics/#politically-exposed-persons">topics</a>.
 </div>
 
-## How we get and work with the data
+# <a id="data"></a> How we get and work with the data
 
 OpenSanctions maintains a [fleet of crawlers](https://github.com/orgs/opensanctions/projects/2/views/1) than run regularly to get data about politicians from various sources.
+
+<div class="alert alert-info">
+  <a href="https://zavod.opensanctions.org/peps/">For the nerds who care about crawlers</a>.
+</div>
+
+## Sources
+
+Our data sources include government authorities and inter-governmental agencies, as well as community, civil-society or journalistic organisations. They’re all listed on [our data sources page](/datasets/).
+
+We automatically monitor and import these databases into our data, and also use data from certain sources to enrich the base data with further information.
 
 Since the same person may well show up in multiple sources, we handily merge duplicate entities. If a politician has a [Wikidata](https://www.wikidata.org) entry, that becomes the primary entity (we also use their Wikidata identifiers in these cases).
 
 <div class="alert alert-info">
-  For the nerds who care about crawlers: <a href="https://zavod.opensanctions.org/peps/">https://zavod.opensanctions.org/peps/</a>.
+  More at OpenSanctions on <a href="https://www.opensanctions.org/pep/#sources">sources</a> and <a href="https://www.opensanctions.org/docs/enrichment/">enrichment</a>.
 </div>
 
-### Data sources
+## Positions
 
-We collect data from several types of sources:
+Ideally, we want a full picture of all national positions: heads of state, cabinets, legislatures, and national judiciaries.
 
-- **Official government websites**: Parliamentary member lists, cabinet announcements, and judicial appointments
-- **International databases**: Global databases of world leaders and heads of state
-- **Wikidata**: Community-maintained structured data from the Wikimedia ecosystem
+We also care about security and intelligence services, including the military and police, central bank leadership, diplomatic missions, and the senior leadership of intergovernmental organizations.
 
-All sources are [documented on our data sources page](/datasets/).
+Further down the list, we welcome sub-national positions equivalent to the national ones, as well as state-owned enterprises, public entities, and agencies reporting to national government. Political party leadership and local positions are also welcome to the … party.
 
-### Types
+<div class="alert alert-info">
+  More at OpenSanctions on <a href="https://www.opensanctions.org/docs/pep/methodology/#types">positions</a>.
+</div>
 
-We track several categories of political positions:
-
-#### National level
-
-- **Executive**: Heads of state, heads of government, cabinet ministers, senior civil servants
-- **Legislative**: Members of parliament, senators, representatives
-- **Judicial**: Supreme court judges, constitutional court members
-
-#### Subnational level
-
-- **Regional executives**: Governors, premiers, chief ministers
-- **Regional legislators**: State parliament members, provincial councillors
-- **Local government**: Mayors, city council members
-
-#### Other roles
-
-- **State enterprises**: Executives of major state-owned companies
-- **International bodies**: Representatives to international organisations
-
-### Position status
-
-For each position, we track whether it is currently occupied and by whom. Positions can have one of several statuses:
-
-- **Current**: The person currently holds this position
-- **Past**: The person previously held this position
-- **Unclear**: We lack precise dates to determine current status
-
-The "unclear" status occurs when our data sources indicate someone holds or held a position, but don't provide clear start and end dates. We're working to improve date coverage over time.
-
-### Updates and accuracy
+## Updates and accuracy
 
 Data is updated automatically when our sources change. For Wikidata-sourced information, updates typically appear within a few days of edits being made.
 
 If you spot an error, the best way to fix it is to [contribute a correction](/docs/contribute/).
-
-## Reference
-
-- [Politically Exposed Persons on OpenSanctions](https://www.opensanctions.org/pep/)
-- [How OpenSanctions represents political office-holders](https://www.opensanctions.org/docs/pep/methodology/)
-- [Entity risk tagging of politically exposed persons on OpenSanctions](https://www.opensanctions.org/docs/topics/#politically-exposed-persons)
