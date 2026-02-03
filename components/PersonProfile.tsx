@@ -130,10 +130,8 @@ export default function PersonProfile({
       <tbody>
         {visibleProperties.map(({ label, value, required }) => (
           <tr key={label}>
-            <th style={{ minWidth: '10rem' }}>{label}</th>
-            <td style={{ minWidth: '60%' }}>
-              {value ?? (required ? <UnknownValue /> : null)}
-            </td>
+            <th style={{ width: '12rem' }}>{label}</th>
+            <td>{value ?? (required ? <UnknownValue /> : null)}</td>
           </tr>
         ))}
       </tbody>
