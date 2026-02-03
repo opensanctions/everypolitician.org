@@ -16,8 +16,10 @@ export function Hero({
   children,
 }: HeroProps) {
   return (
-    <div className={`hero hero-${size} bg-accent`}>
-      {background}
+    <div
+      className={`hero hero-${size} bg-accent position-relative overflow-hidden`}
+    >
+      <div className="hero-background">{background}</div>
       <div className="hero-overlay">
         <Container>
           <h1 className="hero-title">{title}</h1>

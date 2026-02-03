@@ -103,11 +103,6 @@ a:hover {
 }
 
 /* Hero */
-.hero {
-  position: relative;
-  overflow: hidden;
-}
-
 .hero-small {
   height: 20rem;
 }
@@ -122,6 +117,10 @@ a:hover {
 
 .hero h1 {
   color: #fff;
+}
+
+.hero-background {
+  position: relative;
 }
 
 /* Accent background utility */
@@ -148,19 +147,26 @@ a:hover {
 
 /* World Map styles */
 
-.hero-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  pointer-events: none;
-  z-index: 1;
-}
-
 .hero-overlay .container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+@media (min-width: 768px) {
+  .hero-background {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    pointer-events: none;
+    z-index: 1;
+  }
 }
 
 .hero .hero-title {
@@ -206,6 +212,17 @@ a:hover {
   fill: var(--bs-warning) !important;
 }
 
+.map-disclaimer {
+  bottom: 0;
+}
+
+@media (max-width: 767.98px) {
+  .map-disclaimer {
+    bottom: auto;
+    top: 0;
+  }
+}
+
 .tooltip-stats {
   display: flex;
   flex-direction: column;
@@ -214,12 +231,21 @@ a:hover {
   color: var(--bs-gray-300);
 }
 
-@media (max-width: 768px) {
-  .hero .hero-title {
-    font-size: 1.75rem;
+@media (max-width: 767.98px) {
+  .hero-small,
+  .hero-medium,
+  .hero-large {
+    height: auto;
   }
 
-  .hero .hero-subtitle {
-    font-size: 1rem;
+  .hero-background {
+    height: 60vw;
+    min-height: 15rem;
+    max-height: 20rem;
+  }
+
+  .hero-overlay {
+    position: relative;
+    z-index: 1;
   }
 }

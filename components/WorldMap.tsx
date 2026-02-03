@@ -248,7 +248,7 @@ export default function WorldMap({
         </div>
       )}
       <div
-        className="position-absolute bottom-0 end-0 p-2 small text-white"
+        className="map-disclaimer position-absolute end-0 p-2 small text-white"
         style={{ backgroundColor: '#0040c1', zIndex: 2, pointerEvents: 'auto' }}
       >
         Standard political map.{' '}
