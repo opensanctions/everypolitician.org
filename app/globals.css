@@ -76,6 +76,11 @@
   text-decoration: none;
 }
 
+/* Alerts */
+.alert > :last-child {
+  margin-bottom: 0;
+}
+
 code,
 pre,
 kbd,
