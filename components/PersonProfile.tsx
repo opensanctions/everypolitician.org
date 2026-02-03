@@ -9,19 +9,29 @@ type PersonProfileProps = {
   person: EntityData;
 };
 
-const MAX_ALIASES_SHOWN = 20;
+const DEFAULT_MAX_ITEMS = 5;
 
-function AliasesValue({ aliases }: { aliases: string[] }) {
+function ExpandableList({
+  items,
+  maxItems = DEFAULT_MAX_ITEMS,
+}: {
+  items: string[];
+  maxItems?: number;
+}) {
   const [expanded, setExpanded] = useState(false);
 
-  if (aliases.length <= MAX_ALIASES_SHOWN) {
-    return <>{aliases.join(', ')}</>;
+  if (items.length === 0) {
+    return null;
+  }
+
+  if (items.length <= maxItems) {
+    return <>{items.join(', ')}</>;
   }
 
   if (expanded) {
     return (
       <>
-        {aliases.join(', ')}{' '}
+        {items.join(', ')}{' '}
         <a
           href="#"
           onClick={(e) => {
@@ -37,7 +47,7 @@ function AliasesValue({ aliases }: { aliases: string[] }) {
 
   return (
     <>
-      {aliases.slice(0, MAX_ALIASES_SHOWN).join(', ')}{' '}
+      {items.slice(0, maxItems).join(', ')}{' '}
       <a
         href="#"
         onClick={(e) => {
@@ -45,31 +55,52 @@ function AliasesValue({ aliases }: { aliases: string[] }) {
           setExpanded(true);
         }}
       >
-        show all ({aliases.length})
+        show all ({items.length})
       </a>
     </>
   );
 }
 
+function UnknownValue() {
+  return (
+    <span className="text-muted fst-italic">
+      unknown - <a href="/about/contribute/">help add it</a>
+    </span>
+  );
+}
+
 export default function PersonProfile({ person }: PersonProfileProps) {
   const aliases = getStringProperty(person, 'alias');
+  const classification = getStringProperty(person, 'classification');
+  const education = getStringProperty(person, 'education');
+  const political = getStringProperty(person, 'political');
 
   const profileProperties = [
     {
       label: 'Also known as',
-      value: aliases.length > 0 ? <AliasesValue aliases={aliases} /> : null,
+      value:
+        aliases.length > 0 ? (
+          <ExpandableList items={aliases} maxItems={10} />
+        ) : null,
     },
     { label: 'Date of birth', value: getFirst(person, 'birthDate') },
     { label: 'Place of birth', value: getFirst(person, 'birthPlace') },
     {
-      label: 'Political affiliation',
-      value: getStringProperty(person, 'political').join(', ') || null,
+      label: 'Classification',
+      value:
+        classification.length > 0 ? (
+          <ExpandableList items={classification} />
+        ) : null,
     },
-  ].filter((p) => p.value);
-
-  if (profileProperties.length === 0) {
-    return null;
-  }
+    {
+      label: 'Education',
+      value: education.length > 0 ? <ExpandableList items={education} /> : null,
+    },
+    {
+      label: 'Political affiliation',
+      value: political.length > 0 ? <ExpandableList items={political} /> : null,
+    },
+  ];
 
   return (
     <Table>
@@ -77,7 +108,7 @@ export default function PersonProfile({ person }: PersonProfileProps) {
         {profileProperties.map(({ label, value }) => (
           <tr key={label}>
             <th style={{ minWidth: '10rem' }}>{label}</th>
-            <td>{value}</td>
+            <td style={{ minWidth: '60%' }}>{value ?? <UnknownValue />}</td>
           </tr>
         ))}
       </tbody>

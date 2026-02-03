@@ -33,6 +33,8 @@ export default async function Page() {
       'Q32024', // Sergei Shoigu
       'Q55223040', // Alexandria Ocasio-Cortez
       'Q484605', // Christine Lagarde
+      'Q1148669', // Cyril Ramaphosa
+      'Q548733', // Vajiralongkorn (King of Thailand)
     ]),
   ]);
 

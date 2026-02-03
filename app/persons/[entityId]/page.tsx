@@ -10,7 +10,7 @@ import PersonProfile from '@/components/PersonProfile';
 import Container from 'react-bootstrap/Container';
 import { getAdjacent, getEntityDatasets } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
-import { getFirst, getStringProperty, getEntityProperty } from '@/lib/types';
+import { getFirst, getEntityProperty } from '@/lib/types';
 
 export const maxDuration = 25;
 
@@ -65,11 +65,6 @@ export default async function PersonPage({ params }: PersonPageProps) {
   const datasets = await getEntityDatasets(person);
   const structured = getSchemaEntityPage(person);
   const occupancies = data.adjacent['positionOccupancies']?.results ?? [];
-  const hasProfileData =
-    getStringProperty(person, 'alias').length > 0 ||
-    getFirst(person, 'birthDate') ||
-    getFirst(person, 'birthPlace') ||
-    getStringProperty(person, 'political').length > 0;
 
   return (
     <LayoutFrame>
@@ -82,15 +77,13 @@ export default async function PersonPage({ params }: PersonPageProps) {
       )}
       <Hero title={person.caption} size="small" />
       <Container className="py-5">
-        {hasProfileData && (
-          <section id="factsheet" className="mb-5">
-            <h2 className="d-flex align-items-center">
-              Profile
-              <ExternalLinks entity={person} />
-            </h2>
-            <PersonProfile person={person} />
-          </section>
-        )}
+        <section id="factsheet" className="mb-5">
+          <h2 className="d-flex align-items-center">
+            Profile
+            <ExternalLinks entity={person} />
+          </h2>
+          <PersonProfile person={person} />
+        </section>
 
         <section id="positions" className="mb-5">
           <h2>Positions held</h2>
