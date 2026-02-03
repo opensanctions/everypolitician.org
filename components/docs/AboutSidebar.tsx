@@ -4,13 +4,13 @@ import { usePathname } from 'next/navigation';
 import Nav from 'react-bootstrap/Nav';
 import NavLink from 'react-bootstrap/NavLink';
 
-interface MenuItem {
+export interface AboutMenuItem {
   path: string;
   title: string;
-  children?: MenuItem[];
+  children?: AboutMenuItem[];
 }
 
-const menu: MenuItem[] = [
+export const aboutMenu: AboutMenuItem[] = [
   { path: '/about/', title: 'About' },
   { path: '/about/methodology/', title: 'Methodology' },
   {
@@ -29,7 +29,7 @@ function MenuItemLink({
   activePath,
   depth = 0,
 }: {
-  item: MenuItem;
+  item: AboutMenuItem;
   activePath: string;
   depth?: number;
 }) {
@@ -64,7 +64,7 @@ export default function AboutSidebar() {
       className="flex-column justify-content-start d-print-none"
       variant="pills"
     >
-      {menu.map((item) => (
+      {aboutMenu.map((item) => (
         <MenuItemLink key={item.path} item={item} activePath={pathname} />
       ))}
     </Nav>

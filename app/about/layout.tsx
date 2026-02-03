@@ -15,13 +15,13 @@ export default function AboutLayout({ children }: AboutLayoutProps) {
     <LayoutFrame>
       <Container className="py-4 mb-5">
         <Row>
-          <Col md={9} className="order-1 order-md-2">
-            <Row className="justify-content-center">
-              <Col lg={10}>{children}</Col>
-            </Row>
-          </Col>
-          <Col md={3} className="order-2 order-md-1 py-2">
+          <Col lg={3} className="d-none d-lg-block py-2">
             <AboutSidebar />
+          </Col>
+          <Col lg={9}>
+            <Row className="justify-content-center">
+              <Col xl={10}>{children}</Col>
+            </Row>
           </Col>
         </Row>
       </Container>

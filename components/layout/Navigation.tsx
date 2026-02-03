@@ -12,8 +12,22 @@ import Navbar from 'react-bootstrap/Navbar';
 const NAV_ITEMS = [
   { href: '/regions/', label: 'Research' },
   { href: '/sources/', label: 'Sources' },
-  { href: '/about/contribute/', label: 'Contribute' },
-  { href: '/about/', label: 'About' },
+  {
+    href: '/about/contribute/',
+    label: 'Contribute',
+    mobileSubItems: [
+      { href: '/about/contribute/poliloom/', label: 'Using PoliLoom' },
+      { href: '/about/contribute/wikidata/', label: 'Editing Wikidata' },
+    ],
+  },
+  {
+    href: '/about/',
+    label: 'About',
+    mobileSubItems: [
+      { href: '/about/methodology/', label: 'Methodology' },
+      { href: '/about/privacy/', label: 'Privacy Policy' },
+    ],
+  },
 ];
 
 export default function Navigation() {
@@ -41,21 +55,33 @@ export default function Navigation() {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Nav
-            className="justify-content-end"
+            className="justify-content-end gap-lg-2"
             variant="pills"
             role="navigation"
             aria-label="Site menu"
           >
             {NAV_ITEMS.map((item) => (
-              <NavLink
-                key={item.href}
-                as={Link}
-                href={item.href}
-                active={activeHref === item.href}
-                className="fw-bold ms-3"
-              >
-                {item.label}
-              </NavLink>
+              <span key={item.href}>
+                <NavLink
+                  as={Link}
+                  href={item.href}
+                  active={activeHref === item.href}
+                  className="fw-bold"
+                >
+                  {item.label}
+                </NavLink>
+                {item.mobileSubItems?.map((subItem) => (
+                  <NavLink
+                    key={subItem.href}
+                    as={Link}
+                    href={subItem.href}
+                    active={pathname === subItem.href}
+                    className="d-lg-none ps-4"
+                  >
+                    {subItem.label}
+                  </NavLink>
+                ))}
+              </span>
             ))}
           </Nav>
         </Navbar.Collapse>
