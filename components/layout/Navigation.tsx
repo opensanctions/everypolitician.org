@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
 
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
@@ -32,6 +33,12 @@ const NAV_ITEMS = [
 
 export default function Navigation() {
   const pathname = usePathname();
+  const [expanded, setExpanded] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setExpanded(false);
+  }, [pathname]);
 
   // Find the longest matching href to handle nested paths correctly
   const activeHref = NAV_ITEMS.filter((item) =>
@@ -39,7 +46,13 @@ export default function Navigation() {
   ).sort((a, b) => b.href.length - a.href.length)[0]?.href;
 
   return (
-    <Navbar expand="lg" role="banner" className="my-1">
+    <Navbar
+      expand="lg"
+      expanded={expanded}
+      onToggle={setExpanded}
+      role="banner"
+      className="my-1"
+    >
       <Container>
         <Link href="/" passHref>
           <Navbar.Brand>
