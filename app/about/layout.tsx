@@ -16,7 +16,9 @@ export default function AboutLayout({ children }: AboutLayoutProps) {
       <Container className="py-4 mb-5">
         <Row>
           <Col md={9} className="order-1 order-md-2">
-            {children}
+            <Row className="justify-content-center">
+              <Col lg={10}>{children}</Col>
+            </Row>
           </Col>
           <Col md={3} className="order-2 order-md-1 py-2">
             <AboutSidebar />
