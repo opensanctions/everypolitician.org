@@ -55,6 +55,34 @@ export const positionSections: PositionSectionDefinition[] = [
 
 export type CategoryResults = Record<string, PositionSummary[]>;
 
+// Priority order for selecting the most salient category when a position has multiple.
+// Lower index = higher priority. Head of state/gov wins, then diplo over generic exec/legis.
+const categoryPriority: string[] = [
+  'nat-head',
+  'subnat-head',
+  'diplo',
+  'int',
+  'nat-exec',
+  'nat-legis',
+  'nat-judicial',
+  'nat-sec',
+  'nat-fin',
+  'soe',
+  'subnat-exec',
+  'subnat-legis',
+  'subnat-judicial',
+  'other',
+];
+
+/**
+ * Selects the most salient category from an array of categories.
+ * Uses priority order: head of gov > diplo > other national roles > subnational.
+ */
+export function selectPrimaryCategory(categories: string[]): string {
+  if (categories.length === 0) return 'other';
+  return categoryPriority.find((c) => categories.includes(c)) ?? categories[0];
+}
+
 /**
  * Groups position summaries by category.
  * Positions without categories are added to 'other'.
@@ -68,20 +96,13 @@ export function groupPositions(positions: PositionSummary[]): CategoryResults {
   });
 
   positions.forEach((position) => {
-    if (position.categories.length == 0) {
+    const key = selectPrimaryCategory(position.categories);
+    const categoryItems = categoryResults[key];
+    if (categoryItems == undefined) {
       categoryResults['other'].push(position);
+      console.warn('Unexpected category', key);
     } else {
-      const key = position.categories[0];
-      const categoryItems = categoryResults[key];
-      if (categoryItems == undefined) {
-        categoryResults['other'].push(position);
-        console.warn('Unexpected category', key);
-      } else {
-        categoryItems.push(position);
-      }
-
-      if (position.categories.length > 1)
-        console.warn('More than one category for position', position.id);
+      categoryItems.push(position);
     }
   });
   return categoryResults;

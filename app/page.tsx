@@ -11,7 +11,7 @@ import CardBody from 'react-bootstrap/CardBody';
 import { BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
 import {
   getTerritorySummaries,
-  getPersonsWithOccupanciesFromDataset,
+  getPersonsWithOccupanciesByIds,
 } from '@/lib/data';
 
 import type { Metadata } from 'next';
@@ -28,7 +28,12 @@ export const metadata: Metadata = {
 export default async function Page() {
   const [territories, showcasePersons] = await Promise.all([
     getTerritorySummaries(),
-    getPersonsWithOccupanciesFromDataset('us_cia_world_leaders', 5),
+    getPersonsWithOccupanciesByIds([
+      'Q43723', // Benjamin Netanyahu
+      'Q32024', // Sergei Shoigu
+      'Q55223040', // Alexandria Ocasio-Cortez
+      'Q484605', // Christine Lagarde
+    ]),
   ]);
 
   const totals = territories.reduce(
