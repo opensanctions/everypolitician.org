@@ -1,3 +1,5 @@
+import { BoxArrowUpRight } from 'react-bootstrap-icons';
+
 import { EntityData, getFirst } from '@/lib/types';
 
 export default function ExternalLinks({ entity }: { entity: EntityData }) {
@@ -8,19 +10,13 @@ export default function ExternalLinks({ entity }: { entity: EntityData }) {
   }
 
   return (
-    <section id="external-links" className="mb-5">
-      <h2>External links</h2>
-      <ul>
-        <li>
-          <a
-            href={`https://www.wikidata.org/wiki/${wikidataId}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            WikiData ({wikidataId})
-          </a>
-        </li>
-      </ul>
-    </section>
+    <a
+      href={`https://www.wikidata.org/wiki/${wikidataId}`}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="ms-auto fs-6 fw-normal"
+    >
+      View on Wikidata <BoxArrowUpRight size={12} />
+    </a>
   );
 }

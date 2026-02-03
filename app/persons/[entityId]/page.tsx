@@ -84,7 +84,10 @@ export default async function PersonPage({ params }: PersonPageProps) {
       <Container className="py-5">
         {hasProfileData && (
           <section id="factsheet" className="mb-5">
-            <h2>Profile</h2>
+            <h2 className="d-flex align-items-center">
+              Profile
+              <ExternalLinks entity={person} />
+            </h2>
             <PersonProfile person={person} />
           </section>
         )}
@@ -93,8 +96,6 @@ export default async function PersonPage({ params }: PersonPageProps) {
           <h2>Positions held</h2>
           <OccupanciesTable occupancies={occupancies} />
         </section>
-
-        <ExternalLinks entity={person} />
 
         <DataSourcesSection datasets={datasets} />
       </Container>

@@ -1,3 +1,4 @@
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
@@ -24,7 +25,9 @@ interface PositionPageProps {
   params: Promise<{ entityId: string }>;
 }
 
-export async function generateMetadata({ params }: PositionPageProps) {
+export async function generateMetadata({
+  params,
+}: PositionPageProps): Promise<Metadata> {
   const data = await getAdjacent((await params).entityId);
   if (data === null) {
     return { title: 'Position not found' };
@@ -143,15 +146,16 @@ export default async function PositionPage({ params }: PositionPageProps) {
       )}
       <Container className="py-5">
         <section id="holders" className="mb-5">
-          <h2>Position holders</h2>
+          <h2 className="d-flex align-items-center">
+            Position holders
+            <ExternalLinks entity={position} />
+          </h2>
           {occupancies ? (
             <HoldersTable occupancies={occupancies} />
           ) : (
             <p>No holders found.</p>
           )}
         </section>
-
-        <ExternalLinks entity={position} />
 
         <DataSourcesSection datasets={datasets} />
       </Container>
