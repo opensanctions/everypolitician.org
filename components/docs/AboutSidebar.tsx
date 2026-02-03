@@ -12,6 +12,7 @@ interface MenuItem {
 
 const menu: MenuItem[] = [
   { path: '/about/', title: 'About' },
+  { path: '/about/methodology/', title: 'Methodology' },
   {
     path: '/about/contribute/',
     title: 'Contribute',
@@ -20,8 +21,6 @@ const menu: MenuItem[] = [
       { path: '/about/contribute/wikidata/', title: 'Editing Wikidata' },
     ],
   },
-  { path: '/about/methodology/', title: 'Methodology' },
-  { path: '/about/opensource/', title: 'Open Source' },
   { path: '/about/privacy/', title: 'Privacy Policy' },
 ];
 

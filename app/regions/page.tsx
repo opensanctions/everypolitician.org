@@ -46,7 +46,7 @@ export default async function RegionsOverviewPage() {
   return (
     <LayoutFrame>
       <Container className="py-4 mb-5">
-        <h1>Regions</h1>
+        <h1>Research</h1>
         <p>Browse political positions and office-holders by region.</p>
         <RegionsNav regions={regionNames} />
         <Table>
@@ -107,7 +107,7 @@ export default async function RegionsOverviewPage() {
               borders, sovereignty, or who controls what. Territories may be
               disputed, occupied, or governed differently from how they appear
               on a standard map. EveryPolitician aims to track political offices
-              wherever they exist—including internationally recognised states,
+              wherever they exist — including internationally recognised states,
               territories with de facto self-governance, and subnational
               jurisdictions.
             </p>

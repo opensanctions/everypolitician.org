@@ -15,9 +15,9 @@ A **political position** is an office which can be filled by different people at
 
 A **politician** is a person who fills a political position at any given time.
 
-**Occupancy** is the time-bound link between a person (specifically, a politician) and a political position. It has start and end dates, as well as a `status` which indicates whether it's current.
+**Occupancy** is the time-bound link between a person (specifically, a politician) and a political position. It has start and end dates, as well as a `status` which indicates whether it’s current.
 
-Inspired by the [Wikidata Project EveryPolitician](https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician), OpenSanctions maps **political positions** primarily. We then fill in the details of who occupies each position at different points in time as information changes or becomes available. Our data model keeps the concepts of 'person' (or 'politician' in this case) and 'position' separate, and links them logically via 'occupancy' instances.
+Inspired by the [Wikidata Project EveryPolitician](https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician), OpenSanctions maps **political positions** primarily. We then fill in the details of who occupies each position at different points in time as information changes or becomes available. Our data model keeps the concepts of ‘person’ (or ‘politician’ in this case) and ‘position’ separate, and links them logically via ‘occupancy’ instances.
 
 <Alert type="info">
 For the nerds: the relevant OpenSanctions schema types are [Position](https://www.opensanctions.org/reference/#schema.Position) (with a `gov` or similar topic), [Person](https://www.opensanctions.org/reference/#schema.Person) (with a `role.pep` topic), and [Occupancy](https://www.opensanctions.org/reference/#schema.Occupancy). More on [topics](https://www.opensanctions.org/docs/topics/#politically-exposed-persons).
@@ -33,7 +33,7 @@ OpenSanctions maintains a [fleet of crawlers](https://github.com/orgs/opensancti
 
 ### Sources
 
-Our data sources include government authorities and inter-governmental agencies, as well as community, civil-society or journalistic organisations. They're all listed on [our data sources page](/datasets/).
+Our data sources include government authorities and inter-governmental agencies, as well as community, civil-society, and journalistic organisations. They’re all listed on [our sources page](/sources/).
 
 We automatically monitor and import these databases into our data, and also use data from certain sources to enrich the base data with further information.
 
