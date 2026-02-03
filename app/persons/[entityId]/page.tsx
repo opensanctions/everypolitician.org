@@ -65,6 +65,12 @@ export default async function PersonPage({ params }: PersonPageProps) {
   const datasets = await getEntityDatasets(person);
   const structured = getSchemaEntityPage(person);
   const occupancies = data.adjacent['positionOccupancies']?.results ?? [];
+  const familyMembers = [
+    ...(data.adjacent['familyPerson']?.results ?? []),
+    ...(data.adjacent['familyRelative']?.results ?? []),
+  ]
+    .map((family: any) => family.properties?.relative?.[0]?.caption)
+    .filter(Boolean);
 
   return (
     <LayoutFrame>
@@ -82,7 +88,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
             Profile
             <ExternalLinks entity={person} />
           </h2>
-          <PersonProfile person={person} />
+          <PersonProfile person={person} familyMembers={familyMembers} />
         </section>
 
         <section id="positions" className="mb-5">

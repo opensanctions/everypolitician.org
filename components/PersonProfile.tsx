@@ -7,6 +7,7 @@ import { EntityData, getFirst, getStringProperty } from '@/lib/types';
 
 type PersonProfileProps = {
   person: EntityData;
+  familyMembers?: string[];
 };
 
 const DEFAULT_MAX_ITEMS = 5;
@@ -69,7 +70,10 @@ function UnknownValue() {
   );
 }
 
-export default function PersonProfile({ person }: PersonProfileProps) {
+export default function PersonProfile({
+  person,
+  familyMembers = [],
+}: PersonProfileProps) {
   const aliases = getStringProperty(person, 'alias');
   const classification = getStringProperty(person, 'classification');
   const education = getStringProperty(person, 'education');
@@ -83,8 +87,16 @@ export default function PersonProfile({ person }: PersonProfileProps) {
           <ExpandableList items={aliases} maxItems={10} />
         ) : null,
     },
-    { label: 'Date of birth', value: getFirst(person, 'birthDate') },
-    { label: 'Place of birth', value: getFirst(person, 'birthPlace') },
+    {
+      label: 'Date of birth',
+      value: getFirst(person, 'birthDate'),
+      required: true,
+    },
+    {
+      label: 'Place of birth',
+      value: getFirst(person, 'birthPlace'),
+      required: true,
+    },
     {
       label: 'Classification',
       value:
@@ -100,15 +112,28 @@ export default function PersonProfile({ person }: PersonProfileProps) {
       label: 'Political affiliation',
       value: political.length > 0 ? <ExpandableList items={political} /> : null,
     },
+    {
+      label: 'Family',
+      value:
+        familyMembers.length > 0 ? (
+          <ExpandableList items={familyMembers} />
+        ) : null,
+    },
   ];
+
+  const visibleProperties = profileProperties.filter(
+    ({ value, required }) => value || required,
+  );
 
   return (
     <Table>
       <tbody>
-        {profileProperties.map(({ label, value }) => (
+        {visibleProperties.map(({ label, value, required }) => (
           <tr key={label}>
             <th style={{ minWidth: '10rem' }}>{label}</th>
-            <td style={{ minWidth: '60%' }}>{value ?? <UnknownValue />}</td>
+            <td style={{ minWidth: '60%' }}>
+              {value ?? (required ? <UnknownValue /> : null)}
+            </td>
           </tr>
         ))}
       </tbody>
