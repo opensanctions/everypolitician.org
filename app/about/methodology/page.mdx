@@ -19,7 +19,7 @@ A **politician** is a person who fills a political position at any given time.
 
 Inspired by the [Wikidata Project EveryPolitician](https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician), OpenSanctions maps **political positions** primarily. We then fill in the details of who occupies each position at different points in time as information changes or becomes available. Our data model keeps the concepts of ‘person’ (or ‘politician’ in this case) and ‘position’ separate, and links them logically via ‘occupancy’ instances.
 
-<Alert type="info">
+<Alert type="primary">
 For the nerds: the relevant OpenSanctions schema types are [Position](https://www.opensanctions.org/reference/#schema.Position) (with a `gov` or similar topic), [Person](https://www.opensanctions.org/reference/#schema.Person) (with a `role.pep` topic), and [Occupancy](https://www.opensanctions.org/reference/#schema.Occupancy). More on [topics](https://www.opensanctions.org/docs/topics/#politically-exposed-persons).
 </Alert>
 
@@ -27,7 +27,7 @@ For the nerds: the relevant OpenSanctions schema types are [Position](https://ww
 
 OpenSanctions maintains a [fleet of crawlers](https://github.com/orgs/opensanctions/projects/2/views/1) than run regularly to get data about politicians from various sources.
 
-<Alert type="info">
+<Alert type="primary">
 [For the nerds who care about crawlers](https://zavod.opensanctions.org/peps/).
 </Alert>
 
@@ -39,7 +39,7 @@ We automatically monitor and import these databases into our data, and also use 
 
 Since the same person may well show up in multiple sources, we handily merge duplicate entities. If a politician has a [Wikidata](https://www.wikidata.org) entry, that becomes the primary entity (we also use their Wikidata identifiers in these cases).
 
-<Alert type="info">
+<Alert type="primary">
 More at OpenSanctions on [sources](https://www.opensanctions.org/pep/#sources) and [enrichment](https://www.opensanctions.org/docs/enrichment/).
 </Alert>
 
@@ -51,7 +51,7 @@ We also care about security and intelligence services, including the military an
 
 Further down the list, we welcome sub-national positions equivalent to the national ones, as well as state-owned enterprises, public entities, and agencies reporting to national government. Political party leadership and local positions are also welcome to the … party.
 
-<Alert type="info">
+<Alert type="primary">
 More at OpenSanctions on [positions](https://www.opensanctions.org/docs/pep/methodology/#types).
 </Alert>
 

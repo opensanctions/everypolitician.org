@@ -1,4 +1,4 @@
-import { Alert, Figure } from '@/components/mdx';
+import { Alert, Blockquote, Figure } from '@/components/mdx';
 
 export const metadata = {
   title: 'Editing Wikidata',
@@ -9,11 +9,13 @@ export const metadata = {
 
 From [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page):
 
-> Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+<Blockquote cite="Wikidata">
+  Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+</Blockquote>
 
 You may be one of those humans, and OpenSanctions is one of those machines: each time our Wikidata crawler runs, political positions are identified, as are any holders of those positions. So, assuming the position meets our inclusion criteria, any position or related person you’ve added or changed will be included on EveryPolitician after the next crawler run.
 
-<Alert type="info">
+<Alert type="primary">
 - [Our methodology](/about/methodology)
 - [OpenSanctions’ Wikidata dataset](https://www.opensanctions.org/datasets/wikidata/)
 - [The Wikidata crawler](https://github.com/opensanctions/opensanctions/tree/main/datasets/_wikidata)
@@ -40,7 +42,7 @@ Something to wrap your head around is that if you know the value of a property b
 - **Politicians** are instances of [human](https://www.wikidata.org/wiki/Q5), with an [occupation]() of [politician](https://www.wikidata.org/wiki/Q82955). They needn’t have a [position held](https://www.wikidata.org/wiki/Property:P39) property, **but if they don’t they won’t be included on EveryPolitician**. They can also have other properties, like a [date of birth](https://www.wikidata.org/wiki/Property:P569), [sex or gender](https://www.wikidata.org/wiki/Property:P21), and [country of citizenship](https://www.wikidata.org/wiki/Property:P27), which are good to have for a fuller picture.
 - The [**position held**](https://www.wikidata.org/wiki/Property:P39) statement on a politician needs to link to an existing position, and should ideally have a start date and, if they don’t currently hold the position, an end date. They can also contain other details, like a parliamentary group. This is the main property we care about for every politician Item, as its value links the politician to a political position.
 
-<Alert type="info">
+<Alert type="primary">
 Wikidata allows for an almost 1:1 level of granularity — you can go as deep as you like into any of these rabbit holes. We’re assuming that you want to add or fix one to a handful of missing or incorrect entries for posterity and/or your future use. If that isn’t the case, maybe check the [FAQ](https://www.opensanctions.org/faq/172/) to see if you should be doing something else. If you’re an even bigger nerd than we thought, here are some places where you can start diving deeper into Wikidata:
 
 - [Wikidata Tours](https://www.wikidata.org/wiki/Wikidata:Tours) — interactive tutorials on Items, Statements, and References
@@ -145,7 +147,7 @@ The Wikidata Item for the politician exists now. Great! Next you’ll have to [l
 
 As demonstrated in the section on [linking a politician to a political position](#linking-a-politician-to-a-political-position), the position might well already exist. Try searching a few different ways before creating a new Item, so that you don’t end up with two positions that mean the same thing.
 
-<Alert type="info">
+<Alert type="primary">
 The cool people over at the [Govdirectory WikiProject](https://www.wikidata.org/wiki/Wikidata:WikiProject_Govdirectory) are working on mapping political positions. Please defer to their expertise when it comes to political positions.
 </Alert>
 
