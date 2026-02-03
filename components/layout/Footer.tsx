@@ -1,19 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  ChatRightHeartFill,
-  EnvelopeOpenHeartFill,
-  Github,
-  HeartFill,
-  LifePreserver,
-  Linkedin,
-  RocketTakeoffFill,
-} from 'react-bootstrap-icons';
+import { ChatRightHeartFill, Github, HeartFill } from 'react-bootstrap-icons';
 
+import { LICENSE_URL, OSA_URL } from '@/lib/constants';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
-import { LICENSE_URL, OSA_URL } from '@/lib/constants';
 
 export default function Footer() {
   return (
@@ -42,62 +34,45 @@ export default function Footer() {
             </ul>
           </Col>
           <Col md={3}>
-            <strong className="text-white">Keep updated</strong>
+            <strong className="text-white">Get in touch</strong>
             <ul className="list-unstyled">
               <li className="mt-1">
                 <Link
-                  href={`${OSA_URL}/newsletter/`}
-                  aria-label="Subscribe to our newsletter"
+                  href="https://discuss.opensanctions.org/c/every-politician"
+                  prefetch={false}
                   className="link-light text-decoration-underline"
                 >
-                  <EnvelopeOpenHeartFill aria-hidden="true" /> Newsletter
+                  <ChatRightHeartFill aria-hidden="true" /> Forum
                 </Link>
               </li>
               <li className="mt-1">
                 <Link
-                  href="https://www.linkedin.com/company/opensanctions/"
+                  href="https://github.com/opensanctions/everypolitician.org"
                   className="link-light text-decoration-underline"
                 >
-                  <Linkedin aria-hidden="true" /> LinkedIn
-                </Link>
-              </li>
-              <li className="mt-1">
-                <Link
-                  href="https://github.com/opensanctions/opensanctions"
-                  className="link-light text-decoration-underline"
-                >
-                  <Github aria-hidden="true" /> Github code
+                  <Github aria-hidden="true" /> GitHub
                 </Link>
               </li>
             </ul>
           </Col>
           <Col md={3}>
-            <strong className="text-white">Get in touch</strong>
+            <strong className="text-white">On Wikidata</strong>
             <ul className="list-unstyled">
               <li className="mt-1">
                 <Link
-                  href={`${OSA_URL}/support/`}
+                  href="https://www.wikidata.org/wiki/Wikidata:WikiProject_Govdirectory"
                   prefetch={false}
                   className="link-light text-decoration-underline"
                 >
-                  <LifePreserver aria-hidden="true" /> Get support
+                  WikiProject Govdirectory
                 </Link>
               </li>
               <li className="mt-1">
                 <Link
-                  href={`${OSA_URL}/sales/`}
+                  href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician"
                   className="link-light text-decoration-underline"
                 >
-                  <RocketTakeoffFill aria-hidden="true" /> Talk to sales
-                </Link>
-              </li>
-              <li className="mt-1">
-                <Link
-                  href="https://discuss.opensanctions.org"
-                  prefetch={false}
-                  className="link-light text-decoration-underline"
-                >
-                  <ChatRightHeartFill aria-hidden="true" /> Forum
+                  WikiProject every politician
                 </Link>
               </li>
             </ul>
@@ -124,17 +99,6 @@ export default function Footer() {
             </p>
             <p className="small mb-0">
               Made with <HeartFill className="text-danger" /> across Europe
-              {' · '}
-              <Link
-                href="https://status.opensanctions.org"
-                className="link-light"
-              >
-                System status
-              </Link>
-              {' · '}
-              <Link href={`${OSA_URL}/changelog/`} className="link-light">
-                Changelog
-              </Link>
               {' · '}
               <Link
                 href={`${OSA_URL}/docs/privacy/`}
