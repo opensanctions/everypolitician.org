@@ -336,7 +336,7 @@ export default async function SectionPage({ params }: PageProps) {
               license it for commercial use.
             </p>
             <p>
-              <Link href="/about/">
+              <Link href="/about/#how-it-can-be-used">
                 Learn more about accessing and using EveryPolitician data
               </Link>
             </p>
