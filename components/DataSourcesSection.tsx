@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Badge from 'react-bootstrap/Badge';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
@@ -32,6 +33,9 @@ export default function DataSourcesSection({
                 >
                   {dataset.title} <BoxArrowUpRight size={12} />
                 </a>
+                {dataset.publisher?.official && (
+                  <Badge className="ms-2">Official</Badge>
+                )}
                 {dataset.summary && <p>{dataset.summary}</p>}
               </li>
             ))}

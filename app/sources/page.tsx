@@ -34,6 +34,7 @@ export default async function Page() {
             <tr>
               <th>Name</th>
               <th>Country</th>
+              <th></th>
               <th className="text-end">Entities</th>
             </tr>
           </thead>
@@ -51,11 +52,12 @@ export default async function Page() {
                       href={`/territories/${dataset.publisher.territory.code}/national/`}
                       prefetch={false}
                     >
-                      <Badge bg="primary">
-                        {dataset.publisher.territory.name}
-                      </Badge>
+                      {dataset.publisher.territory.name}
                     </Link>
                   )}
+                </td>
+                <td>
+                  {dataset.publisher?.official && <Badge>Official</Badge>}
                 </td>
                 <td className="text-end">{dataset.thing_count || '-'}</td>
               </tr>
