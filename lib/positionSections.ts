@@ -59,15 +59,15 @@ export type CategoryResults = Record<string, PositionSummary[]>;
 // Lower index = higher priority. Head of state/gov wins, then diplo over generic exec/legis.
 const categoryPriority: string[] = [
   'nat-head',
-  'subnat-head',
   'diplo',
   'int',
   'nat-exec',
   'nat-legis',
-  'nat-judicial',
   'nat-sec',
   'nat-fin',
+  'nat-judicial',
   'soe',
+  'subnat-head',
   'subnat-exec',
   'subnat-legis',
   'subnat-judicial',

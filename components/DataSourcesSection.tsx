@@ -16,7 +16,7 @@ export default function DataSourcesSection({
     <section id="sources" className="mb-5">
       <Row>
         <Col md={8}>
-          <h2>Data sources</h2>
+          <h2>Sources</h2>
           <p>
             Most of the data on this site comes from Wikidata. We are also
             working to bring in primary source data for verification.{' '}
