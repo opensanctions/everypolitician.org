@@ -4,6 +4,10 @@
   --bs-primary: #004eeb;
   --ep-accent: #0040c1;
   --bs-primary-rgb: 0, 78, 235;
+  --bs-warning: #fcbf49;
+  --bs-warning-rgb: 252, 191, 73;
+  --bs-danger: #f72c25;
+  --bs-danger-rgb: 247, 44, 37;
   --bs-dark: #262626;
   --bs-dark-rgb: 38, 38, 38;
 
@@ -35,6 +39,20 @@
 
   /* Borders */
   --bs-border-color: #d4d4d4;
+}
+
+/* Primary button */
+.btn-primary {
+  --bs-btn-bg: #ffb020;
+  --bs-btn-border-color: #ffb020;
+  --bs-btn-color: color-mix(in srgb, #ffb020 25%, black);
+  --bs-btn-font-weight: 600;
+  --bs-btn-hover-bg: #fcbf49;
+  --bs-btn-hover-border-color: #fcbf49;
+  --bs-btn-hover-color: color-mix(in srgb, #fcbf49 25%, black);
+  --bs-btn-active-bg: color-mix(in srgb, #fcbf49 75%, black);
+  --bs-btn-active-border-color: color-mix(in srgb, #fcbf49 75%, black);
+  --bs-btn-active-color: color-mix(in srgb, #fcbf49 20%, black);
 }
 
 /* Nav pills */
@@ -112,12 +130,12 @@ a:hover {
   color: #fff;
 }
 
-.bg-accent a {
+.bg-accent a:not(.btn) {
   color: #fff;
   text-decoration: underline;
 }
 
-.bg-accent a:hover {
+.bg-accent a:not(.btn):hover {
   color: var(--bs-gray-200);
 }
 

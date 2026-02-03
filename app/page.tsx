@@ -8,8 +8,7 @@ import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
-import CardTitle from 'react-bootstrap/CardTitle';
-import { BoxArrowUpRight } from 'react-bootstrap-icons';
+import { BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
 import {
   getTerritorySummaries,
   getPersonsWithOccupanciesFromDataset,
@@ -88,8 +87,8 @@ export default async function Page() {
         <Row className="pb-5 mb-5">
           <Col md={4} className="mb-4 mb-md-0">
             <h4>
-              <a href="https://opensanctions.org/">OpenSanctions</a> ❤️ Open
-              Data
+              <a href="https://opensanctions.org/">OpenSanctions</a>{' '}
+              <HeartFill className="text-danger" /> Open Data
             </h4>
             <p className="mb-0">
               We are maintaining this resource to help journalists and
@@ -132,64 +131,55 @@ export default async function Page() {
           <Row>
             <Col md={4} className="mb-3 mb-md-0">
               <Card className="h-100 border-0">
-                <CardBody>
-                  <CardTitle>
-                    <h5>PoliLoom</h5>
-                  </CardTitle>
-                  <p>
+                <CardBody className="d-flex flex-column">
+                  <h5>PoliLoom</h5>
+                  <p className="flex-grow-1">
                     Use our AI driven tool to enrich Wikidata with politician
                     data from the web.
                   </p>
-                  <p className="mb-0">
-                    <Button
-                      href="https://loom.everypolitician.org/"
-                      variant="warning"
-                    >
-                      Start enriching data <BoxArrowUpRight />
-                    </Button>
-                  </p>
+                  <Button
+                    href="https://loom.everypolitician.org/"
+                    variant="primary"
+                    className="w-100"
+                  >
+                    Start enriching data <BoxArrowUpRight />
+                  </Button>
                 </CardBody>
               </Card>
             </Col>
             <Col md={4} className="mb-3 mb-md-0">
               <Card className="h-100 border-0">
-                <CardBody>
-                  <CardTitle>
-                    <h5>GovDirectory</h5>
-                  </CardTitle>
-                  <p>
+                <CardBody className="d-flex flex-column">
+                  <h5>GovDirectory</h5>
+                  <p className="flex-grow-1">
                     Help out the project that aims to map out the levels of
                     government around the world.
                   </p>
-                  <p className="mb-0">
-                    <Button
-                      href="https://www.govdirectory.org/"
-                      variant="warning"
-                    >
-                      Explore government structures <BoxArrowUpRight />
-                    </Button>
-                  </p>
+                  <Button
+                    href="https://www.govdirectory.org/"
+                    variant="primary"
+                    className="w-100"
+                  >
+                    Explore government structures <BoxArrowUpRight />
+                  </Button>
                 </CardBody>
               </Card>
             </Col>
             <Col md={4}>
               <Card className="h-100 border-0">
-                <CardBody>
-                  <CardTitle>
-                    <h5>WikiProject</h5>
-                  </CardTitle>
-                  <p>
+                <CardBody className="d-flex flex-column">
+                  <h5>WikiProject</h5>
+                  <p className="flex-grow-1">
                     Join our Wikidata WikiProject to help improve politician
                     data directly in the knowledge base.
                   </p>
-                  <p className="mb-0">
-                    <Button
-                      href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician"
-                      variant="warning"
-                    >
-                      Join the WikiProject <BoxArrowUpRight />
-                    </Button>
-                  </p>
+                  <Button
+                    href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician"
+                    variant="primary"
+                    className="w-100"
+                  >
+                    Join the WikiProject <BoxArrowUpRight />
+                  </Button>
                 </CardBody>
               </Card>
             </Col>
