@@ -244,7 +244,7 @@ export default async function SectionPage({ params }: PageProps) {
           <Col md={8}>
             <h4>What do these numbers mean?</h4>
             <p>
-              We keep track both if political positions and the individuals who
+              We keep track both of political positions and the individuals who
               occupy those positions over time. Of course, a person can hold a
               position for multiple terms, and multiple people can occupy the
               same position at the same time (e.g. members of parliament).
