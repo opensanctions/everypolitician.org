@@ -323,6 +323,26 @@ export default async function SectionPage({ params }: PageProps) {
           </Row>
         </Container>
       </div>
+
+      <Container className="py-5">
+        <Row>
+          <Col md={8}>
+            <h3>Using EveryPolitician data</h3>
+            <p>
+              Browsing office-holders and positions here is a great way to
+              explore political structures, but if you want to use
+              EveryPolitician data in your own projects, there are several
+              options. You can download PEP data in bulk, access it via API, or
+              license it for commercial use.
+            </p>
+            <p>
+              <Link href="/about/">
+                Learn more about accessing and using EveryPolitician data
+              </Link>
+            </p>
+          </Col>
+        </Row>
+      </Container>
     </LayoutFrame>
   );
 }
