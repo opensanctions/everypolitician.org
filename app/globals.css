@@ -109,15 +109,29 @@ a:hover {
 
 /* Hero */
 .hero-small {
-  height: 20rem;
+  height: 10rem;
 }
 
 .hero-medium {
-  height: 30rem;
+  height: 15rem;
 }
 
 .hero-large {
-  height: 40rem;
+  height: 30rem;
+}
+
+@media (min-width: 768px) {
+  .hero-small {
+    height: 20rem;
+  }
+
+  .hero-medium {
+    height: 30rem;
+  }
+
+  .hero-large {
+    height: 40rem;
+  }
 }
 
 .hero h1 {
@@ -186,8 +200,15 @@ a:hover {
 }
 
 .world-map-container {
+  display: none;
   position: absolute;
   inset: 0;
+}
+
+@media (min-width: 768px) {
+  .world-map-container {
+    display: block;
+  }
 }
 
 .world-map {
