@@ -12,7 +12,7 @@ export default function Footer() {
     <div className="bg-dark text-light d-print-none" role="contentinfo">
       <Container className="py-5 mb-5">
         <Row>
-          <Col md={3}>
+          <Col md={3} className="mb-3">
             <strong className="text-white">What we do</strong>
             <ul className="list-unstyled">
               <li className="mt-1">
@@ -33,7 +33,7 @@ export default function Footer() {
               </li>
             </ul>
           </Col>
-          <Col md={3}>
+          <Col md={3} className="mb-3">
             <strong className="text-white">Get in touch</strong>
             <ul className="list-unstyled">
               <li className="mt-1">
@@ -55,7 +55,7 @@ export default function Footer() {
               </li>
             </ul>
           </Col>
-          <Col md={3}>
+          <Col md={3} className="mb-3">
             <strong className="text-white">On Wikidata</strong>
             <ul className="list-unstyled">
               <li className="mt-1">
@@ -77,7 +77,7 @@ export default function Footer() {
               </li>
             </ul>
           </Col>
-          <Col md={3}>
+          <Col md={3} className="mb-3 py-3 py-md-0">
             <Link href={OSA_URL}>
               <Image
                 src="https://assets.opensanctions.org/images/nura/logo-twolines-white.svg"
@@ -89,9 +89,9 @@ export default function Footer() {
             </Link>
           </Col>
         </Row>
-        <Row className="mt-4">
+        <Row>
           <Col>
-            <p className="small mb-1">
+            <p className="small my-1">
               The data is licensed under the terms of{' '}
               <Link href={LICENSE_URL} rel="license" className="link-light">
                 Creative Commons 4.0 Attribution NonCommercial

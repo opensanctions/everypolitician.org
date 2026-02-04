@@ -125,7 +125,8 @@ a:hover {
 }
 
 .hero-background {
-  position: relative;
+  position: absolute;
+  inset: 0;
 }
 
 /* Accent background utility */
@@ -152,26 +153,19 @@ a:hover {
 
 /* World Map styles */
 
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
 .hero-overlay .container {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-}
-
-@media (min-width: 768px) {
-  .hero-background {
-    position: absolute;
-    inset: 0;
-  }
-
-  .hero-overlay {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    align-items: center;
-    pointer-events: none;
-    z-index: 1;
-  }
 }
 
 .hero .hero-title {
@@ -221,36 +215,10 @@ a:hover {
   bottom: 0;
 }
 
-@media (max-width: 767.98px) {
-  .map-disclaimer {
-    bottom: auto;
-    top: 0;
-  }
-}
-
 .tooltip-stats {
   display: flex;
   flex-direction: column;
   gap: 0.125rem;
   font-size: 0.8125rem;
   color: var(--bs-gray-300);
-}
-
-@media (max-width: 767.98px) {
-  .hero-small,
-  .hero-medium,
-  .hero-large {
-    height: auto;
-  }
-
-  .hero-background {
-    height: 60vw;
-    min-height: 15rem;
-    max-height: 20rem;
-  }
-
-  .hero-overlay {
-    position: relative;
-    z-index: 1;
-  }
 }

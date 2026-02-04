@@ -64,15 +64,15 @@ export default async function Page() {
       <div className="bg-dark">
         <Container>
           <Row className="py-4 text-white">
-            <Col className="text-center">
+            <Col className="text-start text-md-center">
               <p className="fs-5 mb-0">
                 Tracking{' '}
                 <strong>
                   {totals.politicians.toLocaleString()} politicians
-                </strong>{' '}
-                in{' '}
-                <strong>{totals.positions.toLocaleString()} positions</strong>{' '}
-                across{' '}
+                </strong>
+                <br className="d-md-none" /> in{' '}
+                <strong>{totals.positions.toLocaleString()} positions</strong>
+                <br className="d-md-none" /> across{' '}
                 <strong>{territoriesCount} countries and territories</strong>
               </p>
             </Col>
@@ -80,10 +80,10 @@ export default async function Page() {
         </Container>
       </div>
       <Container>
-        <Row className="py-5 my-5">
-          <Col md={8} className="text-center mx-auto">
+        <Row className="pt-5 pb-0 pb-md-5 my-5">
+          <Col md={8} className="text-start text-md-center mx-auto">
             <h2>Political data matters.</h2>
-            <p className="lead">
+            <p className="lead mb-0 mb-md-3">
               Understanding who holds power is fundamental to democracy.
               Transparent, accessible data about political office-holders
               enables citizens, journalists, and researchers to hold governments

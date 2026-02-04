@@ -26,7 +26,7 @@ export default function PoliticianShowcase({ persons }: { persons: any[] }) {
           {persons.length > 0 && (
             <>
               <p>Here are some examples to get a feel for the data.</p>
-              <ul>
+              <ul className="mb-5">
                 {persons.map((person, index) => (
                   <li key={person.entity.id}>
                     <a
