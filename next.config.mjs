@@ -1,10 +1,13 @@
+import { fileURLToPath } from 'url';
 import createMDX from '@next/mdx';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   pageExtensions: ['js', 'jsx', 'md', 'mdx', 'ts', 'tsx'],
   cacheHandler:
-    process.env.NODE_ENV === 'production' ? './cache-handler.mjs' : undefined,
+    process.env.NODE_ENV === 'production'
+      ? fileURLToPath(import.meta.resolve('./cache-handler.mjs'))
+      : undefined,
   cacheMaxMemorySize: process.env.NODE_ENV === 'production' ? 0 : undefined,
   reactStrictMode: true,
   staticPageGenerationTimeout: 360,
