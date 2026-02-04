@@ -76,6 +76,21 @@
   text-decoration: none;
 }
 
+/* Nav CTA - primary button styling on desktop */
+@media (min-width: 992px) {
+  .navbar .nav-link.nav-cta {
+    background-color: var(--bs-btn-bg, #ffb020);
+    border-color: var(--bs-btn-border-color, #ffb020);
+    color: color-mix(in srgb, #ffb020 25%, black);
+  }
+
+  .navbar .nav-link.nav-cta:hover {
+    background-color: var(--bs-btn-hover-bg, #fcbf49);
+    border-color: var(--bs-btn-hover-border-color, #fcbf49);
+    color: color-mix(in srgb, #fcbf49 25%, black);
+  }
+}
+
 /* Alerts */
 .alert > :last-child {
   margin-bottom: 0;

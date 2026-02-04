@@ -13,19 +13,20 @@ const NAV_ITEMS = [
   { href: '/regions/', label: 'Research' },
   { href: '/sources/', label: 'Sources' },
   {
-    href: '/about/contribute/',
-    label: 'Contribute',
-    mobileSubItems: [
-      { href: '/about/contribute/poliloom/', label: 'Using PoliLoom' },
-      { href: '/about/contribute/wikidata/', label: 'Editing Wikidata' },
-    ],
-  },
-  {
     href: '/about/',
     label: 'About',
     mobileSubItems: [
       { href: '/about/methodology/', label: 'Methodology' },
       { href: '/about/privacy/', label: 'Privacy Policy' },
+    ],
+  },
+  {
+    href: '/about/contribute/',
+    label: 'Contribute',
+    cta: true,
+    mobileSubItems: [
+      { href: '/about/contribute/poliloom/', label: 'Using PoliLoom' },
+      { href: '/about/contribute/wikidata/', label: 'Editing Wikidata' },
     ],
   },
 ];
@@ -66,7 +67,7 @@ export default function Navigation() {
                   as={Link}
                   href={item.href}
                   active={activeHref === item.href}
-                  className="fw-bold"
+                  className={`fw-bold${item.cta ? ' nav-cta' : ''}`}
                 >
                   {item.label}
                 </NavLink>
