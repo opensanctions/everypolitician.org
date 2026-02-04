@@ -8,7 +8,7 @@ interface BlockquoteProps {
 export default function Blockquote({ children, cite }: BlockquoteProps) {
   return (
     <blockquote className="blockquote border-start border-4 ps-3 my-4">
-      <p className="mb-0">{children}</p>
+      {children}
       {cite && <footer className="blockquote-footer mt-2">{cite}</footer>}
     </blockquote>
   );
