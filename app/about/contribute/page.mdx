@@ -1,3 +1,9 @@
+{/* TODO: import (only) from mdx instead? */}
+import { BoxArrowUpRight } from 'react-bootstrap-icons';
+import Button from 'react-bootstrap/Button';
+import Col from 'react-bootstrap/Col';
+import Row from 'react-bootstrap/Row';
+
 export const metadata = {
   title: 'Contribute',
   description: 'How to help improve EveryPolitician\'s coverage of political office-holders',
@@ -7,9 +13,45 @@ export const metadata = {
 
 EveryPolitician is a community project, and we welcome contributions from anyone who wants to help improve coverage of political data.
 
-- [Using PoliLoom](/about/contribute/poliloom/)
-- [Editing Wikidata](/about/contribute/wikidata/)
-- [Build a data crawler](https://github.com/opensanctions/crawler-planning)
-- [Suggest a new data source](https://github.com/opensanctions/crawler-planning/issues/new?template=source_suggestion.yml)
-  - Check our [Crawlers project](https://github.com/orgs/opensanctions/projects/2/views/1) as well as [existing proposed sources](https://github.com/opensanctions/crawler-planning/issues?q=is%3Aopen+is%3Aissue+label%3Aproposed) first, to avoid a duplicate suggestion
-- [Open an issue](https://github.com/opensanctions/everypolitician.org/issues)
+## PoliLoom
+
+PoliLoom is our AI-driven tool that finds politician data from the web. You can help by checking what’s been found to add it to Wikidata.
+
+{/* TODO: use Buttons (line height is too big though) */}
+<Row className="mb-2">
+  <Col md={6}>
+    <a role="button" href="https://loom.everypolitician.org/" className="w-100 btn btn-primary">Start enriching data <BoxArrowUpRight /></a>
+  </Col>
+</Row>
+<Row className="mb-3">
+  <Col md={6}>
+    <a role="button" href="/about/contribute/poliloom/" className="w-100 btn btn-outline-secondary">Read the guide</a>
+  </Col>
+</Row>
+
+## Wikidata
+
+Wikidata is an important source of data about politicians. And if information is missing or incorrect, you can help fix it!
+
+<Row className="mb-2">
+  <Col md={6}>
+    <a role="button" href="https://www.govdirectory.org/" className="w-100 btn btn-primary">Explore government structures <BoxArrowUpRight /></a>
+  </Col>
+</Row>
+<Row className="mb-2">
+  <Col md={6}>
+    <a role="button" href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician" className="w-100 btn btn-primary">Join the WikiProject <BoxArrowUpRight /></a>
+  </Col>
+</Row>
+<Row className="mb-3">
+  <Col md={6}>
+    <a role="button" href="/about/contribute/wikidata/" className="w-100 btn btn-outline-secondary">Read the guide</a>
+  </Col>
+</Row>
+
+## Open source
+
+Open source contributions are also welcome. You may want to jump in by:
+
+- Looking at [our crawler planning repo](https://github.com/opensanctions/crawler-planning)
+- Opening an [issue](https://github.com/opensanctions/everypolitician.org/issues)
