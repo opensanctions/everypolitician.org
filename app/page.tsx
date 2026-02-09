@@ -141,8 +141,8 @@ export default async function Page() {
                 <CardBody className="d-flex flex-column">
                   <h5>PoliLoom</h5>
                   <p className="flex-grow-1">
-                    Use our AI driven tool to enrich Wikidata with politician
-                    data from the web.
+                    Use our semi-automatic tool to enrich Wikidata with
+                    politician data from the web.
                   </p>
                   <Button
                     href="https://loom.everypolitician.org/"
