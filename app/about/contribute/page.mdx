@@ -1,8 +1,10 @@
 {/* TODO: import (only) from mdx instead? */}
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
 import Button from 'react-bootstrap/Button';
-import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import CardBody from 'react-bootstrap/CardBody';
 
 export const metadata = {
   title: 'Contribute',
@@ -15,39 +17,48 @@ EveryPolitician is a community project, and we welcome contributions from anyone
 
 ## PoliLoom
 
-PoliLoom is a semi-automated seeker of politician data. You can help by verifying what it’s found to add it to Wikidata.
+PoliLoom is a semi-automated seeker of politician data. You can help by verifying what it's found to add it to Wikidata.
 
-{/* TODO: use Buttons (line height is too big though) */}
-<Row className="mb-2">
-  <Col md={6}>
-    <a role="button" href="https://loom.everypolitician.org/" className="w-100 btn btn-primary">Start enriching data <BoxArrowUpRight /></a>
-  </Col>
-</Row>
 <Row className="mb-3">
   <Col md={6}>
-    <a role="button" href="/about/contribute/poliloom/" className="w-100 btn btn-outline-secondary">Read the guide</a>
+    <Card className="h-100">
+      <CardBody className="d-flex flex-column">
+        <h5>PoliLoom</h5>
+        <p className="flex-grow-1">Use our semi-automated tool to enrich Wikidata with politician data from the web.</p>
+        <Button href="https://loom.everypolitician.org/" variant="primary" className="w-100">Start enriching data <BoxArrowUpRight /></Button>
+      </CardBody>
+    </Card>
   </Col>
 </Row>
+
+Learn more about <a href="/about/contribute/poliloom/">using PoliLoom</a>.
 
 ## Wikidata
 
 Wikidata is an important source of data about politicians. And if information is missing or incorrect, you can help fix it!
 
-<Row className="mb-2">
-  <Col md={6}>
-    <a role="button" href="https://www.govdirectory.org/" className="w-100 btn btn-primary">Explore government structures <BoxArrowUpRight /></a>
-  </Col>
-</Row>
-<Row className="mb-2">
-  <Col md={6}>
-    <a role="button" href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician" className="w-100 btn btn-primary">Join the WikiProject <BoxArrowUpRight /></a>
-  </Col>
-</Row>
 <Row className="mb-3">
+  <Col md={6} className="mb-3 mb-md-0">
+    <Card className="h-100">
+      <CardBody className="d-flex flex-column">
+        <h5>GovDirectory</h5>
+        <p className="flex-grow-1">Help out the project that aims to map out the levels of government around the world.</p>
+        <Button href="https://www.govdirectory.org/" variant="primary" className="w-100">Explore government structures <BoxArrowUpRight /></Button>
+      </CardBody>
+    </Card>
+  </Col>
   <Col md={6}>
-    <a role="button" href="/about/contribute/wikidata/" className="w-100 btn btn-outline-secondary">Read the guide</a>
+    <Card className="h-100">
+      <CardBody className="d-flex flex-column">
+        <h5>WikiProject</h5>
+        <p className="flex-grow-1">Join our Wikidata WikiProject to help improve politician data directly in the knowledge base.</p>
+        <Button href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician" variant="primary" className="w-100">Join the WikiProject <BoxArrowUpRight /></Button>
+      </CardBody>
+    </Card>
   </Col>
 </Row>
+
+Learn more about <a href="/about/contribute/wikidata/">editing Wikidata</a>.
 
 ## Open source
 
