@@ -21,7 +21,6 @@ export const aboutMenu: AboutMenuItem[] = [
       { path: '/about/contribute/wikidata/', title: 'Editing Wikidata' },
     ],
   },
-  { path: '/about/privacy/', title: 'Privacy Policy' },
 ];
 
 function MenuItemLink({

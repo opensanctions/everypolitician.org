@@ -14,7 +14,6 @@ const ABOUT_PAGES = [
   '/about/contribute/wikidata/',
   '/about/methodology/',
   '/about/opensource/',
-  '/about/privacy/',
 ];
 
 function dateTruncate(date?: string | null) {

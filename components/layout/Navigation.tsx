@@ -15,10 +15,7 @@ const NAV_ITEMS = [
   {
     href: '/about/',
     label: 'About',
-    mobileSubItems: [
-      { href: '/about/methodology/', label: 'Methodology' },
-      { href: '/about/privacy/', label: 'Privacy Policy' },
-    ],
+    mobileSubItems: [{ href: '/about/methodology/', label: 'Methodology' }],
   },
   {
     href: '/about/contribute/',
