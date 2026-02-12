@@ -258,3 +258,51 @@ a:hover {
   font-size: 0.8125rem;
   color: var(--bs-gray-300);
 }
+
+/* License / policy box */
+.license-box {
+  background-color: var(--bs-primary);
+  color: #fff;
+}
+
+.license-box p {
+  color: #fff;
+}
+
+@media print {
+  .license-box {
+    background-color: #e5e5e5;
+  }
+
+  .license-box p {
+    color: #262626;
+  }
+}
+
+.btn-license-primary {
+  --bs-btn-color: #262626;
+  --bs-btn-bg: #00c950;
+  --bs-btn-border-color: #00c950;
+  --bs-btn-hover-color: #262626;
+  --bs-btn-hover-bg: #26d16a;
+  --bs-btn-hover-border-color: #1ace62;
+  --bs-btn-focus-shadow-rgb: 6, 177, 74;
+  --bs-btn-active-color: #262626;
+  --bs-btn-active-bg: #33d473;
+  --bs-btn-active-border-color: #1ace62;
+  --bs-btn-font-weight: 700;
+}
+
+.btn-license-secondary {
+  --bs-btn-color: #262626;
+  --bs-btn-bg: #7bf1a8;
+  --bs-btn-border-color: #7bf1a8;
+  --bs-btn-hover-color: #262626;
+  --bs-btn-hover-bg: #8ff3b5;
+  --bs-btn-hover-border-color: #88f2b1;
+  --bs-btn-focus-shadow-rgb: 110, 211, 148;
+  --bs-btn-active-color: #262626;
+  --bs-btn-active-bg: #95f4b9;
+  --bs-btn-active-border-color: #88f2b1;
+  --bs-btn-font-weight: 700;
+}

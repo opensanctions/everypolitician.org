@@ -4,6 +4,8 @@ import { usePathname } from 'next/navigation';
 import Nav from 'react-bootstrap/Nav';
 import NavLink from 'react-bootstrap/NavLink';
 
+import { LicenseInfo } from '@/components/Policy';
+
 export interface AboutMenuItem {
   path: string;
   title: string;
@@ -59,13 +61,16 @@ export default function AboutSidebar() {
   const pathname = usePathname();
 
   return (
-    <Nav
-      className="flex-column justify-content-start d-print-none"
-      variant="pills"
-    >
-      {aboutMenu.map((item) => (
-        <MenuItemLink key={item.path} item={item} activePath={pathname} />
-      ))}
-    </Nav>
+    <>
+      <Nav
+        className="flex-column justify-content-start d-print-none"
+        variant="pills"
+      >
+        {aboutMenu.map((item) => (
+          <MenuItemLink key={item.path} item={item} activePath={pathname} />
+        ))}
+      </Nav>
+      <LicenseInfo />
+    </>
   );
 }

@@ -107,7 +107,7 @@ export default async function Page() {
               Built on <a href="https://www.wikidata.org/">Wikidata</a>
             </h4>
             <p className="mb-0">
-              Our goal is to commodotize political data, we can only reach that
+              Our goal is to commoditize political data, we can only reach that
               goal together.
             </p>
           </Col>
@@ -126,7 +126,7 @@ export default async function Page() {
             <Col md={8}>
               <h3>Contribute to political research</h3>
               <p className="mb-5">
-                Help us commodotize political data to further research into who
+                Help us commoditize political data to further research into who
                 holds power. By contributing to open data you enable journalists
                 and researchers to study power networks.{' '}
                 <a href="/about/contribute/">
