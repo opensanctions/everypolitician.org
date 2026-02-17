@@ -44,8 +44,7 @@ export const metadata: Metadata = {
     siteName: 'EveryPolitician.org',
   },
   twitter: {
-    card: 'summary_large_image',
-    creator: '@open_sanctions',
+    card: 'summary',
   },
 };
 
