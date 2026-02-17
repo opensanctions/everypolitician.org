@@ -42,7 +42,6 @@ export const metadata: Metadata = {
   },
   openGraph: {
     siteName: 'EveryPolitician.org',
-    images: ['https://assets.opensanctions.org/images/nura/social.png'],
   },
   twitter: {
     card: 'summary_large_image',
