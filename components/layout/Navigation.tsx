@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import Badge from 'react-bootstrap/Badge';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavLink from 'react-bootstrap/NavLink';
@@ -48,6 +49,9 @@ export default function Navigation() {
               className="align-top"
               alt="OpenSanctions"
             />
+            <sup>
+              <Badge>Preview</Badge>
+            </sup>
           </Navbar.Brand>
         </Link>
         <Navbar.Toggle />
