@@ -13,11 +13,6 @@ permissions:
 
 jobs:
   docker:
-    if: |
-      (
-        (github.event_name == 'schedule' || github.event_name == 'push' || github.event_name == 'workflow_dispatch') &&
-        (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop')
-      )
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -71,7 +66,7 @@ jobs:
             NEXT_PUBLIC_API_URL=https://api.${{ github.ref == 'refs/heads/main' && 'opensanctions.org' || 'test.opensanctions.org' }}
             NEXT_PUBLIC_BUILD_TIME=${{ env.BUILD_TIME }}
           pull: true
-          push: true
+          push: ${{ github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
@@ -95,7 +90,7 @@ jobs:
     steps:
       - name: Generate GitHub App token
         id: app-token
-        uses: actions/create-github-app-token@v2
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.OPERATIONS_DEPLOY_APP_ID }}
           private-key: ${{ secrets.OPERATIONS_DEPLOY_APP_KEY }}
