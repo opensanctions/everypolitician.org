@@ -293,11 +293,11 @@ export default async function SectionPage({ params }: PageProps) {
                     politician data for {territory.name}.
                   </p>
                   <Button
-                    href={process.env.NEXT_PUBLIC_POLILOOM_URL!}
+                    href={`${process.env.NEXT_PUBLIC_POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`}
                     variant="primary"
                     className="w-100"
                   >
-                    Start enriching data <BoxArrowUpRight />
+                    Enrich data for {territory.name} <BoxArrowUpRight />
                   </Button>
                 </CardBody>
               </Card>
