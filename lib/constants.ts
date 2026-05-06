@@ -7,7 +7,3 @@ export const GA_TRACKING_ID = 'G-KGY1GYY598';
 export const REVALIDATE_BASE = 3600 * 2;
 export const REVALIDATE_LONG = REVALIDATE_BASE * 2;
 export const THEME_COLOR = '#2563eb';
-
-// client-side variables
-export const API_URL =
-  process.env.NEXT_PUBLIC_API_URL || 'https://api.opensanctions.org';

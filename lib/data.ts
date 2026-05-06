@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { API_URL, MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from './constants';
+import { MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from './constants';
 import {
   Dataset,
   EntityData,
@@ -42,7 +42,7 @@ export async function fetchApi<T>(
   path: string,
   query: Record<string, any> = {},
 ): Promise<T> {
-  const apiUrl = new URL(`${API_URL}${path}`);
+  const apiUrl = new URL(`${process.env.NEXT_PUBLIC_API_URL}${path}`);
   for (const [key, value] of Object.entries(query)) {
     if (value == null) continue;
     if (Array.isArray(value)) {

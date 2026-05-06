@@ -3,6 +3,7 @@ import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import PoliticianShowcase from './PoliticianShowcase';
 import Container from 'react-bootstrap/Container';
+
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -145,7 +146,7 @@ export default async function Page() {
                     politician data from the web.
                   </p>
                   <Button
-                    href="https://loom.everypolitician.org/"
+                    href={process.env.NEXT_PUBLIC_POLILOOM_URL!}
                     variant="primary"
                     className="w-100"
                   >

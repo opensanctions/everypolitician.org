@@ -293,7 +293,7 @@ export default async function SectionPage({ params }: PageProps) {
                     politician data for {territory.name}.
                   </p>
                   <Button
-                    href="https://loom.everypolitician.org/"
+                    href={process.env.NEXT_PUBLIC_POLILOOM_URL!}
                     variant="primary"
                     className="w-100"
                   >
