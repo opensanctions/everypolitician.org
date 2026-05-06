@@ -6,6 +6,7 @@ import {
   defaultDataset,
   jsonResponse,
 } from '../../../test/fixtures';
+import { DATA_URL } from '@/lib/constants';
 
 import Page from './page';
 
@@ -25,7 +26,7 @@ describe('Person page', () => {
   beforeEach(() => {
     // Mock model
     addFetchHandler((url) => {
-      if (url.includes('data.opensanctions.org/artifacts/model/default.json')) {
+      if (url.includes(`${DATA_URL}/artifacts/model/default.json`)) {
         return jsonResponse(ftmModel);
       }
       return null;
@@ -33,11 +34,7 @@ describe('Person page', () => {
 
     // Mock datasets
     addFetchHandler((url) => {
-      if (
-        url.includes(
-          'data.opensanctions.org/datasets/latest/default/index.json',
-        )
-      ) {
+      if (url.includes(`${DATA_URL}/datasets/latest/default/index.json`)) {
         return jsonResponse(defaultDataset);
       }
       const datasetMatch = url.match(/datasets\/latest\/([^/]+)\/index\.json/);
@@ -50,7 +47,7 @@ describe('Person page', () => {
 
   it('throws notFound when entity does not exist', async () => {
     addFetchHandler((url) => {
-      if (url.includes('api.opensanctions.org/entities/')) {
+      if (url.includes(`${process.env.NEXT_PUBLIC_API_URL}/entities/`)) {
         return jsonResponse(null);
       }
       return null;
@@ -64,7 +61,7 @@ describe('Person page', () => {
   it('redirects when entity ID differs from requested ID', async () => {
     addFetchHandler((url) => {
       if (
-        url.includes('api.opensanctions.org/entities/') &&
+        url.includes(`${process.env.NEXT_PUBLIC_API_URL}/entities/`) &&
         url.includes('/adjacent')
       ) {
         return jsonResponse({

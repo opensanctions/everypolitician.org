@@ -1,4 +1,5 @@
 export const BASE_URL = 'https://www.everypolitician.org';
+export const DATA_URL = 'https://data.opensanctions.org';
 export const OSA_URL = 'https://www.opensanctions.org';
 export const LICENSE_URL = 'https://creativecommons.org/licenses/by-nc/4.0/';
 export const MAIN_DATASET = 'default';

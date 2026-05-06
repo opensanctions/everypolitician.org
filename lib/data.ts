@@ -1,6 +1,6 @@
 import 'server-only';
 
-import { MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from './constants';
+import { DATA_URL, MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from './constants';
 import {
   Dataset,
   EntityData,
@@ -12,7 +12,7 @@ import {
 
 export type { PEPCounts, PositionSummary, Territory, TerritorySummary };
 
-const TERRITORIES_URL = 'https://data.opensanctions.org/meta/territories.json';
+const TERRITORIES_URL = `${DATA_URL}/meta/territories.json`;
 
 type TerritoriesResponse = {
   territories: Territory[];
@@ -66,7 +66,7 @@ export async function fetchApi<T>(
 }
 
 async function parseCatalog(scope: string): Promise<Dataset[]> {
-  const catalogUrl = `https://data.opensanctions.org/datasets/latest/${scope}/catalog.json`;
+  const catalogUrl = `${DATA_URL}/datasets/latest/${scope}/catalog.json`;
   const catalog = await fetchStatic<{ datasets: any[] }>(catalogUrl);
   const territories = await getTerritories();
   const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
@@ -176,7 +176,7 @@ type CountryPEPData = {
 export async function getCountryPEPData(
   countryCode: string,
 ): Promise<CountryPEPData> {
-  const url = `https://data.opensanctions.org/meta/peps/countries/${countryCode}.json`;
+  const url = `${DATA_URL}/meta/peps/countries/${countryCode}.json`;
   const empty: CountryPEPData = {
     label: countryCode,
     counts: { current: 0, ended: 0, unknown: 0, total: 0 },

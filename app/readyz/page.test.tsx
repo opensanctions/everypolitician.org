@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { addFetchHandler } from '../../vitest.setup';
 import { territories, defaultDataset, jsonResponse } from '../../test/fixtures';
+import { DATA_URL } from '@/lib/constants';
 
 import CheckReady from './page';
 
@@ -9,7 +10,7 @@ describe('/readyz health check', () => {
   beforeEach(() => {
     // Mock territories API
     addFetchHandler((url) => {
-      if (url.includes('data.opensanctions.org/meta/territories.json')) {
+      if (url.includes(`${DATA_URL}/meta/territories.json`)) {
         return jsonResponse({ territories });
       }
       return null;
@@ -17,11 +18,7 @@ describe('/readyz health check', () => {
 
     // Mock dataset index
     addFetchHandler((url) => {
-      if (
-        url.includes(
-          'data.opensanctions.org/datasets/latest/default/index.json',
-        )
-      ) {
+      if (url.includes(`${DATA_URL}/datasets/latest/default/index.json`)) {
         return jsonResponse(defaultDataset);
       }
       return null;
@@ -29,11 +26,7 @@ describe('/readyz health check', () => {
 
     // Mock catalog
     addFetchHandler((url) => {
-      if (
-        url.includes(
-          'data.opensanctions.org/datasets/latest/default/catalog.json',
-        )
-      ) {
+      if (url.includes(`${DATA_URL}/datasets/latest/default/catalog.json`)) {
         return jsonResponse({
           datasets: [
             { name: 'peps', title: 'PEPs', type: 'collection' },
