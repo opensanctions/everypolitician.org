@@ -1,6 +1,7 @@
 import { notFound, redirect } from 'next/navigation';
 import Script from 'next/script';
 
+import ContributeSection from '@/components/ContributeSection';
 import DataSourcesSection from '@/components/DataSourcesSection';
 import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
@@ -95,7 +96,34 @@ export default async function PersonPage({ params }: PersonPageProps) {
           <h2>Positions held</h2>
           <OccupanciesTable occupancies={occupancies} />
         </section>
+      </Container>
 
+      <ContributeSection
+        heading="Something incorrect or missing?"
+        description={
+          <>
+            Our data is compiled from public sources and community contributions
+            — it may sometimes be incomplete or out of date.{' '}
+            <a href="/about/contribute/">Help us improve it.</a>
+          </>
+        }
+        cards={[
+          {
+            title: 'PoliLoom',
+            description: `Help verify and add information about ${person.caption} extracted from the web.`,
+            href: `${process.env.NEXT_PUBLIC_POLILOOM_URL}/politician/${getFirst(person, 'wikidataId')}`,
+            label: `Enrich ${person.caption}`,
+          },
+          {
+            title: 'Wikidata',
+            description: `Edit ${person.caption}'s entry directly on Wikidata, the open knowledge base.`,
+            href: `https://www.wikidata.org/wiki/${getFirst(person, 'wikidataId')}`,
+            label: `Edit on Wikidata`,
+          },
+        ]}
+      />
+
+      <Container className="py-5">
         <DataSourcesSection datasets={datasets} />
       </Container>
     </LayoutFrame>

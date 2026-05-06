@@ -6,10 +6,8 @@ import Container from 'react-bootstrap/Container';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import CardBody from 'react-bootstrap/CardBody';
-import { BoxArrowUpRight, HeartFill } from 'react-bootstrap-icons';
+import { HeartFill } from 'react-bootstrap-icons';
+import ContributeSection from '@/components/ContributeSection';
 import {
   getTerritorySummaries,
   getPersonsWithOccupanciesByIds,
@@ -121,79 +119,40 @@ export default async function Page() {
           </Col>
         </Row>
       </Container>
-      <div className="bg-accent py-5">
-        <Container className="my-5">
-          <Row>
-            <Col md={8}>
-              <h3>Contribute to political research</h3>
-              <p className="mb-5">
-                Help us commoditize political data to further research into who
-                holds power. By contributing to open data you enable journalists
-                and researchers to study power networks.{' '}
-                <a href="/about/contribute/">
-                  See all ways in which you can help.
-                </a>
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={4} className="mb-3 mb-md-0">
-              <Card className="h-100 border-0">
-                <CardBody className="d-flex flex-column">
-                  <h5>PoliLoom</h5>
-                  <p className="flex-grow-1">
-                    Use our semi-automated tool to enrich Wikidata with
-                    politician data from the web.
-                  </p>
-                  <Button
-                    href={process.env.NEXT_PUBLIC_POLILOOM_URL!}
-                    variant="primary"
-                    className="w-100"
-                  >
-                    Start enriching data <BoxArrowUpRight />
-                  </Button>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md={4} className="mb-3 mb-md-0">
-              <Card className="h-100 border-0">
-                <CardBody className="d-flex flex-column">
-                  <h5>GovDirectory</h5>
-                  <p className="flex-grow-1">
-                    Help out the project that aims to map out the levels of
-                    government around the world.
-                  </p>
-                  <Button
-                    href="https://www.govdirectory.org/"
-                    variant="primary"
-                    className="w-100"
-                  >
-                    Explore government structures <BoxArrowUpRight />
-                  </Button>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 border-0">
-                <CardBody className="d-flex flex-column">
-                  <h5>WikiProject</h5>
-                  <p className="flex-grow-1">
-                    Join our Wikidata WikiProject to help improve politician
-                    data directly in the knowledge base.
-                  </p>
-                  <Button
-                    href="https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician"
-                    variant="primary"
-                    className="w-100"
-                  >
-                    Join the WikiProject <BoxArrowUpRight />
-                  </Button>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+      <ContributeSection
+        heading="Contribute to political research"
+        description={
+          <>
+            Help us commoditize political data to further research into who
+            holds power. By contributing to open data you enable journalists and
+            researchers to study power networks.{' '}
+            <a href="/about/contribute/">See all ways in which you can help.</a>
+          </>
+        }
+        cards={[
+          {
+            title: 'PoliLoom',
+            description:
+              'Use our semi-automated tool to enrich Wikidata with politician data from the web.',
+            href: process.env.NEXT_PUBLIC_POLILOOM_URL!,
+            label: 'Start enriching data',
+          },
+          {
+            title: 'GovDirectory',
+            description:
+              'Help out the project that aims to map out the levels of government around the world.',
+            href: 'https://www.govdirectory.org/',
+            label: 'Explore government structures',
+          },
+          {
+            title: 'WikiProject',
+            description:
+              'Join our Wikidata WikiProject to help improve politician data directly in the knowledge base.',
+            href: 'https://www.wikidata.org/wiki/Wikidata:WikiProject_every_politician',
+            label: 'Join the WikiProject',
+          },
+        ]}
+      />
       <PoliticianShowcase persons={showcasePersons} />
     </LayoutFrame>
   );
