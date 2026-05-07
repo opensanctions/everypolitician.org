@@ -2,20 +2,17 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import CardBody from 'react-bootstrap/CardBody';
 import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import NavItem from 'react-bootstrap/NavItem';
 import Row from 'react-bootstrap/Row';
 import Section from '@/components/layout/Section';
 import Table from 'react-bootstrap/Table';
-import { BoxArrowUpRight } from 'react-bootstrap-icons';
 import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
+import ContributeSection from '@/components/ContributeSection';
 import { MAIN_DATASET } from '@/lib/constants';
 import {
   fetchApi,
@@ -34,6 +31,57 @@ import {
 } from '@/lib/positionSections';
 
 const slugCountryCode = (slug: string) => slug.split('.')[0];
+
+const GOVDIRECTORY_SLUGS: Record<string, string> = {
+  Q16: 'canada',
+  Q17: 'japan',
+  Q20: 'norway',
+  Q22: 'united-kingdom/scotland',
+  Q27: 'ireland',
+  Q30: 'united-states',
+  Q31: 'belgium',
+  Q32: 'luxembourg',
+  Q33: 'finland',
+  Q34: 'sweden',
+  Q35: 'denmark',
+  Q39: 'switzerland',
+  Q40: 'austria',
+  Q45: 'portugal',
+  Q55: 'netherlands',
+  Q77: 'uruguay',
+  Q117: 'ghana',
+  Q145: 'united-kingdom',
+  Q159: 'russia',
+  Q183: 'germany',
+  Q189: 'iceland',
+  Q211: 'latvia',
+  Q212: 'ukraine',
+  Q213: 'czech-republic',
+  Q219: 'bulgaria',
+  Q223: 'greenland',
+  Q229: 'cyprus',
+  Q233: 'malta',
+  Q241: 'cuba',
+  Q252: 'indonesia',
+  Q258: 'south-africa',
+  Q298: 'chile',
+  Q334: 'singapore',
+  Q419: 'peru',
+  Q458: 'european-union',
+  Q574: 'east-timor',
+  Q664: 'new-zealand',
+  Q668: 'india',
+  Q833: 'malaysia',
+  Q837: 'nepal',
+  Q902: 'bangladesh',
+  Q928: 'philippines',
+  Q1009: 'cameroon',
+  Q1028: 'morocco',
+  Q1050: 'eswatini',
+  Q1384: 'united-states/new-york',
+  Q1454: 'united-states/north-carolina',
+  Q23635: 'bermuda',
+};
 
 const sectionByName = new Map<string, PositionSectionDefinition>(
   positionSections.map((s) => [s.name, s]),
@@ -269,58 +317,39 @@ export default async function SectionPage({ params }: PageProps) {
         </Row>
       </Section>
 
-      <Section variant="accent">
-        <Row>
-          <Col md={8}>
-            <h3 className="text-white">
-              Help improve data for {territory.name}
-            </h3>
-            <p className="text-white mb-5">
-              Our coverage of {territory.name} depends on contributions from
-              people like you. Help us build the most comprehensive database of
-              political office-holders.
-            </p>
-          </Col>
-        </Row>
-        <Row>
-          <Col md={4} className="mb-3 mb-md-0">
-            <Card className="h-100 border-0">
-              <CardBody className="d-flex flex-column">
-                <h5>PoliLoom</h5>
-                <p className="flex-grow-1">
-                  Use our semi-automated tool to enrich Wikidata with politician
-                  data for {territory.name}.
-                </p>
-                <Button
-                  href={`${process.env.NEXT_PUBLIC_POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`}
-                  variant="primary"
-                  className="w-100"
-                >
-                  Enrich data for {territory.name} <BoxArrowUpRight />
-                </Button>
-              </CardBody>
-            </Card>
-          </Col>
-          <Col md={4}>
-            <Card className="h-100 border-0">
-              <CardBody className="d-flex flex-column">
-                <h5>GovDirectory</h5>
-                <p className="flex-grow-1">
-                  Explore the government structure of {territory.name} and help
-                  map out its levels of government.
-                </p>
-                <Button
-                  href="https://www.govdirectory.org/"
-                  variant="primary"
-                  className="w-100"
-                >
-                  Explore government structures <BoxArrowUpRight />
-                </Button>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
-      </Section>
+      <ContributeSection
+        heading={`Help improve data for ${territory.name}`}
+        description={
+          <>
+            Our coverage of {territory.name} depends on contributions from
+            people like you. Help us build the most comprehensive database of
+            political office-holders.
+          </>
+        }
+        cards={[
+          {
+            title: 'PoliLoom',
+            description: `Use our semi-automated tool to enrich Wikidata with politician data for ${territory.name}.`,
+            href: `${process.env.NEXT_PUBLIC_POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`,
+            label: `Enrich data for ${territory.name}`,
+          },
+          {
+            title: 'GovDirectory',
+            description:
+              territory.qid && GOVDIRECTORY_SLUGS[territory.qid]
+                ? `Explore the government structure of ${territory.name} and help map out its levels of government.`
+                : `GovDirectory aims to map out the governments around the world. Help them add ${territory.name}.`,
+            href:
+              territory.qid && GOVDIRECTORY_SLUGS[territory.qid]
+                ? `https://www.govdirectory.org/${GOVDIRECTORY_SLUGS[territory.qid]}/`
+                : 'https://www.wikidata.org/wiki/Wikidata:WikiProject_Govdirectory',
+            label:
+              territory.qid && GOVDIRECTORY_SLUGS[territory.qid]
+                ? `Explore ${territory.in_sentence || territory.name}`
+                : `Help mapping ${territory.in_sentence || territory.name}`,
+          },
+        ]}
+      />
 
       <Section>
         <Row>

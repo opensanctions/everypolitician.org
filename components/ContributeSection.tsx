@@ -43,7 +43,13 @@ export default function ContributeSection({
               <CardBody className="d-flex flex-column">
                 <h5>{card.title}</h5>
                 <p className="flex-grow-1">{card.description}</p>
-                <Button href={card.href} variant="primary" className="w-100">
+                <Button
+                  href={card.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="primary"
+                  className="w-100"
+                >
                   {card.label} <BoxArrowUpRight />
                 </Button>
               </CardBody>
