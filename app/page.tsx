@@ -72,7 +72,7 @@ export default async function Page() {
       </Section>
       <Section>
         <Row className="text-start text-md-center">
-          <Col md={8} className="mx-auto">
+          <Col md={8} className="mx-auto py-3">
             <h2>Political data matters.</h2>
             <p className="lead mb-0 mb-md-3">
               Understanding who holds power is fundamental to democracy.
