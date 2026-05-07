@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import Section from '@/components/layout/Section';
 import Row from 'react-bootstrap/Row';
 import Table from 'react-bootstrap/Table';
 import { getTerritorySummaries } from '@/lib/data';
@@ -45,7 +45,7 @@ export default async function RegionsOverviewPage() {
 
   return (
     <LayoutFrame>
-      <Container className="py-4 mb-5">
+      <Section>
         <h1>Research</h1>
         <p>Browse political positions and office-holders by region.</p>
         <RegionsNav regions={regionNames} />
@@ -113,7 +113,7 @@ export default async function RegionsOverviewPage() {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Section>
     </LayoutFrame>
   );
 }

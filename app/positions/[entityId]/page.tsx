@@ -7,6 +7,7 @@ import DataSourcesSection from '@/components/DataSourcesSection';
 import ExternalLinks from '@/components/ExternalLinks';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
+import Section from '@/components/layout/Section';
 import WorldMap from '@/components/WorldMap';
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
@@ -144,7 +145,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
           <h1>{position.caption}</h1>
         </Container>
       )}
-      <Container className="py-5">
+      <Section>
         <section id="holders" className="mb-5">
           <h2 className="d-flex align-items-center">
             Position holders
@@ -158,7 +159,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
         </section>
 
         <DataSourcesSection datasets={datasets} />
-      </Container>
+      </Section>
     </LayoutFrame>
   );
 }

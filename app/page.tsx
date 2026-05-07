@@ -1,8 +1,8 @@
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
+import Section from '@/components/layout/Section';
 import WorldMap from '@/components/WorldMap';
 import PoliticianShowcase from './PoliticianShowcase';
-import Container from 'react-bootstrap/Container';
 
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -60,27 +60,19 @@ export default async function Page() {
           rulers, law-makers to judges and more.
         </p>
       </Hero>
-      <div className="bg-dark">
-        <Container>
-          <Row className="py-4 text-white">
-            <Col className="text-start text-md-center">
-              <p className="fs-5 mb-0">
-                Tracking{' '}
-                <strong>
-                  {totals.politicians.toLocaleString()} politicians
-                </strong>
-                <br className="d-md-none" /> in{' '}
-                <strong>{totals.positions.toLocaleString()} positions</strong>
-                <br className="d-md-none" /> across{' '}
-                <strong>{territoriesCount} countries and territories</strong>
-              </p>
-            </Col>
-          </Row>
-        </Container>
-      </div>
-      <Container>
-        <Row className="pt-5 pb-0 pb-md-5 my-5">
-          <Col md={8} className="text-start text-md-center mx-auto">
+      <Section variant="dark">
+        <p className="fs-5 mb-0">
+          Tracking{' '}
+          <strong>{totals.politicians.toLocaleString()} politicians</strong>
+          <br className="d-md-none" /> in{' '}
+          <strong>{totals.positions.toLocaleString()} positions</strong>
+          <br className="d-md-none" /> across{' '}
+          <strong>{territoriesCount} countries and territories</strong>
+        </p>
+      </Section>
+      <Section>
+        <Row className="text-start text-md-center">
+          <Col md={8} className="mx-auto">
             <h2>Political data matters.</h2>
             <p className="lead mb-0 mb-md-3">
               Understanding who holds power is fundamental to democracy.
@@ -90,7 +82,7 @@ export default async function Page() {
             </p>
           </Col>
         </Row>
-        <Row className="pb-5 mb-5">
+        <Row className="mt-5">
           <Col md={4} className="mb-4 mb-md-0">
             <h4>
               <a href="https://opensanctions.org/">OpenSanctions</a>{' '}
@@ -118,7 +110,7 @@ export default async function Page() {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Section>
       <ContributeSection
         heading="Contribute to political research"
         description={

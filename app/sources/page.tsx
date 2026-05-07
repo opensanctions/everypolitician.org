@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Badge from 'react-bootstrap/Badge';
-import Container from 'react-bootstrap/Container';
+import Section from '@/components/layout/Section';
 import Table from 'react-bootstrap/Table';
 import { getDatasetsByScope } from '@/lib/data';
 
@@ -23,7 +23,7 @@ export default async function Page() {
 
   return (
     <LayoutFrame>
-      <Container className="py-4 mb-5">
+      <Section>
         <h1>Sources</h1>
         <p>
           These are the sources used by EveryPolitician to compile information
@@ -64,7 +64,7 @@ export default async function Page() {
             ))}
           </tbody>
         </Table>
-      </Container>
+      </Section>
     </LayoutFrame>
   );
 }

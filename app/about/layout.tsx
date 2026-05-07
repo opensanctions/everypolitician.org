@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import AboutSidebar from '@/components/docs/AboutSidebar';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import Section from '@/components/layout/Section';
 import Row from 'react-bootstrap/Row';
 
 interface AboutLayoutProps {
@@ -13,7 +13,7 @@ interface AboutLayoutProps {
 export default function AboutLayout({ children }: AboutLayoutProps) {
   return (
     <LayoutFrame>
-      <Container className="py-4 mb-5">
+      <Section>
         <Row>
           <Col lg={3} className="d-none d-lg-block py-2">
             <AboutSidebar />
@@ -24,7 +24,7 @@ export default function AboutLayout({ children }: AboutLayoutProps) {
             </Row>
           </Col>
         </Row>
-      </Container>
+      </Section>
     </LayoutFrame>
   );
 }

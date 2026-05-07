@@ -6,10 +6,10 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import CardBody from 'react-bootstrap/CardBody';
 import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavItem from 'react-bootstrap/NavItem';
 import Row from 'react-bootstrap/Row';
+import Section from '@/components/layout/Section';
 import Table from 'react-bootstrap/Table';
 import { BoxArrowUpRight } from 'react-bootstrap-icons';
 import { HelpLink } from '@/components/HelpLink';
@@ -153,7 +153,7 @@ export default async function SectionPage({ params }: PageProps) {
         )}
       </Hero>
 
-      <Container className="py-5">
+      <Section>
         <h2 id="peps">Political office-holders</h2>
         <p>
           Our database
@@ -267,64 +267,62 @@ export default async function SectionPage({ params }: PageProps) {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Section>
 
-      <div className="bg-accent py-5">
-        <Container className="my-5">
-          <Row>
-            <Col md={8}>
-              <h3 className="text-white">
-                Help improve data for {territory.name}
-              </h3>
-              <p className="text-white mb-5">
-                Our coverage of {territory.name} depends on contributions from
-                people like you. Help us build the most comprehensive database
-                of political office-holders.
-              </p>
-            </Col>
-          </Row>
-          <Row>
-            <Col md={4} className="mb-3 mb-md-0">
-              <Card className="h-100 border-0">
-                <CardBody className="d-flex flex-column">
-                  <h5>PoliLoom</h5>
-                  <p className="flex-grow-1">
-                    Use our semi-automated tool to enrich Wikidata with
-                    politician data for {territory.name}.
-                  </p>
-                  <Button
-                    href={`${process.env.NEXT_PUBLIC_POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`}
-                    variant="primary"
-                    className="w-100"
-                  >
-                    Enrich data for {territory.name} <BoxArrowUpRight />
-                  </Button>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col md={4}>
-              <Card className="h-100 border-0">
-                <CardBody className="d-flex flex-column">
-                  <h5>GovDirectory</h5>
-                  <p className="flex-grow-1">
-                    Explore the government structure of {territory.name} and
-                    help map out its levels of government.
-                  </p>
-                  <Button
-                    href="https://www.govdirectory.org/"
-                    variant="primary"
-                    className="w-100"
-                  >
-                    Explore government structures <BoxArrowUpRight />
-                  </Button>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+      <Section variant="accent">
+        <Row>
+          <Col md={8}>
+            <h3 className="text-white">
+              Help improve data for {territory.name}
+            </h3>
+            <p className="text-white mb-5">
+              Our coverage of {territory.name} depends on contributions from
+              people like you. Help us build the most comprehensive database of
+              political office-holders.
+            </p>
+          </Col>
+        </Row>
+        <Row>
+          <Col md={4} className="mb-3 mb-md-0">
+            <Card className="h-100 border-0">
+              <CardBody className="d-flex flex-column">
+                <h5>PoliLoom</h5>
+                <p className="flex-grow-1">
+                  Use our semi-automated tool to enrich Wikidata with politician
+                  data for {territory.name}.
+                </p>
+                <Button
+                  href={`${process.env.NEXT_PUBLIC_POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`}
+                  variant="primary"
+                  className="w-100"
+                >
+                  Enrich data for {territory.name} <BoxArrowUpRight />
+                </Button>
+              </CardBody>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card className="h-100 border-0">
+              <CardBody className="d-flex flex-column">
+                <h5>GovDirectory</h5>
+                <p className="flex-grow-1">
+                  Explore the government structure of {territory.name} and help
+                  map out its levels of government.
+                </p>
+                <Button
+                  href="https://www.govdirectory.org/"
+                  variant="primary"
+                  className="w-100"
+                >
+                  Explore government structures <BoxArrowUpRight />
+                </Button>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
+      </Section>
 
-      <Container className="py-5">
+      <Section>
         <Row>
           <Col md={8}>
             <h3>Using EveryPolitician data</h3>
@@ -342,7 +340,7 @@ export default async function SectionPage({ params }: PageProps) {
             </p>
           </Col>
         </Row>
-      </Container>
+      </Section>
     </LayoutFrame>
   );
 }

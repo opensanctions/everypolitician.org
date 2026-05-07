@@ -8,7 +8,7 @@ import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import OccupanciesTable from '@/components/OccupanciesTable';
 import PersonProfile from '@/components/PersonProfile';
-import Container from 'react-bootstrap/Container';
+import Section from '@/components/layout/Section';
 import { getAdjacent, getEntityDatasets } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
 import { getFirst, getEntityProperty } from '@/lib/types';
@@ -83,7 +83,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
         />
       )}
       <Hero title={person.caption} size="small" />
-      <Container className="py-5">
+      <Section>
         <section id="factsheet" className="mb-5">
           <h2 className="d-flex align-items-center">
             Profile
@@ -96,7 +96,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
           <h2>Positions held</h2>
           <OccupanciesTable occupancies={occupancies} />
         </section>
-      </Container>
+      </Section>
 
       <ContributeSection
         heading="Something incorrect or missing?"
@@ -123,9 +123,9 @@ export default async function PersonPage({ params }: PersonPageProps) {
         ]}
       />
 
-      <Container className="py-5">
+      <Section>
         <DataSourcesSection datasets={datasets} />
-      </Container>
+      </Section>
     </LayoutFrame>
   );
 }
