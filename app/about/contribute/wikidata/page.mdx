@@ -10,16 +10,15 @@ export const metadata = {
 From [Wikidata](https://www.wikidata.org/wiki/Wikidata:Main_Page):
 
 <Blockquote>
-  Wikidata is a free and open knowledge base that can be read and edited by both humans and machines.
+  Wikidata is a free and open knowledge base that can be read and edited by both
+  humans and machines.
 </Blockquote>
 
 You may be one of those humans, and OpenSanctions is one of those machines: each time our Wikidata crawler runs, political positions are identified, as are any holders of those positions. So, assuming the position meets our inclusion criteria, any position or related person you’ve added or changed will be included on EveryPolitician after the next crawler run.
 
-<Alert type="primary">
 - [Our methodology](/about/methodology)
 - [OpenSanctions’ Wikidata dataset](https://www.opensanctions.org/datasets/wikidata/)
 - [The Wikidata crawler](https://github.com/opensanctions/opensanctions/tree/main/datasets/_wikidata)
-</Alert>
 
 ## Wikidata’s data model
 
@@ -30,13 +29,16 @@ Wikidata Items are thus roughly equivalent to Position and Person entities in Op
 **Statements** in Wikidata are essentially properties with values. Each **property** has an identifier starting with P, and **values** can be a date or, most often, another Item. They’re rarely free text. (Values can also get optional qualifiers and references — more on that later.) Most Items we’ll be working with are [instances of](https://www.wikidata.org/wiki/Property:P31) another Item — this is an example of a property of a statement, as is [position held](https://www.wikidata.org/wiki/Property:P39).
 
 <Alert type="secondary">
-Something to wrap your head around is that if you know the value of a property but can’t link to it, you may need to create that Item first. More on that in the [guide](#editing-wikidata) below.
+  Something to wrap your head around is that if you know the value of a property
+  but can’t link to it, you may need to create that Item first. More on that in
+  the [guide](#editing-wikidata) below.
 </Alert>
 
 - **Political positions** are instances of [position](https://www.wikidata.org/wiki/Q4164871), can be subclasses of certain other positions and/or part of a certain legislature, and usually have at least a country and a jurisdiction. [President of Kenya](https://www.wikidata.org/wiki/Q14784066), [Member of Provincial Parliament of Western Cape](https://www.wikidata.org/wiki/Q6814209), and [Mayor of New York City](https://www.wikidata.org/wiki/Q785304) are examples.
 
 <Alert type="secondary">
-💡 While a search for ‘member of parliament Kenya’ yields more than 450 results on Wikidata, no such position exists yet.
+  While a search for ‘member of parliament Kenya’ yields more than 450 results
+  on Wikidata, no such position exists yet.
 </Alert>
 
 - **Politicians** are instances of [human](https://www.wikidata.org/wiki/Q5), with an [occupation]() of [politician](https://www.wikidata.org/wiki/Q82955). They needn’t have a [position held](https://www.wikidata.org/wiki/Property:P39) property, **but if they don’t they won’t be included on EveryPolitician**. They can also have other properties, like a [date of birth](https://www.wikidata.org/wiki/Property:P569), [sex or gender](https://www.wikidata.org/wiki/Property:P21), and [country of citizenship](https://www.wikidata.org/wiki/Property:P27), which are good to have for a fuller picture.
@@ -59,7 +61,9 @@ Our focus in these guides is on creating the relevant items and linking them, bu
 For clarity, the following are required for a politician to be included on EveryPolitician, if they aren’t in [another source](https://www.opensanctions.org/pep/#sources) that OpenSanctions tracks:
 
 <Alert type="warning">
-If they’re in one of those other sources, which are also automatically ingested but not easily editable, updating them on Wikidata might not solve your problem.
+  If they’re in one of those other sources, which are also automatically
+  ingested but not easily editable, updating them on Wikidata might not solve
+  your problem.
 </Alert>
 
 - They must have a Wikidata Item
@@ -148,7 +152,10 @@ The Wikidata Item for the politician exists now. Great! Next you’ll have to [l
 As demonstrated in the section on [linking a politician to a political position](#linking-a-politician-to-a-political-position), the position might well already exist. Try searching a few different ways before creating a new Item, so that you don’t end up with two positions that mean the same thing.
 
 <Alert type="primary">
-The cool people over at the [Govdirectory WikiProject](https://www.wikidata.org/wiki/Wikidata:WikiProject_Govdirectory) are working on mapping political positions. Please defer to their expertise when it comes to political positions.
+  The cool people over at the [Govdirectory
+  WikiProject](https://www.wikidata.org/wiki/Wikidata:WikiProject_Govdirectory)
+  are working on mapping political positions. Please defer to their expertise
+  when it comes to political positions.
 </Alert>
 
 - Start at https://www.wikidata.org/wiki/Special:NewItem.

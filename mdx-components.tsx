@@ -10,7 +10,12 @@ function createHeading(Tag: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6') {
       .map((child) => (typeof child === 'string' ? child : ''))
       .join('');
     const id = slugify(text, { lower: true, strict: true });
-    return <Tag id={id}>{children}</Tag>;
+    const marginClass = Tag === 'h1' ? '' : 'mt-5';
+    return (
+      <Tag id={id} className={marginClass}>
+        {children}
+      </Tag>
+    );
   };
 }
 

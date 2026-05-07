@@ -92,8 +92,31 @@
 }
 
 /* Alerts */
-.alert > :last-child {
+.alert > :last-child > :last-child {
   margin-bottom: 0;
+}
+
+.alert {
+  --bs-alert-bg: #fff;
+  --bs-alert-border-color: var(--bs-gray-200);
+  --bs-alert-color: var(--bs-body-color);
+  margin: 1rem 0 2rem;
+}
+
+.alert-primary {
+  --bs-alert-border-color: var(--bs-primary);
+}
+
+.alert-info {
+  --bs-alert-border-color: var(--bs-primary);
+}
+
+.alert-warning {
+  --bs-alert-border-color: var(--bs-warning);
+}
+
+.alert-secondary {
+  --bs-alert-border-color: var(--bs-gray-400);
 }
 
 code,
