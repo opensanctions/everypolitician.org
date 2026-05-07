@@ -99,9 +99,7 @@ export default async function RegionsOverviewPage() {
             ))}
           </tbody>
         </Table>
-      </Section>
-      <Section>
-        <Row>
+        <Row className="mt-5">
           <Col md={8}>
             <h3>Why regions?</h3>
             <p>
