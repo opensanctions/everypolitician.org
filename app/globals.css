@@ -203,6 +203,23 @@ a:hover {
   background-color: var(--bs-gray-100);
 }
 
+/* Profile table - stack headings above values on mobile */
+@media (max-width: 575.98px) {
+  .profile-table tbody tr {
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .profile-table tbody th {
+    display: block;
+    width: auto !important;
+  }
+
+  .profile-table tbody td {
+    display: block;
+  }
+}
+
 /* World Map styles */
 
 .hero-overlay {

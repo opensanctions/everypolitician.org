@@ -126,7 +126,7 @@ export default function PersonProfile({
   );
 
   return (
-    <Table>
+    <Table className="profile-table">
       <tbody>
         {visibleProperties.map(({ label, value, required }) => (
           <tr key={label}>
