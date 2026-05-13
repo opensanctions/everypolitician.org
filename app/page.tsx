@@ -13,6 +13,7 @@ import {
   getPersonsWithOccupanciesByIds,
 } from '@/lib/data';
 
+import { POLILOOM_URL } from '@/lib/constants';
 import type { Metadata } from 'next';
 
 export const dynamic = 'force-static';
@@ -126,7 +127,7 @@ export default async function Page() {
             title: 'PoliLoom',
             description:
               'Use our semi-automated tool to enrich Wikidata with politician data from the web.',
-            href: process.env.NEXT_PUBLIC_POLILOOM_URL!,
+            href: POLILOOM_URL,
             label: 'Start enriching data',
           },
           {

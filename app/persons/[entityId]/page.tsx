@@ -9,6 +9,7 @@ import LayoutFrame from '@/components/layout/LayoutFrame';
 import OccupanciesTable from '@/components/OccupanciesTable';
 import PersonProfile from '@/components/PersonProfile';
 import Section from '@/components/layout/Section';
+import { POLILOOM_URL } from '@/lib/constants';
 import { getAdjacent, getEntityDatasets } from '@/lib/data';
 import { getSchemaEntityPage } from '@/lib/schema';
 import { getFirst, getEntityProperty } from '@/lib/types';
@@ -111,7 +112,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
           {
             title: 'PoliLoom',
             description: `Help verify and add information about ${person.caption} extracted from the web.`,
-            href: `${process.env.NEXT_PUBLIC_POLILOOM_URL}/politician/${getFirst(person, 'wikidataId')}`,
+            href: `${POLILOOM_URL}/politician/${getFirst(person, 'wikidataId')}`,
             label: `Enrich ${person.caption}`,
           },
           {

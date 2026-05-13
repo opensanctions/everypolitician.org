@@ -13,7 +13,7 @@ import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import WorldMap from '@/components/WorldMap';
 import ContributeSection from '@/components/ContributeSection';
-import { MAIN_DATASET } from '@/lib/constants';
+import { MAIN_DATASET, POLILOOM_URL } from '@/lib/constants';
 import {
   fetchApi,
   getCountryPEPData,
@@ -330,7 +330,7 @@ export default async function SectionPage({ params }: PageProps) {
           {
             title: 'PoliLoom',
             description: `Use our semi-automated tool to enrich Wikidata with politician data for ${territory.name}.`,
-            href: `${process.env.NEXT_PUBLIC_POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`,
+            href: `${POLILOOM_URL}${territory.qid ? `/?countries=${territory.qid}` : ''}`,
             label: `Enrich data for ${territory.name}`,
           },
           {
