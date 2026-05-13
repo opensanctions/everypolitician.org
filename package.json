@@ -51,7 +51,7 @@
     "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "lint-staged": "^17.0.4",
-    "mapshaper": "^0.7.15",
+    "mapshaper": "^0.7.16",
     "prettier": "^3.8.3",
     "topojson-server": "^3.0.1",
     "typescript": "^6.0.3",
