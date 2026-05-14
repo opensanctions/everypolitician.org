@@ -11,7 +11,7 @@ import PersonProfile from '@/components/PersonProfile';
 import Section from '@/components/layout/Section';
 import { POLILOOM_URL } from '@/lib/constants';
 import { getAdjacent, getEntityDatasets } from '@/lib/data';
-import { getSchemaEntityPage } from '@/lib/schema';
+import { getSchemaEntityPage, safeJsonLd } from '@/lib/schema';
 import { getFirst, getEntityProperty } from '@/lib/types';
 
 export const maxDuration = 25;
@@ -80,7 +80,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
         <Script
           type="application/ld+json"
           id="json-ld"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(structured) }}
         />
       )}
       <Hero title={person.caption} size="small" />

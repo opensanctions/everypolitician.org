@@ -17,6 +17,14 @@ function getEveryPoliticianOrganization() {
   };
 }
 
+// Escapes `<`, `>`, `&` so attacker-controlled strings (e.g. entity.caption) cannot break out of a JSON-LD <script> block and execute as HTML.
+export function safeJsonLd(data: unknown): string {
+  return JSON.stringify(data, null, 2).replace(
+    /[<>&]/g,
+    (c) => ({ '<': '\\u003c', '>': '\\u003e', '&': '\\u0026' })[c]!,
+  );
+}
+
 export function getSchemaEntityPage(entity: EntityData) {
   return {
     '@context': 'https://schema.org/',
