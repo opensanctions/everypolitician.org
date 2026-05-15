@@ -55,11 +55,9 @@ const nextConfig = {
     return [
       {
         source: '/:path*',
-        // Switch to Content-Security-Policy once validated in staging.
-        // report-only — browsers log violations to the console but nothing is blocked.
         headers: [
           {
-            key: 'Content-Security-Policy-Report-Only',
+            key: 'Content-Security-Policy',
             value: contentSecurityPolicyHeaderValue,
           },
         ],
