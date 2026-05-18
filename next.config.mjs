@@ -1,10 +1,17 @@
 import { fileURLToPath } from 'url';
 import createMDX from '@next/mdx';
 
-// 'unsafe-inline' is required for Next.js hydration scripts and the GTM init
-// inline script (Analytics.tsx). To remove it, adopt nonce-based CSP via
-// Next.js middleware.
-// 'unsafe-eval' is added in dev only for Turbopack HMR.
+/* 'unsafe-inline' is required for Next.js hydration scripts.
+   To remove it, adopt nonce-based CSP via Next.js Proxy for dynamic pages,
+   and Subresource Integrity (SRI) for pages. We tried this in
+   https://github.com/opensanctions/knowledgebase/pull/102
+   but parts didn't work and parts were documented as experimental.
+
+   The GTM init inline script (Analytics.tsx) could use a pre-calculated hash
+   for subresource-integrity but not bothering while we allow unsafe-inline.
+
+   'unsafe-eval' is added in dev only for Turbopack HMR.
+*/
 const isDev = process.env.NODE_ENV === 'development';
 const contentSecurityPolicyHeaderValue = [
   "default-src 'self'",
@@ -12,7 +19,7 @@ const contentSecurityPolicyHeaderValue = [
   // Path-scoped: GA4 pings /g/collect on www.google.com for cross-domain
   // measurement. If a future GA update redirects this path, the redirect
   // target will need its own allowlist entry (CSP paths don't follow 30x).
-  "connect-src 'self' https://api.opensanctions.org https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com/g/collect",
+  "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com/g/collect",
   "img-src 'self' data: https://assets.opensanctions.org https://www.google-analytics.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
