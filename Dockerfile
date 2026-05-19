@@ -42,5 +42,7 @@ RUN --mount=type=secret,id=api_token \
     API_TOKEN="$(cat /run/secrets/api_token)" \
     npm run --prefix /app build
 
+RUN mkdir -p /app/.next/cache && chown -R app:app /app/.next/cache
+USER app
 EXPOSE 3000
 CMD ["npm", "run", "--prefix", "/app", "start"]
