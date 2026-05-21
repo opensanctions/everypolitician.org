@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Script from 'next/script';
 import { useEffect, useState } from 'react';
 
-import { GA_TRACKING_ID } from '../lib/constants';
+import { GA_TRACKING_ID, OSA_URL } from '../lib/constants';
 
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
@@ -73,11 +73,18 @@ export default function AnalyticsManager() {
               people use the service.
               <br />
               For more information, read our{' '}
-              <Link href="/about/privacy/">privacy policy</Link>.
+              <Link href={`${OSA_URL}/docs/privacy/`} prefetch={false}>
+                privacy policy
+              </Link>
+              .
             </p>
             <p className="d-block d-md-none">
               We use analytics to better understand how people use our service.
-              Read our <Link href="/about/privacy/">privacy policy</Link>.
+              Read our{' '}
+              <Link href={`${OSA_URL}/docs/privacy/`} prefetch={false}>
+                privacy policy
+              </Link>
+              .
             </p>
           </Col>
           <Col md="3" xs="5" className="text-end">
