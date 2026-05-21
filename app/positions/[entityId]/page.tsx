@@ -17,7 +17,7 @@ import {
   getTerritorySummaries,
   getTerritories,
 } from '@/lib/data';
-import { getSchemaEntityPage } from '@/lib/schema';
+import { getSchemaEntityPage, safeJsonLd } from '@/lib/schema';
 import { EntityData, getFirst, getEntityProperty } from '@/lib/types';
 
 export const maxDuration = 25;
@@ -120,7 +120,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
         <Script
           type="application/ld+json"
           id="json-ld"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structured) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(structured) }}
         />
       )}
       {territory ? (
