@@ -18,6 +18,8 @@ function getEveryPoliticianOrganization() {
 }
 
 // Escapes `<`, `>`, `&` so attacker-controlled strings (e.g. entity.caption) cannot break out of a JSON-LD <script> block and execute as HTML.
+// Escaping `<` is what's actually required — every transition out of the HTML "script data" state goes through `<` (e.g. `</script>`), and character references aren't decoded inside <script>. Escaping `>` and `&` is defense-in-depth.
+// See the Next.js JSON-LD guide, which recommends this approach: https://nextjs.org/docs/app/guides/json-ld
 export function safeJsonLd(data: unknown): string {
   return JSON.stringify(data, null, 2).replace(
     /[<>&]/g,
