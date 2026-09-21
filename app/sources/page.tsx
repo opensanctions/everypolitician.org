@@ -1,5 +1,6 @@
 import Link from 'next/link';
 
+import { Flag } from '@/components/Flag';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Badge from 'react-bootstrap/Badge';
 import Section from '@/components/layout/Section';
@@ -52,6 +53,10 @@ export default async function Page() {
                       href={`/territories/${dataset.publisher.territory.code}/national/`}
                       prefetch={false}
                     >
+                      <Flag
+                        code={dataset.publisher.territory.code}
+                        className="flag-inline me-2"
+                      />
                       {dataset.publisher.territory.name}
                     </Link>
                   )}

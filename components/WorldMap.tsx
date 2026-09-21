@@ -7,6 +7,7 @@ import { feature } from 'topojson-client';
 import type { Topology, GeometryCollection } from 'topojson-specification';
 import type { Feature, FeatureCollection, Geometry } from 'geojson';
 import type { Territory, TerritorySummary } from '@/lib/types';
+import { OSA_URL } from '@/lib/constants';
 import { HelpLink } from '@/components/HelpLink';
 
 const VIEWBOX_WIDTH = 1000;
@@ -36,7 +37,7 @@ export default function WorldMap({
 }: WorldMapProps) {
   const focusCountry = focusTerritory?.code;
   const flagUrl = focusTerritory?.code
-    ? `https://assets.opensanctions.org/images/flags/${focusTerritory.code}.svg`
+    ? `${OSA_URL}/flags/${focusTerritory.code}.svg`
     : undefined;
   const [hoveredCountryCode, setHoveredCountryCode] = useState<string | null>(
     null,
