@@ -27,7 +27,6 @@ RUN useradd -u 10000 -s /bin/false app
 
 ENV NODE_ENV=production
 ARG NEXT_PUBLIC_API_URL=https://api.opensanctions.org
-ARG NEXT_PUBLIC_COOKIE_NAME=ep_site_token
 ENV NEXT_TELEMETRY_DISABLED=1
 
 RUN mkdir /app
@@ -37,7 +36,6 @@ WORKDIR /app
 RUN npm install --no-fund -g npm && npm install --no-fund --production=false --force
 
 ARG NEXT_PUBLIC_BUILD_TIME=static
-RUN echo "${BUILD_TIME}"
 RUN --mount=type=secret,id=api_token \
     API_TOKEN="$(cat /run/secrets/api_token)" \
     npm run --prefix /app build

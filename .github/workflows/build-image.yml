@@ -46,12 +46,7 @@ jobs:
         id: build
         uses: docker/build-push-action@v7
         env:
-          API_TOKEN: ${{ github.ref == 'refs/heads/main' &&
-            secrets.EVERYPOLITICIAN_PROD_API_KEY ||
-            secrets.EVERYPOLITICIAN_TEST_API_KEY }}
           BUILDKIT_PROGRESS: plain
-          BUILD_DATE: ${{ env.BUILD_DATE }}
-          BUILD_TIME: ${{ env.BUILD_TIME }}
         with:
           context: .
           platforms: linux/amd64
