@@ -1,7 +1,7 @@
-const fs = require('fs');
-const path = require('path');
-const https = require('https');
-const mapshaper = require('mapshaper');
+import fs from 'node:fs';
+import path from 'node:path';
+import https from 'node:https';
+import mapshaper from 'mapshaper';
 
 const NATURAL_EARTH_ADMIN1_URL =
   'https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_admin_1_states_provinces.geojson';
@@ -24,7 +24,7 @@ const NAME_TO_ISO = {
 };
 
 const OUTPUT_PATH = path.resolve(
-  __dirname,
+  import.meta.dirname,
   '..',
   'public',
   'data',

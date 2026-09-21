@@ -7,8 +7,13 @@ import Col from 'react-bootstrap/Col';
 import PersonProfile from '@/components/PersonProfile';
 import OccupanciesTable from '@/components/OccupanciesTable';
 import Section from '@/components/layout/Section';
+import { AdjacentEntities } from '@/lib/types';
 
-export default function PoliticianShowcase({ persons }: { persons: any[] }) {
+export default function PoliticianShowcase({
+  persons,
+}: {
+  persons: AdjacentEntities[];
+}) {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   const selected = persons[selectedIndex] ?? null;

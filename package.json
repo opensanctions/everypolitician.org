@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build-world-map": "node scripts/build-world-map.js",
+    "build-world-map": "node scripts/build-world-map.mjs",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

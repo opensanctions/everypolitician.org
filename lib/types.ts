@@ -83,6 +83,17 @@ export function getEntityProperty(
 
 // Dataset types
 
+export type DatasetPublisher = {
+  url?: string;
+  name: string;
+  acronym?: string;
+  description?: string;
+  official: boolean;
+  country?: string;
+  country_label?: string;
+  territory?: Territory;
+};
+
 export type Dataset = {
   name: string;
   type: string;
@@ -105,14 +116,27 @@ export type Dataset = {
     start?: string;
     frequency?: string;
   };
-  publisher?: {
-    url?: string;
-    name: string;
-    acronym?: string;
-    description?: string;
-    official: boolean;
-    country?: string;
-    country_label?: string;
-    territory?: Territory;
-  };
+  publisher?: DatasetPublisher;
 };
+
+export type CatalogDataset = Omit<Dataset, 'link' | 'hidden' | 'publisher'> & {
+  hidden?: boolean;
+  publisher?: Omit<DatasetPublisher, 'territory'>;
+};
+
+export type AdjacentEntities = {
+  entity: EntityData;
+  adjacent: Record<string, { results: EntityData[] } | undefined>;
+};
+
+export type SearchFacetValue = {
+  name: string;
+  label?: string;
+  count: number;
+};
+
+export type SearchResponse = {
+  facets: Record<string, { values: SearchFacetValue[] } | undefined>;
+};
+
+export type QueryValue = string | number | boolean | null | undefined;
