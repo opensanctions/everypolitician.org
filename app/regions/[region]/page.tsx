@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
+import { Flag } from '@/components/Flag';
 import { HelpLink } from '@/components/HelpLink';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Section from '@/components/layout/Section';
@@ -42,6 +43,7 @@ function TerritoryRow({ territory }: { territory: TerritorySummary }) {
           prefetch={false}
           href={`/territories/${territory.code}/national/`}
         >
+          <Flag code={territory.code} className="flag-inline me-2" />
           {territory.label}
         </Link>
       </td>
