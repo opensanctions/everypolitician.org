@@ -31,8 +31,8 @@ export async function generateMetadata({ params }: PersonPageProps) {
 
   // Find newest position (sort by startDate descending, nulls last)
   const newestOccupancy = occupancies
-    .filter((occ: any) => getEntityProperty(occ, 'post')[0])
-    .sort((a: any, b: any) => {
+    .filter((occ) => getEntityProperty(occ, 'post')[0])
+    .sort((a, b) => {
       const dateA = getFirst(a, 'startDate') ?? '';
       const dateB = getFirst(b, 'startDate') ?? '';
       return dateB.localeCompare(dateA);
@@ -71,7 +71,7 @@ export default async function PersonPage({ params }: PersonPageProps) {
     ...(data.adjacent['familyPerson']?.results ?? []),
     ...(data.adjacent['familyRelative']?.results ?? []),
   ]
-    .map((family: any) => family.properties?.relative?.[0]?.caption)
+    .map((family) => getEntityProperty(family, 'relative')[0]?.caption)
     .filter(Boolean);
 
   return (

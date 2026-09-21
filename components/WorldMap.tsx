@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo, useRef } from 'react';
+import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { geoNaturalEarth1, geoPath } from 'd3-geo';
 import { feature } from 'topojson-client';
@@ -43,13 +43,22 @@ export default function WorldMap({
   );
   const [geoData, setGeoData] = useState<FeatureCollection | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const tooltipRef = useRef<HTMLDivElement>(null);
+  const [tooltipWidth, setTooltipWidth] = useState(0);
   const router = useRouter();
 
   const countryData = useMemo(
     () => new Map(territories.map((t) => [t.code, t])),
     [territories],
   );
+
+  const measureTooltip = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return;
+    const observer = new ResizeObserver(() =>
+      setTooltipWidth(node.offsetWidth),
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
 
   const hoveredCountry = useMemo(() => {
     return hoveredCountryCode ? countryData.get(hoveredCountryCode) : null;
@@ -157,8 +166,7 @@ export default function WorldMap({
   };
 
   const showTooltipLeft =
-    tooltipRef.current &&
-    mousePos.x + tooltipRef.current.offsetWidth + 20 > window.innerWidth;
+    tooltipWidth > 0 && mousePos.x + tooltipWidth + 20 > window.innerWidth;
 
   return (
     <div className="world-map-container" onMouseMove={handleMouseMove}>
@@ -223,7 +231,7 @@ export default function WorldMap({
       </svg>
       {hoveredCountry && (
         <div
-          ref={tooltipRef}
+          ref={measureTooltip}
           className={`tooltip ${showTooltipLeft ? 'bs-tooltip-start' : 'bs-tooltip-end'} show`}
           role="tooltip"
           style={{

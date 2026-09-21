@@ -2,10 +2,14 @@ import 'server-only';
 
 import { DATA_URL, MAIN_DATASET, OSA_URL, REVALIDATE_BASE } from './constants';
 import {
+  AdjacentEntities,
+  CatalogDataset,
   Dataset,
   EntityData,
   PEPCounts,
   PositionSummary,
+  QueryValue,
+  SearchResponse,
   Territory,
   TerritorySummary,
 } from './types';
@@ -40,7 +44,7 @@ export async function getTerritories(): Promise<Array<Territory>> {
 
 export async function fetchApi<T>(
   path: string,
-  query: Record<string, any> = {},
+  query: Record<string, QueryValue | QueryValue[]> = {},
 ): Promise<T> {
   const apiUrl = new URL(`${process.env.NEXT_PUBLIC_API_URL}${path}`);
   for (const [key, value] of Object.entries(query)) {
@@ -67,7 +71,7 @@ export async function fetchApi<T>(
 
 async function parseCatalog(scope: string): Promise<Dataset[]> {
   const catalogUrl = `${DATA_URL}/datasets/latest/${scope}/catalog.json`;
-  const catalog = await fetchStatic<{ datasets: any[] }>(catalogUrl);
+  const catalog = await fetchStatic<{ datasets: CatalogDataset[] }>(catalogUrl);
   const territories = await getTerritories();
   const territoriesByCode = new Map(territories.map((t) => [t.code, t]));
 
@@ -109,10 +113,12 @@ export async function getDatasetsByScope(scope: string): Promise<Dataset[]> {
   return parseCatalog(scope);
 }
 
-export async function getAdjacent(entityId: string): Promise<any> {
+export async function getAdjacent(
+  entityId: string,
+): Promise<AdjacentEntities | null> {
   try {
     const path = `/entities/${entityId}/adjacent`;
-    return await fetchApi<any>(path);
+    return await fetchApi<AdjacentEntities>(path);
   } catch {
     return null;
   }
@@ -130,12 +136,12 @@ export async function getEntityDatasets(
 export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
   const [territories, pepResponse, positionResponse] = await Promise.all([
     getTerritories(),
-    fetchApi<any>(`/search/default`, {
+    fetchApi<SearchResponse>(`/search/default`, {
       limit: 0,
       topics: 'role.pep',
       facets: ['countries'],
     }),
-    fetchApi<any>(`/search/default`, {
+    fetchApi<SearchResponse>(`/search/default`, {
       limit: 0,
       schema: 'Position',
       facets: ['countries'],
@@ -146,7 +152,7 @@ export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
   const summaries: TerritorySummary[] = [];
 
   for (const { name: code, count } of positionResponse.facets.countries
-    .values) {
+    ?.values ?? []) {
     const territory = territoriesByCode.get(code);
     if (!territory?.region) continue;
     summaries.push({
@@ -159,7 +165,8 @@ export async function getTerritorySummaries(): Promise<TerritorySummary[]> {
     });
   }
 
-  for (const { name: code, count } of pepResponse.facets.countries.values) {
+  for (const { name: code, count } of pepResponse.facets.countries?.values ??
+    []) {
     const summary = summaries.find((s) => s.code === code);
     if (summary) summary.numPeps = count;
   }
@@ -191,7 +198,7 @@ export async function getCountryPEPData(
 
 export async function getPersonsWithOccupanciesByIds(
   ids: string[],
-): Promise<any[]> {
+): Promise<AdjacentEntities[]> {
   const results = await Promise.all(ids.map((id) => getAdjacent(id)));
-  return results.filter((p) => p !== null);
+  return results.filter((p): p is AdjacentEntities => p !== null);
 }

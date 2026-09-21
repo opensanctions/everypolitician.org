@@ -1,4 +1,4 @@
-import '@testing-library/jest-dom';
+import '@testing-library/jest-dom/vitest';
 import { vi, beforeEach, afterEach } from 'vitest';
 import { loadEnvConfig } from '@next/env';
 
@@ -9,11 +9,7 @@ vi.mock('server-only', () => ({}));
 
 // Mock Next.js cache functions - they just pass through the function in tests
 vi.mock('next/cache', () => ({
-  unstable_cache: <T extends (...args: any[]) => Promise<any>>(
-    fn: T,
-    _keyParts?: string[],
-    _options?: { revalidate?: number; tags?: string[] },
-  ) => fn,
+  unstable_cache: <T>(fn: T) => fn,
   revalidatePath: vi.fn(),
   revalidateTag: vi.fn(),
 }));

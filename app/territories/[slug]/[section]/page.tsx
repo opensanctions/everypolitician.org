@@ -21,6 +21,7 @@ import {
   getTerritories,
   PositionSummary,
 } from '@/lib/data';
+import { SearchResponse } from '@/lib/types';
 import {
   positionSections,
   groupPositions,
@@ -137,7 +138,7 @@ export default async function SectionPage({ params }: PageProps) {
   const [countryPEPSummary, searchResponse, territorySummaries] =
     await Promise.all([
       getCountryPEPData(countryCode),
-      fetchApi<any>(`/search/${MAIN_DATASET}`, {
+      fetchApi<SearchResponse>(`/search/${MAIN_DATASET}`, {
         limit: 0,
         schema: 'Person',
         countries: countryCode,
@@ -151,8 +152,8 @@ export default async function SectionPage({ params }: PageProps) {
   const categoryResults = groupPositions(positions);
   categoryResults['other']?.sort(reverseNumericAlphabetic);
 
-  const pepFacets = searchResponse.facets.topics.values.filter(
-    (topic: any) => topic.name == 'role.pep',
+  const pepFacets = (searchResponse.facets.topics?.values ?? []).filter(
+    (topic) => topic.name == 'role.pep',
   );
   const pepCount = pepFacets.length == 1 ? pepFacets[0].count : 0;
 

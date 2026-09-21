@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Script from 'next/script';
-import { useEffect, useState } from 'react';
+import { useSyncExternalStore } from 'react';
 
 import { GA_TRACKING_ID, OSA_URL } from '../lib/constants';
 
@@ -42,18 +42,38 @@ function Analytics() {
   );
 }
 
-export default function AnalyticsManager() {
-  const [consent, setConsent] = useState('loading');
+const CONSENT_KEY = 'analytics-consent';
 
-  useEffect(() => {
-    const storedConsent = localStorage.getItem('analytics-consent') || 'ask';
-    setConsent(storedConsent);
-  }, []);
+const consentListeners = new Set<() => void>();
 
-  const configureConsent = (consent: string) => {
-    localStorage.setItem('analytics-consent', consent);
-    setConsent(consent);
+function subscribeConsent(onChange: () => void) {
+  consentListeners.add(onChange);
+  window.addEventListener('storage', onChange);
+  return () => {
+    consentListeners.delete(onChange);
+    window.removeEventListener('storage', onChange);
   };
+}
+
+function readConsent() {
+  return localStorage.getItem(CONSENT_KEY) || 'ask';
+}
+
+function readConsentOnServer() {
+  return 'loading';
+}
+
+function configureConsent(consent: string) {
+  localStorage.setItem(CONSENT_KEY, consent);
+  for (const onChange of consentListeners) onChange();
+}
+
+export default function AnalyticsManager() {
+  const consent = useSyncExternalStore(
+    subscribeConsent,
+    readConsent,
+    readConsentOnServer,
+  );
 
   if (consent === 'granted') {
     return <Analytics />;

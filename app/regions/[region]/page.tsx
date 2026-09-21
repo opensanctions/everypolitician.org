@@ -125,7 +125,6 @@ export default async function RegionPage(props: {
   const regionNames = Array.from(
     new Set(allTerritories.map((t) => t.region)),
   ).sort();
-  const regionName = regionSlugToName(region);
 
   return (
     <LayoutFrame>
