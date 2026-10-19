@@ -25,7 +25,7 @@
     "cronstrue": "^3.27.0",
     "d3-geo": "^3.1.1",
     "filesize": "^11.0.24",
-    "next": "~16.3.5",
+    "next": "~16.4.2",
     "react": "~19.3.0",
     "react-bootstrap": "2.10.10",
     "react-bootstrap-icons": "^1.11.6",
