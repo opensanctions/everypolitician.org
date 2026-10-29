@@ -4,10 +4,16 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    groups:
+      docker:
+        patterns: ["*"]
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: weekly
+    groups:
+      github-actions:
+        patterns: ["*"]
   - package-ecosystem: npm
     directory: "/"
     schedule:
@@ -18,18 +24,18 @@ updates:
       # See https://docs.github.com/en/code-security/dependabot/dependabot-security-updates/customizing-dependabot-security-prs
       interval: "weekly"
     groups:
-      # Batch all patch/minor dev dependencies together
-      dev-dependencies:
-        dependency-type: "development"
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
+      minor-and-patch:
+        patterns: ["*"]
         update-types:
           - "minor"
           - "patch"
-
-      # Batch all patch/minor runtime dependencies together
-      production-dependencies:
-        dependency-type: "production"
+      # Kept apart so one breaking bump can't hold back the safe updates
+      major:
+        patterns: ["*"]
         update-types:
-          - "minor"
-          - "patch"
+          - "major"
     open-pull-requests-limit: 99
     versioning-strategy: increase-if-necessary

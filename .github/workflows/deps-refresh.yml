@@ -1,0 +1,61 @@
+name: deps-refresh
+
+# Weekly bundled update of all non-breaking JS dependencies: bumps
+# package.json ranges up to the latest minor, refreshes the lockfile
+# (including transitive deps, which Dependabot security updates often
+# can't fix), and opens a single rolling PR.
+#
+# The PR is created with the default GITHUB_TOKEN, which does not
+# trigger CI workflows — the lint/test/build steps in this job are the
+# verification gate. Close and reopen the PR to force a CI run.
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 6 * * 1"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 26
+      - name: Bump package.json ranges to latest minor
+        run: npx --yes npm-check-updates --upgrade --target minor
+      - name: Update all dependencies within ranges
+        run: npm update
+      - name: Apply remaining non-breaking security fixes
+        run: npm audit fix --audit-level=critical
+      - run: npm run lint
+      - run: npm run test:run
+      - name: Build
+        run: npm run build
+        env:
+          API_TOKEN: ${{ secrets.EVERYPOLITICIAN_TEST_API_KEY }}
+          NEXT_PUBLIC_API_URL: https://api.test.opensanctions.org
+      - name: Create pull request
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: chore/deps-refresh
+          delete-branch: true
+          add-paths: |
+            package.json
+            package-lock.json
+          commit-message: Weekly refresh of non-breaking dependencies
+          title: Weekly refresh of non-breaking dependencies
+          body: |
+            Automated bundle of all non-breaking dependency updates: minor and
+            patch bumps of `package.json` ranges, a full lockfile refresh within
+            those ranges (covers transitive security fixes that Dependabot
+            cannot resolve), and `npm audit fix`.
+
+            ESLint, the tests and `next build` passed against these versions in
+            the workflow run that created this PR. Regular CI does not trigger
+            on PRs opened by `GITHUB_TOKEN` — close and reopen the PR to force it.
