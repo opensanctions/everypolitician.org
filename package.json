@@ -49,7 +49,7 @@
     "@types/node": "^26.6.6",
     "@types/react": "^19.3.0",
     "@vitejs/plugin-react": "^6.1.2",
-    "eslint": "^9.39.5",
+    "eslint": "^10.13.0",
     "eslint-config-next": "^16.4.3",
     "eslint-plugin-import": "^2.32.0",
     "husky": "^9.1.7",
@@ -58,7 +58,7 @@
     "mapshaper": "^0.7.101",
     "prettier": "^3.9.10",
     "topojson-server": "^3.0.1",
-    "typescript": "^6.0.3",
+    "typescript": "^7.0.2",
     "vite": "^8.3.5",
     "vitest": "^5.0.5"
   }
