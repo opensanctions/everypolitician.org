@@ -37,5 +37,12 @@ updates:
         patterns: ["*"]
         update-types:
           - "major"
+    ignore:
+      # eslint-plugin-import (via eslint-config-next) has no ESLint 10 peer range yet
+      - dependency-name: "eslint"
+        update-types: ["version-update:semver-major"]
+      # typescript-eslint supports TS <6.1 only
+      - dependency-name: "typescript"
+        update-types: ["version-update:semver-major"]
     open-pull-requests-limit: 99
     versioning-strategy: increase-if-necessary
