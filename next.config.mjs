@@ -20,7 +20,7 @@ const contentSecurityPolicyHeaderValue = [
   // measurement. If a future GA update redirects this path, the redirect
   // target will need its own allowlist entry (CSP paths don't follow 30x).
   "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com https://www.google.com/g/collect",
-  "img-src 'self' data: https://assets.opensanctions.org https://www.google-analytics.com https://www.googletagmanager.com",
+  "img-src 'self' data: https://assets.opensanctions.org https://www.opensanctions.org https://www.google-analytics.com https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "font-src 'self' data:",
   // EP embeds no iframes. Without this, frame-src falls back to default-src 'self',

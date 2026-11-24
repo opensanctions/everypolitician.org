@@ -8,6 +8,7 @@ import NavItem from 'react-bootstrap/NavItem';
 import Row from 'react-bootstrap/Row';
 import Section from '@/components/layout/Section';
 import Table from 'react-bootstrap/Table';
+import { Flag } from '@/components/Flag';
 import { HelpLink } from '@/components/HelpLink';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
@@ -176,7 +177,12 @@ export default async function SectionPage({ params }: PageProps) {
   return (
     <LayoutFrame>
       <Hero
-        title={territory.full_name || territory.name}
+        title={
+          <>
+            <Flag code={territory.code} className="flag-hero me-3" />
+            {territory.full_name || territory.name}
+          </>
+        }
         background={
           <WorldMap
             territories={territorySummaries}

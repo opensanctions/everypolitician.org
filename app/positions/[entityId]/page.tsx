@@ -5,6 +5,7 @@ import Script from 'next/script';
 
 import DataSourcesSection from '@/components/DataSourcesSection';
 import ExternalLinks from '@/components/ExternalLinks';
+import { Flag } from '@/components/Flag';
 import { Hero } from '@/components/Hero';
 import LayoutFrame from '@/components/layout/LayoutFrame';
 import Section from '@/components/layout/Section';
@@ -136,6 +137,7 @@ export default async function PositionPage({ params }: PositionPageProps) {
           <div className="hero-subtitle">
             Political position in{' '}
             <Link href={`/territories/${territory.code}/`}>
+              <Flag code={territory.code} className="flag-inline me-2" />
               {territory.name}
             </Link>
           </div>

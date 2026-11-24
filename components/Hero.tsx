@@ -3,7 +3,7 @@ import { ReactNode } from 'react';
 import Container from 'react-bootstrap/Container';
 
 interface HeroProps {
-  title: string;
+  title: ReactNode;
   size?: 'small' | 'medium' | 'large';
   background?: ReactNode;
   children?: ReactNode;

@@ -254,6 +254,24 @@ a:hover {
   pointer-events: auto;
 }
 
+/* Every flag occupies the same 3:2 box at its natural proportions, so flags
+   in a column line up (Nepal stays a pennant, Qatar stays long). The shadow
+   traces the flag's own silhouette, keeping white-edged flags visible. */
+.flag {
+  aspect-ratio: 3 / 2;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.3));
+  vertical-align: -0.15em;
+}
+
+.flag-inline {
+  height: 1em;
+}
+
+.flag-hero {
+  height: 0.8em;
+}
+
 .world-map-container {
   display: none;
   position: absolute;
